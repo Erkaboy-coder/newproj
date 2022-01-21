@@ -1,0 +1,58 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %} Янги Шартномалар {% endblock %}
+{% block stylecontent %}
+
+
+{% endblock stylecontent %}
+
+{% block content%}
+
+
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Янги шартномалар</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="container-fluid blog-page">
+                <div class="row">
+
+
+                    {% for pdowork in pdoworks %}
+                        <div class="col-sm-6 col-xl-3 box-col-6 des-xl-50 mb-4">
+                            <div class="card">
+                                <div class="blog-box blog-grid">
+                                    <div class="blog-details-second">
+                                        <div class="blog-post-date"><span class="blg-month">Кун</span><span
+                                                class="blg-date">{{ pdowork.work_term }}</span></div>
+                                        <a href="">
+                                            <h6 class="blog-bottom-details">{{ pdowork.object_name }}</h6></a>
+                                        <div><b>Ташкилот номи:</b> {{ pdowork.customer_info }}</div>
+                                        <div><b>Келиб тушган вақти:</b> {{ pdowork.agreement_date }}</div>
+                                        <div><b>Жойлашган жойи:</b> {{ pdowork.object_address }}</div>
+                                        <div class="detail-footer">
+                                            <a href="{% url 'show_pdowork' id=pdowork.id %}">
+                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                    Батафсил маълумот
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        {% endblock %}

@@ -1,0 +1,465 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Ишни бошлаб {% endblock %}
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+
+        <div class="page-body">
+
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Обйект ҳақида маълумот</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../starter-kit/index.html">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item">Янги шартномалар</li>
+                                <li class="breadcrumb-item active">{{ pdowork.object_name }}</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="email-wrap bookmark-wrap">
+                    <div class="row">
+                        <div class="col-xl-3 xl-30">
+                            <div class="email-sidebar"><a class="btn btn-primary email-aside-toggle"
+                                                          href="javascript:void(0)">Ишни бажариш тури</a>
+                                <div class="email-left-aside">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="email-app-sidebar left-bookmark">
+                                                <ul class="nav main-menu" role="tablist">
+                                                    <li class="nav-item">
+                                                        <button class="badge-light btn-block btn-mail" type="button"
+                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                                                class="icofont icofont-maximize"></i>
+                                                            Буюртма ҳақида маълумот
+                                                        </button>
+                                                        <div class="modal fade modal-bookmark" id="exampleModal"
+                                                             tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                             style="display: none;" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Буюртма ҳақида маълумот</h5>
+                                                                        <button class="btn-close" type="button"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="mb-2">
+                                                                                    <b>Шартнома рақами<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.object_number }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Шартнома санаси</b>
+                                                                                    <p>{{ pdowork.agreement_date }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Обект номи<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.object_name }} </p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Буюрмачи</b>
+                                                                                    <p>{{ pdowork.customer }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Обект манзили<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.object_address }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 text-end">
+                                                                                <div class="mb-2">
+                                                                                    <b>Бажариш муддати<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.work_term }} kun</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Буюртмачи маълумотлари<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.customer_info }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Иш тури<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.work_type }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Нархи<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.object_cost}}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Маъсул бажарувчи бўлим<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ pdowork.department }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <ul class="folder">
+                                                                            <li class="folder-box">
+                                                                                <div class="media"><i
+                                                                                        class="fa fa-file-archive-o f-36 txt-warning"></i>
+                                                                                    <div class="media-body ">
+                                                                                        <h6 class="">
+                                                                                            <a href="/{{ pdowork.latter }}">
+                                                                                                Буюрта хати билан танишиш
+                                                                                            </a></h6>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li class="folder-box">
+                                                                                <div class="media"><i
+                                                                                        class="fa fa-folder f-36 txt-warning"></i>
+                                                                                    <div class="media-body ">
+                                                                                        <h6 class="">
+                                                                                            <a href="/{{ pdowork.tz }}">Техник топшириқ
+                                                                                            файли билан танишиш</a></h6>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li class="folder-box">
+                                                                                <div class="media"><i
+                                                                                        class="fa fa-file-archive-o f-36 txt-warning"></i>
+                                                                                    <div class="media-body ">
+                                                                                        <h6 class="">
+                                                                                            <a href="/{{ pdowork.smeta }}">Смета файли
+                                                                                            билан танишиш</a></h6>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="nav-item"><span
+                                                            class="main-title">Ишни бажариш тури</span></li>
+                                                    <li ><a class="show" id="pills-created-tab"
+                                                           data-bs-toggle="pill" href="#pills-created" role="tab"
+                                                           aria-controls="pills-created" aria-selected="false"><span
+                                                            class="title">Тизим ёрдамида</span></a></li>
+                                                    <li><a id="pills-favourites-tab" data-bs-toggle="pill"
+                                                           href="#pills-favourites" role="tab"
+                                                           aria-controls="pills-favourites" aria-selected="false"><span
+                                                            class="title">Aнанавий усулда</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-9 col-md-12 box-col-8 xl-70">
+                            <div class="email-right-aside bookmark-tabcontent">
+                                <div class="card email-body radius-left">
+                                    <div class="ps-0">
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade active show" id="pills-created" role="tabpanel"
+                                                 aria-labelledby="pills-created-tab">
+                                                <div class="ribbon-wrapper card  mb-0">
+                                                    <div class="card-body p-0">
+                                                        <div class="ribbon ribbon-bookmark ribbon-primary"
+                                                             style="font-size: 20px;font-weight: 500;">Тизим ёрдамида
+                                                        </div>
+
+                                                        <form action="{% url 'start' %}" method="post" enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                            <div class="details-bookmark">
+                                                            <div class="row" id="bookmarkData">
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6">
+                                                                            <h5>Ишчи дастур ва хисобот
+                                                                                шакллантирилади<sup
+                                                                                        style="color: red">*</sup></h5>
+
+                                                                            <div class="form-group m-t-15 custom-radio-ml">
+                                                                                <div class="radio radio-primary">
+                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True">
+                                                                                    <label for="radio1"><span class="digits">Ҳа</span></label>
+                                                                                </div>
+
+                                                                                <div class="radio radio-primary">
+                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" checked="">
+                                                                                    <label for="radio4">Йўқ</label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <input type="text" id="isset_programwork" value="False" style="display:none;" name="is_programwork">
+
+                                                                        </div>
+                                                                        <div class="col-lg-6">
+                                                                            <div class="mb-4">
+                                                                                <h5>Мазкур ишни бажариш учун маъсул
+                                                                                    жавобгар шахс<sup
+                                                                                            style="color: red">*</sup>
+                                                                                </h5>
+                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" multiple="multiple">
+                                                                                    {% for worker in workers %}
+                                                                                         <option value="{{ worker.id }}"> {{ worker.full_name }} </option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <h5 class="mb-4 text-center fontbold-700">
+                                                                                Топографик-геодезик ишларни бажариш учун
+                                                                                кўрсатма шаклланториш</h5>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Должность, Ф.И.О. исполнителя
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control" type="text" value="{{ pdowork.customer_info }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Наименование
+                                                                                    объекта</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text" value="{{ pdowork.object_name }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Местоположение
+                                                                                    объекта</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text"
+                                                                                           value="{{ pdowork.object_address}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Заказчик</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text"
+                                                                                           value="{{ pdowork.customer }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Виды
+                                                                                    и объемы работ</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text"
+                                                                                           value="{{ pdowork.work_type }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Сроки
+                                                                                    выполнения работ</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control digits"
+                                                                                           id="example-datetime-local-input"
+                                                                                           type="text"
+                                                                                           value="{{ pdowork.work_term }} kun">
+                                                                                </div>
+                                                                            </div>
+
+{#                                                                            fields#}
+
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Исходные данные, система координат и
+                                                                                    высот, использование материалов
+                                                                                    работ прошлых лет
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="info" required style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Метод создания геодезического и
+                                                                                    (или) съемочного обоснования,
+                                                                                    закрепление пунктов, точек</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea required name="method_creation" style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Метод
+                                                                                    выполнения топографической съемки.
+                                                                                    Технические требования и технология
+                                                                                    выполнения работ</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="method_fill" required style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Съемка
+                                                                                    инженерно-подземных
+                                                                                    коммуникаций</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="syomka" required class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Особые
+                                                                                    требования</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="requirements" required class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Поверки геодезических
+                                                                                    инструментов</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input name="item_check" required class="form-control"
+                                                                                           type="text">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Методы
+                                                                                    и программы уравнивания</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="list_of_materials" required class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Перечень
+                                                                                    предоставляемых материалов</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input name="adjustment_methods" required class="form-control"
+                                                                                           type="text">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Сырые изм-ные данные</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <select name="type_of_sirie" required class="js-example-disabled-results col-sm-12">
+                                                                                        <option value="">--- ---</option>
+                                                                                        <option value="0">БПЛА</option>
+                                                                                        <option value="1">GNSS</option>
+                                                                                        <option value="2">Тахеометрическая съемка</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="floder_input">
+                                                                                <div class="row">
+                                                                                    <a download="" href="#">
+                                                                                        <div class="f-14 f-w-600">
+                                                                                            <span><i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
+                                                                                        </div>
+                                                                                    </a>
+                                                                                    <a href="#" download="">
+                                                                                        <div class="f-14 f-w-600"><span>
+                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
+                                                                                            Графическое приложение
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Предписание составил</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control" name="order_creator" type="text" value="{{ user.profile.full_name }}">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <input type="text" name="pdowork" value="{{ pdowork.id }}" style="display: none">
+                                                                            <input type="text" name="worker_id" value="{{ user.profile.id }}" style="display: none">
+
+                                                                            <hr>
+                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>
+                                                                            <button class="float-end btn btn-primary" type="submit"> <i class="fa fa-check"></i> Ишни бошлаш</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </form>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="fade tab-pane" id="pills-favourites" role="tabpanel"
+                                                 aria-labelledby="pills-favourites-tab">
+                                                <div class="ribbon-wrapper card  mb-0">
+                                                    <div class="card-body">
+                                                        <div class="ribbon ribbon-bookmark ribbon-primary"
+                                                             style="font-size: 20px;font-weight: 500;">Aнанавий усулда
+                                                        </div>
+                                                        <div class="job-sidebar"><a class="btn btn-primary job-toggle"
+                                                                                    href="javascript:void(0)"></a>
+                                                            <div class="job-left-aside custom-scrollbar">
+                                                                <div class="file-sidebar row ">
+                                                                    <div class="pricing-plan col-lg-6 shadow-lg">
+                                                                        <h5>Aнанавий усулда</h5>
+                                                                        <p>Lorem ipsum dolor sit amet, consectetur
+                                                                            adipisicing elit. Magni perspiciatis
+                                                                            provident quae quam quasi recusandae sed
+                                                                            totam? Architecto laudantium, veritatis?</p>
+                                                                        <div class="btn-showcase">
+                                                                            <button class="btn btn-primary sweet-1"
+                                                                                    type="button"
+                                                                                    onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-1']);"
+                                                                                    data-bs-original-title="" title="">
+                                                                                Ишни бошлаш
+                                                                            </button>
+                                                                        </div>
+                                                                        <img class="bg-img"
+                                                                             src="../assets/images/dashboard/folder1.png"
+                                                                             alt="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+{#{% block scriptcontent %}#}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+       $(document).ready(function(){
+        $("input[name='isset_programwork']").click(function(){
+            $("#isset_programwork").val(this.value);
+        });
+       });
+
+    </script>
+
+{#{% endblock scriptcontent %}#}
+{% endblock %}
