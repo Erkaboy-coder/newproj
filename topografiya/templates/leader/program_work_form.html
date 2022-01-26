@@ -1,0 +1,641 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Топографик-Геодезик Дастури formasi {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
+
+{% block content%}
+
+{% block stylecontent %}
+<style>
+    .formact{
+        border: 1px solid #e6edef;
+    }
+</style>
+{% endblock stylecontent %}
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Топографик-геодезик дастури</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item">Топографик-геодезик дастури</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-xl-12 xl-100">
+                        <div class="card">
+                            <div class="card-header pb-0">
+                                <h5>Топографик-геодезик дастури</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>
+                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Форма орқали киритиш</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Буюртма ҳақида маълумот</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Илова</a></li>
+                                </ul>
+                                <div class="tab-content" id="icon-tabContent">
+                                    <div class="tab-pane fade " id="icon-home" role="tabpanel" aria-labelledby="icon-home-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3"><br>
+                                                    <form class="dropzone dz-clickable" id="singleFileUpload">
+                                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
+                                                            <h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                                                        </div>
+                                                    </form>
+                                                    <br>
+                                                    <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show active" id="profile-icon" role="tabpanel" aria-labelledby="profile-icon-tab">
+                                      <div class="top-forma m-t-40">
+                                           <forma>
+                                               <div class="mb-3 row">
+                                                   <label class="col-sm-3 col-form-label">Приложение D рекомендуемое</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" type="text" placeholder="Организация-исполнитель, отдел">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label class="col-sm-3 col-form-label">«УТВЕРЖДАЮ» Главный инженер организации </label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" type="text" placeholder="Ф.И.О.">
+                                                   </div>
+                                               </div>
+                                               <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
+                                               <p>По <span><input class="w-50 formact" type="text" placeholder="наименование объекта, его местоположение"></span> </p>
+                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
+                                               <p>
+                                                   Основанием для производства работ послужило техническое задание, выданное
+                                                   <span><input class="w-50 m-b-5 formact" type="text"></span>
+                                                   Цель, назначение и объем проектируемых работ
+                                                   <span><input class="w-75 m-b-5 formact" type="text"></span>
+                                                   Дополнительные требования к выполнению геодезических работ
+                                                   <span><input class="w-75 m-b-5 formact" type="text"></span>
+                                               </p>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="указываются физико-географические условия местности"></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" type="text" placeholder="">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" type="text" placeholder="производится описание существующей геодезической сети, ее класс, разряд, система координат и высот, исходные пункты для "></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="обоснование видов и классов (разрядов) проектируемой опорной геодезической сети и схемы ее построения с расчетом точности "></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="производится описание принятого вида обоснования, его точность;"></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" type="text" placeholder="производится описание принятого вида обоснования, его точность;"></textarea>
+                                                   </div>
+                                               </div>
+                                               <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
+                                               <div class="col-sm-12">
+                                                   <div class="card border-0">
+                                                       <div class="table-responsive">
+                                                           <table class="table table-bordered">
+                                                               <thead class="bg-primary">
+                                                               <tr>
+                                                                   <th scope="col">Наименование площадки, участка</th>
+                                                                   <th scope="col">Метод съемки</th>
+                                                                   <th scope="col">Масштаб съемки</th>
+                                                                   <th scope="col">Высота сечения рельефа, м</th>
+                                                                   <th scope="col">Объем</th>
+                                                               </tr>
+                                                               </thead>
+                                                               <tbody>
+                                                               <tr>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                               </tr>
+                                                               <tr>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                               </tr>
+                                                               <tr>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                               </tr>
+                                                               </tbody>
+                                                           </table>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.2</span> При горизонтальной и высотной съемках застроенных территорий</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="указывается необходимость обмеров по контуру зданий, сооружений, их координирование"></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.3</span> Привязка инженерно-геологических выработок, геофизических и др. точек</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" type="text" placeholder="требования к разбивке и планово-высотной привязке инженерно-геологических выработок и других точек"></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.4</span> Составление топографических планов</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="масштаб, номенклатура, система координат и высот"></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" type="text" placeholder="указывается метод съемки: по выходам подземных коммуникаций, с помощью трубокабелеискателя, шурфованием, их эскизирование и координирование; согласование схем подземных коммуникаций с технологическими службами "></textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Составление планов подземных коммуникаций</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр."></textarea>
+                                                   </div>
+                                               </div>
+                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</h5>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" type="text" placeholder="указывается планово-высотная привязка трасс, их закрепление в натуре, схемы привязок, абрис, сдача заказчику по акту закрепленных трасс"></textarea>
+                                                   </div>
+                                               </div>
+                                               <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
+                                               <div class="col-sm-12">
+                                                   <div class="card border-0">
+                                                       <div class="table-responsive">
+                                                           <table class="table table-bordered">
+                                                               <thead class="bg-primary">
+                                                               <tr>
+                                                                   <th scope="col">Наименование трассы, участка</th>
+                                                                   <th scope="col">Масштаб плана трассы</th>
+                                                                   <th scope="col">Масштаб продольного профиля</th>
+                                                                   <th scope="col">Масштаб продольного профиля горизонтальный</th>
+                                                                   <th scope="col">Масштаб продольного профиля вертикальный</th>
+                                                                   <th scope="col">Масштаб перехода горизонтальный</th>
+                                                                   <th scope="col">Масштаб перехода вертикальный</th>
+                                                               </tr>
+                                                               </thead>
+                                                               <tbody>
+                                                               <tr>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                               </tr>
+                                                               <tr>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                               </tr>
+                                                               <tr>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                               </tr>
+                                                               </tbody>
+                                                           </table>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Ведомости:</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" type="text" placeholder="наименование">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Прочие материалы:</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" type="text" placeholder="наименование">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ"></textarea>
+                                                   </div>
+                                               </div>
+                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</h5>
+                                               <p>
+                                                   К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии <span><sup style="color: red">*</sup></span>
+                                                   <textarea style="height: 100px;" class="form-control" placeholder="кто проводит, где, когда"></textarea>
+                                               </p>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки"></textarea>
+                                                   </div>
+                                               </div>
+                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
+                                               <div class="floder_input">
+                                                   <div class="row">
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           1. Копии задания на производство изысканий;
+                                                       </div>
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           2. Схема топографо-геодезической изученности района (участка) работ;
+                                                       </div>
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           3. Схема проектируемой опорной геодезической сети;
+                                                       </div>
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           4. Картограмма расположения участков топографической съемки;
+                                                       </div>
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           5. Чертежи специальных геодезических центров, если намечена их закладка;
+                                                       </div>
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           6. Топографические карты (планы) с указанием проектных вариантов трасс
+                                                       </div>
+                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
+                                                           7. Схема линейных сооружений
+                                                       </div>
+                                                       <p>Примечание. Допускается совмещение прилагаемых схем и картограмм.</p>
+                                                   </div>
+                                               </div>
+                                               <div class="m-b-20 m-t-20 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Программу составил</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" type="text" placeholder="должность, фамилия, подпись, дата">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <div class="col-sm-12 d-flex justify-content-between">
+                                                       <div class="">
+                                                           <button class="btn btn-outline-danger"> Майдон тозалаш</button>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <hr>
+                                               <button class="float-end btn btn-outline-success ">Tekshurunga yuborish</button>
+                                               <button class="float-end btn btn-outline-warning m-r-5"> Сақлаш</button>
+                                            </forma>
+                                      </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
+                                        <br><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                    Буюртма ҳақида маълумот</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                                                            <p>525616161</p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Шартнома санаси</b>
+                                                            <p>11/11/2022</p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Обект номи<sup style="color: red;">*</sup></b>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Буюрмачи</b>
+                                                            <p>Комилов Сардорбек Шуҳрат</p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Обект манзили<sup style="color: red;">*</sup></b>
+                                                            <p>Тошкент шаҳар Чилонзор тумани 120</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 text-end">
+                                                        <div class="mb-2">
+                                                            <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                                                            <p>15/01/2022</p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Иш тури<sup style="color: red;">*</sup></b>
+                                                            <p>Topografik syomka</p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Нархи<sup style="color: red;">*</sup></b>
+                                                            <p>4 800 000 сўм</p>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                                                            <p>ОПГ</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="folder">
+                                                    <li class="folder-box">
+                                                        <a class="f-16 f-w-500" download href=""><i class="fa fa-file-pdf-o f-20 txt-dark"></i> Буюрта хати билан танишиш</a>
+                                                    </li>
+                                                    <li class="folder-box m-b-5 m-t-5">
+                                                        <a class="f-16 f-w-500" download href=""><i class="fa fa-file-pdf-o f-20 txt-dark"></i> Техник топшириқ файли билан танишиш</a>
+                                                    </li>
+                                                    <li class="folder-box">
+                                                        <a class="f-16 f-w-500" download href=""><i class="fa fa-file-pdf-o f-20 txt-dark"></i> Смета файли билан танишиш</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="ilova-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
+                                        <div class="details-bookmark">
+                                            <div class="row" id="bookmarkData">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <h5>Ишчи дастур ва хисобот
+                                                                шакллантирилади<sup
+                                                                        style="color: red">*</sup></h5>
+                                                            <div class="form-group m-t-15 custom-radio-ml">
+                                                                <div class="radio radio-primary">
+                                                                    <input id="radio1" type="radio"
+                                                                           name="radio1"
+                                                                           value="option1">
+                                                                    <label for="radio1"><span
+                                                                            class="digits">Ҳа</span></label>
+                                                                </div>
+                                                                <div class="radio radio-primary">
+                                                                    <input id="radio4" type="radio"
+                                                                           name="radio1" value="option1"
+                                                                           checked="">
+                                                                    <label for="radio4">Йўқ</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-4">
+                                                                <h5>Мазкур ишни бажариш учун маъсул
+                                                                    жавобгар шахс<sup
+                                                                            style="color: red">*</sup>
+                                                                </h5>
+                                                                <select class="js-example-placeholder-multiple col-sm-12"
+                                                                        multiple="multiple">
+                                                                    <option value="AL">Alisher
+                                                                        Mahkamov
+                                                                    </option>
+                                                                    <option value="WY">Nilufar
+                                                                        Shuhratov
+                                                                    </option>
+                                                                    <option value="WY">Alimardon
+                                                                        Bekmatov
+                                                                    </option>
+                                                                    <option value="WY">Sardorbek
+                                                                        Komilov
+                                                                    </option>
+                                                                    <option value="WY">Doston Bekmatov
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h5 class="mb-4 text-center fontbold-700">
+                                                                Топографик-геодезик ишларни бажариш учун
+                                                                кўрсатма шаклланториш</h5>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Должность,
+                                                                    Ф.И.О. исполнителя</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text"
+                                                                           value="Karimov Salim Abdusalomovich">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">Наименование
+                                                                    объекта</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text" value="PDO">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Местоположение
+                                                                    объекта</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text"
+                                                                           value="Toshkent Shahar">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Заказчик</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text"
+                                                                           value="Mannon Ochilov">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Виды
+                                                                    и объемы работ</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text"
+                                                                           value="Topografik syomka">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Сроки
+                                                                    выполнения работ</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control digits"
+                                                                           id="example-datetime-local-input"
+                                                                           type="datetime-local"
+                                                                           value="2018-01-19T18:45:00">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">
+                                                                    Исходные данные, система координат и
+                                                                    высот, использование материалов
+                                                                    работ прошлых лет</label>
+                                                                <div class="col-sm-9">
+                                                                                    <textarea style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">
+                                                                    Метод создания геодезического и
+                                                                    (или) съемочного обоснования,
+                                                                    закрепление пунктов, точек</label>
+                                                                <div class="col-sm-9">
+                                                                                    <textarea style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">Метод
+                                                                    выполнения топографической съемки.
+                                                                    Технические требования и технология
+                                                                    выполнения работ</label>
+                                                                <div class="col-sm-9">
+                                                                                    <textarea style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">Съемка
+                                                                    инженерно-подземных
+                                                                    коммуникаций</label>
+                                                                <div class="col-sm-9">
+                                                                                    <textarea
+                                                                                            class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">Особые
+                                                                    требования</label>
+                                                                <div class="col-sm-9">
+                                                                                    <textarea
+                                                                                            class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">
+                                                                    Поверки геодезических
+                                                                    инструментов</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label">Методы
+                                                                    и программы уравнивания</label>
+                                                                <div class="col-sm-9">
+                                                                                    <textarea
+                                                                                            class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Перечень
+                                                                    предоставляемых материалов</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Скрыть изм-ные данные</label>
+                                                                <div class="col-sm-9">
+                                                                    <select class="js-example-disabled-results col-sm-12">
+                                                                        <option value="one">Полевые материалы по БПЛА</option>
+                                                                        <option value="two"> Полевые материалы GNSS</option>
+                                                                        <option value="three">Сырые измерительные данные для тахеометрической съемки(по факту)</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="floder_input">
+                                                                <div class="row"><a download="" href="">
+                                                                    <div class="f-14 f-w-600"><span><i style="color: #168eea;font-size: 20px;"
+                                                                                                       class="fa fa-files-o"></i></span> Копия технического задания
+                                                                    </div>
+                                                                </a>
+                                                                    <a href="" download="">
+                                                                        <div class="f-14 f-w-600"><span><i style="color: #168eea;font-size: 20px;"
+                                                                                                           class="fa fa-line-chart"></i></span>
+                                                                            Графическое приложение
+                                                                        </div>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Предписание составил</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text" placeholder="Ф.И.О., подпись, дата">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label">Предписание получил</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control"
+                                                                           type="text" placeholder="Ф.И.О., подпись, дата">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <div class="col-sm-12 d-flex justify-content-between">
+                                                                    <div>
+                                                                        <button class="btn btn-outline-danger"> Майдон тозалаш</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <button class="float-end btn btn-outline-success"> Ишни бошлаш</button>
+                                                            <button class="float-end btn btn-outline-warning m-r-5"> Сақлаш</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="{% static 'assets/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'assets/js/dropzone/dropzone-script.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+
+        {% endblock %}

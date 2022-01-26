@@ -8,10 +8,9 @@
 
 {% endblock stylecontent %}
 
-  <div class="modal fade modal-bookmark" id="exampleModal"
-                                                             tabindex="-1" aria-labelledby="exampleModalLabel"
+  <div class="modal fade modal-bookmark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                                                              style="display: none;" aria-hidden="true">
-                                                            <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-lg" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="exampleModalLabel">
@@ -184,145 +183,6 @@
                             </div>
                         </div>
 
-{#                        <div class="col-xl-3 xl-30">#}
-{#                            <div class="email-sidebar"><a class="btn btn-primary email-aside-toggle"#}
-{#                                                          href="javascript:void(0)">Ишни бажариш тури</a>#}
-{#                                <div class="email-left-aside">#}
-{#                                    <div class="card">#}
-{#                                        <div class="card-body">#}
-{#                                            <div class="email-app-sidebar left-bookmark">#}
-{#                                                <ul class="nav main-menu" role="tablist">#}
-{#                                                    <li class="nav-item">#}
-{#                                                        <button class="badge-light btn-block btn-mail" type="button"#}
-{#                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"><i#}
-{#                                                                class="icofont icofont-maximize"></i>#}
-{#                                                            Буюртма ҳақида маълумот#}
-{#                                                        </button>#}
-{#                                                        #}
-{#                                                        #}
-{#                                                        <div class="modal fade modal-bookmark" id="exampleModal"#}
-{#                                                             tabindex="-1" aria-labelledby="exampleModalLabel"#}
-{#                                                             style="display: none;" aria-hidden="true">#}
-{#                                                            <div class="modal-dialog modal-lg" role="document">#}
-{#                                                                <div class="modal-content">#}
-{#                                                                    <div class="modal-header">#}
-{#                                                                        <h5 class="modal-title" id="exampleModalLabel">#}
-{#                                                                            Буюртма ҳақида маълумот</h5>#}
-{#                                                                        <button class="btn-close" type="button"#}
-{#                                                                                data-bs-dismiss="modal"#}
-{#                                                                                aria-label="Close"></button>#}
-{#                                                                    </div>#}
-{#                                                                    <div class="modal-body">#}
-{#                                                                        <div class="row">#}
-{#                                                                            <div class="col-lg-6">#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Шартнома рақами<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.object_number }}</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Шартнома санаси</b>#}
-{#                                                                                    <p>{{ pdowork.agreement_date }}</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Обект номи<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.object_name }} </p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Буюрмачи</b>#}
-{#                                                                                    <p>{{ pdowork.customer }}</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Обект манзили<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.object_address }}</p>#}
-{#                                                                                </div>#}
-{#                                                                            </div>#}
-{#                                                                            <div class="col-lg-6 text-end">#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Бажариш муддати<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.work_term }} kun</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Буюртмачи маълумотлари<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.customer_info }}</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Иш тури<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.work_type }}</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Нархи<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.object_cost}}</p>#}
-{#                                                                                </div>#}
-{#                                                                                <div class="mb-2">#}
-{#                                                                                    <b>Маъсул бажарувчи бўлим<sup#}
-{#                                                                                            style="color: red;">*</sup></b>#}
-{#                                                                                    <p>{{ pdowork.department }}</p>#}
-{#                                                                                </div>#}
-{#                                                                            </div>#}
-{#                                                                        </div>#}
-{#                                                                        <ul class="folder">#}
-{#                                                                            <li class="folder-box">#}
-{#                                                                                <div class="media"><i#}
-{#                                                                                        class="fa fa-file-archive-o f-36 txt-warning"></i>#}
-{#                                                                                    <div class="media-body ">#}
-{#                                                                                        <h6 class="">#}
-{#                                                                                            <a href="/{{ pdowork.latter }}">#}
-{#                                                                                                Буюрта хати билан танишиш#}
-{#                                                                                            </a></h6>#}
-{#                                                                                    </div>#}
-{#                                                                                </div>#}
-{#                                                                            </li>#}
-{#                                                                            <li class="folder-box">#}
-{#                                                                                <div class="media"><i#}
-{#                                                                                        class="fa fa-folder f-36 txt-warning"></i>#}
-{#                                                                                    <div class="media-body ">#}
-{#                                                                                        <h6 class="">#}
-{#                                                                                            <a href="/{{ pdowork.tz }}">Техник топшириқ#}
-{#                                                                                            файли билан танишиш</a></h6>#}
-{#                                                                                    </div>#}
-{#                                                                                </div>#}
-{#                                                                            </li>#}
-{#                                                                            <li class="folder-box">#}
-{#                                                                                <div class="media"><i#}
-{#                                                                                        class="fa fa-file-archive-o f-36 txt-warning"></i>#}
-{#                                                                                    <div class="media-body ">#}
-{#                                                                                        <h6 class="">#}
-{#                                                                                            <a href="/{{ pdowork.smeta }}">Смета файли#}
-{#                                                                                            билан танишиш</a></h6>#}
-{#                                                                                    </div>#}
-{#                                                                                </div>#}
-{#                                                                            </li>#}
-{#                                                                        </ul>#}
-{#                                                                    </div>#}
-{#                                                                </div>#}
-{#                                                            </div>#}
-{#                                                        </div>#}
-{#                                                        #}
-{#                                                    </li>#}
-{#                                                    <li class="nav-item"><span#}
-{#                                                            class="main-title">Ишни бажариш тури</span></li>#}
-{#                                                    <li ><a class="show" id="pills-created-tab"#}
-{#                                                           data-bs-toggle="pill" href="#pills-created" role="tab"#}
-{#                                                           aria-controls="pills-created" aria-selected="false"><span#}
-{#                                                            class="title">Тизим ёрдамида</span></a></li>#}
-{#                                                    <li><a id="pills-favourites-tab" data-bs-toggle="pill"#}
-{#                                                           href="#pills-favourites" role="tab"#}
-{#                                                           aria-controls="pills-favourites" aria-selected="false"><span#}
-{#                                                            class="title">Aнанавий усулда</span></a></li>#}
-{#                                                </ul>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
 
                         <div class="col-xl-9 col-md-12 box-col-8 xl-70">
                             <div class="email-right-aside bookmark-tabcontent">
@@ -337,7 +197,7 @@
                                                              style="font-size: 20px;font-weight: 500;">Тизим ёрдамида
                                                         </div>
 
-                                                        <form action="{% url 'start' %}" method="post" enctype="multipart/form-data">
+                                                        <form action="{% url 'edit_pdowork_changes' %}" method="post" enctype="multipart/form-data">
                                                             {% csrf_token %}
                                                             <div class="details-bookmark">
                                                             <div class="row" id="bookmarkData">
@@ -350,12 +210,12 @@
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
-                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True">
+                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
                                                                                     <label for="radio1"><span class="digits">Ҳа</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
-                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" checked="">
+                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
                                                                                     <label for="radio4">Йўқ</label>
                                                                                 </div>
 
@@ -370,9 +230,11 @@
                                                                                     жавобгар шахс<sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
+{#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
                                                                                 <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" multiple="multiple">
+{#                                                                                    <option value="{{ object.worker_ispolnitel }}" selected>{{ object.worker_ispolnitel }}</option>#}
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}"> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -446,7 +308,7 @@
                                                                                 </label>
                                                                                 <div class="col-sm-9">
                                                                                     <textarea name="info" required style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.info }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -456,7 +318,7 @@
                                                                                     закрепление пунктов, точек</label>
                                                                                 <div class="col-sm-9">
                                                                                     <textarea required name="method_creation" style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.method_creation }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -466,7 +328,7 @@
                                                                                     выполнения работ</label>
                                                                                 <div class="col-sm-9">
                                                                                     <textarea name="method_fill" required style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.method_fill }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -474,14 +336,14 @@
                                                                                     инженерно-подземных
                                                                                     коммуникаций</label>
                                                                                 <div class="col-sm-9">
-                                                                                    <textarea name="syomka" required class="form-control"></textarea>
+                                                                                    <textarea name="syomka" required class="form-control">{{ order.syomka }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-3 col-form-label">Особые
                                                                                     требования</label>
                                                                                 <div class="col-sm-9">
-                                                                                    <textarea name="requirements" required class="form-control"></textarea>
+                                                                                    <textarea name="requirements" required class="form-control">{{ order.requirements }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -490,14 +352,14 @@
                                                                                     инструментов</label>
                                                                                 <div class="col-sm-9">
                                                                                     <input name="item_check" required class="form-control"
-                                                                                           type="text">
+                                                                                           type="text" value="{{ order.item_check }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-3 col-form-label">Методы
                                                                                     и программы уравнивания</label>
                                                                                 <div class="col-sm-9">
-                                                                                    <textarea name="adjustment_methods" required class="form-control"></textarea>
+                                                                                    <textarea name="adjustment_methods" required class="form-control">{{ order.adjustment_methods }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -505,19 +367,21 @@
                                                                                     предоставляемых материалов</label>
                                                                                 <div class="col-sm-9">
                                                                                     <input name="list_of_materials" required class="form-control"
-                                                                                           type="text">
+                                                                                           type="text" value="{{ order.list_of_materials }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-3 col-form-label">Сырые изм-ные данные</label>
+{#                                                                                {{ order.type_of_sirie }}#}
                                                                                 <div class="col-sm-9">
                                                                                     <select name="type_of_sirie" required class="js-example-disabled-results col-sm-12">
                                                                                         <option value="">--- ---</option>
-                                                                                        <option value="0">БПЛА</option>
-                                                                                        <option value="1">GNSS</option>
-                                                                                        <option value="2">Тахеометрическая съемка</option>
+                                                                                        <option value="0" {% if order.type_of_sirie == '0' %}selected{% endif %}>БПЛА</option>
+                                                                                        <option value="1" {% if order.type_of_sirie == '1' %}selected{% endif %}>GNSS</option>
+                                                                                        <option value="2" {% if order.type_of_sirie == '2' %}selected{% endif %}>Тахеометрическая съемка</option>
                                                                                     </select>
                                                                                 </div>
+
                                                                             </div>
                                                                             <div class="floder_input">
                                                                                 <div class="row">
@@ -543,10 +407,11 @@
 
                                                                             <input type="text" name="pdowork" value="{{ pdowork.id }}" style="display: none">
                                                                             <input type="text" name="worker_id" value="{{ user.profile.id }}" style="display: none">
+                                                                            <input type="text" name="object_id" value="{{ object.id }}" style="display: none">
 
                                                                             <hr>
-                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>
-                                                                            <button class="float-end btn btn-primary" type="submit"> <i class="fa fa-check"></i> Ишни бошлаш</button>
+{#                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>#}
+                                                                            <button class="float-end btn btn-primary" type="submit"> <i class="fa fa-check"></i> Ишни узгартириш</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

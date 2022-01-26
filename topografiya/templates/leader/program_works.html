@@ -1,0 +1,370 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Топографик-Геодезик Дастури {% endblock %}
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Топографик-геодезик дастури</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item active">Топографик-геодезик дастури</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-xl-12 xl-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="false">Янги келиб тушган ишлар <span class="badge badge-danger rounded-pill">7</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false"> Муҳокама жараёнида </a></li>
+                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="true">Қайтарилганлар <span class="badge badge-warning rounded-pill">2</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" id="camera-icon-tab" data-bs-toggle="tab" href="#camera-icon" role="tab" aria-controls="camera-icon" aria-selected="true"> Муддати кам қолганлар <span class="badge badge-danger rounded-pill">1</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" id="grow-icon-tab" data-bs-toggle="tab" href="#grow-icon" role="tab" aria-controls="grow-icon" aria-selected="true"> Tasdiqlangalar <span class="badge badge-success rounded-pill">3</span></a></li>
+                                </ul>
+                                <div class="tab-content" id="icon-tabContent">
+                                    <div class="tab-pane fade active show" id="icon-home" role="tabpanel" aria-labelledby="icon-home-tab">
+                                        <div class="row">
+
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                            <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                                <div class="pricing-plan shadow border-0">
+                                                                    <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
+                                                                    <div class="blog-date"><span style="color: #168eea;font-size: 40px;">29</span> Январ 2022</div>
+                                                                    <h5>Обйект ҳақида маълумот</h5>
+                                                                    <div class="blog-bottom-content">
+                                                                        <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                                        <div><b>Муддати</b> 10/01/2022</div>
+                                                                        <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="detail-footer">
+                                                                        <a href="{% url 'program_work_form' %}">
+                                                                            <button class="btn btn-square btn-outline-primary-2x">
+                                                                                Батафсил маълумот
+                                                                            </button>
+                                                                        </a>
+                                                                    </div>
+                                                                    <img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">
+                                                                </div>
+                                                            </div>
+                                                </div>
+
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">2</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">23</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">4</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">7</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">5</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">22</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати:</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">6</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">7</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">30</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="tab-pane fade" id="profile-icon" role="tabpanel" aria-labelledby="profile-icon-tab">
+                                        <div class="row">
+                                            <p class="mb-0 m-t-30">Келиб тушган иш йўқ</p>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">10</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                            <div class="text-end"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;"> 3</span></div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">2</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                            <div class="text-end"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;"> 10</span></div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="camera-icon" role="tabpanel" aria-labelledby="camera-icon-tab">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">30</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="grow-icon" role="tabpanel" aria-labelledby="grow-icon-tab">
+                                        <div class="row">
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">2</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">3</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">3</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="../assets/images/dashboard/folder1.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+{% endblock %}

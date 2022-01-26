@@ -3,6 +3,7 @@ from django.conf import settings
 from datetime import datetime, date, timezone
 User = settings.AUTH_USER_MODEL
 # Create your models here.
+from django.core.serializers import serialize
 
 class Department(models.Model):
     name = models.CharField(max_length=250, blank=True)
@@ -29,6 +30,9 @@ class Branch(models.Model):
         return self.name
     class Meta:
         verbose_name_plural = "Branches"
+
+    # def natural_key(self):
+    #     return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
 
 class Worker(BaseModel):
     user = models.OneToOneField(
@@ -75,9 +79,8 @@ class PdoWork(models.Model):
     customer = models.CharField(verbose_name='Customer', max_length=250, blank=True)
     customer_info = models.CharField(verbose_name='Customer info', max_length=250, blank=True)
     branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='branch')
-    status = models.IntegerField(default=0,blank=True)
-    status_recive = models.IntegerField(default=0,blank=True)
-
+    status = models.IntegerField(default=0, blank=True)
+    status_recive = models.IntegerField(default=0, blank=True)
     latter = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/latter', blank=True)
     tz = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/tz', blank=True)
     smeta = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/smeta', blank=True)
@@ -88,6 +91,9 @@ class PdoWork(models.Model):
 
     class Meta:
         verbose_name_plural = "PdoWorks"
+
+    def natural_key(self):
+        return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields if f.name!='branch' and f.name!='latter' and f.name!='tz' and f.name!='smeta']])
 
 class Object(models.Model):
     pdowork = models.ForeignKey(PdoWork, blank=True, on_delete=models.CASCADE, related_name='pdoworkobject')
@@ -100,11 +106,13 @@ class Object(models.Model):
 
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
-        return self.active_time
+        return self.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "Object"
 
+    # def natural_key(self):
+    #     return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
 
 class ProgramWorkForm(models.Model):
     status = models.IntegerField(default=0)
@@ -183,11 +191,12 @@ class Order(models.Model):
     syomka = models.TextField(blank=True)
     requirements = models.TextField(blank=True)
     item_check = models.TextField(blank=True)
-    list_of_materials = models.TextField(blank=True)
+
     adjustment_methods= models.TextField(blank=True)
+    list_of_materials = models.TextField(blank=True)
 
     order_creator = models.TextField(blank=True)
-    Order_receiver = models.TextField(blank=True)
+    order_receiver = models.TextField(blank=True)
 
     type_order = (
         ('0', 'БПЛА'),

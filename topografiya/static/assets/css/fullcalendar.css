@@ -33,7 +33,8 @@
 .fc table {
     border-collapse: collapse;
     border-spacing: 0;
-    font-size: 1em; /* normalize cross-browser */
+    font-size: 1.2em;
+    font-weight: 500;
 }
 
 .fc th {
@@ -502,7 +503,6 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
     display: inline-block; /* x-browser for when sticky (when multi-tier header) */
     padding: 2px 4px;
 }
-
 .fc .fc-bg-event,
 .fc .fc-non-business,
 .fc .fc-highlight {
