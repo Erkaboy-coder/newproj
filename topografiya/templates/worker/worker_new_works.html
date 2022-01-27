@@ -56,7 +56,7 @@
                                         <div><b>Келиб тушган вақти:</b> {{ work.pdowork.agreement_date}}</div>
                                         <div><b>Жойлашган жойи:</b> {{ work.pdowork.object_address }}</div>
                                         <div class="detail-footer m-t-20">
-                                            <button class="btn btn-primary show_work"  work-id="{{ work.pdowork.id }}" data-bs-toggle="modal"
+                                            <button class="btn btn-primary show_work"  work-id="{{ work.pdowork.id }}"  data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal" >
                                                 Батавсил маълумот
                                             </button>
@@ -157,7 +157,7 @@ $(document).ready(function(){
                 </div>
                     <div class="row m-t-30">
                         <div class="col-lg-12">
-                            <button class="btn btn-primary text-center w-100 recive_work" data-id=`+result['work'][0].id+`>Ишни қабул қилиш</button>
+                            <button class="btn btn-primary text-center w-100 recive_work" worker-id="{{ user.profile.full_name }}" data-id=`+result['work'][0].id+`>Ишни қабул қилиш</button>
                         </div>
                     </div>
             `;
@@ -175,12 +175,11 @@ $(document).ready(function(){
 </script>
 
 <script type="text/javascript">
-$(document).ready(function(){
-    $(".recive_work").click(function(event) {
-        alert('salom');
+    $(document).on('click',".recive_work",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("data-id", $(this).attr('data-id'));
+        data.append("worker-id", $(this).attr('worker-id'));
         event.preventDefault()
         $.ajax({
             type: 'POST',
@@ -191,14 +190,13 @@ $(document).ready(function(){
             processData: false,
 
             success: function (result){
-                alert('HI');
+              	location.replace('/worker_new_works');
             },
 
             error: function(){
               alert('Serverga yubara olmaymiz !! ');
             }
 
-        });
         });
 
     });

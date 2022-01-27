@@ -8,19 +8,21 @@ from django import template
 from django.contrib.auth.decorators import login_required
 from pyvirtualdisplay import Display
 import pdfkit
+from django.db.models import Q
 
 from django.core import serializers
 
 # Create your views here.
 @login_required(login_url='/signin')
 def index(request):
-    objects = Object.objects.filter(pdowork__status_recive=1).all()
-    objects_pdo = Object.objects.filter(pdowork__status_recive=0).all()
+    objects = PdoWork.objects.filter(status_recive=1).all()
+    objects_pdo = PdoWork.objects.filter(status_recive=0).all()
+
     context = {'objects': objects, 'objects_pdo': objects_pdo}
     return render(request, 'index.html', context)
 
 def pdoworks(request):
-    pdoworks = PdoWork.objects.filter(status=0)
+    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2))
     context = {'pdoworks': pdoworks}
     return render(request, 'leader/pdo_works.html', context)
 
@@ -30,10 +32,18 @@ def allworks(request):
     return render(request, 'leader/all_works.html', context)
 
 def program_works(request):
-    context = {}
+    new_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=0).all() #status 0 bolsa yangi kelgan
+    checking_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=1).all() #status 1 bolsa tekshiruv jarayonida
+    rejected_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=2).all() #status 2 bolsa qaytarilganalar
+
+    less_time_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=3).all() #status 3 bolsa muddati kam qolganalar
+    # agreement_date
+    aggreed_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=4).all() #status 4 bolsa tasdiqlanganlar
+    context = {'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones, 'less_time_ones':less_time_ones, 'aggreed_ones': aggreed_ones}
+    # print(objects)
     return render(request, 'leader/program_works.html', context)
 
-def program_work_form(request):
+def program_work_form(request,id):
     context = {}
     return render(request, 'leader/program_work_form.html', context)
 
@@ -54,7 +64,7 @@ def show_work(request):
         id = data.get('work_id')
 
         work = Object.objects.filter(pdowork__pk=id)
-        # print(work.first().pdowork.id)
+        # print(work.first().id)
         pdowork = PdoWork.objects.filter(id=work.first().pdowork.id)
 
         order = Order.objects.filter(object=work.first().id).first()
@@ -119,7 +129,7 @@ def show_work(request):
         # display = Display(visible=0, size=(500, 500)).start()
         pdfkit.from_string(context, 'topografiya/static/files/file.pdf', options)
 
-        work = PdoWork.objects.filter(status_recive=1).values()
+        # work = PdoWork.objects.filter(status_recive=1).values()
 
         return JsonResponse({'work': list(work.values()), 'pdowork': list(pdowork.values())}, safe=False)
     else:
@@ -129,6 +139,21 @@ def recive_work(request):
     if request.method == 'POST':
         data = request.POST
         id = data.get('data-id')
+        print(id)
+        worker_full_name= data.get('worker-id')
+
+        object = Object.objects.filter(id=id).first()
+        object.worker_ispolnitel=worker_full_name
+        object.save()
+
+        order = Order.objects.filter(object=object.id).first()
+        order.order_receiver = worker_full_name
+        order.save()
+
+        pdoworks=PdoWork.objects.filter(id=object.pdowork_id).first()
+        pdoworks.status_recive = 2
+        # status_recive = 2 is worker recieved work
+        pdoworks.save()
 
         return HttpResponse(1)
     else:
@@ -239,10 +264,7 @@ def start(request):
         adjustment_methods = request.POST.get('adjustment_methods')
         type_of_sirie = request.POST.get('type_of_sirie')
         order_creator = request.POST.get('order_creator')
-        worker_ispolnitel = request.POST.get('worker_ispolnitel')
-
         pdowork = request.POST.get('pdowork')
-        worker_id = request.POST.get('worker_id')
         is_programwork = request.POST.get('is_programwork')
 
         pdowork = PdoWork.objects.filter(id=pdowork).first()
@@ -250,14 +272,14 @@ def start(request):
         # status_recive = 1 is started work but not recived by worker
         pdowork.save()
 
-        object = Object(pdowork=pdowork, worker_leader=worker_id, isset_programwork=is_programwork,worker_ispolnitel=worker_ispolnitel)
+        object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=is_programwork)
         object.save()
 
         order = Order(object=object,info=info,method_creation=method_creation,method_fill=method_fill,syomka=syomka,requirements=requirements,item_check=item_check,
                      list_of_materials=list_of_materials,adjustment_methods=adjustment_methods,type_of_sirie=type_of_sirie,order_creator=order_creator)
         order.save()
 
-        history = History(user_id=worker_id,status=1,object=object)
+        history = History(user_id=order_creator,status=1,object=object)
         # status=1 work started by leader
         history.save()
         # messages.error(request, "Ish boshlandi ichi qabul qilishini kuting !")

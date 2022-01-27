@@ -137,7 +137,18 @@
                            <li><a class="nav-link menu-title link-nav" href="{% url 'index' %}"><i data-feather="home"></i><span>Бош саҳифа</span></a></li>
 
                             {% if user.profile.status == '1' %}
-                                <li><a class="nav-link menu-title link-nav" href="{% url 'pdoworks' %}"><i data-feather="file"></i><span>Янги шартномалар </span></a></li>
+                                <li class="dropdown">
+                                    <a class="nav-link menu-title link-nav" href="{% url 'pdoworks' %}"><i data-feather="file"></i>
+                                        <span style="white-space: nowrap;">Янги шартномалар
+                                            {% if objects_pdo %}
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
+                                                    {{ objects_pdo.count }}
+                                                </span>
+                                            {% endif %}
+
+                                        </span>
+                                    </a>
+                                </li>
                             {% endif %}
 
 
@@ -150,6 +161,7 @@
                                             {% if objects %}
                                             <span class="badge badge-danger rounded-pill">
                                                 {{ objects.count }}
+{#                                                {{ objects.count }}#}
                                             </span>
                                                 {% endif %}
                                         </span>

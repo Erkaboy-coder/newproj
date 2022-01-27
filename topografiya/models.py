@@ -81,6 +81,9 @@ class PdoWork(models.Model):
     branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='branch')
     status = models.IntegerField(default=0, blank=True)
     status_recive = models.IntegerField(default=0, blank=True)
+    # status_recive=1 bu ish qabul qilmagan ishlar
+    # status_recive=0 yangi qabul qilmagan ishlar
+    # status_recive=3 ischi qabul qilgan ishlar
     latter = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/latter', blank=True)
     tz = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/tz', blank=True)
     smeta = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/smeta', blank=True)
@@ -97,10 +100,10 @@ class PdoWork(models.Model):
 
 class Object(models.Model):
     pdowork = models.ForeignKey(PdoWork, blank=True, on_delete=models.CASCADE, related_name='pdoworkobject')
-    worker_leader = models.CharField(verbose_name='Worker leader', max_length=250)
-    worker_ispolnitel = models.CharField(verbose_name='Worker ispolnitel', max_length=250)
-    worker_geodezis = models.CharField(verbose_name='Worker geodezis', max_length=250)
-    worker_ogogd = models.CharField(verbose_name='Worker ogogd', max_length=250)
+    worker_leader = models.CharField(verbose_name='Worker leader', max_length=250,blank=True,)
+    worker_ispolnitel = models.CharField(verbose_name='Worker ispolnitel', max_length=250,blank=True,)
+    worker_geodezis = models.CharField(verbose_name='Worker geodezis', max_length=250,blank=True,)
+    worker_ogogd = models.CharField(verbose_name='Worker ogogd', max_length=250,blank=True,)
     # status_report_work = models.IntegerField(default=0)
     isset_programwork = models.BooleanField(default=False)
 

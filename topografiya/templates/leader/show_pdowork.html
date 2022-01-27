@@ -370,7 +370,8 @@
                                                                                     жавобгар шахс<sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
-                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" multiple="multiple">
+                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel">
+                                                                                    <option value="">--- ---</option>
                                                                                     {% for worker in workers %}
                                                                                          <option value="{{ worker.full_name }}"> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
@@ -542,7 +543,6 @@
                                                                             </div>
 
                                                                             <input type="text" name="pdowork" value="{{ pdowork.id }}" style="display: none">
-                                                                            <input type="text" name="worker_id" value="{{ user.profile.id }}" style="display: none">
 
                                                                             <hr>
                                                                             <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>
