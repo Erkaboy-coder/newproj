@@ -1,3 +1,32 @@
+var m = 1;
+function childrenRow1() {
+    m++;
+    $('#childTable').find('tbody').append('<tr>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addrow2" onclick="childrenRow1()"\n' + '/></td>\n' +'</td></tr>');
+}
+
+var n = 1;
+function childrenRow2() {
+    n++;
+    $('#childTable4').find('tbody').append('<tr>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addrow4" onclick="childrenRow1()"\n' + '/></td>\n' +'</td></tr>');
+}
+
+
 var i = 1;
 function childrenRow() {
     i++;

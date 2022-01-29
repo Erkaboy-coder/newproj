@@ -116,31 +116,91 @@ class Object(models.Model):
 
     # def natural_key(self):
     #     return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
+class ProgramWork(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='programworkforobject')
+    comment = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    # status  = 0 bu yangi kelib tushgan
+    # status  = 1 bu tekshiruvga yuborilgan
+
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.object.object_name
+
+    class Meta:
+        verbose_name_plural = "ProgramWork"
 
 class ProgramWorkForm(models.Model):
-    status = models.IntegerField(default=0)
+    programwork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programwork')
+    file = models.FileField("Pogramma ish fayli", upload_to='topografiya/static/files/programfiles', blank=True)
+
+    a0 = models.TextField(blank=True)
+    a1_1 = models.TextField(blank=True)
+    a1_2 = models.TextField(blank=True)
+    a1_3 = models.TextField(blank=True)
+    a2 = models.TextField(blank=True)
+    a3 = models.TextField(blank=True)
+    a4 = models.TextField(blank=True)
+    a5 = models.TextField(blank=True)
+    a6 = models.TextField(blank=True)
+    a7 = models.TextField(blank=True)
+
+    a7_2 = models.TextField(blank=True)
+    a7_3 = models.TextField(blank=True)
+    a7_4 = models.TextField(blank=True)
+
+    a8 = models.TextField(blank=True)
+    a8_1 = models.TextField(blank=True)
+    a9_1 = models.TextField(blank=True)
+    # jadval
+    a9_3 = models.TextField(blank=True)
+    a9_4 = models.TextField(blank=True)
+
+    a10 = models.TextField(blank=True)
+    a11 = models.TextField(blank=True)
+    a12 = models.TextField(blank=True)
+    program_work_creator = models.TextField(blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
-        return self.status
+        return self.active_time
 
     class Meta:
         verbose_name_plural = "ProgramWorkForm"
 
-class ProgramWork(models.Model):
-    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='programworkforobject')
-    status_program_work = models.IntegerField(default=0)
-
-    agreement_date = models.CharField(verbose_name='Agreement date', max_length=250)
-    file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/programfiles', blank=True)
-    comment = models.TextField(blank=True)
+class ProgramWorkFormTable1(models.Model):
     programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkform')
-    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    a7_1_1 = models.TextField(blank=True)
+    a7_1_2 = models.TextField(blank=True)
+    a7_1_3 = models.TextField(blank=True)
+    a7_1_4 = models.TextField(blank=True)
+    a7_1_5 = models.TextField(blank=True)
 
     def __str__(self):
-        return self.agreement_date
+        return self.a7_1_1
 
     class Meta:
-        verbose_name_plural = "ProgramWork"
+        verbose_name_plural = "ProgramWorkFormTable1"
+
+class ProgramWorkFormTable2(models.Model):
+    programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkform2')
+
+    a9_2_1 = models.TextField(blank=True)
+    a9_2_2 = models.TextField(blank=True)
+    a9_2_3 = models.TextField(blank=True)
+    a9_2_4 = models.TextField(blank=True)
+    a9_2_5 = models.TextField(blank=True)
+    a9_2_6 = models.TextField(blank=True)
+    a9_2_7 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a9_2_1
+
+    class Meta:
+        verbose_name_plural = "ProgramWorkFormTable2"
+
+
+
 
 class AktKomeralForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktkomeralobject')

@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
-from topografiya.models import Branch, PdoWork, Worker, Order, Object, History,ProgramWork
+from topografiya.models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork, ProgramWorkForm, \
+    ProgramWorkFormTable1, ProgramWorkFormTable2
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -31,7 +32,7 @@ def allworks(request):
     context = {'pdoworks': pdoworks}
     return render(request, 'leader/all_works.html', context)
 
-def program_works(request):
+def program_works_leader(request):
     new_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=0).all() #status 0 bolsa yangi kelgan
     checking_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=1).all() #status 1 bolsa tekshiruv jarayonida
     rejected_ones = Object.objects.filter(pdowork__status_recive=2).filter(pdowork__status=2).all() #status 2 bolsa qaytarilganalar
@@ -44,8 +45,79 @@ def program_works(request):
     return render(request, 'leader/program_works.html', context)
 
 def program_work_form(request,id):
-    context = {}
+    object=Object.objects.filter(id=id).first()
+    order = Order.objects.filter(object=object.id).first()
+    workers = Worker.objects.filter(branch=object.pdowork.branch)
+    context = {'object': object, 'order': order,'workers':workers}
     return render(request, 'leader/program_work_form.html', context)
+
+def program_work_form_store(request):
+    if request.method == 'POST':
+        object = request.POST.get('object_id')
+        a0 = request.POST.get('a0')
+        a1_1 = request.POST.get('a1_1')
+        a1_2 = request.POST.get('a1_2')
+        a1_3 = request.POST.get('a1_3')
+
+        a2 = request.POST.get('a2')
+        a3 = request.POST.get('a3')
+        a4 = request.POST.get('a4')
+        a5 = request.POST.get('a5')
+        a6 = request.POST.get('a6')
+        a7 = request.POST.get('a7')
+
+        # jadval_1
+        a7_1_1 = request.POST.get('7_1_1')
+        a7_1_2 = request.POST.get('7_1_2')
+        a7_1_3 = request.POST.get('7_1_3')
+        a7_1_4 = request.POST.get('7_1_4')
+        a7_1_5 = request.POST.get('7_1_5')
+        # jadval_1
+
+        a7_2 = request.POST.get('a7_2')
+        a7_3 = request.POST.get('a7_3')
+        a7_4 = request.POST.get('a7_4')
+
+        a8 = request.POST.get('a8')
+        a8_1 = request.POST.get('a8_1')
+        a9_1 = request.POST.get('a9_1')
+
+        # jadval_2
+        a9_2_1 = request.POST.get('a9_2_1')
+        a9_2_2 = request.POST.get('a9_2_2')
+        a9_2_3 = request.POST.get('a9_2_3')
+        a9_2_4 = request.POST.get('a9_2_4')
+        a9_2_5 = request.POST.get('a9_2_5')
+        a9_2_6 = request.POST.get('a9_2_6')
+        a9_2_7 = request.POST.get('a9_2_7')
+        # jadval_2
+
+        a9_3 = request.POST.get('9_3')
+        a9_4 = request.POST.get('9_4')
+
+        a10 = request.POST.get('10')
+        a11 = request.POST.get('11')
+        a12 = request.POST.get('12')
+
+        program_work_creator = request.POST.get('program_work_creator')
+
+        programwork = ProgramWork(object=object, status=1)
+        programwork.save()
+        # status  = 1 bu tekshiruvga yuborilgan
+
+        programworkform=ProgramWorkForm(programwork=programwork.id, a0=a0, a1_1=a1_1, a1_2=a1_2, a1_3=a1_3, a2=a2, a3=a3, a4=a4, a5=a5, a6=a6, a7=a7, a7_2=a7_2,
+                                        a7_3=a7_3, a7_4=a7_4, a8=a8, a8_1=a8_1, a9_1=a9_1, a9_3=a9_3, a9_4=a9_4, a10=a10, a11=a11, a12=a12, program_work_creator=program_work_creator)
+        programworkform.save()
+
+        programworkformtable1 = ProgramWorkFormTable1(programworkform=programworkform.id, a7_1_1=a7_1_1, a7_1_2=a7_1_2, a7_1_3=a7_1_3, a7_1_4=a7_1_4, a7_1_5=a7_1_5)
+        programworkformtable1.save()
+
+        programworkformtable2 = ProgramWorkFormTable2(programworkform=programworkform.id, a9_2_1=a9_2_1, a9_2_3=a9_2_3, a9_2_4=a9_2_4, a9_2_5=a9_2_5, a9_2_6=a9_2_6, a9_2_7=a9_2_7)
+        programworkformtable2.save()
+
+
+        messages.success(request, "Ish tekshiruvga yuborildi !")
+        return HttpResponseRedirect('/program_works_leader')
 
 def history_program_work(request):
     pdoworks = PdoWork.objects.filter(status=0)

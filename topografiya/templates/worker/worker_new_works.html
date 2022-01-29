@@ -42,7 +42,15 @@
             <br>
             <div class="container-fluid blog-page">
                 <div class="row pricing-plan">
+                    {% if not worker_new_works %}
+                        <div class="col-sm-12">
+                             <div class="card text-center p-4 bg-images text-warning">
+                                 <h4>Yangi topshiriq yo'q</h4>
+                            </div>
+                        </div>
 
+                    {% endif %}
+                    <p></p>
                     {% for work in worker_new_works %}
 
                         <div class="col-sm-6 col-xl-4 box-col-6 des-xl-50 mb-4">

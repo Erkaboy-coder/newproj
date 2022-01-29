@@ -125,6 +125,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 LOGIN_REDIRECT_URL = '/signin'
+LOGOUT_REDIRECT_URL = '/signin'
 DOCS_ROOT='topografiya/static/files/'
 
 # Default primary key field type
