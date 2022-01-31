@@ -26,21 +26,19 @@
 
 
                     {% for pdowork in pdoworks %}
-                        <div class="col-sm-6 col-xl-3 box-col-6 des-xl-50 mb-4">
-                            <div class="card">
-
+                    <div class="col-sm-6 col-xl-4 box-col-6 des-xl-50 mb-4">
+                            <div class="card ribbon-wrapper p-0 m-0">
+                             {% if pdowork.status_recive == 1 %}
+                                <div class="ribbon ribbon-right ribbon-color"><i class="fa fa-exclamation-triangle" title="Ishchi qabul qilmagan ish"></i></div>
+                              {% endif %}
 {#                            <div class="ribbon ribbon-clip ribbon-danger"></div>#}
 
                                 <div class="blog-box blog-grid">
                                     <div class="blog-details-second">
                                         <div class="blog-post-date"><span class="blg-month">Кун</span><span
                                                 class="blg-date">{{ pdowork.work_term }}</span></div>
-                                          {% if pdowork.status_recive == 1 %}
-                                            <a href="#" class="text-warning float-end" title="Ishchi qabul qilmagan ish" style="font-size: 25px;margin-top: -15px" ><i class="fa fa-warning"></i></a>
-                                            {% endif %}
-
-                                        <a href="">
-                                            <h6 class="blog-bottom-details">{{ pdowork.object_name }}</h6></a>
+{#                                        <a href="">#}
+                                            <h6 class="blog-bottom-details">{{ pdowork.object_name }}</h6>
                                         <div><b>Ташкилот номи:</b> {{ pdowork.customer_info }}</div>
                                         <div><b>Келиб тушган вақти:</b> {{ pdowork.agreement_date }}</div>
                                         <div><b>Жойлашган жойи:</b> {{ pdowork.object_address }}</div>
@@ -52,7 +50,7 @@
                                             <div class="detail-footer">
 
                                                 <a href="{% url 'edit_pdowork' id=pdowork.id %}">
-                                                    <button class="btn btn-square btn-outline-primary-2x">
+                                                   <button class="btn btn-square btn-primary w-100">
                                                         Батафсил маълумот
                                                     </button>
                                                 </a>
@@ -63,7 +61,7 @@
                                         {% if pdowork.status_recive == 0 %}
                                             <div class="detail-footer">
                                                 <a href="{% url 'show_pdowork' id=pdowork.id %}">
-                                                    <button class="btn btn-square btn-outline-primary-2x">
+                                                    <button class="btn btn-square btn-primary w-100">
                                                         Батафсил маълумот
                                                     </button>
                                                 </a>
@@ -74,8 +72,8 @@
                                 </div>
                             </div>
                         </div>
-
                     {% endfor %}
+
 
                 </div>
             </div>

@@ -231,7 +231,7 @@
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
 {#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
-                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" multiple="multiple">
+                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel">
 {#                                                                                    <option value="{{ object.worker_ispolnitel }}" selected>{{ object.worker_ispolnitel }}</option>#}
                                                                                     {% for worker in workers %}
                                                                                          <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>

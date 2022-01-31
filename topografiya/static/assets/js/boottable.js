@@ -2,11 +2,11 @@ var m = 1;
 function childrenRow1() {
     m++;
     $('#childTable').find('tbody').append('<tr>' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a7_1_1" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a7_1_2" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a7_1_3" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a7_1_4" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a7_1_5" type="text"\n' + 'placeholder=""></td>\n' +
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addrow2" onclick="childrenRow1()"\n' + '/></td>\n' +'</td></tr>');
 }
@@ -15,13 +15,13 @@ var n = 1;
 function childrenRow2() {
     n++;
     $('#childTable4').find('tbody').append('<tr>' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_1" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_2" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_3" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_4" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_5" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_6" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" name="a9_2_7" type="text"\n' + 'placeholder=""></td>\n' +
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addrow4" onclick="childrenRow1()"\n' + '/></td>\n' +'</td></tr>');
 }

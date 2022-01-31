@@ -81,9 +81,9 @@ class PdoWork(models.Model):
     branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='branch')
     status = models.IntegerField(default=0, blank=True)
     status_recive = models.IntegerField(default=0, blank=True)
+    # status_recive=0 yangi qabul qilingan ishlar
     # status_recive=1 bu ish qabul qilmagan ishlar
-    # status_recive=0 yangi qabul qilmagan ishlar
-    # status_recive=3 ischi qabul qilgan ishlar
+    # status_recive=2 ishchi qabul qilgan ishlar
     latter = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/latter', blank=True)
     tz = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/tz', blank=True)
     smeta = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/smeta', blank=True)
@@ -118,15 +118,13 @@ class Object(models.Model):
     #     return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
 class ProgramWork(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='programworkforobject')
-    comment = models.TextField(blank=True)
     status = models.IntegerField(default=0)
     # status  = 0 bu yangi kelib tushgan
     # status  = 1 bu tekshiruvga yuborilgan
-
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        return self.object.object_name
+        return self.object.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "ProgramWork"
@@ -163,7 +161,7 @@ class ProgramWorkForm(models.Model):
     program_work_creator = models.TextField(blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
-        return self.active_time
+        return self.a0
 
     class Meta:
         verbose_name_plural = "ProgramWorkForm"
@@ -201,7 +199,6 @@ class ProgramWorkFormTable2(models.Model):
 
 
 
-
 class AktKomeralForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktkomeralobject')
     status_komeral_work = models.IntegerField(default=0)
@@ -235,7 +232,6 @@ class WorkerObject(models.Model):
     list_agreement_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/agreementfiles', blank=True)
     poyasnitel_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/agreementfiles', blank=True)
     topografik_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/topografikfiles', blank=True)
-
     status = models.IntegerField(default=0)
 
     def __str__(self):
@@ -279,8 +275,8 @@ class History(models.Model):
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    comment = models.TextField(blank=True)
     def __str__(self):
-        return self.status
-
+        return self.object.pdowork.object_name
     class Meta:
         verbose_name_plural = "History"

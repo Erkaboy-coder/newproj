@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
 {#    <link id="color" rel="stylesheet" href="{% static 'assets/css/color-1.css' %}" media="screen">#}
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}">
 
 
     {% block stylecontent %}
@@ -172,8 +173,9 @@
                                 <ul class="nav-submenu menu-content">
                                             <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
                                             <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>
-                                           <li><a href="../starter-kit/dawork.html">Дала назорати</a></li>
-                                          <li><a href="../starter-kit/kawork.html">Камера назорати</a></li>
+                                           <li><a href="{% url 'polevoy_works' %}">Дала назорати</a></li>
+                                          <li><a href="../starter-kit/kawork.html">Камерал назорати</a></li>
+                                        <li><a href="../starter-kit/gework.html">Бош геодезист назорати</a></li>
                                 </ul>
                             </li>
                             {% if user.profile.status == '1' %}
