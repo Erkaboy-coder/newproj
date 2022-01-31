@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork, ProgramWorkForm, \
-    ProgramWorkFormTable1, ProgramWorkFormTable2
+    ProgramWorkFormTable1, ProgramWorkFormTable2, WorkerObject
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -193,7 +193,6 @@ def recive_work(request):
     if request.method == 'POST':
         data = request.POST
         id = data.get('data-id')
-        print(id)
         worker_full_name= data.get('worker-id')
 
         object = Object.objects.filter(id=id).first()
@@ -204,10 +203,13 @@ def recive_work(request):
         order.order_receiver = worker_full_name
         order.save()
 
-        pdoworks=PdoWork.objects.filter(id=object.pdowork_id).first()
+        pdoworks = PdoWork.objects.filter(id=object.pdowork_id).first()
         pdoworks.status_recive = 2
         # status_recive = 2 is worker recieved work
         pdoworks.save()
+
+        workerobject = WorkerObject(object=object.id)
+        workerobject.save()
 
         return HttpResponse(1)
     else:

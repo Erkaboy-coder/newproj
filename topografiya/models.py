@@ -225,21 +225,49 @@ class AktPolevoyForm(models.Model):
 
 class WorkerObject(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='workerobject')
-    raw_measurements_data_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/siriefiles', blank=True)
-    abris_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/abrisfiles', blank=True)
-    kroki_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/krokifiles', blank=True)
-    jurnal_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/jurnalfiles', blank=True)
+    abris_file = models.FileField("Abris hujjat fayli", upload_to='topografiya/static/files/abrisfiles', blank=True)
+    kroki_file = models.FileField("Kroki hujjat fayli", upload_to='topografiya/static/files/krokifiles', blank=True)
+    jurnal_file = models.FileField("Jurnal hujjat fayli", upload_to='topografiya/static/files/jurnalfiles', blank=True)
+    vidimes_file = models.FileField("Vidimes hujjat fayli", upload_to='topografiya/static/files/vidimes', blank=True)
     list_agreement_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/agreementfiles', blank=True)
-    poyasnitel_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/agreementfiles', blank=True)
-    topografik_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/topografikfiles', blank=True)
     status = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.status
+        return self.object.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "WorkerObjects"
 
+
+class SirieFiles(models.Model):
+    workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectsiriefiles')
+    sirie_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/siriefiles',blank=True)
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.info
+
+    class Meta:
+        verbose_name_plural = "SirieFiles"
+
+class PoyasitelniyForm(models.Model):
+    workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectpoyasitelniy')
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.info
+
+    class Meta:
+        verbose_name_plural = "PoyasitelniyForm"
+
+class TopografikPlan(models.Model):
+    workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjecttopografikplan')
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.info
+    class Meta:
+        verbose_name_plural = "TopografikPlan"
 
 class Order(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='orderobject')
