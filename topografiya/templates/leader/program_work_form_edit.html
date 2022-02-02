@@ -23,7 +23,13 @@
                             <h3>Топографик-геодезик дастури</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a> </li>
+                                {% if user.profile.status == '1' %}
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a> </li>
+                                {% endif %}
+                                {% if user.profile.status == '2' %}
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури</a> </li>
+                                {% endif %}
+
                                 <li class="breadcrumb-item">{{ object.pdowork.object_name }}</li>
 
                             </ol>
@@ -36,9 +42,14 @@
                 <div class="row">
                     <div class="col-sm-12 col-xl-12 xl-100">
                         <div class="card">
-{#                            <div class="card-header pb-0">#}
-{#                                <h5>Топографик-геодезик дастури</h5>#}
-{#                            </div>#}
+                            <div class="card-header pb-0">
+                                {% if form.programwork.status == 4 %}
+                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> Тасдиқланган иш</b></div>
+                                {% endif %}
+                                {% if form.programwork.status == 2 %}
+                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> Рад этилган иш</b></div>
+                                {% endif %}
+                            </div>
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                                     <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>
@@ -68,7 +79,7 @@
 
                                     <div class="tab-pane fade show active" id="profile-icon" role="tabpanel" aria-labelledby="profile-icon-tab">
                                       <div class="top-forma m-t-40">
-                                          <form method="post" action="{% url 'program_work_form_store' %}" enctype="multipart/form-data" >
+                                          <form method="post" action="{% url 'program_work_form_re_sent' id=object.id %}" enctype="multipart/form-data" >
                                         {% csrf_token %}
 
 {#                                               <div class="mb-3 row">#}
@@ -89,11 +100,11 @@
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
                                                <p>
                                                    Основанием для производства работ послужило техническое задание, выданное
-                                                   <span><input class="w-50 m-b-5 formact" required name="a1_1" type="text"></span>
+                                                   <span><input class="w-50 m-b-5 formact" required name="a1_1" value="{{ form.a1_1 }}" type="text"></span>
                                                    Цель, назначение и объем проектируемых работ
-                                                   <span><input class="w-75 m-b-5 formact" required name="a1_2" type="text"></span>
+                                                   <span><input class="w-75 m-b-5 formact" required name="a1_2" value="{{ form.a1_2 }}" type="text"></span>
                                                    Дополнительные требования к выполнению геодезических работ
-                                                   <span><input class="w-75 m-b-5 formact" required name="a1_3" type="text"></span>
+                                                   <span><input class="w-75 m-b-5 formact" required name="a1_3" value="{{ form.a1_3 }}" type="text"></span>
                                                </p>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
@@ -272,7 +283,8 @@
                                                    </div>
                                                </div>
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
-                                               <div class="floder_input">
+
+                                              <div class="floder_input">
                                                    <div class="row">
                                                        <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
                                                            1. Копии задания на производство изысканий;
@@ -298,24 +310,20 @@
                                                        <p>Примечание. Допускается совмещение прилагаемых схем и картограмм.</p>
                                                    </div>
                                                </div>
-                                               <div class="m-b-20 m-t-20 row">
+
+                                              <div class="m-b-20 m-t-20 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
                                                        <input class="form-control" name="program_work_creator" type="text" value="{{ object.worker_leader }}">
                                                    </div>
                                                </div>
-{#                                               <div class="mb-3 row">#}
-{#                                                   <div class="col-sm-12 d-flex justify-content-between">#}
-{#                                                       <div class="">#}
-{#                                                           <button type="reset" class="btn btn-outline-danger"> Майдонни тозалаш</button>#}
-{#                                                       </div>#}
-{#                                                   </div>#}
-{#                                               </div>#}
-{#                                               <hr>#}
-{#                                              <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">#}
-{#                                               <button type="submit" class="float-end btn btn-primary ">Текширувга юбориш</button>#}
-{#                                               <button type="button" class="float-end btn btn-outline-warning m-r-5"> Сақлаш</button>#}
-                                                     </form>
+
+                                               {% if form.programwork.status == 2 %}
+{#                                                    <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">#}
+                                                    <button type="submit" class="float-end btn btn-primary ">Қайта текширувга юбориш</button>
+                                              {% endif %}
+
+                                          </form>
                                       </div>
                                     </div>
 

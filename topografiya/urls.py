@@ -21,7 +21,19 @@ urlpatterns = [
     # worker
     re_path(r'^worker_new_works/$', views.worker_new_works, name='worker_new_works'),
     re_path(r'^polevoy_works/$', views.polevoy_works, name='polevoy_works'),
+    re_path(r'^polevoy_work_doing/(?P<id>\d+)/$', views.polevoy_work_doing, name='polevoy_work_doing'),
+    re_path(r'^save_sirie_files/$', views.save_sirie_files, name='save_sirie_files'),
+    re_path(r'^object_poyasitelniy_form/(?P<id>\d+)/$', views.object_poyasitelniy_form, name='object_poyasitelniy_form'),
     # worker
+
+    # geodezist
+    re_path(r'^program_works_geodezis/$', views.program_works_geodezis, name='program_works_geodezis'),
+    re_path(r'^program_work_event/(?P<id>\d+)/$', views.program_work_event, name='program_work_event'),
+    re_path(r'^confirm_program_work$', views.confirm_program_work, name='confirm_program_work'),
+    re_path(r'^reject_program_work$', views.reject_program_work, name='reject_program_work'),
+    re_path(r'^program_work_form_re_sent/(?P<id>\d+)/$', views.program_work_form_re_sent, name='program_work_form_re_sent'),
+    # geodezist
+
     re_path(r'^show_work$', views.show_work, name='show_work'),
     re_path(r'^recive_work$', views.recive_work, name='recive_work'),
     # re_path(r'^ilova_to_pdf$', views.ilova_to_pdf, name='ilova_to_pdf'),

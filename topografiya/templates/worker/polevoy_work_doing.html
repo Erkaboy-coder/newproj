@@ -1,0 +1,335 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Dala nazoratini bajarish {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+
+    <div class="loader-wrapper">
+    <div class="theme-loader">
+        <div class="loader-p"></div>
+    </div>
+</div>
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Выполнение работ</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
+                                <li class="breadcrumb-item">Выполнение работ</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary">
+                                    {% if sirie_type.type_of_sirie == '0' %}
+                                        <h4 class="modal-title" id="myLargeModalLabel">Полевые материалы по БПЛА</h4>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '1' %}
+                                        <h4 class="modal-title" id="myLargeModalLabel">Полевые материалы GNSS</h4>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '2' %}
+                                        <h4 class="modal-title" id="myLargeModalLabel">Сырые измерительные данные для тахеометрической съемки (по факту)</h4>
+                                    {% endif %}
+
+                                    <div data-bs-dismiss="modal" aria-label="Close"><a href=""><i class="fa fa-window-close-o f-25 txt-light"></i></a></div>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'save_sirie_files' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% if sirie_type.type_of_sirie == '0' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Разрешение на залет от МО РУз.</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file1_1" id="file1_1" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Схема планирования залета БПЛА</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_2" id="file1_2" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Схема выполненных залетов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_3" id="file1_3" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Отчёт калибровки</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_4" id="file1_4" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Схема расположение опознаков и исходные пункты</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_5" id="file1_5" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Каталог координат исходных пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_6" id="file1_6" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Ведомость обследование пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_7" id="file1_7" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">8. Кроки  исходных пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_8" id="file1_8"  type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">9. Отчёт обработки ортофотоплана</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_9" id="file1_9" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">10. Измерения, скаченные с прибора(БПЛА)</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_10" id="file1_10" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">11. Фото. опознаков</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_11" id="file1_11" type="file"></div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '1' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Каталог координат исходных пунктов.</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_1" id="file2_1" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Каталог кооодинат долговременных точек </div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_2" id="file2_2" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Ведомость обследование пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_3" id="file2_3" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Отчёт калибровки</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_4" id="file2_4" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Кроки  исходных пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_5" id="file2_5" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Измерения, скаченные с прибора ( GNSS )</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_6" id="file2_6" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Схема калибровки с границами объекта</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_7" id="file2_7" type="file"></div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '2' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Ведомость обследования наличия и состояния пунктов геодезической сети на объекте.</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_1" id="file3_1" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Каталог исходных пунктов и ранее заложенных точек</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_2" id="file3_2" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Схема съемочного обоснования</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_3" id="file3_3" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Хурналы нивелирования теодолитных ходов</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_4" id="file3_4" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Ведомость уравнивания теодолитных ходов и характеристики</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_5" id="file3_5" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Ведомость нивелирных ходов и характеристики</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_6" id="file3_6" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Схема уравнивания</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_7" id="file3_7" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">8. Схема размещения объекта по планшетам</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_8" id="file3_8" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">9. Каталог координат (пикеты)</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_9" id="file3_9" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">10.Измерения, скаченные с прибора (тахеометра).</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_10" id="file3_10" type="file"></div>
+                                        </div>
+                                    {% endif %}
+                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
+                                        <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
+                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">1</div>
+                                <h5>Скрыть изм-ные данные</h5>
+                                <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">Файл юклаш</button>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper shadow card">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">2</div>
+                                <h5>Абрис <sup class="txt-danger">*</sup></h5>
+                                <input class="form-control" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper shadow card">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">3</div>
+                                <h5>Кроки <sup class="txt-danger">*</sup></h5>
+                                <input class="form-control" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">4</div>
+                                <h5>Журнал эксплуатация колодцев<sup class="txt-danger">*</sup></h5>
+                                <input class="form-control" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">5</div>
+                                <h5>Журнал эксплуатация колодцев<sup class="txt-danger">*</sup></h5>
+                                <input class="form-control" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">6</div>
+                                <h5>Лист эксплуатирующими<sup class="txt-danger">*</sup></h5>
+                                <input class="form-control" type="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">7</div>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95942.65769716408!2d69.20932726033043!3d41.282576225565485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xa5a9323b4aa5cb98!2z0KLQsNGI0LrQtdC90YIsINCj0LfQsdC10LrQuNGB0YLQsNC9!5e0!3m2!1sru!2s!4v1642709720963!5m2!1sru!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="ribbon-wrapper card shadow">
+                                <div class="card-body">
+                                    <div class="ribbon ribbon-clip ribbon-primary">8</div>
+                                    <h5>Пояснительная записка<sup class="txt-danger">*</sup></h5>
+                                    <a href="{% url 'object_poyasitelniy_form' id=work.object.id %}">
+                                        <button class="btn btn-outline-primary w-100">по топографо-геодезическим работам</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+        </div>
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+{#    $(document).on('click',"#save_sirie_files",function(){#}
+{#        var data = new FormData();#}
+{#        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);#}
+{#        data.append("work-id", $(this).attr('work-id'));#}
+{#        data.append("worker", $(this).attr('worker'));#}
+{##}
+{#        data.append("file1_1", $('#file1_1').prop('files')[0]);#}
+{#        alert($('#file1_1')[0].files[0]);#}
+{#        alert('asdsa');#}
+{#        data.append("file1_2", $('#file1_2')[0].files[0]);#}
+{#        data.append("file1_3", $('#file1_3')[0].files[0]);#}
+{#        data.append("file1_4", $('#file1_4')[0].files[0]);#}
+{#        data.append("file1_5", $('#file1_5')[0].files[0]);#}
+{#        data.append("file1_6", $('#file1_6')[0].files[0]);#}
+{#        data.append("file1_7", $('#file1_7')[0].files[0]);#}
+{#        data.append("file1_8", $('#file1_8')[0].files[0]);#}
+{#        data.append("file1_9", $('#file1_9')[0].files[0]);#}
+{#        data.append("file1_10", $('#file1_10')[0].files[0]);#}
+{#        data.append("file1_11", $('#file1_11')[0].files[0]);#}
+{##}
+{#        data.append("file2_1", $('#file2_1')[0].files[0]);#}
+{#        data.append("file2_2", $('#file2_2')[0].files[0]);#}
+{#        data.append("file2_3", $('#file2_3')[0].files[0]);#}
+{#        data.append("file2_4", $('#file2_4')[0].files[0]);#}
+{#        data.append("file2_5", $('#file2_5')[0].files[0]);#}
+{#        data.append("file2_6", $('#file2_6')[0].files[0]);#}
+{#        data.append("file2_7", $('#file2_7')[0].files[0]);#}
+{##}
+{#        data.append("file3_1", $('#file3_1')[0].files[0]);#}
+{#        data.append("file3_2", $('#file3_2')[0].files[0]);#}
+{#        data.append("file3_3", $('#file3_3')[0].files[0]);#}
+{#        data.append("file3_4", $('#file3_4')[0].files[0]);#}
+{#        data.append("file3_5", $('#file3_5')[0].files[0]);#}
+{#        data.append("file3_6", $('#file3_6')[0].files[0]);#}
+{#        data.append("file3_7", $('#file3_7')[0].files[0]);#}
+{#        data.append("file3_8", $('#file3_8')[0].files[0]);#}
+{#        data.append("file3_9", $('#file3_9')[0].files[0]);#}
+{#        data.append("file3_10", $('#file3_10')[0].files[0]);#}
+{##}
+{#        event.preventDefault();#}
+{#        $.ajax({#}
+{#           type: 'POST',#}
+{#           url: '{% url 'save_sirie_files' %}',#}
+{#           data: data,#}
+{#           cache: false,#}
+{#           contentType: false,#}
+{#           processData: false,#}
+{##}
+{#           success: function (result){#}
+{#               location.replace(window.location.pathname);#}
+{#           },#}
+{##}
+{#           error: function(){#}
+{#              alert('Serverga yubara olmaymiz !! ');#}
+{#            }#}
+{#        });#}
+
+    });
+</script>
+    {% endblock %}
+
+

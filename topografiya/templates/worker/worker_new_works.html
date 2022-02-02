@@ -51,6 +51,7 @@
 
                     {% endif %}
                     <p></p>
+
                     {% for work in worker_new_works %}
 
                         <div class="col-sm-6 col-xl-4 box-col-6 des-xl-50 mb-4">
@@ -81,6 +82,8 @@
                             </div>
                         </div>
 
+
+
                     {% endfor %}
 
 
@@ -89,6 +92,7 @@
         </div>
 
 
+ <a href="#"  target="_blank" id="order_file" style="display: none"></a>
 
 
 
@@ -99,7 +103,7 @@ $(document).ready(function(){
     $(".show_work").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        event.preventDefault()
+        event.preventDefault();
         data.append("work_id", $(this).attr('work-id'));
         $.ajax({
             type: 'POST',
@@ -162,12 +166,12 @@ $(document).ready(function(){
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="m-b-20"><a class="f-w-500 f-15 " href="/`+result['pdowork'][0].latter+`"><i class="fa fa-file-pdf-o f-20"></i>  Буюрта хати билан танишиш</a></div>
-                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`"><i class="fa fa-file-pdf-o f-20"></i>  Техник топшириқ файли билан танишиш</a></div>
+                        <div class="m-b-20"><a class="f-w-500 f-15 " href="/`+result['pdowork'][0].latter+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Буюрта хати билан танишиш</a></div>
+                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Техник топшириқ файли билан танишиш</a></div>
                     </div>
                     <div class="col-lg-6 text-end">
-                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`"><i class="fa fa-file-pdf-o f-20"></i>  Смета файли билан танишиш</a></div>
-                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` href='#'><i class="fa fa-file-pdf-o f-20"></i>  Илова файли билан танишиш </a></div>
+                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Смета файли билан танишиш</a></div>
+                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` target='_blank' href='#'><i class="fa fa-file-pdf-o f-20"></i>  Илова файли билан танишиш </a></div>
 
                     </div>
                 </div>
@@ -233,9 +237,12 @@ $(document).ready(function(){
             processData: false,
 
             success: function (result){
-              	$('.file').attr('href','/static/files/file.pdf');
-                  $('.file').attr('target','_blank');
-                  $('.file').data('clicked', true);
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
             },
 
             error: function(){

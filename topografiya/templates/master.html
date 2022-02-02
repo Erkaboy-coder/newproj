@@ -137,50 +137,92 @@
                             </li>
                            <li><a class="nav-link menu-title link-nav" href="{% url 'index' %}"><i data-feather="home"></i><span>Бош саҳифа</span></a></li>
 
-                            {% if user.profile.status == '1' %}
-                                <li class="dropdown">
+                             {% if user.profile.status == '1' %}
+                                  <li class="dropdown">
                                     <a class="nav-link menu-title link-nav" href="{% url 'pdoworks' %}"><i data-feather="file"></i>
                                         <span style="white-space: nowrap;">Янги шартномалар
-                                            {% if objects_pdo %}
+                                            {% if count.new_workers_pdo != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
-                                                    {{ objects_pdo.count }}
+                                                    {{ count.new_workers_pdo }}
+{#                                                    {{ (PdoWorks.objects.filter.status_recive == 0).count }}#}
                                                 </span>
                                             {% endif %}
 
                                         </span>
                                     </a>
                                 </li>
+                                <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>
+                                    <ul class="nav-submenu menu-content">
+                                        <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
+                                        <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури
+                                            {% if count.new_program_works_leader != 0 %}
+                                                <span class="badge badge-danger rounded-pill">
+                                                     {{ count.new_program_works_leader }}
+                                                </span>
+                                              {% endif %}
+                                        </a></li>
+                                        <li><a href="{% url 'polevoy_works' %}">Дала назорати</a></li>
+                                        <li><a href="../starter-kit/kawork.html">Камерал назорат</a></li>
+                                        <li><a href="../starter-kit/gework.html">Бош геодезист назорати</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown"><a class="nav-link menu-title link-nav" href="../starter-kit/users.html"><i data-feather="users"></i><span>Ходимлар</span></a></li>
                             {% endif %}
-
+{#                            bu boshliq profili#}
 
                             {% if user.profile.status == '0' %}
-                                <li>
+                                 <li>
                                     <a class="nav-link menu-title link-nav" href="{% url 'worker_new_works' %}">
                                         <i data-feather="file"></i>
 
                                         <span>Tопшириклар &nbsp;&nbsp;
-                                            {% if objects %}
-                                            <span class="badge badge-danger rounded-pill">
-                                                {{ objects.count }}
-{#                                                {{ objects.count }}#}
-                                            </span>
-                                                {% endif %}
+                                              {% if count.new_works_worker != 0 %}
+                                                <span class="badge badge-danger rounded-pill">
+                                                     {{ count.new_works_worker }}
+                                                </span>
+                                              {% endif %}
                                         </span>
                                     </a>
                                 </li>
-                            {% endif %}
                             <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>
                                 <ul class="nav-submenu menu-content">
-                                            <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
-                                            <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>
-                                           <li><a href="{% url 'polevoy_works' %}">Дала назорати</a></li>
-                                          <li><a href="../starter-kit/kawork.html">Камерал назорати</a></li>
-                                        <li><a href="../starter-kit/gework.html">Бош геодезист назорати</a></li>
+                                    <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
+{#                                    <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>#}
+                                    <li><a href="{% url 'polevoy_works' %}">Дала назорати
+                                        {% if count.new_field_works != 0 %}
+                                                <span class="badge badge-danger rounded-pill">
+                                                     {{ count.new_field_works }}
+                                                </span>
+                                              {% endif %}
+
+                                    </a></li>
+                                    <li><a href="../starter-kit/kawork.html">Камерал назорат</a></li>
                                 </ul>
                             </li>
-                            {% if user.profile.status == '1' %}
-                                <li class="dropdown"><a class="nav-link menu-title link-nav" href="../starter-kit/users.html"><i data-feather="users"></i><span>Ходимлар</span></a></li>
                             {% endif %}
+{#                            bu ispolnitel profili#}
+
+                             {% if user.profile.status == '2' %}
+                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>
+                                <ul class="nav-submenu menu-content">
+                                    <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
+                                    <li>
+                                        <a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури
+                                    {% if count.new_works_geodezis != 0 %}
+                                                <span class="badge badge-danger rounded-pill">
+                                                     {{ count.new_works_geodezis }}
+                                                </span>
+                                              {% endif %}
+                                        </a>
+                                    </li>
+
+                                    <li><a href="{% url 'program_works_leader' %}">Бош геодезист назорати</a></li>
+
+                                </ul>
+                            </li>
+                            {% endif %}
+{#                            bu geodezis profili#}
+
                             <li class="dropdown"><a class="nav-link menu-title link-nav" href="#"><i data-feather="message-circle"></i><span>Хабарлар<span style="float: right" class="badge rounded-pill badge-danger">3</span></span></a></li>
                             <li class="dropdown"><a class="nav-link menu-title link-nav" href="#"><i data-feather="arrow-down-circle"></i><span>Aрхив</span></a></li>
                             <li class="dropdown"><a class="nav-link menu-title link-nav" href="../starter-kit/settings.html"><i data-feather="settings"></i><span>Созламалар</span></a></li>
@@ -191,62 +233,6 @@
             </nav>
         </header>
 
-{#        <header class="main-nav">#}
-{#            <nav>#}
-{#                <div class="main-navbar">#}
-{#                    <div id="mainnav">#}
-{##}
-{#                        <ul class="nav-menu custom-scrollbar">#}
-{#                            <li class="back-btn">#}
-{#                                <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>#}
-{#                            </li>#}
-{##}
-{#                            <li><a class="nav-link menu-title link-nav" href="{% url 'index' %}"><i data-feather="home"></i><span>Бош саҳифа</span></a></li>#}
-{##}
-{#                            {% if user.profile.status == '1' %}#}
-{#                                <li><a class="nav-link menu-title link-nav" href="{% url 'pdoworks' %}"><i data-feather="file"></i><span>Янги шартномалар </span></a></li>#}
-{#                            {% endif %}#}
-{##}
-{##}
-{#                            {% if user.profile.status == '0' %}#}
-{#                                <li>#}
-{#                                    <a class="nav-link menu-title link-nav" href="{% url 'worker_new_works' %}">#}
-{#                                        <i data-feather="file"></i>#}
-{#                                        Янги#}
-{#                                        <span>Tопшириклар &nbsp;&nbsp;#}
-{#                                            {% if objects %}#}
-{#                                            <span class="badge badge-danger rounded-pill">#}
-{#                                                {{ objects.count }}#}
-{#                                            </span>#}
-{#                                                {% endif %}#}
-{#                                        </span>#}
-{#                                    </a>#}
-{#                                </li>#}
-{#                            {% endif %}#}
-{##}
-{##}
-{#                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>#}
-{#                                <ul class="nav-submenu menu-content">#}
-{#                                            <li><a href="../starter-kit/all_work.html">Барча ишлар</a></li>#}
-{#                                            <li><a href="../starter-kit/work.html">Топографик-геодезик дастури</a></li>#}
-{#                                           <li><a href="../starter-kit/dawork.html">Дала назорати</a></li>#}
-{#                                          <li><a href="../starter-kit/kawork.html">Камера назорати</a></li>#}
-{#                                </ul>#}
-{#                            </li>#}
-{##}
-{#                            {% if user.profile.status == '1' %}#}
-{#                                <li class=""><a class="nav-link menu-title link-nav" href="../starter-kit/users.html"><i data-feather="users"></i><span>Ходимлар</span></a></li>#}
-{#                            {% endif %}#}
-{#                            <li class=""><a class="nav-link menu-title link-nav" href="#"><i data-feather="message-circle"></i><span>Хабарлар<span style="float: right" class="badge rounded-pill badge-danger">3</span></span></a></li>#}
-{#                            <li class=""><a class="nav-link menu-title link-nav" href="#"><i data-feather="arrow-down-circle"></i><span>Aрхив</span></a></li>#}
-{#                            <li class=""><a class="nav-link menu-title link-nav" href="#"><i data-feather="settings"></i><span>Созламалар</span></a></li>#}
-{#                            <li style="position: fixed;bottom: 10px;"><a  href="tel:+998711715658"><i data-feather="phone"></i> +998711715658</a></li>#}
-{#                        </ul>#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-{#            </nav>#}
-{#        </header>#}
 
 
     {% block content %}
@@ -289,15 +275,15 @@
 
     {% endblock scriptcontent %}
 
-{#<script src="{% static 'assets/js/sweet-alert/sweetalert.min.js"' %}"></script>#}
-{#<script src="{% static 'assets/js/sweet-alert/app.js' %}"></script>#}
-{#<script src="{% static 'assets/js/prism/prism.min.js' %}"></script>#}
-{#<script src="{% static 'assets/js/clipboard/clipboard.min.js' %}"></script>#}
-{#<script src="{% static 'assets/js/custom-card/custom-card.js' %}"></script>#}
-{#<script src="{% static 'assets/js/tooltip-init.js' %}"></script>#}
-{#<script src="{% static 'assets/js/script.js' %}"></script>#}
+    {#<script src="{% static 'assets/js/sweet-alert/sweetalert.min.js"' %}"></script>#}
+    {#<script src="{% static 'assets/js/sweet-alert/app.js' %}"></script>#}
+    {#<script src="{% static 'assets/js/prism/prism.min.js' %}"></script>#}
+    {#<script src="{% static 'assets/js/clipboard/clipboard.min.js' %}"></script>#}
+    {#<script src="{% static 'assets/js/custom-card/custom-card.js' %}"></script>#}
+    {#<script src="{% static 'assets/js/tooltip-init.js' %}"></script>#}
+    {#<script src="{% static 'assets/js/script.js' %}"></script>#}
 
 <script src="{% static 'assets/js/script.js' %}"></script>
-
+<script src="{% static 'assets/js/form-wizard/form-wizard-two.js' %}"></script>
 </body>
 </html>

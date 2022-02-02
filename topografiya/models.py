@@ -121,13 +121,25 @@ class ProgramWork(models.Model):
     status = models.IntegerField(default=0)
     # status  = 0 bu yangi kelib tushgan
     # status  = 1 bu tekshiruvga yuborilgan
+    # status  = 2 bu qaytarilgan ish
+    # status  = 4 bu tasdiqlangan
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-
     def __str__(self):
         return self.object.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "ProgramWork"
+
+class ProgramWorkReject(models.Model):
+    programowork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programworkreject')
+    file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/programfiles', blank=True)
+    reason = models.TextField(blank=True)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.programowork.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "ProgramWorkReject"
 
 class ProgramWorkForm(models.Model):
     programwork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programwork')
@@ -241,11 +253,40 @@ class WorkerObject(models.Model):
 
 class SirieFiles(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectsiriefiles')
-    sirie_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_1 = models.FileField("Hujjat fayli bpla1", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_2 = models.FileField("Hujjat fayli bpla2", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_3 = models.FileField("Hujjat fayli bpla3", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_4 = models.FileField("Hujjat fayli bpla4", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_5 = models.FileField("Hujjat fayli bpla5", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_6 = models.FileField("Hujjat fayli bpla6", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_7 = models.FileField("Hujjat fayli bpla7", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_8 = models.FileField("Hujjat fayli bpla8", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_9 = models.FileField("Hujjat fayli bpla9", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_10 = models.FileField("Hujjat fayli bpla10", upload_to='topografiya/static/files/siriefiles',blank=True)
+    file1_11 = models.FileField("Hujjat fayli bpla11", upload_to='topografiya/static/files/siriefiles',blank=True)
+
+    file2_1 = models.FileField("Hujjat fayli bpla2_1", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file2_2 = models.FileField("Hujjat fayli bpla2_2", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file2_3 = models.FileField("Hujjat fayli bpla2_3", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file2_4 = models.FileField("Hujjat fayli bpla2_4", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file2_5 = models.FileField("Hujjat fayli bpla2_5", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file2_6 = models.FileField("Hujjat fayli bpla2_6", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file2_7 = models.FileField("Hujjat fayli bpla2_7", upload_to='topografiya/static/files/siriefiles', blank=True)
+
+    file3_1 = models.FileField("Hujjat fayli bpla3_1", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_2 = models.FileField("Hujjat fayli bpla3_2", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_3 = models.FileField("Hujjat fayli bpla3_3", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_4 = models.FileField("Hujjat fayli bpla3_4", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_5 = models.FileField("Hujjat fayli bpla3_5", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_6 = models.FileField("Hujjat fayli bpla3_6", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_7 = models.FileField("Hujjat fayli bpla3_7", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_8 = models.FileField("Hujjat fayli bpla3_8", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_9 = models.FileField("Hujjat fayli bpla3_9", upload_to='topografiya/static/files/siriefiles', blank=True)
+    file3_10 = models.FileField("Hujjat fayli bpla3_10", upload_to='topografiya/static/files/siriefiles', blank=True)
     info = models.TextField(blank=True)
     status = models.IntegerField(default=0)
     def __str__(self):
-        return self.info
+        return self.workerobject.object.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "SirieFiles"
@@ -300,6 +341,10 @@ class Order(models.Model):
 class History(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='historyobject')
     status = models.IntegerField(default=0)
+    # status=4 bolsa bu program rabotni tasdiqlagan bo'ladi
+    # status=5 bolsa bu program rabotni rad etilgan
+    # status=6 bolsa bu program rabotni qayta tekshiruvga yuborildi
+    # status = 7, Dala nazoratiga sirie ma'lumotlari yuklandi
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
