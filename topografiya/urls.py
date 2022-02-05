@@ -23,6 +23,11 @@ urlpatterns = [
     re_path(r'^polevoy_works/$', views.polevoy_works, name='polevoy_works'),
     re_path(r'^polevoy_work_doing/(?P<id>\d+)/$', views.polevoy_work_doing, name='polevoy_work_doing'),
     re_path(r'^save_sirie_files/$', views.save_sirie_files, name='save_sirie_files'),
+    re_path(r'^save_files$', views.save_files, name='save_files'),
+    re_path(r'^store$', views.store, name='store'),
+    re_path(r'^edit_poyasitelniy$', views.edit_poyasitelniy, name='edit_poyasitelniy'),
+    re_path(r'^send_to_check_polevoy$', views.send_to_check_polevoy, name='send_to_check_polevoy'),
+    re_path(r'^edit_sirie_files/(?P<id>\d+)/$', views.edit_sirie_files, name='edit_sirie_files'),
     re_path(r'^object_poyasitelniy_form/(?P<id>\d+)/$', views.object_poyasitelniy_form, name='object_poyasitelniy_form'),
     # worker
 

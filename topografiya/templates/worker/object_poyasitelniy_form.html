@@ -19,7 +19,8 @@
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'polevoy_work_doing' id=work.object.id %}">Выполнение работ</a></li>
-                                <li class="breadcrumb-item">По топографо-геодезическим работам</li>
+                                <li class="breadcrumb-item">{{ work.object.pdowork.object_name}}</li>
+{#                                <li class="breadcrumb-item">По топографо-геодезическим работам</li>#}
                             </ol>
                         </div>
                     </div>
@@ -29,6 +30,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12">
+                        {% if not form %}
                         <div class="card">
                             <div class="card-body">
                                 <form action="#" method="POST">
@@ -37,76 +39,101 @@
                                             <div class="file-sidebar ">
                                                 <div class="pricing-plan border-0">
                                                     <div class="col-md-12">
-                                                        <p class="text-end">ШНК 1.02.07-19 </p>
-                                                        <p class="text-end"> «УТВЕРЖДАЮ» Руководитель организации</p>
-                                                        <div class="row m-b-10">
-                                                            <div class="col-lg-7"></div>
-                                                            <div class="col-lg-5">
-                                                                <input class="form-control text-end" type="text" placeholder="Ф.И.О. подпись">
-                                                            </div>
-                                                        </div>
+                                                        {% csrf_token %}
+{#                                                        <p class="text-end">ШНК 1.02.07-19 </p>#}
+{#                                                        <p class="text-end"> «УТВЕРЖДАЮ» Руководитель организации</p>#}
+{#                                                        <div class="row m-b-10">#}
+{#                                                            <div class="col-lg-7"></div>#}
+{#                                                            <div class="col-lg-5">#}
+{#                                                                <input class="form-control text-end" type="text" placeholder="Ф.И.О. подпись">#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+
                                                         <div class="row">
-                                                            <div class="col-lg-7"></div>
-                                                            <div class="col-lg-5">
-                                                                <input class="datepicker-here form-control digits" type="text" data-multiple-dates="3" data-multiple-dates-separator=", " data-language="ru" data-bs-original-title="" title="">
-                                                            </div>
-                                                            <h5 class="text-center f-w-600 m-t-10">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h5>
-                                                            <h6 class="text-center">По топографо-геодезическим работам</h6>
-                                                            <div class="mb-3 row m-t-15">
+{#                                                            <div class="col-lg-7"></div>#}
+{#                                                            <div class="col-lg-5">#}
+{#                                                                <input class="datepicker-here form-control digits" type="text" data-multiple-dates="3" data-multiple-dates-separator=", " data-language="ru" data-bs-original-title="" title="">#}
+{#                                                            </div>#}
+{#                                                            <h5 class="text-center f-w-600 m-t-10">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h5>#}
+{#                                                            <h6 class="text-center">По топографо-геодезическим работам</h6>#}
+                                                            <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Топографо-геодезические работы</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="наименование объекта и его местонахождение">
+                                                                    <input class="form-control" type="text" name="b1" id="b1" placeholder="наименование объекта и его местонахождение">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row m-t-15">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным</label>
                                                                 <div class="col-sm-9">
-                                                                    <textarea style="height: 100px;" class="form-control" type="text" placeholder="полное наименование организации-заказчика"></textarea>
+                                                                    <textarea style="height: 100px;" class="form-control" type="text" name="b2" id="b2" placeholder="полное наименование организации-заказчика"></textarea>
                                                                 </div>
                                                             </div>
                                                             <p>
                                                                 и договором №
-                                                                <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class=""></span>
+                                                                <span>
+                                                                    <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_1" name="b_1">
+                                                                </span>
                                                                 от
-                                                                <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class=""></span>
+                                                                <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_2" name="b_2"></span>
                                                                 20
-                                                                <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class=""></span>
+                                                                <span>
+
+                                                                         <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_3" name="b_3"></span>
+
+
                                                                 г
                                                             </p>
                                                             <div class="mb-3 row m-t-15">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе</label>
                                                                 <div class="col-sm-9">
-                                                                    <textarea style="height: 100px;" class="form-control" type="text" placeholder=""></textarea>
+
+
+                                                                    <textarea style="height: 100px;" class="form-control" type="text" id="b3" name="b3" placeholder=""></textarea>
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">3.1</span> Ответственный исполнитель</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                         <input class="form-control" type="text" name="b3_1" id="b3_1" placeholder="">
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> Начальник партии</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                         <input class="form-control" type="text" name="b4" id="b4" placeholder="">
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> Система координат</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                         <input class="form-control" type="text" name="b5" id="b5" placeholder="">
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> Система высот</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                        <input class="form-control" type="text" name="b6" id="b6" placeholder="">
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> Исходные пункты (плановые и высотные)</label>
                                                                 <div class="col-sm-9">
-                                                                    <textarea style="height: 100px;" class="form-control" type="text" placeholder="названия и номера пунктов, класс-разряд, наименование организации выполнявшей работы, год производства, наименование объекта"></textarea>
+
+                                                                        <textarea style="height: 100px;" class="form-control" type="text" name="b7" id="b7" placeholder="названия и номера пунктов, класс-разряд, наименование организации выполнявшей работы, год производства, наименование объекта"></textarea>
+
                                                                 </div>
                                                             </div>
                                                             <h5 class="text-center"><span class="badge rounded-pill badge-primary">8</span> Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1</h5>
@@ -115,6 +142,7 @@
                                                                 <div class="card border-0">
                                                                     <div class="table-responsive">
                                                                         <table class="table table-bordered" id="childTable8">
+
                                                                             <thead class="table-primary">
                                                                             <tr>
                                                                                 <th scope="col">№</th>
@@ -125,16 +153,34 @@
                                                                                 <th scope="col"></th>
                                                                             </tr>
                                                                             </thead>
+
                                                                             <tbody>
                                                                             <tr>
                                                                                 <td scope="row">1</td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><i id="addrow8" onclick="childrentabl6()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text"  name="b8_1" id="b8_1" placeholder="">
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text" name="b8_2" id="b8_2" placeholder="">
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text" name="b8_3" id="b8_3" placeholder="">
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                         <input class="border-0 w-100" type="text" name="b8_4" id="b8_4" placeholder="">
+
+                                                                                </td>
+                                                                                <td><i id="addrow8" onclick="childrentabl6()"  class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                                             </tr>
                                                                             </tbody>
+
                                                                         </table>
                                                                     </div>
                                                                 </div>
@@ -142,7 +188,9 @@
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Номенклатура планшетов</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                        <input class="form-control" type="text" name="b8_1_1" id="b8_1_1" placeholder="">
+
                                                                 </div>
                                                             </div>
                                                             <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> Каталог координат и высот исходных пунктов и точек долговременного закрепления</h5>
@@ -163,10 +211,27 @@
                                                                             <tbody>
                                                                             <tr>
                                                                                 <td scope="row">1</td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text" name="b9_1" id="b9_1" placeholder="">
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text" name="b9_2" id="b9_2" placeholder="">
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text" name="b9_3" id="b9_3" placeholder="">
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                        <input class="border-0 w-100" type="text" name="b9_4" id="b9_4" placeholder="">
+
+                                                                                </td>
                                                                                 <td><i id="addrow9" onclick="childrentabl7()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                                             </tr>
                                                                             </tbody>
@@ -177,73 +242,87 @@
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> Планово-высотное обоснование выполнено</label>
                                                                 <div class="col-sm-9">
-                                                                   <textarea
-                                                                           style="height: 100px;"
-                                                                           class="form-control"
-                                                                           type="text"
-                                                                           placeholder="методы и точность определения планового положения точек съемочного
+
+                                                                        <textarea class="form-control" type="text" placeholder="методы и точность определения планового положения точек съемочного
                                                                              обоснования; методы и точность определения высот точек съемочного обоснования,
-                                                                             средняя длина ходов;">
-                                                                   </textarea>
+                                                                             средняя длина ходов;" name="b10" id="b10">
+                                                                        </textarea>
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">11</span> Пункты съемочного обоснования закреплены</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                         <input class="form-control" type="text" name="b11" id="b11" placeholder="">
+
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> Постоянные геодезические знаки сданы по акту на наблюдение за сохранностью представителю</label>
                                                                 <div class="col-sm-9">
-                                                                   <textarea
+
+                                                                    <textarea
                                                                            class="form-control"
-                                                                           type="text"
+                                                                           type="text" name="b12" id="b12"
                                                                            placeholder="должность, фамилия, имя, отчество представителя заказчика">
-                                                                   </textarea>
+                                                                           </textarea>
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">13</span> Угловые измерения проводились</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                         <input class="form-control" name="b13" type="text" id="b13" placeholder="">
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">14</span> Линейные измерения выполнены</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                         <input class="form-control" name="b14" id="b14" type="text" placeholder="">
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">15</span> Нивелирование производилось нивелиром</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="нивелир и его номер">
+
+                                                                         <input class="form-control" name="b15" id="b15" type="text" placeholder="нивелир и его номер">
+
                                                                 </div>
                                                             </div>
                                                             <h5><span class="badge rounded-pill badge-primary">16</span> Уравнивание съёмочного обоснования произведено:</h5>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">a)</span> планового</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                        <input class="form-control" type="text" name="b16_a" id="b16_a" placeholder="">
+
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
                                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">б)</span> высотного</label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" placeholder="">
+
+                                                                        <input class="form-control" type="text" name="b16_b" id="b16_b" placeholder="">
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Saqlash</button>
                                                     <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
-                                                    <img class="bg-img" style="width: 20%;"
-                                                         src="../assets/images/work2.png"
-                                                         alt="">
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="setup-content" id="step-2">
                                         <div class="col-xs-12">
                                             <h5 class="text-center"><span class="badge rounded-pill badge-primary">17</span> Техническая характеристика планового съемочного обоснования приводится в таблице 2.</h5>
@@ -268,13 +347,35 @@
                                                             <tbody>
                                                             <tr>
                                                                 <td scope="row">1</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b17_1" id="b17_1" placeholder="">
+
+                                                                </td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b17_2" id="b17_2" placeholder="">
+
+                                                                </td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b17_3" id="b17_3" placeholder="">
+
+                                                                </td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b17_4" id="b17_4" placeholder="">
+
+                                                                </td>
+                                                                <td>
+                                                                       <input class="border-0 w-100" type="text" name="b17_5" id="b17_5" placeholder="">
+
+                                                                </td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b17_6" id="b17_6" placeholder="">
+
+                                                                </td>
+                                                                <td>
+
+                                                                        <input class="border-0 w-100" type="text" name="b17_7" id="b17_7" placeholder="">
+
+                                                                </td>
                                                                 <td><i id="addrowten" onclick="childrentablseven()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                             </tr>
                                                             </tbody>
@@ -301,11 +402,19 @@
                                                             <tbody>
                                                             <tr>
                                                                 <td scope="row">1</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_1" id="b18_1" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_2" id="b18_2" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_3" id="b18_3" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_4" id="b18_4" placeholder="">
+                                                                </td>
+                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" placeholder=""></td>
                                                                 <td><i id="addroweleven" onclick="childrentableight()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                             </tr>
                                                             </tbody>
@@ -316,25 +425,31 @@
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">19</span>  Топографическая съемка</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" type="text" placeholder="метод съемки, используемые инструменты и их номера;"></textarea>
+
+                                                        <textarea class="form-control" type="text" name="b19" id="b19" placeholder="метод съемки, используемые инструменты и их номера;"></textarea>
+
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">19.1</span> Горизонтальная съемка застроенной территории производилась</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" placeholder="">
+
+                                                        <input class="form-control" type="text" name="b19_1" id="b19_1" placeholder="">
+
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">19.2</span> Высотная съемка застроенной территории производилась</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" placeholder="">
+
+                                                        <input class="form-control" type="text" name="b19_2" id="b19_2" placeholder="">
+
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">20</span>  Обновление топографической съемки</label>
                                                 <div class="col-sm-9">
-                                                    <textarea
+                                                    <textarea name="b20" id="b20"
                                                             class="form-control"
                                                             type="text"
                                                             placeholder="масштаб, объем, методика, год выполнения и производитель,исходных планов, составление обновленных планов">
@@ -345,7 +460,7 @@
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label txt-danger">Работа выполнена исполнителем</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" placeholder="">
+                                                    <input class="form-control" type="text" name="b21" id="b21" value='{{ user.profile.full_name }}' placeholder="">
                                                 </div>
                                             </div>
                                             <p>в нижеследующем объёме:</p>
@@ -367,92 +482,92 @@
                                                                 <th scope="row">1</th>
                                                                 <td>Рекогносцировка трасс ИПК</td>
                                                                 <td>км</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_1" id="c_1" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_2" id="c_2" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">2</th>
                                                                 <td>Прослушивание и привязка точек ИПК</td>
                                                                 <td>точка</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_3" id="c_3" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_4" id="c_4" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">3</th>
                                                                 <td>Прослушивание точек ИПК без привязки с К=0,56</td>
                                                                 <td>точка</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_5" id="c_5" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_6" id="c_6" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">4</th>
                                                                 <td>Определение глубин заложения ИПК</td>
                                                                 <td>точка</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text"name="c_7" id="c_7" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_8" id="c_8" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">5</th>
                                                                 <td>Привязка выходов ИПК</td>
                                                                 <td>точка</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_9" id="c_9" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_10" id="c_10" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">6</th>
                                                                 <td>Обследование колодцев</td>
                                                                 <td>колодец</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_11" id="c_11" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_12" id="c_12" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">7</th>
                                                                 <td>Нивелирование колодцев с коэффициентом = 0,5</td>
                                                                 <td>га</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_13" id="c_13" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_14"  id="c_14" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">8</th>
                                                                 <td>Описание надземных сооружений, коммуникаций</td>
                                                                 <td>опора,узел</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_15" id="c_15" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_16" id="c_16" placeholder=''></td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row">9</th>
+                                                                <th scope='row'>9</th>
                                                                 <td>Нивелирование надземных сооружений</td>
                                                                 <td>опора, точка</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_17" id="c_17" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_18" id="c_18" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">10</th>
                                                                 <td>Обследование территории съёмки, где отсутствуют ИПК</td>
                                                                 <td>га</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_19" id="c_19" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_20" id="c_20" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">11</th>
                                                                 <td>Обследование колодцев с К=0,5; (завален, залит)</td>
                                                                 <td>колодец</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_21" id="c_21" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_22" id="c_22" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">12</th>
                                                                 <td>Составление ведомости экспликации колодцев ИПК</td>
                                                                 <td>колодец</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_23" id="c_23" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_24" id="c_24" placeholder=""></td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">13</th>
                                                                 <td>Составление планов ИПК</td>
                                                                 <td>га</td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
-                                                                <td><input class="border-0 w-100" type="text" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_25" id="c_25" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_26" id="c_26" placeholder=""></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -460,64 +575,68 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Saqlash</button>
                                         <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                     </div>
+
+
                                     <div class="setup-content" id="step-3">
                                         <div class="col-xs-12">
                                             <h5>Инженерные подземные сети представлены:</h5>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Работа выполнена исполнителем</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" placeholder="перечислить: газопровод, водопровод, теплотрасса, напорная канализация т.д">
+                                                    <input class="form-control" type="text" name="d_1" id="d_1" placeholder="перечислить: газопровод, водопровод, теплотрасса, напорная канализация т.д">
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Самотечные трубопроводы:</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" type="text" placeholder="перечислить: дренаж, фекальная канализация, ливневая канализация,"></textarea>
+                                                    <textarea class="form-control" type="text" name="d_2" id="d_2" placeholder="перечислить: дренаж, фекальная канализация, ливневая канализация,"></textarea>
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Кабельныелинии:</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" type="text" placeholder="перечислить: в/в эл. кабели, н/в эл. кабели, связь,сигнализация и т.д"></textarea>
+                                                    <textarea class="form-control" type="text" name="d_3" id="d_3" placeholder="перечислить: в/в эл. кабели, н/в эл. кабели, связь,сигнализация и т.д"></textarea>
                                                 </div>
                                             </div>
                                             <p>
                                                 Неметаллические трубопроводы и резервные кабели
-                                                <span><input style="border:1px solid #e6e8eb" type="text" class="w-25" placeholder="перечислить: какие)"></span>
+                                                <span><input style="border:1px solid #e6e8eb" type="text" name="d_4" class="w-25" id="d_4" placeholder="перечислить: какие)"></span>
                                                 на планшета
-                                                <span><input style="border:1px solid #e6e8eb" type="text" class="w-50 m-b-10 m-t-10" placeholder="указать номенклатуру"></span>
+                                                <span><input style="border:1px solid #e6e8eb" type="text" name="d_5" id="d_5" class="w-50 m-b-10 m-t-10" placeholder="указать номенклатуру"></span>
                                                 нанесены по неуточнённым данным
-                                                <span><input style="border:1px solid #e6e8eb" type="text" class="w-75" placeholder="эксплуатирующих организаций,опроса населения и т. д.)"></span>
+                                                <span><input style="border:1px solid #e6e8eb" type="text" name="d_6" id="d_6" class="w-75" placeholder="эксплуатирующих организаций,опроса населения и т. д.)"></span>
                                             </p>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label">Обследование и нивелирование колодцев производилось с использование</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" type="text" placeholder="нивелир, рейка, рулетка, штанга и т. д"></textarea>
+                                                    <textarea class="form-control" name="d_7" id="d_7" type="text" placeholder="нивелир, рейка, рулетка, штанга и т. д"></textarea>
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label">Прослушивание ИПК выполнялось с применение трубокабелеискателей</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" type="text" placeholder="указать марку"></textarea>
+                                                    <textarea class="form-control" name="d_8" id="d_8" type="text" placeholder="указать марку"></textarea>
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label">Привязка точек прослушивания и съёмка выходов ИПК производилась</label>
                                                 <div class="col-sm-9">
-                                                    <textarea class="form-control" type="text" placeholder="указать от чего, метод, инструменты"></textarea>
+                                                    <textarea class="form-control" type="text" name="d_9" id="d_9" placeholder="указать от чего, метод, инструменты"></textarea>
                                                 </div>
                                             </div>
                                             <p>
                                                 Все выявленные подземные коммуникации нанесены на топографический план в масштабе 1:
-                                                <span><input style="border:1px solid #e6e8eb;" type="text" class="" placeholder=""></span>
+                                                <span><input style="border:1px solid #e6e8eb;" type="text" class="" name="d_10" id="d_10" placeholder=""></span>
                                                 и принятых условных знаках.
                                             </p>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label">Выполненные работы по выявлению подземных коммуникаций проконтролированы и приняты</label>
                                                 <div class="col-sm-9">
-                                                    <textarea
+                                                    <textarea name="d_11" id="d_11"
                                                             style="height: 100px;"
                                                             class="form-control"
                                                             type="text"
@@ -529,21 +648,612 @@
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label">Записку составил</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" placeholder="число, подпись, должность, фамилия, имя, отчество">
+                                                    <input class="form-control" type="text" name="d_12" id="d_12" placeholder="число, подпись, должность, фамилия, имя, отчество">
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
                                                 <label class="col-sm-3 col-form-label">Контроль и приемка работ</label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" placeholder="должность, Ф.И.О. проверяющего, дата проведения контроля и приемки, оценка работ">
+                                                    <input class="form-control" name="d_13" id="d_13" type="text" placeholder="должность, Ф.И.О. проверяющего, дата проведения контроля и приемки, оценка работ">
                                                 </div>
                                             </div>
-                                            <button class="btn btn-primary nextBtn pull-right" type="button">Yakunlash</button>
+                                            <button class="btn btn-primary nextBtn pull-right store" type="button">Yakunlash</button>
+                                            <input type="text" value="{{ work.id }}" id="work_id" style="display:none;">
+                                            <input type="text" value="{{ user.profile.full_name }}" id="worker" style="display:none;">
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
+
+
+
+
+                        {% else %}
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="#" method="POST">
+                                    <div class="setup-content" id="step-1">
+                                        <div class="col-xs-12">
+                                            <div class="file-sidebar ">
+                                                <div class="pricing-plan border-0">
+                                                    <div class="col-md-12">
+                                                        {% csrf_token %}
+{#                                                        <p class="text-end">ШНК 1.02.07-19 </p>#}
+{#                                                        <p class="text-end"> «УТВЕРЖДАЮ» Руководитель организации</p>#}
+{#                                                        <div class="row m-b-10">#}
+{#                                                            <div class="col-lg-7"></div>#}
+{#                                                            <div class="col-lg-5">#}
+{#                                                                <input class="form-control text-end" type="text" placeholder="Ф.И.О. подпись">#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+
+                                                        <div class="row">
+{#                                                            <div class="col-lg-7"></div>#}
+{#                                                            <div class="col-lg-5">#}
+{#                                                                <input class="datepicker-here form-control digits" type="text" data-multiple-dates="3" data-multiple-dates-separator=", " data-language="ru" data-bs-original-title="" title="">#}
+{#                                                            </div>#}
+{#                                                            <h5 class="text-center f-w-600 m-t-10">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h5>#}
+{#                                                            <h6 class="text-center">По топографо-геодезическим работам</h6>#}
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Топографо-геодезические работы</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" type="text" name="b1" id="b1" value="{{ form.b1 }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row m-t-15">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным</label>
+                                                                <div class="col-sm-9">
+                                                                    <textarea style="height: 100px;" class="form-control" type="text" name="b2" id="b2">{{ form.b2 }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                            <p>
+                                                                и договором №
+                                                                <span>
+
+                                                                    <input style="border: 1px solid #e6e8eb; border-radius: 3px;"  type="text" class="" value="{{ form.b_1 }}" id="b_1" name="b_1">
+                                                                </span>
+                                                                от
+                                                                <span>
+
+                                                                    <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" value="{{ form.b_2 }}" id="b_2" name="b_2">
+                                                                </span>
+
+                                                                20
+                                                                <span>
+                                                                    <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" value="{{ form.b_3 }}" id="b_3" name="b_3">
+                                                                </span>
+                                                                г
+                                                            </p>
+                                                            <div class="mb-3 row m-t-15">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе</label>
+                                                                <div class="col-sm-9">
+                                                                    <textarea style="height: 100px;" class="form-control" type="text" name="b3" id="b3">{{ form.b3 }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">3.1</span> Ответственный исполнитель</label>
+                                                                <div class="col-sm-9">
+                                                                    <input  type="text" class="form-control" value="{{ form.b3_1 }}" id="b3_1" name="b3_1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> Начальник партии</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control" value="{{ form.b4 }}" id="b4" name="b4">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> Система координат</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text"class="form-control" value="{{ form.b4 }}" id="b5" name="b5">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> Система высот</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text"class="form-control" value="{{ form.b4 }}" id="b6" name="b6">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> Исходные пункты (плановые и высотные)</label>
+                                                                <div class="col-sm-9">
+                                                                    <textarea style="height: 100px;" class="form-control" type="text" name="b7" id="b7" placeholder="названия и номера пунктов, класс-разряд, наименование организации выполнявшей работы, год производства, наименование объекта">{{ form.b7 }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">8</span> Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1</h5>
+                                                            <p class="text-end">Таблица 1</p>
+                                                            <div class="col-sm-12 m-t-10">
+                                                                <div class="card border-0">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered" id="childTable8">
+
+                                                                            <thead class="table-primary">
+                                                                            <tr>
+                                                                                <th scope="col">№</th>
+                                                                                <th scope="col">Наименование работ</th>
+                                                                                <th scope="col">Измеритель</th>
+                                                                                <th scope="col">Объемы работ по проекту</th>
+                                                                                <th scope="col">Фактически выполнено</th>
+                                                                                <th scope="col"></th>
+                                                                            </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td scope="row">1</td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form1.b8_1 }}" name="b8_1" id="b8_1" placeholder="">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form1.b8_2 }}" name="b8_2" id="b8_2" placeholder="">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form1.b8_3 }}" name="b8_3" id="b8_3" placeholder="">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form1.b8_4 }}" name="b8_4" id="b8_4" placeholder="">
+                                                                                </td>
+                                                                                <td><i id="addrow8" onclick="childrentabl6()"  class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                            </tr>
+                                                                            </tbody>
+
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Номенклатура планшетов</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control" value="{{ form.b8_1_1 }}" id="b8_1_1" name="b8_1_1">
+                                                                </div>
+                                                            </div>
+                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> Каталог координат и высот исходных пунктов и точек долговременного закрепления</h5>
+                                                            <div class="col-sm-12 m-t-10">
+                                                                <div class="card border-0">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered" id="childTable9">
+                                                                            <thead class="table-primary">
+                                                                            <tr>
+                                                                                <th scope="col">№</th>
+                                                                                <th scope="col">Номер пункта и тип закрепления</th>
+                                                                                <th scope="col">Координаты x</th>
+                                                                                <th scope="col">Координаты y</th>
+                                                                                <th scope="col">Высота</th>
+                                                                                <th scope="col"></th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td scope="row">1</td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form2.b9_1 }}" name="b9_1" id="b9_1" placeholder="">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form2.b9_2 }}" name="b9_2" id="b9_2" placeholder="">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form2.b9_3 }}" name="b9_3" id="b9_3" placeholder="">
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <input class="border-0 w-100" type="text" value="{{ form2.b9_4 }}" name="b9_4" id="b9_4" placeholder="">
+                                                                                </td>
+                                                                                <td><i id="addrow9" onclick="childrentabl7()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> Планово-высотное обоснование выполнено</label>
+                                                                <div class="col-sm-9">
+                                                                        <textarea cols="5" class="form-control" type="text" placeholder="методы и точность определения планового положения точек съемочного
+                                                                             обоснования; методы и точность определения высот точек съемочного обоснования,
+                                                                             средняя длина ходов;" name="b10" id="b10">{{ form.b10 }}
+                                                                        </textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">11</span> Пункты съемочного обоснования закреплены</label>
+                                                                <div class="col-sm-9">
+                                                                     <input class="form-control" type="text" value="{{ form.b11 }}" name="b11" id="b11" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> Постоянные геодезические знаки сданы по акту на наблюдение за сохранностью представителю</label>
+                                                                <div class="col-sm-9">
+                                                                         <textarea
+                                                                           class="form-control"
+                                                                           type="text" name="b12" id="b12"
+                                                                           placeholder="должность, фамилия, имя, отчество представителя заказчика">{{ form.b12 }}
+                                                                           </textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">13</span> Угловые измерения проводились</label>
+                                                                <div class="col-sm-9">
+
+                                                                        <input class="form-control" name="b13" type="text" value="{{ form.b13 }}" id="b13" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">14</span> Линейные измерения выполнены</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" name="b14" id="b14" type="text" value="{{ form.b14 }}" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">15</span> Нивелирование производилось нивелиром</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" name="b15" id="b15" type="text" value="{{ form.b15 }}" placeholder="нивелир и его номер">
+                                                                </div>
+                                                            </div>
+                                                            <h5><span class="badge rounded-pill badge-primary">16</span> Уравнивание съёмочного обоснования произведено:</h5>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">a)</span> планового</label>
+                                                                <div class="col-sm-9">
+                                                                        <input class="form-control" type="text" name="b16_a" id="b16_a" value="{{ form.b16_a }}" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">б)</span> высотного</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" type="text" name="b16_b" id="b16_b" value="{{ form.b16_b }}" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn btn-success edit_poyasitelniy" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                                    <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="setup-content" id="step-2">
+                                        <div class="col-xs-12">
+                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">17</span> Техническая характеристика планового съемочного обоснования приводится в таблице 2.</h5>
+                                            <p class="text-end"> Таблица 2</p>
+                                            <div class="col-sm-12 m-t-10">
+                                                <div class="card border-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="childTableTen">
+                                                            <thead class="table-primary">
+                                                            <tr>
+                                                                <th scope="col">№</th>
+                                                                <th scope="col">Наименование хода</th>
+                                                                <th scope="col">Длина хода в км</th>
+                                                                <th scope="col">Число узлов</th>
+                                                                <th scope="col">Угловые невязки получен</th>
+                                                                <th scope="col">Угловые невязки допустим</th>
+                                                                <th scope="col">Линейные невязки абсолют</th>
+                                                                <th scope="col">Линейные невязки относит</th>
+                                                                <th scope="col"></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td scope="row">1</td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" value="{{ form3.b17_1 }}" name="b17_1" id="b17_1" placeholder="">
+                                                                </td>
+                                                                <td>
+
+                                                                    <input class="border-0 w-100" type="text" name="b17_2" id="b17_2" value="{{ form3.b17_2 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_2" id="b17_3" value="{{ form3.b17_3 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_4" id="b17_4" value="{{ form3.b17_4 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_5" id="b17_5" value="{{ form3.b17_5 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_6" id="b17_6" value="{{ form3.b17_6 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_7" id="b17_7" value="{{ form3.b17_7 }}" placeholder="">
+                                                                </td>
+                                                                <td><i id="addrowten" onclick="childrentablseven()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">18</span> Техническая характеристика высотного съемочного обоснования приводится в таблице 3.</h5>
+                                            <div class="col-sm-12 m-t-10">
+                                                <div class="card border-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="childTableEleven">
+                                                            <thead class="table-primary">
+                                                            <tr>
+                                                                <th scope="col">№</th>
+                                                                <th scope='col'>Наименование хода</th>
+                                                                <th scope="col">Число станций км/хода</th>
+                                                                <th scope="col">Невязки в ходах в мм получен</th>
+                                                                <th scope="col">Невязки в ходах в мм допустим</th>
+                                                                <th scope="col">Примечание</th>
+                                                                <th scope="col"></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td scope="row">1</td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_1" id="b18_1" value="{{ form4.b18_1 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_2" id="b18_2" value="{{ form4.b18_2 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b18_3" id="b18_3" value="{{ form4.b18_3 }}" placeholder="">
+                                                                </td>
+                                                                <td>
+
+                                                                    <input class="border-0 w-100" type="text" name="b18_4" id="b18_4" value="{{ form4.b18_4 }}" placeholder="">
+
+                                                                </td>
+                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" placeholder=""></td>
+                                                                <td><i id="addroweleven" onclick="childrentableight()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">19</span>  Топографическая съемка</label>
+                                                <div class="col-sm-9">
+                                                        <textarea class="form-control" type="text" name="b19" id="b19" placeholder="метод съемки, используемые инструменты и их номера;">{{ form.b19 }}</textarea>
+
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">19.1</span> Горизонтальная съемка застроенной территории производилась</label>
+                                                <div class="col-sm-9">
+
+                                                         <input class="form-control" type="text" name="b19_1" id="b19_1" value="{{ form.b19_1 }}" placeholder="">
+
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">19.2</span> Высотная съемка застроенной территории производилась</label>
+                                                <div class="col-sm-9">
+
+                                                         <input class="form-control" type="text" name="b19_2" id="b19_2" value="{{ form.b19_2 }}" placeholder="">
+
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">20</span>  Обновление топографической съемки</label>
+                                                <div class="col-sm-9">
+                                                    <textarea name="b20" id="b20"
+                                                            class="form-control"
+                                                            type="text"
+                                                            placeholder="масштаб, объем, методика, год выполнения и производитель,исходных планов, составление обновленных планов">
+                                                          {{ form.b20 }}
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <h5 class=""><span class="badge rounded-pill badge-primary">21</span> По выявлению и съёмке подземных коммуникаций на объекте:</h5>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label txt-danger">Работа выполнена исполнителем</label>
+                                                <div class="col-sm-9">
+                                                </div>
+                                            <p>в нижеследующем объёме:</p>
+                                            <div class="col-sm-12">
+                                                <div class="card border-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead class="table-primary">
+                                                            <tr>
+                                                                <th scope="col">№</th>
+                                                                <th scope="col">Виды работ</th>
+                                                                <th scope="col">Ед.измерен</th>
+                                                                <th scope="col">Объём работ</th>
+                                                                <th scope="col">Категория</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <th scope="row">1</th>
+                                                                <td>Рекогносцировка трасс ИПК</td>
+                                                                <td>км</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_1" id="c_1"  value="{{ form.c_1 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_2" id="c_2" value="{{ form.c_2 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">2</th>
+                                                                <td>Прослушивание и привязка точек ИПК</td>
+                                                                <td>точка</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_3" id="c_3" value="{{ form.c_3 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_4" id="c_4" value="{{ form.c_4 }}"  placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">3</th>
+                                                                <td>Прослушивание точек ИПК без привязки с К=0,56</td>
+                                                                <td>точка</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_5" id="c_5" value="{{ form.c_5 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_6" id="c_6" value="{{ form.c_6 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">4</th>
+                                                                <td>Определение глубин заложения ИПК</td>
+                                                                <td>точка</td>
+                                                                <td><input class="border-0 w-100" type="text"name="c_7" id="c_7" value="{{ form.c_7 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_8" id="c_8" value="{{ form.c_8 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">5</th>
+                                                                <td>Привязка выходов ИПК</td>
+                                                                <td>точка</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_9" id="c_9" value="{{ form.c_9 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_10" id="c_10" value="{{ form.c_10 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">6</th>
+                                                                <td>Обследование колодцев</td>
+                                                                <td>колодец</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_11" id="c_11" value="{{ form.c_11 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_12" id="c_12" value="{{ form.c_12 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">7</th>
+                                                                <td>Нивелирование колодцев с коэффициентом = 0,5</td>
+                                                                <td>га</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_13" id="c_13" value="{{ form.c_13 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_14"  id="c_14" value="{{ form.c_14 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">8</th>
+                                                                <td>Описание надземных сооружений, коммуникаций</td>
+                                                                <td>опора,узел</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_15" id="c_15" value="{{ form.c_15 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_16" id="c_16" value="{{ form.c_16 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">9</th>
+                                                                <td>Нивелирование надземных сооружений</td>
+                                                                <td>опора, точка</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_17" id="c_17" value="{{ form.c_17 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_18" id="c_18" value="{{ form.c_18 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">10</th>
+                                                                <td>Обследование территории съёмки, где отсутствуют ИПК</td>
+                                                                <td>га</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_19" value="{{ form.c_19 }}" id="c_19" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_20" id="c_20" value="{{ form.c_20 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">11</th>
+                                                                <td>Обследование колодцев с К=0,5; (завален, залит)</td>
+                                                                <td>колодец</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_21" id="c_21" value="{{ form.c_21 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_22" id="c_22" value="{{ form.c_22 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">12</th>
+                                                                <td>Составление ведомости экспликации колодцев ИПК</td>
+                                                                <td>колодец</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_23" id="c_23" value="{{ form.c_23 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_24" id="c_24" value="{{ form.c_24 }}" placeholder=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">13</th>
+                                                                <td>Составление планов ИПК</td>
+                                                                <td>га</td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_25" id="c_25" value="{{ form.c_25 }}" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="c_26" id="c_26" value="{{ form.c_26 }}" placeholder=""></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn btn-success edit_poyasitelniy" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                    </div>
+                                    </div>
+
+                                    <div class="setup-content" id="step-3">
+                                        <div class="col-xs-12">
+                                            <h5>Инженерные подземные сети представлены:</h5>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Работа выполнена исполнителем</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" name="d_1" id="d_1" value="{{ form.d_1 }}" placeholder="перечислить: газопровод, водопровод, теплотрасса, напорная канализация т.д">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Самотечные трубопроводы:</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" type="text" name="d_2" id="d_2" placeholder="перечислить: дренаж, фекальная канализация, ливневая канализация,">{{ form.d_2 }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Кабельныелинии:</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" type="text" name="d_3" id="d_3" placeholder="перечислить: в/в эл. кабели, н/в эл. кабели, связь,сигнализация и т.д">{{ form.d_3 }}</textarea>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                Неметаллические трубопроводы и резервные кабели
+                                                <span><input style="border:1px solid #e6e8eb" type="text" name="d_4" class="w-25" id="d_4" value="{{ form.d_4 }}" placeholder="перечислить: какие)"></span>
+                                                на планшета
+                                                <span><input style="border:1px solid #e6e8eb" type="text" name="d_5" id="d_5" value="{{ form.d_5 }}" class="w-50 m-b-10 m-t-10" placeholder="указать номенклатуру"></span>
+                                                нанесены по неуточнённым данным
+                                                <span><input style="border:1px solid #e6e8eb" type="text" name="d_6" id="d_6" class="w-75" value="{{ form.d_6 }}" placeholder="эксплуатирующих организаций,опроса населения и т. д.)"></span>
+                                            </p>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Обследование и нивелирование колодцев производилось с использование</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" name="d_7" id="d_7" type="text" placeholder="нивелир, рейка, рулетка, штанга и т. д">{{ form.d_7 }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Прослушивание ИПК выполнялось с применение трубокабелеискателей</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" name="d_8" id="d_8" type="text" placeholder="указать марку">{{ form.d_8 }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Привязка точек прослушивания и съёмка выходов ИПК производилась</label>
+                                                <div class="col-sm-9">
+                                                    <textarea class="form-control" type="text" name="d_9" id="d_9" placeholder="указать от чего, метод, инструменты">{{ form.d_9 }}</textarea>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                Все выявленные подземные коммуникации нанесены на топографический план в масштабе 1:
+                                                <span><input style="border:1px solid #e6e8eb;" type="text" class="" name="d_10" id="d_10" placeholder="" value="{{ form.d_10 }}"></span>
+                                                и принятых условных знаках.
+                                            </p>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Выполненные работы по выявлению подземных коммуникаций проконтролированы и приняты</label>
+                                                <div class="col-sm-9">
+                                                    <textarea name="d_11" id="d_11"
+                                                            style="height: 100px;"
+                                                            class="form-control"
+                                                            type="text"
+                                                            placeholder="должность, фамилия, имя, отчество,
+                                                            число, оценка качества работ">{{ form.d_11 }}
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Записку составил</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" name="d_12" id="d_12" value="{{ form.d_12 }}" placeholder="число, подпись, должность, фамилия, имя, отчество">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label class="col-sm-3 col-form-label">Контроль и приемка работ</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" name="d_13" id="d_13" type="text" value="{{ form.d_13 }}" placeholder="должность, Ф.И.О. проверяющего, дата проведения контроля и приемки, оценка работ">
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" type="button">Yakunlash</button>
+                                            <input type="text" value="{{ work.id }}" id="work_id" style="display:none;">
+                                            <input type="text" value="{{ user.profile.full_name }}" id="worker" style="display:none;">
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        {% endif %}
+
+
                         <div class="stepwizard">
                             <div class="stepwizard-row setup-panel">
                                 <div class="stepwizard-step"><a class="btn btn-primary" href="#step-1">1</a></div>
@@ -557,5 +1267,252 @@
             <!-- Container-fluid Ends-->
         </div>
     </div>
+{#<script src="{% static 'assets/js/script.js' %}"></script>#}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).on('click',".store",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+
+        data.append("work_id", $('#work_id').val());
+        data.append("worker", $('#worker').val());
+        data.append("b1", $('#b1').val());
+        data.append("b2", $('#b2').val());
+        data.append("b_1", $('#b_1').val());
+        data.append("b_2", $('#b_2').val());
+        data.append("b3", $('#b3').val());
+        data.append("b3_1", $('#b3_1').val());
+        data.append("b4", $('#b4').val());
+        data.append("b5", $('#b5').val());
+        data.append("b6", $('#b6').val());
+        data.append("b7", $('#b7').val());
+        data.append("b8_1_1", $('#b8_1_1').val());
+        data.append("b10", $('#b10').val());
+        data.append("b11", $('#b11').val());
+        data.append("b12", $('#b12').val());
+        data.append("b13", $('#b13').val());
+        data.append("b14", $('#b14').val());
+        data.append("b15", $('#b15').val());
+        data.append("b16", $('#b16').val());
+        data.append("b16_a", $('#b16_a').val());
+        data.append("b16_b", $('#b16_b').val());
+        data.append("b19", $('#b19').val());
+        data.append("b19_1", $('#b19_1').val());
+        data.append("b19_2", $('#b19_2').val());
+        data.append("b20", $('#b20').val());
+        data.append("b21", $('#b21').val());
+
+        data.append("c_1", $('#c_1').val());
+        data.append("c_2", $('#c_2').val());
+        data.append("c_3", $('#c_3').val());
+        data.append("c_4", $('#c_4').val());
+        data.append("c_5", $('#c_5').val());
+        data.append("c_6", $('#c_6').val());
+        data.append("c_7", $('#c_7').val());
+        data.append("c_8", $('#c_8').val());
+        data.append("c_9", $('#c_9').val());
+        data.append("c_10", $('#c_10').val());
+        data.append("c_11", $('#c_11').val());
+        data.append("c_12", $('#c_12').val());
+        data.append("c_13", $('#c_13').val());
+        data.append("c_14", $('#c_14').val());
+        data.append("c_15", $('#c_15').val());
+        data.append("c_16", $('#c_16').val());
+        data.append("c_17", $('#c_17').val());
+        data.append("c_18", $('#c_18').val());
+        data.append("c_19", $('#c_19').val());
+        data.append("c_20", $('#c_20').val());
+        data.append("c_21", $('#c_21').val());
+        data.append("c_22", $('#c_22').val());
+        data.append("c_23", $('#c_23').val());
+        data.append("c_24", $('#c_24').val());
+        data.append("c_25", $('#c_25').val());
+        data.append("c_26", $('#c_26').val());
+
+        data.append("d_1", $('#d_1').val());
+        data.append("d_2", $('#d_2').val());
+        data.append("d_3", $('#d_3').val());
+        data.append("d_4", $('#d_4').val());
+        data.append("d_5", $('#d_5').val());
+        data.append("d_6", $('#d_6').val());
+        data.append("d_7", $('#d_7').val());
+        data.append("d_8", $('#d_8').val());
+        data.append("d_9", $('#d_9').val());
+        data.append("d_10", $('#d_10').val());
+        data.append("d_11", $('#d_11').val());
+        data.append("d_12", $('#d_12').val());
+        data.append("d_13", $('#d_13').val());
+
+        data.append("b8_1", $('#b8_1').val());
+        data.append("b8_2", $('#b8_2').val());
+        data.append("b8_3", $('#b8_3').val());
+        data.append("b8_4", $('#b8_4').val());
+
+        data.append("b9_1", $('#b9_1').val());
+        data.append("b9_2", $('#b9_2').val());
+        data.append("b9_3", $('#b9_3').val());
+        data.append("b9_4", $('#b9_4').val());
+
+        data.append("b17_1", $('#b17_1').val());
+        data.append("b17_2", $('#b17_2').val());
+        data.append("b17_3", $('#b17_3').val());
+        data.append("b17_4", $('#b17_4').val());
+        data.append("b17_5", $('#b17_5').val());
+        data.append("b17_6", $('#b17_6').val());
+        data.append("b17_7", $('#b17_7').val());
+
+        data.append("b18_1", $('#b18_1').val());
+        data.append("b18_2", $('#b18_2').val());
+        data.append("b18_3", $('#b18_3').val());
+        data.append("b18_4", $('#b18_4').val());
+        data.append("b18_5", $('#b18_5').val());
+
+
+
+        event.preventDefault();
+        $.ajax({
+           type: 'POST',
+           url: '{% url 'store' %}',
+           data: data,
+           cache: false,
+           contentType: false,
+           processData: false,
+
+           success: function (result){
+               location.replace(window.location.pathname);
+           },
+
+           error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+        });
+
+    });
+</script>
+
+    <script type="text/javascript">
+    $(document).on('click',".edit_poyasitelniy",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+
+        data.append("work_id", $('#work_id').val());
+        data.append("worker", $('#worker').val());
+        data.append("b1", $('#b1').val());
+        data.append("b2", $('#b2').val());
+        data.append("b_1", $('#b_1').val());
+        data.append("b_2", $('#b_2').val());
+        data.append("b3", $('#b3').val());
+        data.append("b3_1", $('#b3_1').val());
+        data.append("b4", $('#b4').val());
+        data.append("b5", $('#b5').val());
+        data.append("b6", $('#b6').val());
+        data.append("b7", $('#b7').val());
+        data.append("b8_1_1", $('#b8_1_1').val());
+        data.append("b10", $('#b10').val());
+        data.append("b11", $('#b11').val());
+        data.append("b12", $('#b12').val());
+        data.append("b13", $('#b13').val());
+        data.append("b14", $('#b14').val());
+        data.append("b15", $('#b15').val());
+        data.append("b16", $('#b16').val());
+        data.append("b16_a", $('#b16_a').val());
+        data.append("b16_b", $('#b16_b').val());
+        data.append("b19", $('#b19').val());
+        data.append("b19_1", $('#b19_1').val());
+        data.append("b19_2", $('#b19_2').val());
+        data.append("b20", $('#b20').val());
+        data.append("b21", $('#b21').val());
+
+        data.append("c_1", $('#c_1').val());
+        data.append("c_2", $('#c_2').val());
+        data.append("c_3", $('#c_3').val());
+        data.append("c_4", $('#c_4').val());
+        data.append("c_5", $('#c_5').val());
+        data.append("c_6", $('#c_6').val());
+        data.append("c_7", $('#c_7').val());
+        data.append("c_8", $('#c_8').val());
+        data.append("c_9", $('#c_9').val());
+        data.append("c_10", $('#c_10').val());
+        data.append("c_11", $('#c_11').val());
+        data.append("c_12", $('#c_12').val());
+        data.append("c_13", $('#c_13').val());
+        data.append("c_14", $('#c_14').val());
+        data.append("c_15", $('#c_15').val());
+        data.append("c_16", $('#c_16').val());
+        data.append("c_17", $('#c_17').val());
+        data.append("c_18", $('#c_18').val());
+        data.append("c_19", $('#c_19').val());
+        data.append("c_20", $('#c_20').val());
+        data.append("c_21", $('#c_21').val());
+        data.append("c_22", $('#c_22').val());
+        data.append("c_23", $('#c_23').val());
+        data.append("c_24", $('#c_24').val());
+        data.append("c_25", $('#c_25').val());
+        data.append("c_26", $('#c_26').val());
+
+        data.append("d_1", $('#d_1').val());
+        data.append("d_2", $('#d_2').val());
+        data.append("d_3", $('#d_3').val());
+        data.append("d_4", $('#d_4').val());
+        data.append("d_5", $('#d_5').val());
+        data.append("d_6", $('#d_6').val());
+        data.append("d_7", $('#d_7').val());
+        data.append("d_8", $('#d_8').val());
+        data.append("d_9", $('#d_9').val());
+        data.append("d_10", $('#d_10').val());
+        data.append("d_11", $('#d_11').val());
+        data.append("d_12", $('#d_12').val());
+        data.append("d_13", $('#d_13').val());
+
+        data.append("b8_1", $('#b8_1').val());
+        data.append("b8_2", $('#b8_2').val());
+        data.append("b8_3", $('#b8_3').val());
+        data.append("b8_4", $('#b8_4').val());
+
+        data.append("b9_1", $('#b9_1').val());
+        data.append("b9_2", $('#b9_2').val());
+        data.append("b9_3", $('#b9_3').val());
+        data.append("b9_4", $('#b9_4').val());
+
+        data.append("b17_1", $('#b17_1').val());
+        data.append("b17_2", $('#b17_2').val());
+        data.append("b17_3", $('#b17_3').val());
+        data.append("b17_4", $('#b17_4').val());
+        data.append("b17_5", $('#b17_5').val());
+        data.append("b17_6", $('#b17_6').val());
+        data.append("b17_7", $('#b17_7').val());
+
+        data.append("b18_1", $('#b18_1').val());
+        data.append("b18_2", $('#b18_2').val());
+        data.append("b18_3", $('#b18_3').val());
+        data.append("b18_4", $('#b18_4').val());
+        data.append("b18_5", $('#b18_5').val());
+
+
+
+        event.preventDefault();
+        $.ajax({
+           type: 'POST',
+           url: '{% url 'edit_poyasitelniy' %}',
+           data: data,
+           cache: false,
+           contentType: false,
+           processData: false,
+
+           success: function (result){
+               location.replace(window.location.pathname);
+           },
+
+           error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+        });
+
+    });
+</script>
+
+        <script src="{% static 'assets/js/boottable.js' %}"></script>
 
     {% endblock %}

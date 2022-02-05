@@ -243,6 +243,8 @@ class WorkerObject(models.Model):
     vidimes_file = models.FileField("Vidimes hujjat fayli", upload_to='topografiya/static/files/vidimes', blank=True)
     list_agreement_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/agreementfiles', blank=True)
     status = models.IntegerField(default=0)
+    # status = 0 bolsa yangi
+    # status = 1 tekshiruvga kelgan
 
     def __str__(self):
         return self.object.pdowork.object_name
@@ -293,13 +295,151 @@ class SirieFiles(models.Model):
 
 class PoyasitelniyForm(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectpoyasitelniy')
+
+    b1 = models.TextField(blank=True)
+    b2 = models.TextField(blank=True)
+    b_1 = models.TextField(blank=True)
+    b_2 = models.TextField(blank=True)
+    b3 = models.TextField(blank=True)
+    b3_1 = models.TextField(blank=True)
+    b4 = models.TextField(blank=True)
+    b5 = models.TextField(blank=True)
+    b6 = models.TextField(blank=True)
+    b7 = models.TextField(blank=True)
+    # jadval
+    b8_1_1 = models.TextField(blank=True)
+    # jadval
+    b10 = models.TextField(blank=True)
+    b11 = models.TextField(blank=True)
+    b12 = models.TextField(blank=True)
+    b13 = models.TextField(blank=True)
+    b14 = models.TextField(blank=True)
+    b15 = models.TextField(blank=True)
+    b16_a = models.TextField(blank=True)
+    b16_b = models.TextField(blank=True)
+    # jadval
+    # jadval
+    b19 = models.TextField(blank=True)
+    b19_1 = models.TextField(blank=True)
+    b19_2 = models.TextField(blank=True)
+    b20 = models.TextField(blank=True)
+    b21 = models.TextField(blank=True)
+    # table
+    c_1 = models.TextField(blank=True)
+    c_2 = models.TextField(blank=True)
+    c_3 = models.TextField(blank=True)
+    c_4 = models.TextField(blank=True)
+    c_5 = models.TextField(blank=True)
+    c_6 = models.TextField(blank=True)
+    c_7 = models.TextField(blank=True)
+    c_8 = models.TextField(blank=True)
+    c_9 = models.TextField(blank=True)
+    c_10 = models.TextField(blank=True)
+    c_11 = models.TextField(blank=True)
+    c_12 = models.TextField(blank=True)
+    c_13 = models.TextField(blank=True)
+    c_14 = models.TextField(blank=True)
+    c_15 = models.TextField(blank=True)
+    c_16 = models.TextField(blank=True)
+    c_17 = models.TextField(blank=True)
+    c_18 = models.TextField(blank=True)
+    c_19 = models.TextField(blank=True)
+    c_20 = models.TextField(blank=True)
+    c_21 = models.TextField(blank=True)
+    c_22 = models.TextField(blank=True)
+    c_23 = models.TextField(blank=True)
+    c_24 = models.TextField(blank=True)
+    c_25 = models.TextField(blank=True)
+    c_26 = models.TextField(blank=True)
+
+    d_1 = models.TextField(blank=True)
+    d_2 = models.TextField(blank=True)
+    d_3 = models.TextField(blank=True)
+    d_4 = models.TextField(blank=True)
+    d_5 = models.TextField(blank=True)
+    d_6 = models.TextField(blank=True)
+    d_7 = models.TextField(blank=True)
+    d_8 = models.TextField(blank=True)
+    d_9 = models.TextField(blank=True)
+    d_10 = models.TextField(blank=True)
+    d_11 = models.TextField(blank=True)
+    d_12 = models.TextField(blank=True)
+    d_13 = models.TextField(blank=True)
+
     info = models.TextField(blank=True)
     status = models.IntegerField(default=0)
     def __str__(self):
-        return self.info
+        return self.b1
 
     class Meta:
         verbose_name_plural = "PoyasitelniyForm"
+
+class PoyasitelniyFormTable1(models.Model):
+    poyasitelniyform = models.ForeignKey(PoyasitelniyForm, blank=True, on_delete=models.CASCADE, related_name='workerobjectpoyasitelniyformtable1')
+
+    b8_1 = models.TextField(blank=True)
+    b8_2 = models.TextField(blank=True)
+    b8_3 = models.TextField(blank=True)
+    b8_4 = models.TextField(blank=True)
+    # jadval
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.b8_1
+
+    class Meta:
+        verbose_name_plural = "PoyasitelniyFormTable1"
+
+class PoyasitelniyFormTable2(models.Model):
+    poyasitelniyform = models.ForeignKey(PoyasitelniyForm, blank=True, on_delete=models.CASCADE, related_name='workerobjectpoyasitelniyformtable2')
+
+    b9_1 = models.TextField(blank=True)
+    b9_2 = models.TextField(blank=True)
+    b9_3 = models.TextField(blank=True)
+    b9_4 = models.TextField(blank=True)
+    # jadval
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.b9_1
+
+    class Meta:
+        verbose_name_plural = "PoyasitelniyFormTable2"
+
+class PoyasitelniyFormTable3(models.Model):
+    poyasitelniyform = models.ForeignKey(PoyasitelniyForm, blank=True, on_delete=models.CASCADE, related_name='workerobjectpoyasitelniyformtable3')
+
+    b17_1 = models.TextField(blank=True)
+    b17_2 = models.TextField(blank=True)
+    b17_3 = models.TextField(blank=True)
+    b17_4 = models.TextField(blank=True)
+    b17_5 = models.TextField(blank=True)
+    b17_6 = models.TextField(blank=True)
+    b17_7 = models.TextField(blank=True)
+    # jadval
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.b17_1
+
+    class Meta:
+        verbose_name_plural = "PoyasitelniyFormTable3"
+
+class PoyasitelniyFormTable4(models.Model):
+    poyasitelniyform = models.ForeignKey(PoyasitelniyForm, blank=True, on_delete=models.CASCADE, related_name='workerobjectpoyasitelniyformtable4')
+    b18_1 = models.TextField(blank=True)
+    b18_2 = models.TextField(blank=True)
+    b18_3 = models.TextField(blank=True)
+    b18_4 = models.TextField(blank=True)
+    b18_5 = models.TextField(blank=True)
+    # jadval
+    info = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    def __str__(self):
+        return self.b18_1
+
+    class Meta:
+        verbose_name_plural = "PoyasitelniyFormTable4"
 
 class TopografikPlan(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjecttopografikplan')
@@ -345,6 +485,9 @@ class History(models.Model):
     # status=5 bolsa bu program rabotni rad etilgan
     # status=6 bolsa bu program rabotni qayta tekshiruvga yuborildi
     # status = 7, Dala nazoratiga sirie ma'lumotlari yuklandi
+    # status = 8, Dala nazoratiga fayl yuklandi
+    # status = 9, Dala nazoratiga poyasitelniy formaga ma'lumot yuklandi
+    # status = 10, Dala nazorati tekshiruviga yuborilgan ish
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)

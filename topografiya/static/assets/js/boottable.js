@@ -88,3 +88,56 @@ function childrentabl1() {
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addrow3" onclick="childrentabl1()"\n' + '/></td>\n' +'</td></tr>');
 }
+
+var t = 1;
+function childrentabl6() {
+    t++;
+    $('#childTable8').find('tbody').append('<tr><th scope="row">' + t +
+        '</th>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addrow8" onclick="childrentabl6()"\n' + '/></td>\n' +'</td></tr>');
+}
+var h = 1;
+function childrentabl7() {
+    h++;
+    $('#childTable9').find('tbody').append('<tr><th scope="row">' + h +
+        '</th>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addrow9" onclick="childrentabl7()"\n' + '/></td>\n' +'</td></tr>');
+}
+var l = 1;
+function childrentablseven() {
+    l++;
+    $('#childTableTen').find('tbody').append('<tr><th scope="row">' + l +
+        '</th>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addrowten" onclick="childrentablseven()"\n' + '/></td>\n' +'</td></tr>');
+}
+var l = 1;
+function childrentableight() {
+    l++;
+    $('#childTableEleven').find('tbody').append('<tr><th scope="row">' + l +
+        '</th>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addroweleven" onclick="childrentableight()"\n' + '/></td>\n' +'</td></tr>');
+}
