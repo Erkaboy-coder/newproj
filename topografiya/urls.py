@@ -18,6 +18,9 @@ urlpatterns = [
     re_path(r'^start/$', views.start, name='start'),
     re_path(r'^order_to_pdf$', views.order_to_pdf, name='order_to_pdf'),
     re_path(r'^edit_pdowork_changes/$', views.edit_pdowork_changes, name='edit_pdowork_changes'),
+    re_path(r'^leader_polevoy_works/$', views.leader_polevoy_works, name='leader_polevoy_works'),
+    re_path(r'^checking_polevoy_works/(?P<id>\d+)/$', views.checking_polevoy_works, name='checking_polevoy_works'),
+
     # worker
     re_path(r'^worker_new_works/$', views.worker_new_works, name='worker_new_works'),
     re_path(r'^polevoy_works/$', views.polevoy_works, name='polevoy_works'),

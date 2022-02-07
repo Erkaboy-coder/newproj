@@ -25,6 +25,7 @@ def counter():
 
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
     count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
+    count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
 
     return count
 
@@ -157,6 +158,31 @@ def history_program_work(request):
 
     context = {'pdoworks': pdoworks, 'count': counter()}
     return render(request, 'leader/history_program_work.html', context)
+
+def leader_polevoy_works(request):
+    # status_recive = 1 is started work but not recived by worker
+    # new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).all() # yangi kelgan
+    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).all() # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).all() # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
+    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
+
+    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter()}
+    return render(request, 'leader/polevoy_works.html', context)
+
+def checking_polevoy_works(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order}
+
+    return render(request, 'leader/checking_polevoy_works.html', context)
+
+# leader
+
 
 # worker
 def worker_new_works(request):
@@ -698,11 +724,33 @@ def save_files(request):
 
 
         object = WorkerObject.objects.filter(id=id).first()
-        object.abris_file = abris
-        object.kroki_file = kroki
-        object.jurnal_file = jurnal
-        object.vidimes_file = vidimes
-        object.list_agreement_file = list
+
+        if object.abris_file == '':
+            object.abris_file = abris
+        else:
+            object.abris_file = object.abris_file
+
+        if object.kroki_file == '':
+            object.kroki_file = kroki
+        else:
+            object.kroki_file = object.kroki_file
+
+
+        if object.jurnal_file == '':
+            object.jurnal_file = jurnal
+        else:
+            object.jurnal_file = object.jurnal_file
+
+        if object.vidimes_file == '':
+            object.vidimes_file = vidimes
+        else:
+            object.vidimes_file = object.vidimes_file
+
+        if object.list_agreement_file == '':
+            object.list_agreement_file = list
+        else:
+            object.list_agreement_file = object.list_agreement_file
+
         object.save()
 
         object_id = Object.objects.filter(id=object.object.id).first()

@@ -156,12 +156,18 @@
                                         <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
                                         <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури
                                             {% if count.new_program_works_leader != 0 %}
-                                                <span class="badge badge-danger rounded-pill">
+                                                <span class="badge rounded-pill badge-danger">
                                                      {{ count.new_program_works_leader }}
                                                 </span>
                                               {% endif %}
                                         </a></li>
-                                        <li><a href="{% url 'polevoy_works' %}">Дала назорати</a></li>
+                                        <li><a href="{% url 'leader_polevoy_works' %}">Дала назорати
+                                             {% if count.new_polevoy_works_leader != 0 %}
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
+                                                     {{ count.new_polevoy_works_leader }}
+                                                </span>
+                                              {% endif %}
+                                        </a></li>
                                         <li><a href="../starter-kit/kawork.html">Камерал назорат</a></li>
                                         <li><a href="../starter-kit/gework.html">Бош геодезист назорати</a></li>
                                     </ul>
@@ -177,7 +183,7 @@
 
                                         <span>Tопшириклар &nbsp;&nbsp;
                                               {% if count.new_works_worker != 0 %}
-                                                <span class="badge badge-danger rounded-pill">
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_works_worker }}
                                                 </span>
                                               {% endif %}
@@ -190,7 +196,7 @@
 {#                                    <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>#}
                                     <li><a href="{% url 'polevoy_works' %}">Дала назорати
                                         {% if count.new_field_works != 0 %}
-                                                <span class="badge badge-danger rounded-pill">
+                                            <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_field_works }}
                                                 </span>
                                               {% endif %}
@@ -209,7 +215,7 @@
                                     <li>
                                         <a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури
                                     {% if count.new_works_geodezis != 0 %}
-                                                <span class="badge badge-danger rounded-pill">
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_works_geodezis }}
                                                 </span>
                                               {% endif %}
