@@ -213,27 +213,414 @@ class ProgramWorkFormTable2(models.Model):
 
 class AktKomeralForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktkomeralobject')
-    status_komeral_work = models.IntegerField(default=0)
-
     status = models.IntegerField(default=0)
+
+    a1 = models.TextField(blank=True)
+    a2 = models.TextField(blank=True)
+    a3 = models.TextField(blank=True)
+    a4 = models.TextField(blank=True)
+    a5 = models.TextField(blank=True)
+    a6 = models.TextField(blank=True)
+    a7 = models.TextField(blank=True)
+    a8 = models.TextField(blank=True)
+    a9 = models.TextField(blank=True)
+    a10 = models.TextField(blank=True)
+    a11 = models.TextField(blank=True)
+    a12 = models.TextField(blank=True)
+    a13 = models.TextField(blank=True)
+    a14 = models.TextField(blank=True)
+    a15 = models.TextField(blank=True)
+    a16 = models.TextField(blank=True)
+    a17 = models.TextField(blank=True)
+    a18 = models.TextField(blank=True)
+    a19 = models.TextField(blank=True)
+    a20 = models.TextField(blank=True)
+    a21 = models.TextField(blank=True)
+    a22 = models.TextField(blank=True)
+    a23 = models.TextField(blank=True)
+    a24 = models.TextField(blank=True)
+    a25 = models.TextField(blank=True)
+    a26 = models.TextField(blank=True)
+    a27 = models.TextField(blank=True)
+    a28 = models.TextField(blank=True)
+    a29 = models.TextField(blank=True)
+    a30 = models.TextField(blank=True)
+    a31 = models.TextField(blank=True)
+    a32 = models.TextField(blank=True)
+    a33 = models.TextField(blank=True)
+    a34 = models.TextField(blank=True)
+    a35 = models.TextField(blank=True)
+    a36 = models.TextField(blank=True)
+    a37 = models.TextField(blank=True)
+    a38 = models.TextField(blank=True)
+    a39 = models.TextField(blank=True)
+    a40 = models.TextField(blank=True)
+    a41 = models.TextField(blank=True)
+    a42 = models.TextField(blank=True)
+    a43 = models.TextField(blank=True)
+    a44 = models.TextField(blank=True)
+    a45 = models.TextField(blank=True)
+    a46 = models.TextField(blank=True)
+    a47 = models.TextField(blank=True)
+    a48 = models.TextField(blank=True)
+    a49 = models.TextField(blank=True)
+    a50 = models.TextField(blank=True)
+    a51 = models.TextField(blank=True)
+    a52 = models.TextField(blank=True)
+    a53 = models.TextField(blank=True)
+    a54 = models.TextField(blank=True)
+    a55 = models.TextField(blank=True)
+    a56 = models.TextField(blank=True)
+    a57 = models.TextField(blank=True)
+    a58 = models.TextField(blank=True)
+    a59 = models.TextField(blank=True)
+    a60 = models.TextField(blank=True)
+    a61 = models.TextField(blank=True)
+    a62 = models.TextField(blank=True)
+    a63 = models.TextField(blank=True)
+    a64 = models.TextField(blank=True)
+    a65 = models.TextField(blank=True)
+    a66 = models.TextField(blank=True)
+    a67 = models.TextField(blank=True)
+    a68 = models.TextField(blank=True)
+    a69 = models.TextField(blank=True)
+    a70 = models.TextField(blank=True)
+    a71 = models.TextField(blank=True)
+    a72 = models.TextField(blank=True)
+    a73 = models.TextField(blank=True)
+    a74 = models.TextField(blank=True)
+    a75 = models.TextField(blank=True)
+    a76 = models.TextField(blank=True)
+    a77 = models.TextField(blank=True)
+    a78 = models.TextField(blank=True)
+    a79 = models.TextField(blank=True)
+    a80 = models.TextField(blank=True)
+    a81 = models.TextField(blank=True)
+    a82 = models.TextField(blank=True)
+    a83 = models.TextField(blank=True)
+    a84 = models.TextField(blank=True)
+    a85 = models.TextField(blank=True)
+    a86 = models.TextField(blank=True)
+    a87 = models.TextField(blank=True)
+    a88 = models.TextField(blank=True)
+    a89 = models.TextField(blank=True)
+    a90 = models.TextField(blank=True)
+    a91 = models.TextField(blank=True)
+    a92 = models.TextField(blank=True)
+    a93 = models.TextField(blank=True)
+    a94 = models.TextField(blank=True)
+    a95 = models.TextField(blank=True)
+    a96 = models.TextField(blank=True)
+    a97 = models.TextField(blank=True)
+    a98 = models.TextField(blank=True)
+    a99 = models.TextField(blank=True)
+    a100 = models.TextField(blank=True)
+    a101 = models.TextField(blank=True)
+    a102 = models.TextField(blank=True)
+    a103 = models.TextField(blank=True)
+    a104 = models.TextField(blank=True)
+    a105 = models.TextField(blank=True)
+    a106 = models.TextField(blank=True)
+    a107 = models.TextField(blank=True)
+    a108 = models.TextField(blank=True)
+    a109 = models.TextField(blank=True)
+    a110 = models.TextField(blank=True)
+    a111 = models.TextField(blank=True)
+    a112 = models.TextField(blank=True)
+    a113 = models.TextField(blank=True)
+    a114 = models.TextField(blank=True)
+    a115 = models.TextField(blank=True)
+    a116 = models.TextField(blank=True)
+    a117 = models.TextField(blank=True)
+    a118 = models.TextField(blank=True)
+    a119 = models.TextField(blank=True)
+    a120 = models.TextField(blank=True)
+    a121 = models.TextField(blank=True)
+    a122 = models.TextField(blank=True)
+    a123 = models.TextField(blank=True)
+    a124 = models.TextField(blank=True)
+    a125 = models.TextField(blank=True)
+    a126 = models.TextField(blank=True)
+
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
-        return self.status
+        return self.a1
 
     class Meta:
         verbose_name_plural = "AktKomeralForm"
 
 class AktPolevoyForm(models.Model):
-    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='sktpolevoyobject')
-    status_polevoy_work = models.IntegerField(default=0)
-
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktpolevoyobject')
     status = models.IntegerField(default=0)
+
+    a1 = models.TextField(blank=True)
+    a2 = models.TextField(blank=True)
+    a3 = models.TextField(blank=True)
+    a4 = models.TextField(blank=True)
+    a5 = models.TextField(blank=True)
+    a6 = models.TextField(blank=True)
+    a7 = models.TextField(blank=True)
+    a8 = models.TextField(blank=True)
+    a9 = models.TextField(blank=True)
+    a10 = models.TextField(blank=True)
+    a11 = models.TextField(blank=True)
+    a12 = models.TextField(blank=True)
+    a13 = models.TextField(blank=True)
+    a14 = models.TextField(blank=True)
+    a15 = models.TextField(blank=True)
+    a16 = models.TextField(blank=True)
+    a17 = models.TextField(blank=True)
+    a18 = models.TextField(blank=True)
+    a19 = models.TextField(blank=True)
+    a20 = models.TextField(blank=True)
+    a21 = models.TextField(blank=True)
+    a22 = models.TextField(blank=True)
+    a23 = models.TextField(blank=True)
+    a24 = models.TextField(blank=True)
+    a25 = models.TextField(blank=True)
+    a26 = models.TextField(blank=True)
+    a27 = models.TextField(blank=True)
+    a28 = models.TextField(blank=True)
+    a29 = models.TextField(blank=True)
+    a30 = models.TextField(blank=True)
+    a31 = models.TextField(blank=True)
+    a32 = models.TextField(blank=True)
+    a33 = models.TextField(blank=True)
+    a34 = models.TextField(blank=True)
+    a35 = models.TextField(blank=True)
+    a36 = models.TextField(blank=True)
+    a37 = models.TextField(blank=True)
+    a38 = models.TextField(blank=True)
+    a39 = models.TextField(blank=True)
+    a40 = models.TextField(blank=True)
+    a41 = models.TextField(blank=True)
+    a42 = models.TextField(blank=True)
+    a43 = models.TextField(blank=True)
+    a44 = models.TextField(blank=True)
+    a45 = models.TextField(blank=True)
+    a46 = models.TextField(blank=True)
+    a47 = models.TextField(blank=True)
+    a48 = models.TextField(blank=True)
+    a49 = models.TextField(blank=True)
+    a50 = models.TextField(blank=True)
+    a51 = models.TextField(blank=True)
+    a52 = models.TextField(blank=True)
+    a53 = models.TextField(blank=True)
+    a54 = models.TextField(blank=True)
+    a55 = models.TextField(blank=True)
+    a56 = models.TextField(blank=True)
+    a57 = models.TextField(blank=True)
+    a58 = models.TextField(blank=True)
+    a59 = models.TextField(blank=True)
+    a60 = models.TextField(blank=True)
+    a61 = models.TextField(blank=True)
+    a62 = models.TextField(blank=True)
+    a63 = models.TextField(blank=True)
+    a64 = models.TextField(blank=True)
+    a65 = models.TextField(blank=True)
+    a66 = models.TextField(blank=True)
+    a67 = models.TextField(blank=True)
+    a68 = models.TextField(blank=True)
+    a69 = models.TextField(blank=True)
+    a70 = models.TextField(blank=True)
+    a71 = models.TextField(blank=True)
+    a72 = models.TextField(blank=True)
+    a73 = models.TextField(blank=True)
+    a74 = models.TextField(blank=True)
+    a75 = models.TextField(blank=True)
+    a76 = models.TextField(blank=True)
+    a77 = models.TextField(blank=True)
+    a78 = models.TextField(blank=True)
+    a79 = models.TextField(blank=True)
+    a80 = models.TextField(blank=True)
+    a81 = models.TextField(blank=True)
+    a82 = models.TextField(blank=True)
+    a83 = models.TextField(blank=True)
+    a84 = models.TextField(blank=True)
+    a85 = models.TextField(blank=True)
+    a86 = models.TextField(blank=True)
+    a87 = models.TextField(blank=True)
+    a88 = models.TextField(blank=True)
+    a89 = models.TextField(blank=True)
+    a90 = models.TextField(blank=True)
+    a91 = models.TextField(blank=True)
+    a92 = models.TextField(blank=True)
+    a93 = models.TextField(blank=True)
+    a94 = models.TextField(blank=True)
+    a95 = models.TextField(blank=True)
+    a96 = models.TextField(blank=True)
+    a97 = models.TextField(blank=True)
+    a98 = models.TextField(blank=True)
+    a99 = models.TextField(blank=True)
+    a100 = models.TextField(blank=True)
+    a101 = models.TextField(blank=True)
+    a102 = models.TextField(blank=True)
+    a103 = models.TextField(blank=True)
+    a104 = models.TextField(blank=True)
+    a105 = models.TextField(blank=True)
+    a106 = models.TextField(blank=True)
+    a107 = models.TextField(blank=True)
+    a108 = models.TextField(blank=True)
+    a109 = models.TextField(blank=True)
+    a110 = models.TextField(blank=True)
+    a111 = models.TextField(blank=True)
+    a112 = models.TextField(blank=True)
+    a113 = models.TextField(blank=True)
+    a114 = models.TextField(blank=True)
+    a115 = models.TextField(blank=True)
+    a116 = models.TextField(blank=True)
+    a117 = models.TextField(blank=True)
+    a118 = models.TextField(blank=True)
+    a119 = models.TextField(blank=True)
+    a120 = models.TextField(blank=True)
+    a121 = models.TextField(blank=True)
+    a122 = models.TextField(blank=True)
+    a123 = models.TextField(blank=True)
+    a124 = models.TextField(blank=True)
+    a125 = models.TextField(blank=True)
+    a126 = models.TextField(blank=True)
+
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
-        return self.status
+        return self.a2
 
     class Meta:
         verbose_name_plural = "AktPolevoyForm"
+
+class AktPolovoyTable1(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable1')
+
+    a1_1 = models.TextField(blank=True)
+    a1_2 = models.TextField(blank=True)
+    a1_3 = models.TextField(blank=True)
+    a1_4 = models.TextField(blank=True)
+    a1_5 = models.TextField(blank=True)
+    a1_6 = models.TextField(blank=True)
+    a1_7 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a1_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable1"
+
+class AktPolovoyTable2(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable2')
+
+    a2_1 = models.TextField(blank=True)
+    a2_2 = models.TextField(blank=True)
+    a2_3 = models.TextField(blank=True)
+    a2_4 = models.TextField(blank=True)
+    a2_5 = models.TextField(blank=True)
+    a2_6 = models.TextField(blank=True)
+    a2_7 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a2_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable2"
+
+class AktPolovoyTable3(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable3')
+
+    a3_1 = models.TextField(blank=True)
+    a3_2 = models.TextField(blank=True)
+    a3_3 = models.TextField(blank=True)
+    a3_4 = models.TextField(blank=True)
+    a3_5 = models.TextField(blank=True)
+    a3_6 = models.TextField(blank=True)
+    a3_7 = models.TextField(blank=True)
+    a3_8 = models.TextField(blank=True)
+    a3_9 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a3_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable3"
+
+class AktPolovoyTable4(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable4')
+
+    a4_1 = models.TextField(blank=True)
+    a4_2 = models.TextField(blank=True)
+    a4_3 = models.TextField(blank=True)
+    a4_4 = models.TextField(blank=True)
+    a4_5 = models.TextField(blank=True)
+    a4_6 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a4_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable4"
+
+class AktPolovoyTable5(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable5')
+
+    a5_1 = models.TextField(blank=True)
+    a5_2 = models.TextField(blank=True)
+    a5_3 = models.TextField(blank=True)
+    a5_4 = models.TextField(blank=True)
+    a5_5 = models.TextField(blank=True)
+    a5_6 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a5_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable5"
+
+class AktPolovoyTable6(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable6')
+
+    a6_1 = models.TextField(blank=True)
+    a6_2 = models.TextField(blank=True)
+    a6_3 = models.TextField(blank=True)
+    a6_4 = models.TextField(blank=True)
+    a6_5 = models.TextField(blank=True)
+    a6_6 = models.TextField(blank=True)
+    a6_7 = models.TextField(blank=True)
+    a6_8 = models.TextField(blank=True)
+    a6_9 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a6_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable6"
+
+class AktPolovoyTable7(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable7')
+
+    a7_1 = models.TextField(blank=True)
+    a7_2 = models.TextField(blank=True)
+    a7_3 = models.TextField(blank=True)
+    a7_4 = models.TextField(blank=True)
+    a7_5 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a7_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable7"
+
+class AktPolovoyTable8(models.Model):
+    aktpolovoy = models.ForeignKey(AktPolevoyForm, blank=True, on_delete=models.CASCADE, related_name='aktpolovoytable8')
+
+    a8_1 = models.TextField(blank=True)
+    a8_2 = models.TextField(blank=True)
+    a8_3 = models.TextField(blank=True)
+    a8_4 = models.TextField(blank=True)
+    a8_5 = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.a8_1
+
+    class Meta:
+        verbose_name_plural = "AktPolovoyTable8"
+
 
 class WorkerObject(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='workerobject')
@@ -481,13 +868,15 @@ class Order(models.Model):
 class History(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='historyobject')
     status = models.IntegerField(default=0)
-    # status=4 bolsa bu program rabotni tasdiqlagan bo'ladi
-    # status=5 bolsa bu program rabotni rad etilgan
-    # status=6 bolsa bu program rabotni qayta tekshiruvga yuborildi
-    # status = 7, Dala nazoratiga sirie ma'lumotlari yuklandi
-    # status = 8, Dala nazoratiga fayl yuklandi
-    # status = 9, Dala nazoratiga poyasitelniy formaga ma'lumot yuklandi
-    # status = 10, Dala nazorati tekshiruviga yuborilgan ish
+    # status = 4 bolsa bu program rabotni tasdiqlagan bo'ladi
+    # status = 5 bolsa bu program rabotni rad etilgan
+    # status = 6 bolsa bu program rabotni qayta tekshiruvga yuborildi
+    # status = 7 Dala nazoratiga sirie ma'lumotlari yuklandi
+    # status = 8 Dala nazoratiga fayl yuklandi
+    # status = 9 Dala nazoratiga poyasitelniy formaga ma'lumot yuklandi
+    # status = 10 Dala nazorati tekshiruviga yuborilgan ish
+    # status = 11 Dala nazorati tekshiruvi akt yaratildi
+    # status = 12 Dala nazorati tekshiruvi akt o'zgartirildi
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)

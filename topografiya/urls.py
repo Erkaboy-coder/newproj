@@ -20,6 +20,8 @@ urlpatterns = [
     re_path(r'^edit_pdowork_changes/$', views.edit_pdowork_changes, name='edit_pdowork_changes'),
     re_path(r'^leader_polevoy_works/$', views.leader_polevoy_works, name='leader_polevoy_works'),
     re_path(r'^checking_polevoy_works/(?P<id>\d+)/$', views.checking_polevoy_works, name='checking_polevoy_works'),
+    re_path(r'^save_akt_polevoy$', views.save_akt_polevoy, name='save_akt_polevoy'),
+    re_path(r'^edit_akt_polevoy$', views.edit_akt_polevoy, name='edit_akt_polevoy'),
 
     # worker
     re_path(r'^worker_new_works/$', views.worker_new_works, name='worker_new_works'),

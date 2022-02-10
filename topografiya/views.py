@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork, ProgramWorkForm, \
     ProgramWorkFormTable1, ProgramWorkFormTable2, WorkerObject, ProgramWorkReject, SirieFiles, PoyasitelniyForm, \
-    PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4
+    PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
+    AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
+    AktPolovoyTable7, AktPolovoyTable8
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -177,9 +179,201 @@ def checking_polevoy_works(request,id):
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order}
+    work = AktPolevoyForm.objects.filter(object=id).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+               'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
+                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work
+               }
 
     return render(request, 'leader/checking_polevoy_works.html', context)
+
+def save_akt_polevoy(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        array=data.get('array')
+        array1=data.get('array1')
+        array2=data.get('array2')
+        array3=data.get('array3')
+        array4=data.get('array4')
+        array5=data.get('array5')
+        array6=data.get('array6')
+        array7=data.get('array7')
+        array8=data.get('array8')
+
+        d={}
+        object=Object.objects.filter(id=work_id).first()
+        j=0
+        j1=0
+        j2=0
+        j3=0
+        j4=0
+        j5=0
+        j6=0
+        j7=0
+        j8=0
+
+        d = {'object': object}
+        for i in array.split(','):
+            j=j+1
+            d['a'+str(j)]=i
+        k=AktPolevoyForm.objects.create(**d)
+
+        b = {'aktpolovoy': k}
+        for i in array1.split(','):
+            j1 = j1 + 1
+            b['a1_' + str(j1)] = i
+
+        e = {'aktpolovoy': k}
+        for i in array2.split(','):
+            j2 = j2 + 1
+            e['a2_' + str(j2)] = i
+
+        f = {'aktpolovoy': k}
+        for i in array3.split(','):
+            j3 = j3 + 1
+            f['a3_' + str(j3)] = i
+
+        g = {'aktpolovoy': k}
+        for i in array4.split(','):
+            j4 = j4 + 1
+            g['a4_' + str(j4)] = i
+
+        h = {'aktpolovoy': k}
+        for i in array5.split(','):
+            j5 = j5 + 1
+            h['a5_' + str(j5)] = i
+
+        p = {'aktpolovoy': k}
+        for i in array6.split(','):
+            j6 = j6 + 1
+            p['a6_' + str(j6)] = i
+
+        m = {'aktpolovoy': k}
+        for i in array7.split(','):
+            j7 = j7 + 1
+            m['a7_' + str(j7)] = i
+
+        o = {'aktpolovoy': k}
+        for i in array8.split(','):
+            j8 = j8 + 1
+            o['a8_' + str(j8)] = i
+
+        AktPolovoyTable1.objects.create(**b)
+        AktPolovoyTable2.objects.create(**e)
+        AktPolovoyTable3.objects.create(**f)
+        AktPolovoyTable4.objects.create(**g)
+        AktPolovoyTable5.objects.create(**h)
+        AktPolovoyTable6.objects.create(**p)
+        AktPolovoyTable7.objects.create(**m)
+        AktPolovoyTable8.objects.create(**o)
+
+
+        history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=worker)
+        history.save()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def edit_akt_polevoy(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        array=data.get('array')
+        array1=data.get('array1')
+        array2=data.get('array2')
+        array3=data.get('array3')
+        array4=data.get('array4')
+        array5=data.get('array5')
+        array6=data.get('array6')
+        array7=data.get('array7')
+        array8=data.get('array8')
+
+        d={}
+        object=Object.objects.filter(id=work_id).first()
+        j=0
+        j1=0
+        j2=0
+        j3=0
+        j4=0
+        j5=0
+        j6=0
+        j7=0
+        j8=0
+
+        d = {'object': object}
+        for i in array.split(','):
+            j=j+1
+            d['a'+str(j)]=i
+        k = AktPolevoyForm.objects.filter(object=object).update(**d)
+
+        b = {'aktpolovoy': k}
+        for i in array1.split(','):
+            j1 = j1 + 1
+            b['a1_' + str(j1)] = i
+
+        e = {'aktpolovoy': k}
+        for i in array2.split(','):
+            j2 = j2 + 1
+            e['a2_' + str(j2)] = i
+
+        f = {'aktpolovoy': k}
+        for i in array3.split(','):
+            j3 = j3 + 1
+            f['a3_' + str(j3)] = i
+
+        g = {'aktpolovoy': k}
+        for i in array4.split(','):
+            j4 = j4 + 1
+            g['a4_' + str(j4)] = i
+
+        h = {'aktpolovoy': k}
+        for i in array5.split(','):
+            j5 = j5 + 1
+            h['a5_' + str(j5)] = i
+
+        p = {'aktpolovoy': k}
+        for i in array6.split(','):
+            j6 = j6 + 1
+            p['a6_' + str(j6)] = i
+
+        m = {'aktpolovoy': k}
+        for i in array7.split(','):
+            j7 = j7 + 1
+            m['a7_' + str(j7)] = i
+
+        o = {'aktpolovoy': k}
+        for i in array8.split(','):
+            j8 = j8 + 1
+            o['a8_' + str(j8)] = i
+        aktpolovoyform=AktPolevoyForm.objects.filter(object=object).first()
+        AktPolovoyTable1.objects.filter(aktpolovoy=aktpolovoyform).update(**b)
+        AktPolovoyTable2.objects.filter(aktpolovoy=aktpolovoyform).update(**e)
+        AktPolovoyTable3.objects.filter(aktpolovoy=aktpolovoyform).update(**f)
+        AktPolovoyTable4.objects.filter(aktpolovoy=aktpolovoyform).update(**g)
+        AktPolovoyTable5.objects.filter(aktpolovoy=aktpolovoyform).update(**h)
+        AktPolovoyTable6.objects.filter(aktpolovoy=aktpolovoyform).update(**p)
+        AktPolovoyTable7.objects.filter(aktpolovoy=aktpolovoyform).update(**m)
+        AktPolovoyTable8.objects.filter(aktpolovoy=aktpolovoyform).update(**o)
+
+
+        history = History(object=object, status=12, comment="Dala nazoratida akt o'zgartirildi",user_id=worker)
+        history.save()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
 
 # leader
 
