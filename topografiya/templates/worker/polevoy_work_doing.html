@@ -10,12 +10,128 @@
 {% endblock stylecontent %}
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
 
-
-    <div class="loader-wrapper">
+<div class="loader-wrapper">
     <div class="theme-loader">
         <div class="loader-p"></div>
     </div>
 </div>
+
+  <div class="modal fade modal-bookmark " id="exampleModal"
+       tabindex="-1" aria-labelledby="exampleModalLabel"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-primary">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                      Буюртма ҳақида маълумот</h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-2">
+                              <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_number }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Шартнома санаси</b>
+                              <p>{{ pdowork.pdowork.agreement_date }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Обект номи<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_name }} </p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Буюрмачи</b>
+                              <p>{{ pdowork.pdowork.customer }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Обект манзили<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_address }}</p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 text-end">
+                          <div class="mb-2">
+                              <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.work_term }} kun</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.customer_info }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Иш тури<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.work_type }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Нархи<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.department }}</p>
+                          </div>
+                      </div>
+                  </div>
+                  <ul class="folder">
+                      <li class="folder-box">
+                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
+                              <div class="media-body ">
+                                  <h6 class="">
+                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
+                              </div>
+                          </div>
+                      </li>
+                      <li class="folder-box">
+                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
+                              <div class="media-body ">
+                                  <h6 class="">
+                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
+                              </div>
+                          </div>
+                      </li>
+                      <li class="folder-box">
+                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
+                              <div class="media-body ">
+                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <div class="modal fade modal-bookmark " id="exampleModal1"
+       tabindex="-1" aria-labelledby="exampleModalLabel1"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-white" id="exampleModalLabel1">
+                      Рад этилганлар
+                  </h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                            <ol>
+                                {% for work in rejects %}
+                                    <hr>
+                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
+                                       <li>{{ work.reason }}</li>
+                                    <hr>
+                                {% endfor %}
+
+                            </ol>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
         <div class="page-body">
             <div class="container-fluid">
@@ -30,6 +146,20 @@
 {#                                <li class="breadcrumb-item">Выполнение работ</li>#}
                             </ol>
                         </div>
+
+                         <div class="col-sm-6 text-end">
+                            {% if rejects %}
+                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
+                                    Рад этилишлар сони
+                                     <span class="badge rounded-pill badge-warning">
+                                        <b class="text-white">{{ rejects.count }}</b>
+                                     </span>
+
+                                </button>
+                            {% endif %}
+
+                        </div>
+
                     </div>
 
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -196,9 +326,7 @@
                                                     <a href="/{{ file.file1_1 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                   <div class="col-lg-6"><input class="form-control" name="file1_1" id="file1_1" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -212,9 +340,7 @@
                                                     <a href="/{{ file.file1_2 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
-                                                  <div class="col-lg-6"><input class="form-control"  name="file1_2" id="file1_2" type="file"></div>
-                                                </div>
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_2" id="file1_2" type="file"></div>
                                             {% endif %}
 
                                         </div>
@@ -228,9 +354,7 @@
                                                     <a href="/{{ file.file1_3 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_3" id="file1_3" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -244,9 +368,7 @@
                                                     <a href="/{{ file.file1_4 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_4" id="file1_4" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -260,9 +382,7 @@
                                                     <a href="/{{ file.file1_5 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_5" id="file1_5" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -276,9 +396,7 @@
                                                     <a href="/{{ file.file1_6 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_6" id="file1_6" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -292,9 +410,7 @@
                                                     <a href="/{{ file.file1_7 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_7" id="file1_7" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -308,9 +424,7 @@
                                                     <a href="/{{ file.file1_8 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_8" id="file1_8"  type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -324,9 +438,7 @@
                                                     <a href="/{{ file.file1_9 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_9" id="file1_9" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -340,9 +452,7 @@
                                                     <a href="/{{ file.file1_10 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_10" id="file1_10" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -356,9 +466,7 @@
                                                     <a href="/{{ file.file1_11 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_11" id="file1_11" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -375,9 +483,7 @@
                                                     <a href="/{{ file.file2_1 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                     <div class="col-lg-6"><input class="form-control" name="file2_1" id="file2_1" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -391,9 +497,7 @@
                                                     <a href="/{{ file.file2_2 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                     <div class="col-lg-6"><input class="form-control" name="file2_2" id="file2_2" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -407,9 +511,7 @@
                                                     <a href="/{{ file.file2_3 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                     <div class="col-lg-6"><input class="form-control" name="file2_3" id="file2_3" type="file"></div>
-                                                </div>
                                             {% endif %}
                                         </div>
                                         <div class="row m-b-10">
@@ -422,9 +524,7 @@
                                                     <a href="/{{ file.file2_4 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                     <div class="col-lg-6"><input class="form-control" name="file2_4" id="file2_4" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -438,9 +538,7 @@
                                                     <a href="/{{ file.file2_5 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                    <div class="col-lg-6"><input class="form-control" name="file2_5" id="file2_5" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -454,9 +552,7 @@
                                                     <a href="/{{ file.file2_6 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                    <div class="col-lg-6"><input class="form-control" name="file2_6" id="file2_6" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -470,9 +566,7 @@
                                                     <a href="/{{ file.file2_7 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                   <div class="col-lg-6"><input class="form-control" name="file2_7" id="file2_7" type="file"></div>
-                                                </div>
                                             {% endif %}
 
                                         </div>
@@ -490,9 +584,7 @@
                                                     <a href="/{{ file.file3_1 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
-                                                <div class="col-lg-6">
                                                     <input class="form-control" name="file3_1" id="file3_1" type="file">
-                                                </div>
                                             {% endif %}
                                         </div>
 
@@ -766,7 +858,7 @@
                             </div>
                         </div>
                 </div>
-                {% if work.status == 0 %}
+                {% if work.status == 0 or work.status == 2 %}
                 <div class="row p-2 mb-2">
                     <div class="col-md-6 card p-2 shadow-lg">
                         <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>

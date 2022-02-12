@@ -141,6 +141,8 @@ class ProgramWorkReject(models.Model):
     class Meta:
         verbose_name_plural = "ProgramWorkReject"
 
+
+
 class ProgramWorkForm(models.Model):
     programwork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programwork')
     file = models.FileField("Pogramma ish fayli", upload_to='topografiya/static/files/programfiles', blank=True)
@@ -632,6 +634,9 @@ class WorkerObject(models.Model):
     status = models.IntegerField(default=0)
     # status = 0 bolsa yangi
     # status = 1 tekshiruvga kelgan
+    # status = 2 qaytarilgan
+    # status = 3 muddati kam qolgan
+    # status = 4 tasdiqlangan
 
     def __str__(self):
         return self.object.pdowork.object_name
@@ -639,6 +644,16 @@ class WorkerObject(models.Model):
     class Meta:
         verbose_name_plural = "WorkerObjects"
 
+class PolevoyWorkReject(models.Model):
+    workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='polevoymworkreject')
+    file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/polevoy_rejects', blank=True)
+    reason = models.TextField(blank=True)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.workerobject.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "PolevoyWorkReject"
 
 class SirieFiles(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectsiriefiles')
@@ -877,6 +892,8 @@ class History(models.Model):
     # status = 10 Dala nazorati tekshiruviga yuborilgan ish
     # status = 11 Dala nazorati tekshiruvi akt yaratildi
     # status = 12 Dala nazorati tekshiruvi akt o'zgartirildi
+    # status = 13 Dala nazorati tekshiruvi tasdqilandi
+    # status = 14 Dala nazorati tekshiruvi rad etildi
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)

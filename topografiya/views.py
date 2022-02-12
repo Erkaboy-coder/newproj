@@ -3,7 +3,7 @@ from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork
     ProgramWorkFormTable1, ProgramWorkFormTable2, WorkerObject, ProgramWorkReject, SirieFiles, PoyasitelniyForm, \
     PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
     AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
-    AktPolovoyTable7, AktPolovoyTable8
+    AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -168,9 +168,9 @@ def leader_polevoy_works(request):
     rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).all() # qaytarilgan ishlar
     less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
     aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
-
+    rejecteds = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter()}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds}
     return render(request, 'leader/polevoy_works.html', context)
 
 def checking_polevoy_works(request,id):
@@ -189,10 +189,11 @@ def checking_polevoy_works(request,id):
     work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
     work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
 
+    rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
-                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work
+                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects
                }
 
     return render(request, 'leader/checking_polevoy_works.html', context)
@@ -318,55 +319,55 @@ def edit_akt_polevoy(request):
             j=j+1
             d['a'+str(j)]=i
         k = AktPolevoyForm.objects.filter(object=object).update(**d)
-
-        b = {'aktpolovoy': k}
+        form = AktPolevoyForm.objects.filter(object=work_id).first()
+        b = {'aktpolovoy': form}
         for i in array1.split(','):
             j1 = j1 + 1
             b['a1_' + str(j1)] = i
 
-        e = {'aktpolovoy': k}
+        e = {'aktpolovoy': form}
         for i in array2.split(','):
             j2 = j2 + 1
             e['a2_' + str(j2)] = i
 
-        f = {'aktpolovoy': k}
+        f = {'aktpolovoy': form}
         for i in array3.split(','):
             j3 = j3 + 1
             f['a3_' + str(j3)] = i
 
-        g = {'aktpolovoy': k}
+        g = {'aktpolovoy': form}
         for i in array4.split(','):
             j4 = j4 + 1
             g['a4_' + str(j4)] = i
 
-        h = {'aktpolovoy': k}
+        h = {'aktpolovoy': form}
         for i in array5.split(','):
             j5 = j5 + 1
             h['a5_' + str(j5)] = i
 
-        p = {'aktpolovoy': k}
+        p = {'aktpolovoy': form}
         for i in array6.split(','):
             j6 = j6 + 1
             p['a6_' + str(j6)] = i
 
-        m = {'aktpolovoy': k}
+        m = {'aktpolovoy': form}
         for i in array7.split(','):
             j7 = j7 + 1
             m['a7_' + str(j7)] = i
 
-        o = {'aktpolovoy': k}
+        o = {'aktpolovoy': form}
         for i in array8.split(','):
             j8 = j8 + 1
             o['a8_' + str(j8)] = i
-        aktpolovoyform=AktPolevoyForm.objects.filter(object=object).first()
-        AktPolovoyTable1.objects.filter(aktpolovoy=aktpolovoyform).update(**b)
-        AktPolovoyTable2.objects.filter(aktpolovoy=aktpolovoyform).update(**e)
-        AktPolovoyTable3.objects.filter(aktpolovoy=aktpolovoyform).update(**f)
-        AktPolovoyTable4.objects.filter(aktpolovoy=aktpolovoyform).update(**g)
-        AktPolovoyTable5.objects.filter(aktpolovoy=aktpolovoyform).update(**h)
-        AktPolovoyTable6.objects.filter(aktpolovoy=aktpolovoyform).update(**p)
-        AktPolovoyTable7.objects.filter(aktpolovoy=aktpolovoyform).update(**m)
-        AktPolovoyTable8.objects.filter(aktpolovoy=aktpolovoyform).update(**o)
+
+        AktPolovoyTable1.objects.filter(aktpolovoy_id=form.pk).update(**b)
+        AktPolovoyTable2.objects.filter(aktpolovoy_id=form.pk).update(**e)
+        AktPolovoyTable3.objects.filter(aktpolovoy_id=form.pk).update(**f)
+        AktPolovoyTable4.objects.filter(aktpolovoy_id=form.pk).update(**g)
+        AktPolovoyTable5.objects.filter(aktpolovoy_id=form.pk).update(**h)
+        AktPolovoyTable6.objects.filter(aktpolovoy_id=form.pk).update(**p)
+        AktPolovoyTable7.objects.filter(aktpolovoy_id=form.pk).update(**m)
+        AktPolovoyTable8.objects.filter(aktpolovoy_id=form.pk).update(**o)
 
 
         history = History(object=object, status=12, comment="Dala nazoratida akt o'zgartirildi",user_id=worker)
@@ -375,6 +376,62 @@ def edit_akt_polevoy(request):
     else:
         return HttpResponse(0)
 
+def send_to_kameral(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+
+        workerobject = WorkerObject.objects.filter(object=work_id).first()
+        workerobject.status = 4
+        workerobject.save()
+
+
+        history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=worker)
+        history.save()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+# def deny_polevoy(request):
+#     if request.method == 'POST':
+#         data = request.POST
+#         work_id = data.get('work_id')
+#         worker = data.get('worker')
+#
+#         workerobject = WorkerObject.objects.filter(object=work_id).first()
+#         workerobject.status = 4
+#         workerobject.save()
+#
+#
+#         history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=worker)
+#         history.save()
+#         return HttpResponse(1)
+#     else:
+#         return HttpResponse(0)
+
+def deny_polevoy(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        reason = data.get('reason')
+        reason_file =request.FILES.get('reason_file')
+
+        workerobject = WorkerObject.objects.filter(object=work_id).first()
+        workerobject.status = 2
+        workerobject.save()
+
+        object_id = Object.objects.filter(id=work_id).first()
+
+        reject = PolevoyWorkReject(workerobject=workerobject, file=reason_file, reason=reason)
+        reject.save()
+
+        history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
 # leader
 
 
@@ -393,9 +450,9 @@ def polevoy_works(request):
     rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).all() # qaytarilgan ishlar
     less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
     aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
-
+    rejects = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works,'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter()}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects}
     return render(request, 'worker/polevoy_works.html', context)
 
 def polevoy_work_doing(request,id):
@@ -405,9 +462,9 @@ def polevoy_work_doing(request,id):
     sirie_type = Order.objects.filter(object=work.object.id).first()
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
-
+    rejects = PolevoyWorkReject.objects.filter(workerobject=work)
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
-               'file': sirie_files,'count': counter()}
+               'file': sirie_files,'count': counter(),'rejects':rejects}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
 def send_to_check_polevoy(request):
@@ -508,7 +565,6 @@ def edit_sirie_files(request,id):
 
         file3_1 = request.FILES.get('file3_1')
         file3_2 = request.FILES.get('file3_2')
-        print(file3_2)
         file3_3 = request.FILES.get('file3_3')
         file3_4 = request.FILES.get('file3_4')
         file3_5 = request.FILES.get('file3_5')
@@ -521,38 +577,150 @@ def edit_sirie_files(request,id):
         object = WorkerObject.objects.filter(id=id).first()
 
         workerobject = SirieFiles.objects.filter(workerobject=id).first()
-
         workerobject.workerobject=object
-        workerobject.file1_1=file1_1
-        workerobject.file1_2=file1_2
-        workerobject.file1_3=file1_3
-        workerobject.file1_4=file1_4
-        workerobject.file1_5=file1_5
-        workerobject.file1_6=file1_6
-        workerobject.file1_7=file1_7
-        workerobject.file1_8=file1_8
-        workerobject.file1_9=file1_9
-        workerobject.file1_10=file1_10
-        workerobject.file1_11=file1_11
+        if workerobject.file1_1:
+            workerobject.file1_1=workerobject.file1_1
+        else:
+            workerobject.file1_1 = file1_1
 
-        workerobject.file2_1=file2_1
-        workerobject.file2_2=file2_2
-        workerobject.file2_3=file2_3
-        workerobject.file2_4=file2_4
-        workerobject.file2_5=file2_5
-        workerobject.file2_6=file2_6
-        workerobject.file2_7=file2_7
+        if workerobject.file1_2:
+            workerobject.file1_2=workerobject.file1_2
+        else:
+            workerobject.file1_2 = file1_2
 
-        workerobject.file3_1=file3_1
-        workerobject.file3_2=file3_2
-        workerobject.file3_3=file3_3
-        workerobject.file3_4=file3_4
-        workerobject.file3_5=file3_5
-        workerobject.file3_6=file3_6
-        workerobject.file3_7=file3_7
-        workerobject.file3_8=file3_8
-        workerobject.file3_9=file3_9
-        workerobject.file3_10=file3_10
+        if workerobject.file1_3:
+            workerobject.file1_3=workerobject.file1_3
+        else:
+            workerobject.file1_3 = file1_3
+
+        if workerobject.file1_4:
+            workerobject.file1_4 = workerobject.file1_4
+        else:
+            workerobject.file1_4 = file1_4
+
+        if workerobject.file1_5:
+            workerobject.file1_5 = workerobject.file1_5
+        else:
+            workerobject.file1_5 = file1_5
+
+        if workerobject.file1_6:
+            workerobject.file1_6 = workerobject.file1_6
+        else:
+            workerobject.file1_6 = file1_6
+
+        if workerobject.file1_7:
+            workerobject.file1_7 = workerobject.file1_7
+        else:
+            workerobject.file1_7 = file1_7
+
+        if workerobject.file1_8:
+            workerobject.file1_8 = workerobject.file1_8
+        else:
+            workerobject.file1_8 = file1_8
+
+        if workerobject.file1_9:
+            workerobject.file1_9 = workerobject.file1_9
+        else:
+            workerobject.file1_9 = file1_9
+
+        if workerobject.file1_10:
+            workerobject.file1_10 = workerobject.file1_10
+        else:
+            workerobject.file1_10 = file1_10
+
+        if workerobject.file1_11:
+            workerobject.file1_11 = workerobject.file1_11
+        else:
+            workerobject.file1_11 = file1_11
+
+
+        if workerobject.file2_1:
+            workerobject.file2_1 = workerobject.file2_1
+        else:
+            workerobject.file2_1 = file2_1
+
+        if workerobject.file2_2:
+            workerobject.file2_2 = workerobject.file2_2
+        else:
+            workerobject.file2_2 = file2_2
+
+        if workerobject.file2_3:
+            workerobject.file2_3 = workerobject.file2_3
+        else:
+            workerobject.file2_3 = file2_3
+
+        if workerobject.file2_4:
+            workerobject.file2_4 = workerobject.file2_4
+        else:
+            workerobject.file2_4 = file2_4
+
+        if workerobject.file2_5:
+            workerobject.file2_5 = workerobject.file2_5
+        else:
+            workerobject.file2_5 = file2_5
+
+        if workerobject.file2_6:
+            workerobject.file2_6 = workerobject.file2_6
+        else:
+            workerobject.file2_6 = file2_6
+
+        if workerobject.file2_7:
+            workerobject.file2_7 = workerobject.file2_7
+        else:
+            workerobject.file2_7 = file2_7
+
+
+        if workerobject.file3_1:
+            workerobject.file3_1 = workerobject.file3_1
+        else:
+            workerobject.file3_1 = file3_1
+
+        if workerobject.file3_2:
+            workerobject.file3_2 = workerobject.file3_2
+        else:
+            workerobject.file3_2 = file3_2
+
+        if workerobject.file3_3:
+            workerobject.file3_3 = workerobject.file3_3
+        else:
+            workerobject.file3_3 = file3_3
+
+        if workerobject.file3_4:
+            workerobject.file3_4 = workerobject.file3_4
+        else:
+            workerobject.file3_4 = file3_4
+
+        if workerobject.file3_5:
+            workerobject.file3_5 = workerobject.file3_5
+        else:
+            workerobject.file3_5 = file3_5
+
+        if workerobject.file3_6:
+            workerobject.file3_6 = workerobject.file3_6
+        else:
+            workerobject.file3_6 = file3_6
+
+        if workerobject.file3_7:
+            workerobject.file3_7 = workerobject.file3_7
+        else:
+            workerobject.file3_7 = file3_7
+
+        if workerobject.file3_8:
+            workerobject.file3_8 = workerobject.file3_8
+        else:
+            workerobject.file3_8 = file3_8
+
+        if workerobject.file3_9:
+            workerobject.file3_9 = workerobject.file3_9
+        else:
+            workerobject.file3_9 = file3_9
+
+        if workerobject.file3_10:
+            workerobject.file3_10 = workerobject.file3_10
+        else:
+            workerobject.file3_10 = file3_10
+
+
         workerobject.save()
 
         object_id = Object.objects.filter(id=object.object.id).first()
@@ -664,7 +832,7 @@ def store(request):
         workerobject=WorkerObject.objects.filter(id=work_id).first()
 
         form1 = PoyasitelniyForm(workerobject=workerobject,b1=b1,b2=b2,b_1=b_1,b_2=b_2,b3=b3,b3_1=b3_1,b4=b4,b5=b5,b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
-                                 ,b13=b13,b14=b14,b15=b15,b16_a=b16_b,b19=b19,b19_1=b19_1,b19_2=b19_2,b20=b20,b21=b21,c_1=c_1,c_2=c_2,c_3=c_3,c_4=c_4,c_5=c_5,c_6=c_6
+                                 ,b13=b13,b14=b14,b15=b15,b16_a=b16_a,b16_b=b16_b,b19=b19,b19_1=b19_1,b19_2=b19_2,b20=b20,b21=b21,c_1=c_1,c_2=c_2,c_3=c_3,c_4=c_4,c_5=c_5,c_6=c_6
                                  ,c_7=c_7,c_8=c_8,c_9=c_9,c_10=c_10,c_11=c_11,c_12=c_12,c_13=c_13,c_14=c_14,c_15=c_15,c_16=c_16,c_17=c_17,c_18=c_18,c_19=c_19
                                  ,c_20=c_20,c_21=c_21,c_22=c_22,c_23=c_23,c_24=c_24,c_25=c_25,c_26=c_26,d_1=d_1,d_2=d_2,d_3=d_3,d_4=d_4,d_5=d_5,d_6=d_6,d_7=d_7
                                  ,d_8=d_8,d_9=d_9,d_10=d_10,d_11=d_11,d_12=d_12,d_13=d_13)
@@ -810,7 +978,8 @@ def edit_poyasitelniy(request):
         form1.b13=b13
         form1.b14=b14
         form1.b15=b15
-        form1.b16_a=b16_b
+        form1.b16_a=b16_a
+        form1.b16_b=b16_b
         form1.b19=b19
         form1.b19_1=b19_1
         form1.b19_2=b19_2

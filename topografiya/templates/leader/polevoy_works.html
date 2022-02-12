@@ -27,7 +27,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active show" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Дала назорати текширувига юборилганлар {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link active show" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Дала назорати текширувига келган ишлар {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true">Дала назоратидан қайтарилганлар {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#less-time-ones" role="tab" aria-controls="camera-icon" aria-selected="true"> Муддати кам қолганлар {% if less_time_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ less_time_ones.count }}</span>{% endif %} </a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true"> Тасдиқланганлар {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
@@ -82,24 +82,32 @@
                                             <div class="col-xl-4 col-md-6 mt-4">
                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                     <div class="pricing-plan shadow border-0">
-                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
-                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">10</span> Январ 2022</div>
-                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
                                                         <div class="blog-bottom-content">
-                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
-                                                            <div><b>Муддати</b> 10/01/2022</div>
-                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
-                                                            <div class="text-end"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;"> 3</span></div>
+                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
+                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
+
+                                                                {% for work in rejecteds %}
+                                                                    {% if work.workerobject.object.id == object.object.id %}
+                                                                        {{ forloop.counter }}
+                                                                    {% endif %}
+                                                                {% endfor %}
+
+                                                            </span></div>
                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
-                                                            <a href="../starter-kit/">
-                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                            <a href="{% url 'checking_polevoy_works' id=object.object.id %}">
+                                                                <button class="btn btn-square btn-primary float-end" style="width: 100%">
                                                                     Батафсил маълумот
                                                                 </button>
                                                             </a>
                                                         </div>
-                                                       <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -161,23 +169,23 @@
                                             <div class="col-xl-4 col-md-6 mt-4">
                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                     <div class="pricing-plan shadow border-0">
-                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
-                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">11</span> Январ 2022</div>
-                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
                                                         <div class="blog-bottom-content">
-                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
-                                                            <div><b>Муддати</b> 10/01/2022</div>
-                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
+                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
-                                                            <a href="../starter-kit/">
-                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                            <a href="{% url 'checking_polevoy_works' id=object.object.id %}">
+                                                                <button class="btn btn-square btn-outline-primary-2x float-end">
                                                                     Батафсил маълумот
                                                                 </button>
                                                             </a>
                                                         </div>
-                                                         <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
                                                     </div>
                                                 </div>
                                             </div>

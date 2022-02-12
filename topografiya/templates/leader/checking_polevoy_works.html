@@ -105,6 +105,36 @@
       </div>
   </div>
 
+    <div class="modal fade modal-bookmark " id="exampleModal1"
+       tabindex="-1" aria-labelledby="exampleModalLabel1"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-white" id="exampleModalLabel1">
+                      Рад этилганлар
+                  </h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                            <ol>
+                                {% for work in rejects %}
+                                    <hr>
+                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
+                                       <li>{{ work.reason }}</li>
+                                    <hr>
+                                {% endfor %}
+
+                            </ol>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
 
 <div class="modal fade bd-example-modal-lg" tabindex="0" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -323,9 +353,18 @@
                             </ol>
                         </div>
                         <div class="col-sm-6 text-end">
+                            {% if rejects %}
+                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
+                                    Рад этилишлар сони
+                                     <span class="badge rounded-pill badge-warning">
+                                        <b class="text-white">{{ rejects.count }}</b>
+                                     </span>
+
+                                </button>
+                            {% endif %}
                             <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
                                 Буюртма ҳақида маълумот
-                              </button>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1146,10 +1185,11 @@
                                                                                                        placeholder="начальник партии">
                                                                                             </div>
                                                                                         </div>
-
+                                                                                        {% if workerobject.status != 4%}
                                                                                         <button class="edit_akt btn btn-warning pull-left"
                                                                                                 type="button"> <i class="fa fa-save"></i>  Saqlash
                                                                                         </button>
+                                                                                            {% endif %}
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
                                                                                                 type="button">Keyingisi
@@ -1655,10 +1695,11 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </form>
-
+                                                                                    {% if workerobject.status != 4 %}
                                                                                     <button class="edit_akt btn btn-warning pull-left"
                                                                                             type="button"> <i class="fa fa-save"></i>  Saqlash
                                                                                     </button>
+                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
                                                                                             type="button">Keyingisi <i
@@ -1900,10 +1941,11 @@
                                                                                             </div>
                                                                                         </div>
 
-
-                                                                                     <button class="edit_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                    </button>
+                                                                                    {% if workerobject.status != 4 %}
+                                                                                         <button class="edit_akt btn btn-warning pull-left"
+                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                        </button>
+                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
@@ -2376,10 +2418,11 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-
+                                                                                {% if workerobject.status != 4 %}
                                                                                     <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Yakunlash
                                                                                     </button>
+                                                                                    {% endif %}
 
 
 
@@ -2392,18 +2435,18 @@
 
                                                                             </div>
 
-
+                                                    {% if workerobject.status != 4 %}
                                                                <div class="row p-2 mb-2">
                                                                     <div class="col-md-6 card p-2 shadow-lg">
-                                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> &nbsp; Қайтариш</button>
                                                                     </div>
 
                                                                     <div class="col-md-6 card p-2 shadow-lg">
-                                                                        <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
+                                                                        <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_kameral"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
                                                                     </div>
                                                                 </div>
 
-
+                                                    {% endif %}
 
 
                                                                         </div>
@@ -3107,10 +3150,11 @@
                                                                                                        placeholder="начальник партии">
                                                                                             </div>
                                                                                         </div>
-
-                                                                                        <button class="save_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                        </button>
+                                                                                        {% if workerobject.status != 4 %}
+                                                                                            <button class="save_akt btn btn-warning pull-left"
+                                                                                                    type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                            </button>
+                                                                                            {% endif %}
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
                                                                                                 type="button">Keyingisi
@@ -3616,10 +3660,11 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </form>
-
+                                                                                    {% if workerobject.status != 4 %}
                                                                                     <button class="save_akt btn btn-warning pull-left"
                                                                                             type="button"> <i class="fa fa-save"></i>  Saqlash
                                                                                     </button>
+                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
                                                                                             type="button">Keyingisi <i
@@ -3861,10 +3906,11 @@
                                                                                             </div>
                                                                                         </div>
 
-
+                                                                {% if workerobject.status != 4 %}
                                                                                      <button class="save_akt btn btn-warning pull-left"
                                                                                             type="button"> <i class="fa fa-save"></i>  Saqlash
                                                                                     </button>
+                                                                {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
@@ -4103,9 +4149,11 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
+                                                                                    {% if workerobject.status != 4 %}
                                                                                     <button class="save_akt btn btn-warning pull-left"
                                                                                             type="button"> <i class="fa fa-save"></i>  Saqlash
                                                                                     </button>
+                                                                                        {% endif %}
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Keyingisi <i
                                                                                             class="fa fa-long-arrow-right"></i>
@@ -4337,10 +4385,11 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-
+                                                                                {% if workerobject.status != 4 %}
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Yakunlash
                                                                                     </button>
+                                                                                    {% endif %}
 
 
 
@@ -4350,16 +4399,17 @@
 
 
                                                                             </div>
+                                            {% if workerobject.status != 4 %}
+                                                <div class="row p-2 mb-2">
+                                                    <div class="col-md-6 card p-2 shadow-lg">
+                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                    </div>
 
-                                            <div class="row p-2 mb-2">
-                                                <div class="col-md-6 card p-2 shadow-lg">
-                                                    <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                    <div class="col-md-6 card p-2 shadow-lg">
+                                                        <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_kameral"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
+                                                    </div>
                                                 </div>
-
-                                                <div class="col-md-6 card p-2 shadow-lg">
-                                                    <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
-                                                </div>
-                                            </div>
+                                            {% endif %}
 
                                                                         </div>
                                                                     </div>
@@ -4401,7 +4451,7 @@
 {#                                            </button>#}
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                                                  aria-labelledby="exampleModalCenter" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger">
                                                             <h5 style="color: white;" class="modal-title">Хатолик
@@ -4411,15 +4461,19 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-body">
+                                                            <ul class="messages text text-center text-danger" id="error_show" style="display:none">
+                                                               <div class="alert alert-danger">
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
+                                                               </div>
+                                                           </ul>
+                                                            <br>
                                                             <h5 class="m-b-20-">Хатолик аризаси</h5>
-                                                            <input class="form-control" type="file">
+                                                            <input class="form-control" id="reason_file" name="reason_file" type="file">
                                                             <h5 class="m-t-20 m-b-20">Хатолик аризаси</h5>
-                                                            <textarea type="text" class="form-control"></textarea>
+                                                            <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button data-bs-dismiss="modal" aria-label="Close"
-                                                                    class="btn btn-outline-danger" type="button">Юбориш
-                                                            </button>
+                                                            <button  class="btn btn-outline-danger" id="deny_polevoy" type="button">Юбориш</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4533,6 +4587,7 @@
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
+
         var array = [];
         for(var i=1;i<127;i++){
                 array.push($('#a'+i).val());
@@ -4608,6 +4663,78 @@
               alert('Ajax da xatolik !! ');
             }
         });
+        }
+
+
+
+        });
+</script>
+
+
+<script>
+    $("#send_to_kameral").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        var form = "{{ work.pk }}";
+        event.preventDefault();
+
+        if(form){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'send_to_kameral' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace('/leader_polevoy_works');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+        else{
+          alert("Maydonni to'ldiring");
+        }
+
+
+
+        });
+</script>
+
+    <script>
+    $("#deny_polevoy").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        data.append("reason", $('#reason').val());
+        data.append("reason_file", $('#reason_file')[0].files[0]);
+        event.preventDefault();
+
+        if($('#reason').val() != 0 ){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'deny_polevoy' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace('/leader_polevoy_works');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+        else{
+          $('#error_show').css('display','block');
         }
 
 
