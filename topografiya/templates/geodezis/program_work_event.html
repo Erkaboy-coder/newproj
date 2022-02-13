@@ -15,13 +15,42 @@
 </style>
 
 {% endblock stylecontent %}
+    <div class="modal fade modal-bookmark " id="exampleModal1"
+       tabindex="-1" aria-labelledby="exampleModalLabel1"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-white" id="exampleModalLabel1">
+                      Рад этилганлар
+                  </h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                            <ol>
+                                {% for work in rejects %}
+                                    <hr>
+                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
+                                       <li>{{ work.reason }}</li>
+                                    <hr>
+                                {% endfor %}
+
+                            </ol>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
         <div class="page-body">
 
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <h3>Топографик-геодезик дастури</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
@@ -30,6 +59,24 @@
 
                             </ol>
                         </div>
+
+                        <div class="col-sm-6 text-end">
+                            {% if rejects %}
+                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
+                                    Рад этилишлар сони
+
+                                    {% if rejects.count > 0 %}
+                                         &nbsp;
+                                        <span class="badge rounded-pill badge-warning">
+                                             <b class="text-dark">{{ rejects.count }}</b>
+                                         </span>
+                                     {% endif %}
+
+                                </button>
+                            {% endif %}
+
+                     </div>
+
                     </div>
                 </div>
             </div>

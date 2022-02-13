@@ -54,6 +54,8 @@
                 <div class="logo-wrapper"><a href="{% url 'index' %}"><img style="width: 6rem" class="img-fluid" src="{% static 'assets/images/logo/logo.png' %}" alt="#logo"></a></div>
                 <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid" src="{% static 'assets/images/logo/logo.png' %}" alt="#logo"></a></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-left" id="sidebar-toggle"></i></div>
+
+
             </div>
 
             <div class="left-menu-header col">
@@ -168,7 +170,15 @@
                                                 </span>
                                               {% endif %}
                                         </a></li>
-                                        <li><a href="../starter-kit/kawork.html">Камерал назорат</a></li>
+                                        <li>
+                                            <a href="{% url 'leader_komeral_works' %}">Камерал назорат
+                                            {% if count.new_komeral_works_leader != 0 %}
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
+                                                     {{ count.new_komeral_works_leader }}
+                                                </span>
+                                              {% endif %}
+                                            </a>
+                                        </li>
                                         <li><a href="../starter-kit/gework.html">Бош геодезист назорати</a></li>
                                     </ul>
                                 </li>

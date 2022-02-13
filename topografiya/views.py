@@ -3,7 +3,7 @@ from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork
     ProgramWorkFormTable1, ProgramWorkFormTable2, WorkerObject, ProgramWorkReject, SirieFiles, PoyasitelniyForm, \
     PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
     AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
-    AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject
+    AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, AktKomeralForm, KameralWorkReject
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -28,6 +28,7 @@ def counter():
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
     count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
     count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
+    count['new_komeral_works_leader'] = WorkerObject.objects.filter(status=4).all().count()
 
     return count
 
@@ -58,7 +59,7 @@ def program_works_leader(request):
     context = {'new_ones': new_ones, 'checking_ones': checking_ones,
                'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'rejecteds':rejecteds, 'count': counter()}
     # print(objects)
-    return render(request, 'leader/program_works.html', context)
+    return render(request, 'leader/program_works/program_works.html', context)
 
 def program_work_form(request,id):
 
@@ -67,7 +68,7 @@ def program_work_form(request,id):
     workers = Worker.objects.filter(branch=object.object.pdowork.branch)
 
     context = {'object': object, 'order': order, 'workers': workers,'count': counter()}
-    return render(request, 'leader/program_work_form.html', context)
+    return render(request, 'leader/program_works/program_work_form.html', context)
 
 def program_work_form_edit(request,id):
 
@@ -76,7 +77,7 @@ def program_work_form_edit(request,id):
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
 
-    rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).first()
+    rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
 
     order = Order.objects.filter(object=object.id).first()
     workers = Worker.objects.filter(branch=object.pdowork.branch)
@@ -84,7 +85,7 @@ def program_work_form_edit(request,id):
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,
                'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
-    return render(request, 'leader/program_work_form_edit.html', context)
+    return render(request, 'leader/program_works/program_work_form_edit.html', context)
 
 def program_work_form_store(request):
     if request.method == 'POST':
@@ -171,7 +172,7 @@ def leader_polevoy_works(request):
     rejecteds = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds}
-    return render(request, 'leader/polevoy_works.html', context)
+    return render(request, 'leader/polevoy/polevoy_works.html', context)
 
 def checking_polevoy_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
@@ -196,7 +197,7 @@ def checking_polevoy_works(request,id):
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects
                }
 
-    return render(request, 'leader/checking_polevoy_works.html', context)
+    return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
 
 def save_akt_polevoy(request):
     if request.method == 'POST':
@@ -386,6 +387,9 @@ def send_to_kameral(request):
         workerobject.status = 4
         workerobject.save()
 
+        kameral = AktKomeralForm(workerobject=workerobject.object)
+        kameral.save()
+
 
         history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=worker)
         history.save()
@@ -432,6 +436,108 @@ def deny_polevoy(request):
         return HttpResponse(1)
     else:
         return HttpResponse(0)
+
+def leader_komeral_works(request):
+    # status_recive = 1 is started work but not recived by worker
+    new_ones = AktKomeralForm.objects.filter(status=0).all()  # kameral nazoratiga kelgan ishlar
+    checking_ones = AktKomeralForm.objects.filter(status=1).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
+    rejecteds = PolevoyWorkReject.objects.all()
+
+    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'new_ones':new_ones,
+               'rejecteds': rejecteds}
+    return render(request, 'leader/komeral/komeral_works.html', context)
+
+def checking_komeral_works(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+
+    work = AktPolevoyForm.objects.filter(object=id).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+
+    rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+               'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
+                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects
+               }
+
+    return render(request, 'leader/komeral/checking_komeral_works.html', context)
+
+def rejected_komeral_works(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects
+               }
+
+    return render(request, 'leader/komeral/rejected_komeral_works.html', context)
+
+def save_akt_komeral(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        array=data.get('array')
+
+        d={}
+        object=Object.objects.filter(id=work_id).first()
+        j=0
+        d = {'object': object}
+        for i in array.split(','):
+            j=j+1
+            d['a'+str(j)]=i
+        AktKomeralForm.objects.create(**d)
+
+
+        # history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=worker)
+        # history.save()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def deny_komeral(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        reason = data.get('reason')
+        reason_file =request.FILES.get('reason_file')
+
+        workerobject = AktKomeralForm.objects.filter(object=work_id).first()
+        workerobject.status = 2
+        workerobject.save()
+
+        object_id = Object.objects.filter(id=work_id).first()
+
+        reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason)
+        reject.save()
+
+        history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
 # leader
 
 
@@ -1395,6 +1501,8 @@ def program_work_event(request, id):
     workers = Worker.objects.filter(branch=object.programwork.object.pdowork.branch)
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=object).first()
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=object).first()
+
+    rejects = ProgramWorkReject.objects.filter(programowork=object.programwork).all()
 
     context = {'object': object, 'order': order, 'workers': workers,'formtable2':formtable2,'formtable1':formtable1,'count': counter()}
     return render(request, 'geodezis/program_work_event.html', context)

@@ -24,6 +24,11 @@ urlpatterns = [
     re_path(r'^edit_akt_polevoy$', views.edit_akt_polevoy, name='edit_akt_polevoy'),
     re_path(r'^send_to_kameral$', views.send_to_kameral, name='send_to_kameral'),
     re_path(r'^deny_polevoy$', views.deny_polevoy, name='deny_polevoy'),
+    re_path(r'^leader_komeral_works/$', views.leader_komeral_works, name='leader_komeral_works'),
+    re_path(r'^checking_komeral_works/(?P<id>\d+)/$', views.checking_komeral_works, name='checking_komeral_works'),
+    re_path(r'^rejected_komeral_works/(?P<id>\d+)/$', views.rejected_komeral_works, name='rejected_komeral_works'),
+    re_path(r'^save_akt_komeral$', views.save_akt_komeral, name='save_akt_komeral'),
+    re_path(r'^deny_komeral$', views.deny_komeral, name='deny_komeral'),
 
     # worker
     re_path(r'^worker_new_works/$', views.worker_new_works, name='worker_new_works'),
