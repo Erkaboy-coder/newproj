@@ -179,7 +179,15 @@
                                               {% endif %}
                                             </a>
                                         </li>
-                                        <li><a href="../starter-kit/gework.html">Бош геодезист назорати</a></li>
+                                        <li>
+                                            <a href="{% url 'leader_komeral_checking' %}">Бош геодезист назорати
+                                                {% if count.leader_komeral_works_to_check != 0 %}
+                                                    <span style="float: right" class="badge rounded-pill badge-danger">
+                                                         {{ count.leader_komeral_works_to_check }}
+                                                    </span>
+                                              {% endif %}
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav" href="../starter-kit/users.html"><i data-feather="users"></i><span>Ходимлар</span></a></li>
@@ -212,7 +220,15 @@
                                               {% endif %}
 
                                     </a></li>
-                                    <li><a href="../starter-kit/kawork.html">Камерал назорат</a></li>
+                                    <li>
+                                         <a href="{% url 'worker_komeral_works' %}">Камерал назорат
+                                            {% if count.worker_komeral_works != 0 %}
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
+                                                     {{ count.worker_komeral_works }}
+                                                </span>
+                                              {% endif %}
+                                            </a>
+                                    </li>
                                 </ul>
                             </li>
                             {% endif %}
@@ -232,7 +248,15 @@
                                         </a>
                                     </li>
 
-                                    <li><a href="{% url 'program_works_leader' %}">Бош геодезист назорати</a></li>
+                                    <li>
+                                        <a href="{% url 'geodesiz_komeral_works' %}">Бош геодезист назорати
+                                            {% if count.leader_komeral_works_to_check != 0 %}
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
+                                                    {{ count.leader_komeral_works_to_check }}
+                                                </span>
+                                            {% endif %}
+                                        </a>
+                                    </li>
 
                                 </ul>
                             </li>

@@ -143,6 +143,7 @@ class ProgramWorkReject(models.Model):
 
 
 
+
 class ProgramWorkForm(models.Model):
     programwork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programwork')
     file = models.FileField("Pogramma ish fayli", upload_to='topografiya/static/files/programfiles', blank=True)
@@ -601,10 +602,21 @@ class AktKomeralForm(models.Model):
     a64 = models.TextField(blank=True)
 
     def __str__(self):
-        return self.workerobject.pdowork.object_name
+        return self.object.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "AktKomeralForm"
+
+class LeaderWorkReject(models.Model):
+    object = models.ForeignKey(AktKomeralForm, blank=True, on_delete=models.CASCADE, related_name='leaderkomeralworkreject')
+    file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/programfiles', blank=True)
+    reason = models.TextField(blank=True)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.object.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "LeaderWorkReject"
 
 class SirieFiles(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectsiriefiles')
@@ -845,7 +857,9 @@ class History(models.Model):
     # status = 12 Dala nazorati tekshiruvi akt o'zgartirildi
     # status = 13 Dala nazorati tekshiruvi tasdqilandi
     # status = 14 Dala nazorati tekshiruvi rad etildi
-    # status = 15 kameral nazorati rad etildi
+    # status = 15 komeral nazorati rad etildi
+    # status = 16 komeral nazoratga teskhiruviga qayta yuborildi
+    # status = 17 komeral nazoratidan o'tgan ish
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)

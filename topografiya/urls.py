@@ -25,7 +25,11 @@ urlpatterns = [
     re_path(r'^send_to_kameral$', views.send_to_kameral, name='send_to_kameral'),
     re_path(r'^deny_polevoy$', views.deny_polevoy, name='deny_polevoy'),
     re_path(r'^leader_komeral_works/$', views.leader_komeral_works, name='leader_komeral_works'),
+    re_path(r'^leader_komeral_checking/$', views.leader_komeral_checking, name='leader_komeral_checking'),
     re_path(r'^checking_komeral_works/(?P<id>\d+)/$', views.checking_komeral_works, name='checking_komeral_works'),
+    re_path(r'^show_komeral_checking_leader/(?P<id>\d+)/$', views.show_komeral_checking_leader, name='show_komeral_checking_leader'),
+
+    re_path(r'^show_komeral_work/(?P<id>\d+)/$', views.show_komeral_work, name='show_komeral_work'),
     re_path(r'^rejected_komeral_works/(?P<id>\d+)/$', views.rejected_komeral_works, name='rejected_komeral_works'),
     re_path(r'^save_akt_komeral$', views.save_akt_komeral, name='save_akt_komeral'),
     re_path(r'^deny_komeral$', views.deny_komeral, name='deny_komeral'),
@@ -39,8 +43,13 @@ urlpatterns = [
     re_path(r'^store$', views.store, name='store'),
     re_path(r'^edit_poyasitelniy$', views.edit_poyasitelniy, name='edit_poyasitelniy'),
     re_path(r'^send_to_check_polevoy$', views.send_to_check_polevoy, name='send_to_check_polevoy'),
+    re_path(r'^send_to_check_komeral$', views.send_to_check_komeral, name='send_to_check_komeral'),
     re_path(r'^edit_sirie_files/(?P<id>\d+)/$', views.edit_sirie_files, name='edit_sirie_files'),
     re_path(r'^object_poyasitelniy_form/(?P<id>\d+)/$', views.object_poyasitelniy_form, name='object_poyasitelniy_form'),
+
+    re_path(r'^worker_komeral_works/$', views.worker_komeral_works, name='worker_komeral_works'),
+    re_path(r'^show_rejected_komeral_works/(?P<id>\d+)/$', views.show_rejected_komeral_works, name='show_rejected_komeral_works'),
+
     # worker
 
     # geodezist
@@ -49,6 +58,11 @@ urlpatterns = [
     re_path(r'^confirm_program_work$', views.confirm_program_work, name='confirm_program_work'),
     re_path(r'^reject_program_work$', views.reject_program_work, name='reject_program_work'),
     re_path(r'^program_work_form_re_sent/(?P<id>\d+)/$', views.program_work_form_re_sent, name='program_work_form_re_sent'),
+
+    re_path(r'^geodesiz_komeral_works/$', views.geodesiz_komeral_works, name='geodesiz_komeral_works'),
+    re_path(r'^show_geodesiz_kameral_work/(?P<id>\d+)/$', views.show_geodesiz_kameral_work, name='show_geodesiz_kameral_work'),
+    re_path(r'^geodezis_deny_komeral$', views.geodezis_deny_komeral, name='geodezis_deny_komeral'),
+
     # geodezist
 
     re_path(r'^show_work$', views.show_work, name='show_work'),

@@ -83,14 +83,14 @@
                                                  <div class="col-xl-4 col-md-6 mt-4">
                                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                                     <div class="pricing-plan shadow border-0">
-                                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">{{ object.id }}</div>
+                                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">29</span> Январ 2022</div>
                                                                         <h5>{{ object.pdowork.object_name}}</h5>
                                                                         <div class="blog-bottom-content">
                                                                             <div><b>Обект номи:</b> {{ object.object.pdowork.object_name}}</div>
-                                                                            <div><b>Келиб тушган вақти:</b> {{ object.pdowork.agreement_date}}</div>
-                                                                            <div><b>Муддати</b> {{ object.pdowork.work_term}}</div>
-                                                                            <div><b>Жойлашган жойи:</b> {{ object.pdowork.object_address}}</div>
+                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
+                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
@@ -132,7 +132,9 @@
 
                                                                 {% for work in rejecteds %}
                                                                     {% if work.programowork.object.id == object.object.id %}
-                                                                        {{ forloop.counter }}
+                                                                        {% if forloop.last %}
+                                                                                {{ forloop.counter }}
+                                                                            {% endif %}
                                                                     {% endif %}
                                                                 {% endfor %}
 

@@ -28,7 +28,10 @@ def counter():
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
     count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
     count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
-    count['new_komeral_works_leader'] = WorkerObject.objects.filter(status=4).all().count()
+    count['new_komeral_works_leader'] = AktKomeralForm.objects.filter(status=0).all().count()
+    count['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).all().count()
+
+    count['leader_komeral_works_to_check'] = AktKomeralForm.objects.filter(status=4).all().count()
 
     return count
 
@@ -439,42 +442,76 @@ def deny_polevoy(request):
 
 def leader_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
-    new_ones = AktKomeralForm.objects.filter(status=0).all()  # kameral nazoratiga kelgan ishlar
+    new_ones = AktKomeralForm.objects.filter(status=0).all()  # komeral nazoratiga kelgan ishlar
     checking_ones = AktKomeralForm.objects.filter(status=1).all()  # dala nazorati muhokama jarayonida
     rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
     less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
     aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
-    rejecteds = PolevoyWorkReject.objects.all()
+    rejecteds = KameralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'new_ones':new_ones,
                'rejecteds': rejecteds}
     return render(request, 'leader/komeral/komeral_works.html', context)
 
+def leader_komeral_checking(request):
+    # status_recive = 1 is started work but not recived by worker
+    checking_ones = AktKomeralForm.objects.filter(status=4).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
+    rejecteds = KameralWorkReject.objects.all()
+
+    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'rejecteds': rejecteds}
+    return render(request, 'leader/head_komeral/komeral_works.html', context)
+
 def checking_komeral_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
+    programwork=ProgramWork.objects.filter(object=id).first()
+    work = AktKomeralForm.objects.filter(object=id).first()
 
-    work = AktPolevoyForm.objects.filter(object=id).first()
-    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
-    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
-    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
-    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
-    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
-    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
-    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
-    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
-
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
-               'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
-                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects
-               }
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,
+               'programwork': programwork}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
+
+def show_komeral_checking_leader(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+    programwork=ProgramWork.objects.filter(object=id).first()
+    work = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,
+               'programwork': programwork}
+
+    return render(request, 'leader/head_komeral/show_komeral_work.html', context)
+
+
+
+
+def show_komeral_work(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+
+    work = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
+
+    return render(request, 'leader/komeral/show_komeral_work.html', context)
 
 def rejected_komeral_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
@@ -486,8 +523,7 @@ def rejected_komeral_works(request,id):
 
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects
-               }
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects}
 
     return render(request, 'leader/komeral/rejected_komeral_works.html', context)
 
@@ -501,15 +537,15 @@ def save_akt_komeral(request):
         d={}
         object=Object.objects.filter(id=work_id).first()
         j=0
-        d = {'object': object}
+        d = {'object': object, 'status': 4}
         for i in array.split(','):
             j=j+1
             d['a'+str(j)]=i
-        AktKomeralForm.objects.create(**d)
+        AktKomeralForm.objects.filter(object=work_id).update(**d)
 
 
-        # history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=worker)
-        # history.save()
+        history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
+        history.save()
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -560,6 +596,57 @@ def polevoy_works(request):
     context = {'worker_new_works': worker_new_works,'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects}
     return render(request, 'worker/polevoy_works.html', context)
+
+def worker_komeral_works(request):
+    # status_recive = 1 is started work but not recived by worker
+    checking_ones = AktKomeralForm.objects.filter(status=0).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
+    rejecteds = KameralWorkReject.objects.all()
+
+    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),
+               'rejecteds': rejecteds}
+    return render(request, 'worker/komeral/komeral_works.html', context)
+
+def show_rejected_komeral_works(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'file': sirie_files,'aktkomeral':aktkomeral}
+
+    return render(request, 'worker/komeral/rejected_komeral_works.html', context)
+
+def send_to_check_komeral(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work-id')
+        worker = data.get('worker')
+
+        workerobject = AktKomeralForm.objects.filter(object=work_id).first()
+        print(workerobject)
+        workerobject.status=0
+        workerobject.save()
+
+
+        history = History(object=workerobject.object, status=16, comment="Ish komeral nazorat tekshiruviga qayta yuborildi",user_id=worker)
+        history.save()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
 
 def polevoy_work_doing(request,id):
     work = WorkerObject.objects.filter(object=id).first()
@@ -684,149 +771,169 @@ def edit_sirie_files(request,id):
 
         workerobject = SirieFiles.objects.filter(workerobject=id).first()
         workerobject.workerobject=object
-        if workerobject.file1_1:
+
+        if file1_1:
+            workerobject.file1_1=file1_1
+        else:
             workerobject.file1_1=workerobject.file1_1
-        else:
-            workerobject.file1_1 = file1_1
 
-        if workerobject.file1_2:
+        if file1_2:
+            workerobject.file1_2=file1_2
+        else:
             workerobject.file1_2=workerobject.file1_2
-        else:
-            workerobject.file1_2 = file1_2
 
-        if workerobject.file1_3:
-            workerobject.file1_3=workerobject.file1_3
-        else:
+        if file1_3:
             workerobject.file1_3 = file1_3
-
-        if workerobject.file1_4:
-            workerobject.file1_4 = workerobject.file1_4
         else:
+            workerobject.file1_3 = workerobject.file1_3
+
+        if file1_4:
             workerobject.file1_4 = file1_4
-
-        if workerobject.file1_5:
-            workerobject.file1_5 = workerobject.file1_5
         else:
+            workerobject.file1_4 = workerobject.file1_4
+
+        if file1_5:
             workerobject.file1_5 = file1_5
-
-        if workerobject.file1_6:
-            workerobject.file1_6 = workerobject.file1_6
         else:
+            workerobject.file1_5 = workerobject.file1_5
+
+
+        if file1_6:
             workerobject.file1_6 = file1_6
-
-        if workerobject.file1_7:
-            workerobject.file1_7 = workerobject.file1_7
         else:
+            workerobject.file1_6 = workerobject.file1_6
+
+
+        if file1_7:
             workerobject.file1_7 = file1_7
-
-        if workerobject.file1_8:
-            workerobject.file1_8 = workerobject.file1_8
         else:
+            workerobject.file1_7 = workerobject.file1_7
+
+
+        if file1_8:
             workerobject.file1_8 = file1_8
-
-        if workerobject.file1_9:
-            workerobject.file1_9 = workerobject.file1_9
         else:
+            workerobject.file1_8 = workerobject.file1_8
+
+
+        if file1_9:
             workerobject.file1_9 = file1_9
-
-        if workerobject.file1_10:
-            workerobject.file1_10 = workerobject.file1_10
         else:
+            workerobject.file1_9 = workerobject.file1_9
+
+
+        if file1_10:
             workerobject.file1_10 = file1_10
-
-        if workerobject.file1_11:
-            workerobject.file1_11 = workerobject.file1_11
         else:
+            workerobject.file1_10 = workerobject.file1_10
+
+
+        if file1_11:
             workerobject.file1_11 = file1_11
-
-
-        if workerobject.file2_1:
-            workerobject.file2_1 = workerobject.file2_1
         else:
+            workerobject.file1_11 = workerobject.file1_11
+
+
+        if file2_1:
             workerobject.file2_1 = file2_1
-
-        if workerobject.file2_2:
-            workerobject.file2_2 = workerobject.file2_2
         else:
+            workerobject.file2_1 = workerobject.file2_1
+
+
+        if file2_2:
             workerobject.file2_2 = file2_2
-
-        if workerobject.file2_3:
-            workerobject.file2_3 = workerobject.file2_3
         else:
+            workerobject.file2_2 = workerobject.file2_2
+
+
+        if file2_3:
             workerobject.file2_3 = file2_3
-
-        if workerobject.file2_4:
-            workerobject.file2_4 = workerobject.file2_4
         else:
+            workerobject.file2_3 = workerobject.file2_3
+
+
+        if file2_4:
             workerobject.file2_4 = file2_4
-
-        if workerobject.file2_5:
-            workerobject.file2_5 = workerobject.file2_5
         else:
+            workerobject.file2_4 = workerobject.file2_4
+
+
+        if file2_5:
             workerobject.file2_5 = file2_5
-
-        if workerobject.file2_6:
-            workerobject.file2_6 = workerobject.file2_6
         else:
+            workerobject.file2_5 = workerobject.file2_5
+
+
+        if file2_6:
             workerobject.file2_6 = file2_6
-
-        if workerobject.file2_7:
-            workerobject.file2_7 = workerobject.file2_7
         else:
+            workerobject.file2_6 = workerobject.file2_6
+
+
+        if file2_7:
             workerobject.file2_7 = file2_7
-
-
-        if workerobject.file3_1:
-            workerobject.file3_1 = workerobject.file3_1
         else:
+            workerobject.file2_7 = workerobject.file2_7
+
+
+
+        if file3_1:
             workerobject.file3_1 = file3_1
-
-        if workerobject.file3_2:
-            workerobject.file3_2 = workerobject.file3_2
         else:
+            workerobject.file3_1 = workerobject.file3_1
+
+        if file3_2:
             workerobject.file3_2 = file3_2
-
-        if workerobject.file3_3:
-            workerobject.file3_3 = workerobject.file3_3
         else:
+            workerobject.file3_2 = workerobject.file3_2
+
+
+        if file3_3:
             workerobject.file3_3 = file3_3
-
-        if workerobject.file3_4:
-            workerobject.file3_4 = workerobject.file3_4
         else:
+            workerobject.file3_3 = workerobject.file3_3
+
+
+        if file3_4:
             workerobject.file3_4 = file3_4
-
-        if workerobject.file3_5:
-            workerobject.file3_5 = workerobject.file3_5
         else:
+            workerobject.file3_4 = workerobject.file3_4
+
+
+        if file3_5:
             workerobject.file3_5 = file3_5
-
-        if workerobject.file3_6:
-            workerobject.file3_6 = workerobject.file3_6
         else:
+            workerobject.file3_5 = workerobject.file3_5
+
+
+        if file3_6:
             workerobject.file3_6 = file3_6
-
-        if workerobject.file3_7:
-            workerobject.file3_7 = workerobject.file3_7
         else:
+            workerobject.file3_6 = workerobject.file3_6
+
+
+        if file3_7:
             workerobject.file3_7 = file3_7
-
-        if workerobject.file3_8:
-            workerobject.file3_8 = workerobject.file3_8
         else:
+            workerobject.file3_7 = workerobject.file3_7
+
+
+        if file3_8:
             workerobject.file3_8 = file3_8
-
-        if workerobject.file3_9:
-            workerobject.file3_9 = workerobject.file3_9
         else:
+            workerobject.file3_8 = workerobject.file3_8
+
+
+        if file3_9:
             workerobject.file3_9 = file3_9
-
-        if workerobject.file3_10:
-            workerobject.file3_10 = workerobject.file3_10
         else:
+            workerobject.file3_9 = workerobject.file3_9
+
+
+        if file3_10:
             workerobject.file3_10 = file3_10
-
-
+        else:
+            workerobject.file3_10 = workerobject.file3_10
         workerobject.save()
 
         object_id = Object.objects.filter(id=object.object.id).first()
@@ -1194,31 +1301,32 @@ def save_files(request):
 
         object = WorkerObject.objects.filter(id=id).first()
 
-        if object.abris_file == '':
+        if abris:
             object.abris_file = abris
         else:
             object.abris_file = object.abris_file
 
-        if object.kroki_file == '':
+        if kroki:
             object.kroki_file = kroki
         else:
             object.kroki_file = object.kroki_file
 
 
-        if object.jurnal_file == '':
+        if jurnal:
             object.jurnal_file = jurnal
         else:
             object.jurnal_file = object.jurnal_file
 
-        if object.vidimes_file == '':
+        if vidimes:
             object.vidimes_file = vidimes
         else:
             object.vidimes_file = object.vidimes_file
 
-        if object.list_agreement_file == '':
+        if list:
             object.list_agreement_file = list
         else:
             object.list_agreement_file = object.list_agreement_file
+
 
         object.save()
 
@@ -1661,6 +1769,62 @@ def program_work_form_re_sent(request,id):
 
         # messages.success(request, "Ish tekshiruvga yuborildi !")
         return HttpResponseRedirect('/program_works_leader')
+
+def geodesiz_komeral_works(request):
+    # status_recive = 1 is started work but not recived by worker
+    checking_ones = AktKomeralForm.objects.filter(status=4).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
+    rejecteds = KameralWorkReject.objects.all()
+
+    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),
+               'rejecteds': rejecteds}
+    return render(request, 'geodezis/head_komeral/komeral_works.html', context)
+
+def show_geodesiz_kameral_work(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+
+    return render(request, 'geodezis/head_komeral/checking_komeral_works.html', context)
+
+def geodezis_deny_komeral(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        reason = data.get('reason')
+        reason_file =request.FILES.get('reason_file')
+
+        workerobject = AktKomeralForm.objects.filter(object=work_id).first()
+        workerobject.status = 2
+        workerobject.save()
+
+        object_id = Object.objects.filter(id=work_id).first()
+
+        reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason)
+        reject.save()
+
+        history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
 
 # geodezis
 

@@ -30,7 +30,7 @@
                                     <li class="nav-item"><a class="nav-link active show" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Комерал назоратга келган ишлар {% if new_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ new_ones.count }}</span>{% endif %}</a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true">Комерал назоратдан қайтарилганлар {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#less-time-ones" role="tab" aria-controls="camera-icon" aria-selected="true"> Муддати кам қолганлар {% if less_time_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ less_time_ones.count }}</span>{% endif %} </a></li>
-                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true"> Тасдиқланганлар {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true"> Якунланганлар {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
                                 </ul>
 
 
@@ -89,15 +89,17 @@
                                                             <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
                                                             <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
                                                             <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
-                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
-
-                                                                {% for work in rejecteds %}
-                                                                    {% if work.workerobject.object.id == object.object.id %}
-                                                                        {{ forloop.counter }}
-                                                                    {% endif %}
-                                                                {% endfor %}
-
-                                                            </span></div>
+                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
+                                                                <span style="color: #168eea;font-size:30px;">
+                                                                    {% for work in rejecteds %}
+                                                                        {% if work.workerobject == object.object %}
+                                                                            {% if forloop.last %}
+                                                                                    {{ forloop.counter }}
+                                                                                {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
@@ -179,7 +181,7 @@
                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
-                                                            <a href="{% url 'checking_polevoy_works' id=object.object.id %}">
+                                                            <a href="{% url 'show_komeral_work' id=object.object.id %}">
                                                                 <button class="btn btn-square btn-outline-primary-2x float-end">
                                                                     Батафсил маълумот
                                                                 </button>
