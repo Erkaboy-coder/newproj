@@ -17,7 +17,7 @@
                             <h3>Комерал назоратга келган ишлар</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
-                                <li class="breadcrumb-item active"><a href="{% url 'leader_komeral_works' %}">Бош геодезис назоратига юборилган ишлар</a></li>
+                                <li class="breadcrumb-item active"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назоратига юборилган ишлар</a></li>
                             </ol>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                                                             <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
                                                                 <span style="color: #168eea;font-size:30px;">
                                                                     {% for work in rejecteds %}
-                                                                        {% if work.workerobject == object.object %}
+                                                                        {% if work.object == object.object %}
                                                                             {% if forloop.last %}
                                                                                     {{ forloop.counter }}
                                                                                 {% endif %}
@@ -103,7 +103,7 @@
                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
-                                                            <a href="{% url 'rejected_komeral_works' id=object.object.id %}">
+                                                            <a href="{% url 'leader_rejected_komeral_works' id=object.object.id %}">
                                                                 <button class="btn btn-square btn-primary float-end" style="width: 100%">
                                                                     Батафсил маълумот
                                                                 </button>

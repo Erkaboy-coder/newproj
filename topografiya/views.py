@@ -3,7 +3,7 @@ from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork
     ProgramWorkFormTable1, ProgramWorkFormTable2, WorkerObject, ProgramWorkReject, SirieFiles, PoyasitelniyForm, \
     PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
     AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
-    AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, AktKomeralForm, KameralWorkReject
+    AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, AktKomeralForm, KameralWorkReject, LeaderKomeralWorkReject
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -31,7 +31,8 @@ def counter():
     count['new_komeral_works_leader'] = AktKomeralForm.objects.filter(status=0).all().count()
     count['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).all().count()
 
-    count['leader_komeral_works_to_check'] = AktKomeralForm.objects.filter(status=4).all().count()
+    count['geodezis_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=1).all().count()
+    count['leader_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=2).all().count()
 
     return count
 
@@ -456,11 +457,11 @@ def leader_komeral_works(request):
 
 def leader_komeral_checking(request):
     # status_recive = 1 is started work but not recived by worker
-    checking_ones = AktKomeralForm.objects.filter(status=4).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
-    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
-    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
-    rejecteds = KameralWorkReject.objects.all()
+    checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(status_geodezis_komeral=2).all()  # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(status_geodezis_komeral=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).all()  # tasdiqlangan ishlar
+    rejecteds = LeaderKomeralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'rejecteds': rejecteds}
@@ -471,30 +472,15 @@ def checking_komeral_works(request,id):
     pdowork = Object.objects.filter(id=id).first()
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
-    programwork=ProgramWork.objects.filter(object=id).first()
     work = AktKomeralForm.objects.filter(object=id).first()
 
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,
-               'programwork': programwork}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
 
-def show_komeral_checking_leader(request,id):
-    workerobject = WorkerObject.objects.filter(object=id).first()
-    pdowork = Object.objects.filter(id=id).first()
-    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
-    order = Order.objects.filter(object=id).first()
-    programwork=ProgramWork.objects.filter(object=id).first()
-    work = AktKomeralForm.objects.filter(object=id).first()
 
-    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
-
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,
-               'programwork': programwork}
-
-    return render(request, 'leader/head_komeral/show_komeral_work.html', context)
 
 
 
@@ -543,6 +529,9 @@ def save_akt_komeral(request):
             d['a'+str(j)]=i
         AktKomeralForm.objects.filter(object=work_id).update(**d)
 
+        workerobject=WorkerObject.objects.filter(object=work_id).first()
+        workerobject.status_geodezis_komeral=1
+        workerobject.save()
 
         history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
         history.save()
@@ -570,6 +559,85 @@ def deny_komeral(request):
         history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
         history.save()
 
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def show_komeral_checking_leader(request,id):
+    work = WorkerObject.objects.filter(object=id).first()
+    objects = PdoWork.objects.filter(status_recive=1).all()
+    objects_pdo = PdoWork.objects.filter(status_recive=0).all()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    rejects = LeaderKomeralWorkReject.objects.filter(object=id)
+    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work': work, 'objects_pdo': objects_pdo,
+               'sirie_type': sirie_type,
+               'file': sirie_files, 'count': counter(), 'rejects': rejects}
+
+    return render(request, 'leader/head_komeral/show_komeral_work.html', context)
+
+def leader_rejected_komeral_works(request,id):
+    work = WorkerObject.objects.filter(object=id).first()
+    objects = PdoWork.objects.filter(status_recive=1).all()
+    objects_pdo = PdoWork.objects.filter(status_recive=0).all()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    rejects = LeaderKomeralWorkReject.objects.filter(object=id)
+    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
+               'file': sirie_files,'count': counter(),'rejects':rejects}
+    return render(request, 'leader/head_komeral/rejected_komeral_works.html', context)
+
+def leader_akt_form_edit(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+
+    work = AktPolevoyForm.objects.filter(object=id).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+
+    rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+               'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
+                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects
+               }
+
+    return render(request, 'leader/head_komeral/akt_polevoy.html', context)
+
+def leader_akt_komeral_form_edit(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+
+    work = AktKomeralForm.objects.filter(object=id).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work}
+
+    return render(request, 'leader/head_komeral/akt_komeral.html', context)
+
+def re_send_to_check_komeral(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work-id')
+        worker = data.get('worker')
+
+        workerobject = WorkerObject.objects.filter(object=work_id).first()
+        workerobject.status_geodezis_komeral = 1
+        workerobject.save()
+
+        history = History(object=workerobject.object, status=19, comment="Ish geodezis komeral nazoratiga qayta yuborildi",user_id=worker)
+        history.save()
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -656,8 +724,10 @@ def polevoy_work_doing(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = PolevoyWorkReject.objects.filter(workerobject=work)
+    programwork = ProgramWork.objects.filter(object=id).first()
+
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
-               'file': sirie_files,'count': counter(),'rejects':rejects}
+               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
 def send_to_check_polevoy(request):
@@ -727,8 +797,11 @@ def save_sirie_files(request):
 
         history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=worker)
         history.save()
+        if object.status_geodezis_komeral == 2:
+            return redirect('leader_rejected_komeral_works', id=object_id.id)
+        else:
+            return redirect('polevoy_work_doing', id=object_id.id)
 
-        return redirect('polevoy_work_doing', id=object_id.id)
     else:
         return HttpResponseRedirect('/')
 
@@ -941,7 +1014,10 @@ def edit_sirie_files(request,id):
         history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=worker)
         history.save()
 
-        return redirect('polevoy_work_doing', id=object_id.id)
+        if object.status_geodezis_komeral == 2:
+            return redirect('leader_rejected_komeral_works', id=object_id.id)
+        else:
+            return redirect('polevoy_work_doing', id=object_id.id)
     else:
         return HttpResponseRedirect('/')
 
@@ -1772,11 +1848,11 @@ def program_work_form_re_sent(request,id):
 
 def geodesiz_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
-    checking_ones = AktKomeralForm.objects.filter(status=4).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
-    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
-    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
-    rejecteds = KameralWorkReject.objects.all()
+    checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(status_geodezis_komeral=2).all()  # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(status_geodezis_komeral=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).all()  # tasdiqlangan ishlar
+    rejecteds = LeaderKomeralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),
@@ -1795,7 +1871,7 @@ def show_geodesiz_kameral_work(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
-    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+    rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral}
@@ -1810,21 +1886,43 @@ def geodezis_deny_komeral(request):
         reason = data.get('reason')
         reason_file =request.FILES.get('reason_file')
 
-        workerobject = AktKomeralForm.objects.filter(object=work_id).first()
-        workerobject.status = 2
+        workerobject = WorkerObject.objects.filter(object=work_id).first()
+        workerobject.status_geodezis_komeral = 2
         workerobject.save()
 
-        object_id = Object.objects.filter(id=work_id).first()
 
-        reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason)
+        reject = LeaderKomeralWorkReject(object=workerobject.object, file=reason_file, reason=reason)
         reject.save()
 
-        history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
+        history = History(object=workerobject.object, status=18, comment="Komeral nazorat bosh geodezis tomonidan red etildi", user_id=worker)
         history.save()
 
         return HttpResponse(1)
     else:
         return HttpResponse(0)
+
+
+def geodezis_rejected_komeral_works(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+
+    return render(request, 'geodezis/head_komeral/rejected_komeral_works.html', context)
+
+
 
 # geodezis
 

@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Майдон назоратини текшириш {% endblock %}
+{% block title %} Бош геодезис назорати {% endblock %}
 
 {% block content%}
 
@@ -356,11 +356,11 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3>Комерал назорати текшируви</h3>
+                            <h3>Бош геодезис назорати</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'leader_komeral_works' %}">Комерал назорати текшируви</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'checking_polevoy_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'geodesiz_komeral_works' %}">Бош геодезис назорати</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'show_geodesiz_kameral_work' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
                         </div>
@@ -392,7 +392,7 @@
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича комерал назорати ва қабул қилиш далолатномаси</h4>
+                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича бош геодезис назорати</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
                                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
@@ -460,14 +460,33 @@
                                             </div>
                                         </li>
 
-                                        <li class="file-box m-t-5">
+                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>8. АКТ дала назорати текшируви</h6>
+                                                <h6>8. Топографик-Геодезик Дастури</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
                                         </li>
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>9. АКТ дала назорати текшируви далолатномаси</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                            </div>
+                                        </li>
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>10 АКТ комерал назорат далолатномаси</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                            </div>
+                                        </li>
+
 
                                     </ul>
 
@@ -485,495 +504,6 @@
                                     <hr>
 {#                                    <div class="card">#}
 
-
-                                    <h4 class="m-t-25 ">Муҳандислик тармоқлари сиёмкаси бўйича дала назорати ва қабул қилиш далолатномаси</h4>
-                                    <div class="row p-r-40">
-                                        <div class="col-sm-2 tabs-responsive-side">
-                                            <div class="nav flex-column nav-pills border-tab nav-left" id="v-pills-tab"
-                                                 role="tablist" aria-orientation="vertical">
-                                                <a class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false">Тайёр файлни юклаш</a>
-                                                <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true" style="white-space: nowrap;">Форма орқали киритиш</a></div>
-                                            </div>
-
-                                        <div class="col-sm-10">
-                                            <div class="tab-content" id="v-pills-tabContent">
-                                                <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
-                                                     aria-labelledby="v-pills-home-tab">
-                                                    <form class="dropzone digits dz-clickable" id="singleFileUpload"
-                                                          action="">
-                                                        <div class="dz-message needsclick"><i
-                                                                style="color: #168eea;font-size: 60px;"
-                                                                data-feather="upload"></i>
-                                                            <h6>Файлларни шу йерга ташланг ёки юклаш учун босинг.</h6>
-                                                            <span class="note needsclick">Бу шунчаки демо тушириш зонаси. Танланган файллар аслида юкланмаган.</span>
-                                                        </div>
-                                                    </form>
-                                                </div>
-
-                                                <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel"
-                                                     aria-labelledby="v-pills-profile-tab">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-
-
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card">
-                            <div class="card-body ">
-                                <div class="col-xs-12">
-                                    <div class="file-sidebar">
-                                        <div class="pricing-plan">
-                                            <div class="col-md-12">
-                                                <p class="text-end">ШНК 1.02.07-19 стр.</p>
-                                                <div class="row">
-                                                    <div class="col-xl-8"></div>
-                                                    <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                        <div class="text-end input-group date" id="dt-minimum"
-                                                             data-target-input="nearest">
-                                                            <input class=" text-end form-control datetimepicker-input digits"
-                                                                   type="text" id="a1" name="a1" value="{{ work.a1 }}" data-target="#dt-minimum">
-                                                            <div class="input-group-text" data-target="#dt-minimum"
-                                                                 data-toggle="datetimepicker"><i
-                                                                    class="fa fa-calendar"> </i></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <h3 class="text-center">А К Т</h3>
-                                                <h4 class="mb-3 text-center">1. Камеральной проверки и приемки
-                                                    топографических работ <span><sup style="color: red;">*</sup></span>
-                                                </h4>
-                                                <form class="theme-form">
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label" for="inputEmail3">По
-                                                            объекту:</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" id="a2" name="a2" value="{{ work.a2 }}" type="text"
-                                                                   placeholder="" >
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Проверка и приемка
-                                                            произведена</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a3" name="a3" value="{{ work.a3 }}"
-                                                                   placeholder="должность фамилия, имя, отчество">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">В присутствии
-                                                            исполнителя</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a4" name="a4" value="{{ work.a4 }}"
-                                                                   placeholder="должность фамилия, имя, отчество">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">В процессе проверки
-                                                            установлено:
-                                                            <span class="badge rounded-pill badge-primary">1</span>
-                                                            Топографические работы выполнены в соответствии</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a5" name="a5"
-                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием">{{ work.a5 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label"><span
-                                                                class="badge rounded-pill badge-primary">2</span> Работа
-                                                            выполнена в границах</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a6" name="a6"
-                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием">{{ work.a6 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                <div class="col-sm-12">
-                                                    <div class="card border-0">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered">
-                                                                <thead class="bg-primary">
-                                                                <tr>
-                                                                    <th scope="col">№</th>
-                                                                    <th scope="col">Наименование виды работ</th>
-                                                                    <th scope="col">Ед.измерения</th>
-                                                                    <th colspan="2" scope="col">Объем работ / факт</th>
-                                                                    <th scope="col">Категория работ</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">1</th>
-                                                                    <td>Отыскивание исходных пунктов</td>
-                                                                    <td>знак</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a7" name="a7" value="{{ work.a7 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a8" name="a8" value="{{ work.a8 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a9" name="a9" value="{{ work.a9 }}"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">2</th>
-                                                                    <td>Создание обоснования</td>
-                                                                    <td>км</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a10" name="a10" value="{{ work.a10 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a11" name="a11" value="{{ work.a11 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a12" name="a12" value="{{ work.a12 }}"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">3</th>
-                                                                    <td>Техническое нивелирование</td>
-                                                                    <td>км</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a13" name="a13" value="{{ work.a13 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a14" name="a14" value="{{ work.a14 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a15" name="a15" value="{{ work.a15 }}"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">4</th>
-                                                                    <td>Закладка центров</td>
-                                                                    <td>знак</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a16" name="a16" value="{{ work.a16 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a17" name="a17" value="{{ work.a17 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a18" name="a18" value="{{ work.a18 }}"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">5</th>
-                                                                    <td>Координирование углов</td>
-                                                                    <td>точка</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a19" name="a19" value="{{ work.a19 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a20" name="a20" value="{{ work.a20 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a21" name="a21" value="{{ work.a21 }}"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">6</th>
-                                                                    <td>
-                                                                        Тахеометрическая съемка М 1:
-                                                                        <span><input
-                                                                                style="border: none;border-bottom: 1px solid #cccccc"
-                                                                                type="text" id="a22" name="a22" value="{{ work.a22 }}"></span>
-                                                                        сечением рельефа горизонталями через
-                                                                        <span><input
-                                                                                style="border: none;border-bottom: 1px solid #cccccc"
-                                                                                type="text" id="a23" name="a23" value="{{ work.a23 }}"></span>м
-                                                                    </td>
-                                                                    <td>га</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a24" name="a24" value="{{ work.a24 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a25" name="a25" value="{{ work.a25 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a26" name="a26" value="{{ work.a26 }}"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th class="bg-primary" scope="row">7</th>
-                                                                    <td>
-                                                                        Корректура съемки М 1:
-                                                                        <span><input
-                                                                                style="border: none;border-bottom: 1px solid #cccccc"
-                                                                                type="text" id="a27" name="a27" value="{{ work.a27 }}"></span>
-                                                                    </td>
-                                                                    <td>га</td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a28" name="a28" value="{{ work.a28 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a29" name="a29" value="{{ work.a29 }}"></td>
-                                                                    <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a30" name="a30" value="{{ work.a30 }}"></td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p><span class="badge rounded-pill badge-primary">3</span> Работы
-                                                    выполнены в <span><input style="border:1px solid #e6edef;"
-                                                                             type="text" id="a31" name="a31" value="{{ work.a31 }}"></span> системе
-                                                    координат и в и грунтовые репера системе высот.</p>
-                                                <p>Результаты полевого контроля:</p>
-                                                <p><span class="badge rounded-pill badge-primary">4</span> Исходными
-                                                    пунктами для построения съемочного обоснования послужили:</p>
-                                                <textarea style="width: 50%" class="form-control" type="text"
-                                                          placeholder="..." id="a32" name="a32">{{ work.a32 }}</textarea>
-                                                <p class="m-t-10">и грунтовые репера <span>
-                                                    <input
-                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a33" name="a33"></span>
-                                                    имеющие отметки нивелирования <span><input
-                                                            style="border:1px solid #e6edef;" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span> кл.
-                                                </p>
-                                                <p>
-                                                    <span class="badge rounded-pill badge-primary">5</span>
-                                                    Длины ходов от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="{{ work.a35 }}"></span>
-                                                    до
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36" value="{{ work.a36 }}"></span>
-                                                    км Абсолютные ошибки от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37" value="{{ work.a37 }}"></span>
-                                                    до
-                                                    <span><input class="m-b-10" style="border:1px solid #e6edef;"
-                                                                 type="text" id="a38" name="a38" value="{{ work.a38 }}"></span>
-                                                    м.Относительные ошибки от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a39" name="a39" value="{{ work.a39 }}"></span>
-                                                    до
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="{{ work.a40 }}"></span>.
-                                                    Система ходов уравнена
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41" value="{{ work.a41 }}"></span>.
-                                                </p>
-                                                <form class="theme-form">
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label"><span
-                                                                class="badge rounded-pill badge-primary">6</span>
-                                                            Техническое нивелирование выполнено</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a42" name="a42"
-                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания">{{ work.a42 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <p><span class="badge rounded-pill badge-primary">7</span> Состояние
-                                                        полевой документации:</p>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">журналы:</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a43" name="a43" value="{{ work.a43 }}"
-                                                                   placeholder="кто, когда проверил и принял, максимальные расхождения в полуприемах, отсчетах по рейке, измерениях линий">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">схемы:</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a44" name="a44" value="{{ work.a44 }}"
-                                                                   placeholder="масштаб, назначение, качество каждой схемы">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">абрисы:</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" placeholder="" id="a45" name="a45" value="{{ work.a45 }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Акт сдачи пунктов на
-                                                            наблюдение за сохранностью</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a46" name="a46" value="{{ work.a45 }}"
-                                                                   placeholder="когда, кому сданы – Ф.И.О.">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Каталог:</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a47" name="a47"
-                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами">{{ work.a47 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Вычислительные
-                                                            материалы</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a48" name="a48" value="{{ work.a48 }}"
-                                                                   placeholder="качество оформления">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Пояснительная записка,
-                                                            тех. отчет</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" value="{{ work.a49 }}"
-                                                                   placeholder="кто и что составил, качество" id="a49" name="a49">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label"><span
-                                                                class="badge rounded-pill badge-primary">8</span> Работа
-                                                            выполнена в границах</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a50" name="a50"
-                                                                      placeholder="
-                                                                      указать среднее количество пикетов на дм2, заполнение контуров, правильность
-                                                                      применения условных знаков,
-                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">{{ work.a50 }}
-                                                            </textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Замечания
-                                                            исправил</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="number" value="{{ work.a51 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a51" name="a51">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Работа выполнена в
-                                                            границах</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text"
-                                                                      placeholder="" id="a52" name="a52">{{ work.a52 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a53" name="a53" value="{{ work.a53 }}"
-                                                                   placeholder="подпись, Ф.И.О., исполнителя">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a54" name="a54" value="{{ work.a54 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Общая оценка качества
-                                                            выпускаемой продукции</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="number"
-                                                                      placeholder="" id="a55" name="a55">{{ work.a55 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <h5 class="text-center m-b-20 m-t-20"><span
-                                                            class="badge rounded-pill badge-primary">9</span>
-                                                        камерального контроля и приемки работ по съемке инженерных
-                                                        сетей.
-                                                    </h5>
-                                                    <p>
-                                                        Топографическая съемка инженерных сетей проверена на
-                                                        <span><input type="text" class="actform" id="a56" name="a56" value="{{ work.a56 }}"></span>
-                                                        листах(е),
-                                                        и/или планшетах(е) с номенклатурой:
-                                                        <span><input type="text" class="actform" id="a57" name="a57" value="{{ work.a57 }}"></span>
-                                                    </p>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Замечание по экспликации колодцев и опор</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a58" name="a58" placeholder="">{{ work.a58 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Замечания
-                                                            исправил</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a59" name="a59" value="{{ work.a59 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность исполнителя">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Заключение </label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a60" name="a60" value="{{ work.a60 }}"  placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a62" name="a62" value="{{ work.a62 }}"
-                                                                   placeholder="подпись, Ф.И.О., исполнителя">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a63" name="a63" value="{{ work.a63 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <img class="bg-img" style="width: 20%;"
-                                                 src="{% static 'assets/images/clock.jpg' %}"
-                                                 alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {% if work.status != 2 %}
-                                        <div class="row p-2 mb-2">
-                                             <div class="col-md-6 card p-2 shadow-lg">
-                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
-                                             </div>
-
-                                            <div class="col-md-6 card p-2 shadow-lg">
-                                                <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-
-
-                                     <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
-                                            {% csrf_token %}
-
-                                        <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">
-{#                                            <button class="btn btn-outline-danger m-r-20" data-bs-toggle="modal"#}
-{#                                                    data-bs-target="#exampleModalCenter">Қайтариш#}
-{#                                            </button>#}
-{#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
-{#                                                Камерал назоратга юбориш#}
-{#                                            </button>#}
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                 aria-labelledby="exampleModalCenter" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-danger">
-                                                            <h5 style="color: white;" class="modal-title">Хатолик
-                                                                хабарини тасдиқлаш</h5>
-                                                            <div type="button" data-bs-dismiss="modal"
-                                                                 aria-label="Close">x
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <ul class="messages text text-center text-danger" id="error_show" style="display:none">
-                                                               <div class="alert alert-danger">
-                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
-                                                               </div>
-                                                           </ul>
-                                                            <br>
-                                                            <h5 class="m-b-20">Хатолик аризаси</h5>
-                                                            <input class="form-control" id="reason_file" name="reason_file" type="file">
-                                                            <h5 class="m-t-20 m-b-20">Хатолик аризаси</h5>
-                                                            <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button  class="btn btn-outline-danger" id="deny_komeral" type="button">Юбориш</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                             </div>
                         </div>
                     </div>
@@ -997,11 +527,11 @@
         for(var i=1;i<64;i++){
                 array.push($('#a'+i).val());
         }
-
+        data.append("array", array);
         event.preventDefault();
 
-        if($('#a1').val() == 0){
-           alert("Maydonni to'ldiring");
+        if($('#a61').val() == 0){
+           alert("Ishni baxolash maydonini to'ldiring");
         }
         else{
         $.ajax({
@@ -1012,7 +542,7 @@
             contentType: false,
             processData: false,
             success: function (result){
-               location.replace(window.location.pathname);
+               location.replace('/leader_komeral_works');
             },
 
             error: function(){
@@ -1152,7 +682,7 @@
 </script>
 
     <script>
-    $("#deny_komeral").click(function(event) {
+    $("#geodezis_deny_komeral").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
@@ -1164,13 +694,13 @@
         if($('#reason').val() != 0 ){
            $.ajax({
             type: 'POST',
-            url: '{% url 'deny_komeral' %}',
+            url: '{% url 'geodezis_deny_komeral' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             success: function (result){
-               location.replace('/leader_komeral_works');
+               location.replace('/geodesiz_komeral_works');
             },
 
             error: function(){

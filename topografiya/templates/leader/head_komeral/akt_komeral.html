@@ -1,0 +1,925 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %}  АКТ майдон назорати далолатномаси {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+<style>
+    p {
+        margin: 0;
+        color: #111727 !important;
+    }
+    .form-plan{
+        border: 1px solid #e6edef;
+    }
+
+    .actform {
+        border: none;
+        border-bottom: 1px solid #cccccc;
+    }
+
+</style>
+{% endblock stylecontent %}
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
+
+<div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Майдон назоратини текшириш</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Kомерал назоратини текшириш</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'leader_rejected_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'leader_akt_komeral_form_edit' id=workerobject.object.id %}">АКТ комерал назорати далолатномаси</a></li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 box-col-12">
+                        <div class="file-content">
+                            <div class="card">
+                                <div class="card-body file-manager ">
+                                    <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+    <div class="row">
+        <div class="col-sm-12">
+
+
+            {% if work %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body ">
+                                <div class="col-xs-12">
+                                    <div class="file-sidebar">
+                                        <div class="pricing-plan">
+                                            <div class="col-md-12">
+                                                <p class="text-end">ШНК 1.02.07-19 стр.</p>
+                                                <div class="row">
+                                                    <div class="col-xl-8"></div>
+                                                    <div class="col-xl-4 col-sm-5 col-lg-5">
+                                                        <div class="text-end input-group date" id="dt-minimum"
+                                                             data-target-input="nearest">
+                                                            <input class=" text-end form-control datetimepicker-input digits"
+                                                                   type="text" id="a1" name="a1" value="{{ work.a1 }}" data-target="#dt-minimum">
+                                                            <div class="input-group-text" data-target="#dt-minimum"
+                                                                 data-toggle="datetimepicker"><i
+                                                                    class="fa fa-calendar"> </i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <h3 class="text-center">А К Т</h3>
+                                                <h4 class="mb-3 text-center">1. Камеральной проверки и приемки
+                                                    топографических работ <span><sup style="color: red;">*</sup></span>
+                                                </h4>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label" for="inputEmail3">По
+                                                            объекту:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" id="a2" value="{{ work.a2 }}" name="a2" type="text"
+                                                                   placeholder="" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Проверка и приемка
+                                                            произведена</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a3" name="a3" value="{{ work.a3 }}"
+                                                                   placeholder="должность фамилия, имя, отчество">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">В присутствии
+                                                            исполнителя</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a4" name="a4" value="{{ work.a4 }}"
+                                                                   placeholder="должность фамилия, имя, отчество">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">В процессе проверки
+                                                            установлено:
+                                                            <span class="badge rounded-pill badge-primary">1</span>
+                                                            Топографические работы выполнены в соответствии</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a5" name="a5"
+                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием">{{ work.a5 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">2</span> Работа
+                                                            выполнена в границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a6" name="a6"
+                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием">{{ work.a6 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-12">
+                                                    <div class="card border-0">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead class="bg-primary">
+                                                                <tr>
+                                                                    <th scope="col">№</th>
+                                                                    <th scope="col">Наименование виды работ</th>
+                                                                    <th scope="col">Ед.измерения</th>
+                                                                    <th colspan="2" scope="col">Объем работ / факт</th>
+                                                                    <th scope="col">Категория работ</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">1</th>
+                                                                    <td>Отыскивание исходных пунктов</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a7" value="{{ work.a7 }}" name="a7"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a8" name="a8" value="{{ work.a8 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a9" name="a9" value="{{ work.a9 }}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">2</th>
+                                                                    <td>Создание обоснования</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a10" name="a10" value="{{ work.a10 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a11" name="a11" value="{{ work.a11 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a12" name="a12" value="{{ work.a12 }}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">3</th>
+                                                                    <td>Техническое нивелирование</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a13" name="a13" value="{{ work.a13 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a14" name="a14" value="{{ work.a14 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a15" name="a15" value="{{ work.a15 }}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">4</th>
+                                                                    <td>Закладка центров</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a16" name="a16" value="{{ work.a16 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a17" name="a17" value="{{ work.a17 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a18" name="a18" value="{{ work.a18 }}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">5</th>
+                                                                    <td>Координирование углов</td>
+                                                                    <td>точка</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a19" name="a19" value="{{ work.a19 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a20" name="a20" value="{{ work.a20 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a21" name="a21" value="{{ work.a21 }}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">6</th>
+                                                                    <td>
+                                                                        Тахеометрическая съемка М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a22" name="a22" value="{{ work.a22 }}"></span>
+                                                                        сечением рельефа горизонталями через
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a23" name="a23" value="{{ work.a23 }}"></span>м
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a24" name="a24" value="{{ work.a24 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a25" name="a25" value="{{ work.a25 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a26" name="a26" value="{{ work.a26 }}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">7</th>
+                                                                    <td>
+                                                                        Корректура съемки М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a27" name="a27" value="{{ work.a27 }}"></span>
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a28" name="a28" value="{{ work.a28 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a29" name="a29" value="{{ work.a29 }}"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a30" name="a30" value="{{ work.a30 }}"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p><span class="badge rounded-pill badge-primary">3</span> Работы
+                                                    выполнены в <span><input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a31" name="a31" value="{{ work.a31 }}"></span> системе
+                                                    координат и в и грунтовые репера системе высот.</p>
+                                                <p>Результаты полевого контроля:</p>
+                                                <p><span class="badge rounded-pill badge-primary">4</span> Исходными
+                                                    пунктами для построения съемочного обоснования послужили:</p>
+                                                <textarea style="width: 50%" class="form-control" type="text"
+                                                          placeholder="..." id="a32" name="a32">{{ work.a32 }}</textarea>
+                                                <p class="m-t-10">и грунтовые репера <span>
+                                                    <input
+                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a33" name="a33" value="{{ work.a33 }}"></span>
+                                                    имеющие отметки нивелирования <span><input
+                                                            style="border:1px solid #e6edef;" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span> кл.
+                                                </p>
+                                                <p>
+                                                    <span class="badge rounded-pill badge-primary">5</span>
+                                                    Длины ходов от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="{{ work.a35 }}"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36" value="{{ work.a36 }}"></span>
+                                                    км Абсолютные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37" value="{{ work.a37 }}"></span>
+                                                    до
+                                                    <span><input class="m-b-10" style="border:1px solid #e6edef;"
+                                                                 type="text" id="a38" name="a38" value="{{ work.a38 }}"></span>
+                                                    м.Относительные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a39" name="a39" value="{{ work.a39 }}"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="{{ work.a40 }}"></span>.
+                                                    Система ходов уравнена
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41" value="{{ work.a41 }}"></span>.
+                                                </p>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">6</span>
+                                                            Техническое нивелирование выполнено</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a42" name="a42"
+                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания">{{ work.a42 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <p><span class="badge rounded-pill badge-primary">7</span> Состояние
+                                                        полевой документации:</p>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">журналы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a43" name="a43" value="{{ work.a43 }}"
+                                                                   placeholder="кто, когда проверил и принял, максимальные расхождения в полуприемах, отсчетах по рейке, измерениях линий">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">схемы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a44" name="a44" value="{{ work.a44 }}"
+                                                                   placeholder="масштаб, назначение, качество каждой схемы">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">абрисы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" placeholder="" id="a45" name="a45" value="{{ work.a45 }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Акт сдачи пунктов на
+                                                            наблюдение за сохранностью</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a46" name="a46"
+                                                                   placeholder="когда, кому сданы – Ф.И.О." value="{{ work.a46 }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Каталог:</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a47" name="a47"
+                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами">{{ work.a47 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Вычислительные
+                                                            материалы</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a48" name="a48" value="{{ work.a48 }}"
+                                                                   placeholder="качество оформления">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Пояснительная записка,
+                                                            тех. отчет</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="кто и что составил, качество" id="a49" value="{{ work.a49 }}" name="a49">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">8</span> Работа
+                                                            выполнена в границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a50" name="a50"
+                                                                      placeholder="
+                                                                      указать среднее количество пикетов на дм2, заполнение контуров, правильность
+                                                                      применения условных знаков,
+                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">
+                                                            {{ work.a50 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечания
+                                                            исправил</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" value="{{ work.a51 }}"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a51" name="a51">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работа выполнена в
+                                                            границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text"
+                                                                      placeholder="" id="a52" name="a52">{{ work.a52 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a53" value="{{ work.a53 }}" name="a53"
+                                                                   placeholder="подпись, Ф.И.О., исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a54" name="a54" value="{{ work.a54 }}"
+                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Общая оценка качества
+                                                            выпускаемой продукции</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="number"
+                                                                      placeholder="" id="a55" name="a55">{{ work.a55 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="text-center m-b-20 m-t-20"><span
+                                                            class="badge rounded-pill badge-primary">9</span>
+                                                        камерального контроля и приемки работ по съемке инженерных
+                                                        сетей.
+                                                    </h5>
+                                                    <p>
+                                                        Топографическая съемка инженерных сетей проверена на
+                                                        <span><input type="text" class="actform" id="a56" name="a56" value="{{ work.a56 }}"></span>
+                                                        листах(е),
+                                                        и/или планшетах(е) с номенклатурой:
+                                                        <span><input type="text" class="actform" id="a57" name="a57" value="{{ work.a57 }}"></span>
+                                                    </p>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечание по экспликации колодцев и опор</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a58" name="a58"  placeholder="">{{ work.a58 }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечания
+                                                            исправил</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a59" name="a59" value="{{ work.a59 }}"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Заключение </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a60" name="a60" value="{{ work.a60 }}"  placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a62" name="a62" value="{{ work.a62 }}"
+                                                                   placeholder="подпись, Ф.И.О., исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a63" value="{{ work.a63 }}" name="a63"
+                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <img class="bg-img" style="width: 20%;"
+                                                 src="{% static 'assets/images/clock.jpg' %}"
+                                                 alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body ">
+                                <div class="col-xs-12">
+                                    <div class="file-sidebar">
+                                        <div class="pricing-plan">
+                                            <div class="col-md-12">
+                                                <p class="text-end">ШНК 1.02.07-19 стр.</p>
+                                                <div class="row">
+                                                    <div class="col-xl-8"></div>
+                                                    <div class="col-xl-4 col-sm-5 col-lg-5">
+                                                        <div class="text-end input-group date" id="dt-minimum"
+                                                             data-target-input="nearest">
+                                                            <input class=" text-end form-control datetimepicker-input digits"
+                                                                   type="text" id="a1" name="a1" data-target="#dt-minimum">
+                                                            <div class="input-group-text" data-target="#dt-minimum"
+                                                                 data-toggle="datetimepicker"><i
+                                                                    class="fa fa-calendar"> </i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <h3 class="text-center">А К Т</h3>
+                                                <h4 class="mb-3 text-center">1. Камеральной проверки и приемки
+                                                    топографических работ <span><sup style="color: red;">*</sup></span>
+                                                </h4>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label" for="inputEmail3">По
+                                                            объекту:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" id="a2" name="a2" type="text"
+                                                                   placeholder="" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Проверка и приемка
+                                                            произведена</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a3" name="a3"
+                                                                   placeholder="должность фамилия, имя, отчество">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">В присутствии
+                                                            исполнителя</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a4" name="a4"
+                                                                   placeholder="должность фамилия, имя, отчество">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">В процессе проверки
+                                                            установлено:
+                                                            <span class="badge rounded-pill badge-primary">1</span>
+                                                            Топографические работы выполнены в соответствии</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a5" name="a5"
+                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">2</span> Работа
+                                                            выполнена в границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a6" name="a6"
+                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-12">
+                                                    <div class="card border-0">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead class="bg-primary">
+                                                                <tr>
+                                                                    <th scope="col">№</th>
+                                                                    <th scope="col">Наименование виды работ</th>
+                                                                    <th scope="col">Ед.измерения</th>
+                                                                    <th colspan="2" scope="col">Объем работ / факт</th>
+                                                                    <th scope="col">Категория работ</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">1</th>
+                                                                    <td>Отыскивание исходных пунктов</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a7" name="a7"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a8" name="a8"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a9" name="a9"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">2</th>
+                                                                    <td>Создание обоснования</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a10" name="a10"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a11" name="a11"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a12" name="a12"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">3</th>
+                                                                    <td>Техническое нивелирование</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a13" name="a13"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a14" name="a14"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a15" name="a15"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">4</th>
+                                                                    <td>Закладка центров</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a16" name="a16"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a17" name="a17"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a18" name="a18"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">5</th>
+                                                                    <td>Координирование углов</td>
+                                                                    <td>точка</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a19" name="a19"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a20" name="a20"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a21" name="a21"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">6</th>
+                                                                    <td>
+                                                                        Тахеометрическая съемка М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a22" name="a22"></span>
+                                                                        сечением рельефа горизонталями через
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a23" name="a23"></span>м
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a24" name="a24"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a25" name="a25"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a26" name="a26"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">7</th>
+                                                                    <td>
+                                                                        Корректура съемки М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a27" name="a27"></span>
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a28" name="a28"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a29" name="a29"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a30" name="a30"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p><span class="badge rounded-pill badge-primary">3</span> Работы
+                                                    выполнены в <span><input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a31" name="a31"></span> системе
+                                                    координат и в и грунтовые репера системе высот.</p>
+                                                <p>Результаты полевого контроля:</p>
+                                                <p><span class="badge rounded-pill badge-primary">4</span> Исходными
+                                                    пунктами для построения съемочного обоснования послужили:</p>
+                                                <textarea style="width: 50%" class="form-control" type="text"
+                                                          placeholder="..." id="a32" name="a32"></textarea>
+                                                <p class="m-t-10">и грунтовые репера <span>
+                                                    <input
+                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a33" name="a33"></span>
+                                                    имеющие отметки нивелирования <span><input
+                                                            style="border:1px solid #e6edef;" type="text" id="a34" name="a34"></span> кл.
+                                                </p>
+                                                <p>
+                                                    <span class="badge rounded-pill badge-primary">5</span>
+                                                    Длины ходов от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a35" name="a35"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36"></span>
+                                                    км Абсолютные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37"></span>
+                                                    до
+                                                    <span><input class="m-b-10" style="border:1px solid #e6edef;"
+                                                                 type="text" id="a38" name="a38"></span>
+                                                    м.Относительные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a39" name="a39"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40"></span>.
+                                                    Система ходов уравнена
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41"></span>.
+                                                </p>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">6</span>
+                                                            Техническое нивелирование выполнено</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a42" name="a42"
+                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <p><span class="badge rounded-pill badge-primary">7</span> Состояние
+                                                        полевой документации:</p>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">журналы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a43" name="a43"
+                                                                   placeholder="кто, когда проверил и принял, максимальные расхождения в полуприемах, отсчетах по рейке, измерениях линий">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">схемы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a44" name="a44"
+                                                                   placeholder="масштаб, назначение, качество каждой схемы">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">абрисы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" placeholder="" id="a45" name="a45">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Акт сдачи пунктов на
+                                                            наблюдение за сохранностью</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a46" name="a46"
+                                                                   placeholder="когда, кому сданы – Ф.И.О.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Каталог:</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a47" name="a47"
+                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Вычислительные
+                                                            материалы</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a48" name="a48"
+                                                                   placeholder="качество оформления">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Пояснительная записка,
+                                                            тех. отчет</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="кто и что составил, качество" id="a49" name="a49">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">8</span> Работа
+                                                            выполнена в границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a50" name="a50"
+                                                                      placeholder="
+                                                                      указать среднее количество пикетов на дм2, заполнение контуров, правильность
+                                                                      применения условных знаков,
+                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечания
+                                                            исправил</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a51" name="a51">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работа выполнена в
+                                                            границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text"
+                                                                      placeholder="" id="a52" name="a52"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a53" name="a53"
+                                                                   placeholder="подпись, Ф.И.О., исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a54" name="a54"
+                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Общая оценка качества
+                                                            выпускаемой продукции</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="number"
+                                                                      placeholder="" id="a55" name="a55"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="text-center m-b-20 m-t-20"><span
+                                                            class="badge rounded-pill badge-primary">9</span>
+                                                        камерального контроля и приемки работ по съемке инженерных
+                                                        сетей.
+                                                    </h5>
+                                                    <p>
+                                                        Топографическая съемка инженерных сетей проверена на
+                                                        <span><input type="text" class="actform" id="a56" name="a56"></span>
+                                                        листах(е),
+                                                        и/или планшетах(е) с номенклатурой:
+                                                        <span><input type="text" class="actform" id="a57" name="a57"></span>
+                                                    </p>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечание по экспликации колодцев и опор</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a58" name="a58" placeholder=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечания
+                                                            исправил</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a59" name="a59"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Заключение </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a60" name="a60"  placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="number"  id="a61" name="a61"  placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a62" name="a62"
+                                                                   placeholder="подпись, Ф.И.О., исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a63" name="a63"
+                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <img class="bg-img" style="width: 20%;"
+                                                 src="{% static 'assets/images/clock.jpg' %}"
+                                                 alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+
+</div>
+
+
+                                {% if workerobject.status_geodezis_komeral != 1 %}
+                                    <button class="edit_akt btn btn-warning pull-right" id="save_akt" type="button"> <i class="fa fa-save"></i>  Saqlash</button>
+                                {% endif %}
+
+                                    <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
+                                    <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            {% csrf_token %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+<input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
+<input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+{% csrf_token %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#save_akt").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        var array = [];
+        for(var i=1;i<64;i++){
+                array.push($('#a'+i).val());
+        }
+        data.append("array", array);
+        event.preventDefault();
+
+        if($('#a61').val() == 0){
+           alert("Ishni baxolash maydonini to'ldiring");
+        }
+        else{
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'save_akt_komeral' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace(window.location.pathname);
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+
+
+
+        });
+</script>
+
+{% endblock %}
+
+{% block scriptcontent %}
+    <script src="{% static 'assets/js/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'assets/js/dropzone/dropzone-script.js' %}"></script>
+    <script src="{% static 'assets/js/notify/bootstrap-notify.min.js' %}"></script>
+    <script src="{% static 'assets/js/notify/notify-script.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/datetimepicker.custom.js' %}"></script>
+    <script src="{% static 'assets/js/boottable.js' %}"></script>
+{% endblock scriptcontent %}
+

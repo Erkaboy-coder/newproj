@@ -232,6 +232,7 @@
                                 </ul>
                             </li>
                             {% endif %}
+
 {#                            bu ispolnitel profili#}
 
                              {% if user.profile.status == '2' %}
@@ -250,9 +251,9 @@
 
                                     <li>
                                         <a href="{% url 'geodesiz_komeral_works' %}">Бош геодезист назорати
-                                            {% if count.leader_komeral_works_to_check != 0 %}
+                                            {% if count.geodezis_komeral_works_to_check != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
-                                                    {{ count.leader_komeral_works_to_check }}
+                                                    {{ count.geodezis_komeral_works_to_check }}
                                                 </span>
                                             {% endif %}
                                         </a>

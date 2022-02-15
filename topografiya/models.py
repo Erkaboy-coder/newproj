@@ -498,7 +498,11 @@ class WorkerObject(models.Model):
     # status = 2 qaytarilgan
     # status = 3 muddati kam qolgan
     # status = 4 tasdiqlangan
-
+    status_geodezis_komeral = models.IntegerField(default=0)
+    # status = 1 glavniy geodezisga yuborilgan tekshirish uchun
+    # status = 2 qaytarilgan
+    # status = 3 muddati kam qolgan
+    # status = 4 tasdiqlangan
     def __str__(self):
         return self.object.pdowork.object_name
 
@@ -526,6 +530,17 @@ class KameralWorkReject(models.Model):
 
     class Meta:
         verbose_name_plural = "KomeralWorkReject"
+
+class LeaderKomeralWorkReject(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='leaderkomeralworkreject')
+    file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/programfiles', blank=True)
+    reason = models.TextField(blank=True)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "LeaderKomeralWorkReject"
 
 class AktKomeralForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktkomeralobject')
@@ -607,16 +622,7 @@ class AktKomeralForm(models.Model):
     class Meta:
         verbose_name_plural = "AktKomeralForm"
 
-class LeaderWorkReject(models.Model):
-    object = models.ForeignKey(AktKomeralForm, blank=True, on_delete=models.CASCADE, related_name='leaderkomeralworkreject')
-    file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/programfiles', blank=True)
-    reason = models.TextField(blank=True)
-    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-    def __str__(self):
-        return self.object.object.pdowork.object_name
 
-    class Meta:
-        verbose_name_plural = "LeaderWorkReject"
 
 class SirieFiles(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='workerobjectsiriefiles')
@@ -860,6 +866,8 @@ class History(models.Model):
     # status = 15 komeral nazorati rad etildi
     # status = 16 komeral nazoratga teskhiruviga qayta yuborildi
     # status = 17 komeral nazoratidan o'tgan ish
+    # status = 18 Geodezis komeral nazoratidan qaytarilgan ish
+    # status = 19 Geodezis komeral nazoratidan qayta yuborilgan ish
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
