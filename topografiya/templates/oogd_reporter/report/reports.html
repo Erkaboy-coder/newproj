@@ -14,10 +14,10 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Комерал назоратга келган ишлар</h3>
+                            <h3>Ҳисоботлар</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
-                                <li class="breadcrumb-item active"><a href="{% url 'geodesiz_komeral_works' %}">Бош геодезис назоратига юборилган ишлар</a></li>
+                                <li class="breadcrumb-item active"><a href="{% url 'oogd_reports' %}">Ҳисоботлар</a></li>
                             </ol>
                         </div>
                     </div>
@@ -27,8 +27,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active show" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Комерал назоратга келган ишлар {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
-                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true">Комерал назоратдан қайтарилганлар {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link active show" data-bs-toggle="tab" href="#new-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Ҳисобот қилиниши керак бўлган ишлар {% if new_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ new_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Текширувга юборилган ҳисоботлар {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true">Текширувдан қайтарилган ҳисоботлар {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#less-time-ones" role="tab" aria-controls="camera-icon" aria-selected="true"> Муддати кам қолганлар {% if less_time_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ less_time_ones.count }}</span>{% endif %} </a></li>
                                     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true"> Якунланганлар {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
                                 </ul>
@@ -36,10 +37,44 @@
 
                                 <div class="tab-content" id="icon-tabContent">
 
-                                    <div class="tab-pane fade active show" id="checking-ones" role="tabpanel" aria-labelledby="profile-icon-tab">
+                                      <div class="tab-pane fade active show" id="new-ones" role="tabpanel" aria-labelledby="profile-icon-tab">
+                                        <div class="row">
+                                            {% if new_ones.count == 0 %}
+                                             <p class="mb-0 m-t-30">Янги иш мавжуд эмас</p>
+                                            {% endif %}
+
+                                             {% for object in new_ones %}
+                                                 <div class="col-xl-4 col-md-6 mt-4">
+                                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                                    <div class="pricing-plan shadow border-0">
+                                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
+                                                                        <div class="blog-bottom-content">
+                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
+                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="detail-footer">
+                                                                            <a href="{% url 'report_doing' id=object.object.id %}">
+                                                                                <button class="btn btn-square btn-outline-primary-2x float-end">
+                                                                                    Батафсил маълумот
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="checking-ones" role="tabpanel" aria-labelledby="profile-icon-tab">
                                         <div class="row">
                                             {% if checking_ones.count == 0 %}
-                                             <p class="mb-0 m-t-30">Комерал назорати текширувида иш йўқ</p>
+                                             <p class="mb-0 m-t-30">Текширувга юборилган ҳисобот йўқ</p>
                                             {% endif %}
 
                                              {% for object in checking_ones %}
@@ -56,7 +91,7 @@
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
-                                                                            <a href="{% url 'show_geodesiz_kameral_work' id=object.object.id %}">
+                                                                            <a href="{% url 'show_report' id=object.object.id %}">
                                                                                 <button class="btn btn-square btn-outline-primary-2x float-end">
                                                                                     Батафсил маълумот
                                                                                 </button>
@@ -75,7 +110,7 @@
                                     <div class="tab-pane fade" id="rejected-ones" role="tabpanel" aria-labelledby="contact-icon-tab">
                                         <div class="row">
                                         {% if rejected_ones.count == 0 %}
-                                             <p class="mb-0 m-t-30">Қайтарилган иш йўқ</p>
+                                             <p class="mb-0 m-t-30">Қайтарилган ҳисобот йўқ</p>
                                         {% endif %}
 
                                         {% for object in rejected_ones %}
@@ -125,7 +160,7 @@
                                         <div class="row">
 
                                          {% if less_time_ones.count == 0 %}
-                                             <p class="mb-0 m-t-30">Муддати кам қолган иш йўқ</p>
+                                             <p class="mb-0 m-t-30">Муддати кам қолган ҳисобот йўқ</p>
                                         {% endif %}
 
                                         {% for object in less_time_ones %}

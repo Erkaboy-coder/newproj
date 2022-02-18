@@ -50,7 +50,8 @@ class Worker(BaseModel):
         ('0', 'Ishchi'),
         ('1', 'Bo\'lim boshlig\'i'),
         ('2', 'Geodezis'),
-        ('2', 'Ogogd'),
+        ('3', 'Ogogd'),
+        ('4', 'Ogogd 2'),
     )
     status = models.CharField(verbose_name='Ishchi', default='0', max_length=10, choices=status_worker)
 
@@ -849,6 +850,37 @@ class Order(models.Model):
 
     class Meta:
         verbose_name_plural = "Order"
+# Ooogd
+class Report(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='objectreport')
+    file = models.FileField("Report file", upload_to='topografiya/static/files/otchot', blank=True)
+    reason = models.TextField(blank=True)
+    status = models.IntegerField(default=0)
+    # status = 0 bosa hisobot yozish uchun kelgan
+    # status = 1 bosa hisobot tekshiruv jarayonida
+    # status = 2 bosa hisobot qaytarilgan
+    # status = 3 muddati kam qolgan
+    # status = 4 tasdiqlanganlar
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "Report"
+
+class ReportReject(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='reportreject')
+    file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/reportreject', blank=True)
+    reason = models.TextField(blank=True)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "ReportReject"
+
+# Oggd
+
 class History(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='historyobject')
     status = models.IntegerField(default=0)
@@ -868,6 +900,8 @@ class History(models.Model):
     # status = 17 komeral nazoratidan o'tgan ish
     # status = 18 Geodezis komeral nazoratidan qaytarilgan ish
     # status = 19 Geodezis komeral nazoratidan qayta yuborilgan ish
+    # status = 20 Geodezis komeral nazoratni tasdiqladi
+    # status = 21 Oogd xodimi hisobotni tekshiruvga yubordi
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)

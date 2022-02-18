@@ -70,8 +70,17 @@ urlpatterns = [
     re_path(r'^show_geodesiz_kameral_work/(?P<id>\d+)/$', views.show_geodesiz_kameral_work, name='show_geodesiz_kameral_work'),
     re_path(r'^geodezis_deny_komeral$', views.geodezis_deny_komeral, name='geodezis_deny_komeral'),
     re_path(r'^geodezis_rejected_komeral_works/(?P<id>\d+)/$', views.geodezis_rejected_komeral_works, name='geodezis_rejected_komeral_works'),
+    re_path(r'^geodeziz_show_komeral_work/(?P<id>\d+)/$', views.geodeziz_show_komeral_work, name='geodeziz_show_komeral_work'),
+    re_path(r'^sent_to_oggd$', views.sent_to_oggd, name='sent_to_oggd'),
 
     # geodezist
+
+    # oogd_reports
+    re_path(r'^oogd_reports/$', views.oogd_reports, name='oogd_reports'),
+    re_path(r'^report_doing/(?P<id>\d+)/$', views.report_doing, name='report_doing'),
+    re_path(r'^report_send$', views.report_send, name='report_send'),
+    re_path(r'^show_report/(?P<id>\d+)/$', views.show_report, name='show_report'),
+    # oogd_reports
 
     re_path(r'^show_work$', views.show_work, name='show_work'),
     re_path(r'^recive_work$', views.recive_work, name='recive_work'),

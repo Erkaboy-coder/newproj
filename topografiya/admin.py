@@ -6,7 +6,7 @@ from topografiya.models import Worker, Department, PdoWork, ProgramWorkForm, Pro
     SirieFiles, PoyasitelniyForm, PoyasitelniyFormTable2, PoyasitelniyFormTable1, PoyasitelniyFormTable3, \
     PoyasitelniyFormTable4, AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, \
     AktPolovoyTable6, AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, ProgramWorkReject, KameralWorkReject, \
-    LeaderKomeralWorkReject
+    LeaderKomeralWorkReject, Report
 
 admin.site.register(Worker)
 admin.site.register(Object)
@@ -26,6 +26,7 @@ admin.site.register(History)
 admin.site.register(ProgramWorkFormTable1)
 admin.site.register(ProgramWorkFormTable2)
 admin.site.register(ProgramWorkReject)
+admin.site.register(Report)
 
 admin.site.register(SirieFiles)
 admin.site.register(PoyasitelniyForm)

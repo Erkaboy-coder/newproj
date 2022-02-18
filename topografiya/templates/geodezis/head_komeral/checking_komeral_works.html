@@ -510,16 +510,24 @@
                                     <br>
                                     <div class="row p-r-40">
 
+                                    {% if work.status_geodezis_komeral != 4 %}
                                         <div class="row p-2">
                                              <div class="col-md-6 card p-2 shadow-lg">
                                                  <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
                                              </div>
 
-
                                             <div class="col-md-6 card p-2 shadow-lg">
-                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i>Ишни якунлаш печатга юбориш</button>
+                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.object.id }}"  id="sent_to_oggd"  style="width: 100%"> <i class="fa fa-check"></i>
+                                                    {% if pdowork.isset_programwork == True %}
+                                                        Ишни ҳисобот ёзишга юбориш
+                                                    {% else %}
+                                                        Ишни якунлаш печатга юбориш
+                                                    {% endif %}
+
+                                                </button>
                                             </div>
                                         </div>
+                                    {% endif %}
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
@@ -617,126 +625,27 @@
 </script>
 
 <script>
-    $(".edit_akt").click(function(event) {
+    $("#sent_to_oggd").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
-
-        var array = [];
-        for(var i=1;i<127;i++){
-                array.push($('#a'+i).val());
-        }
-        data.append("array", array);
-
-        var array1 = [];
-        for(var j=1;j<8;j++){
-                array1.push($('#a1_'+j).val());
-        }
-        data.append("array1", array1);
-
-        var array2 = [];
-        for(var k=1;k<8;k++){
-                array2.push($('#a2_'+k).val());
-        }
-        data.append("array2", array2);
-
-        var array3 = [];
-        for(var l=1;l<10;l++){
-                array3.push($('#a3_'+l).val());
-        }
-        data.append("array3", array3);
-
-        var array4 = [];
-        for(var m=1;m<7;m++){
-                array4.push($('#a4_'+m).val());
-        }
-        data.append("array4", array4);
-
-        var array5 = [];
-        for(var n=1;n<7;n++){
-                array5.push($('#a5_'+n).val());
-        }
-        data.append("array5", array5);
-
-        var array6 = [];
-        for(var b=1;b<10;b++){
-                array6.push($('#a6_'+b).val());
-        }
-        data.append("array6", array6);
-
-        var array7 = [];
-        for(var c=1;c<6;c++){
-                array7.push($('#a7_'+c).val());
-        }
-        data.append("array7", array7);
-
-        var array8 = [];
-        for(var d=1;d<6;d++){
-                array8.push($('#a8_'+d).val());
-        }
-        data.append("array8", array8);
-
         event.preventDefault();
-
-        if($('#a1').val() == 0){
-           alert("Maydonni to'ldiring");
-        }
-        else{
-        $.ajax({
+         $.ajax({
             type: 'POST',
-            url: '{% url 'edit_akt_polevoy' %}',
+            url: '{% url 'sent_to_oggd' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             success: function (result){
-               location.replace(window.location.pathname);
+               location.replace('/geodesiz_komeral_works');
             },
 
             error: function(){
               alert('Ajax da xatolik !! ');
             }
         });
-        }
-
-
-
-        });
-</script>
-
-
-<script>
-    $("#send_to_kameral").click(function(event) {
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("worker", $('#worker').val());
-        data.append("work_id", $('#work_id').val());
-        var form = "{{ work.pk }}";
-        event.preventDefault();
-
-        if(form){
-           $.ajax({
-            type: 'POST',
-            url: '{% url 'send_to_kameral' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result){
-               location.replace('/leader_polevoy_works');
-            },
-
-            error: function(){
-              alert('Ajax da xatolik !! ');
-            }
-        });
-        }
-        else{
-          alert("Maydonni to'ldiring");
-        }
-
-
 
         });
 </script>

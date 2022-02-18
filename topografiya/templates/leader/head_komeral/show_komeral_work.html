@@ -306,7 +306,11 @@
                                     {% endif %}
                                         <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
                                         <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
-                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                     {% if work.status_geodezis_komeral != 1 %}
+                                        {% if work.status_geodezis_komeral != 4 %}
+                                            <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                        {% endif %}
+                                     {% endif %}
                                 </form>
                                 {% endif %}
 
@@ -704,9 +708,14 @@
                                     {% endif %}
 {#                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">#}
                                         <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
-                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                {% if work.status_geodezis_komeral != 1 %}
+                                    {% if work.status_geodezis_komeral != 4 %}
+                                        <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                    {% endif %}
+                                    {% endif %}
                                 </form>
-                                {% endif %}
+                                    {% endif %}
+
 
                                 </div>
                             </div>

@@ -306,9 +306,9 @@
                                     {% endif %}
                                         <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
                                         <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
-                                    {% if workerobject.status_geodezis_komeral != 4 %}
-                                         {% if workerobject.status_geodezis_komeral != 1 %}
-                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                    {% if work.status_geodezis_komeral != 4 %}
+                                         {% if work.status_geodezis_komeral != 1 %}
+                                                <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
                                             {% endif %}
                                           {% endif %}
                                 </form>
@@ -708,9 +708,9 @@
                                     {% endif %}
 {#                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">#}
                                         <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
-                                     {% if workerobject.status_geodezis_komeral != 4 %}
-                                         {% if workerobject.status_geodezis_komeral != 1 %}
-                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                     {% if work.status_geodezis_komeral != 4 %}
+                                         {% if work.status_geodezis_komeral != 1 %}
+                                            <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
                                          {% endif %}
                                      {% endif %}
                                 </form>
@@ -893,8 +893,7 @@
                         </div>
                 </div>
 
-                {% if work.status_geodezis_komeral != 1 %}
-                    {% if work.status_geodezis_komeral != 4 %}
+
 
                     <div class="row p-2 mb-2">
                         <div class="col-md-6 card p-2 shadow-lg">
@@ -904,8 +903,7 @@
                              <button type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.object.id }}"  id="re_send_to_check_komeral" class="btn btn-success btn-lg" style="width: 100%"> <i class="fa fa-refresh"></i> Қайта геодезис назоратига юбориш</button>
                         </div>
                     </div>
-                    {% endif %}
-                {% endif %}
+
             </div>
             <!-- Container-fluid Ends-->
         </div>
