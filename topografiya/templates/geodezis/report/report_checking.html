@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Бош геодезис назорати {% endblock %}
+{% block title %} Хисобатни текшириш {% endblock %}
 
 {% block content%}
 
@@ -129,7 +129,7 @@
                                 {% for work in rejects %}
                                     <hr>
                                        <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
+                                       <li><b>Хатолик сабаби: </b>{{ work.reason }}</li>
                                     <hr>
                                 {% endfor %}
 
@@ -356,11 +356,11 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                             <h3>Хисобот шакллантириш</h3>
+                            <h3>Хисоботни текшириш</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'oogd_reports' %}">Хисоботлар</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'show_report' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'geodezis_reports' %}">Хисоботлар</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'geodezis_report_checking' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
                         </div>
@@ -392,7 +392,7 @@
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича хисобот шакллантириш</h4>
+                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича ҳисоботни текшириш</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
                                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
@@ -481,19 +481,19 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ комерал назорат далолатномаси</h6>
+                                                <h6>10 АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
                                         </li>
 
-                                        <li class="file-box m-t-5">
+                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
                                                 <h6>11. Хисобот билан танишиш</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalCenter">Кўриш</button>
+                                                    data-bs-target="#exampleModalCenter1">Кўриш</button>
                                             </div>
                                         </li>
 
@@ -522,9 +522,19 @@
                                             <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
                                             {% csrf_token %}
 
-                                        <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center" >
+                                        <div class="btn-foot m-t-50 m-b-40 align-items-center" >
 
-{#                                                <button class="btn btn-lg" style="width: 100%;background-color: #0a790a;color: whitesmoke" > <i class="fa fa-mail-reply"></i> Ҳисоботни текширувга юбориш</button>#}
+
+                                            <div class="row p-2 mb-2">
+                                                    <div class="col-md-6 card p-2 shadow-lg">
+                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                    </div>
+
+                                                    <div class="col-md-6 card p-2 shadow-lg">
+                                                        <button class="btn btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="confirm_report"  style="width: 100%;background-color: green;color: whitesmoke"> <i class="fa fa-check"></i> Тасдиқлаш</button>
+                                                    </div>
+                                            </div>
+
 
 {#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
 {#                                                Камерал назоратга юбориш#}
@@ -532,6 +542,37 @@
 
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                                                  aria-labelledby="exampleModalCenter" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 style="color: white;" class="modal-title">Ҳисоботни қайтариш</h5>
+                                                            <div type="button" data-bs-dismiss="modal"
+                                                                 aria-label="Close">x
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul class="messages text text-center text-danger" id="error_show" style="display:none">
+                                                               <div class="alert alert-danger">
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Майдонларни тўлдиринг !</b></li>
+                                                               </div>
+                                                           </ul>
+                                                            <br>
+                                                            <h5 class="m-b-20">Ариза файли</h5>
+                                                            <input class="form-control" id="reason_file" name="reason_file" type="file">
+                                                            <h5 class="m-t-20 m-b-20">Қайтариш сабаби</h5>
+                                                            <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button  class="btn btn-danger" id="reject_report" type="button">Юбориш</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenter1" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
@@ -549,8 +590,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
+
                             </div>
                         </div>
                     </div>
@@ -604,7 +647,7 @@
 </script>
 
 <script>
-    $("#sent_to_oggd").click(function(event) {
+    $("#confirm_report").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
@@ -612,13 +655,13 @@
         event.preventDefault();
          $.ajax({
             type: 'POST',
-            url: '{% url 'sent_to_oggd' %}',
+            url: '{% url 'confirm_report' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             success: function (result){
-               location.replace('/geodesiz_komeral_works');
+               location.replace('/geodezis_reports');
             },
 
             error: function(){
@@ -630,25 +673,25 @@
 </script>
 
     <script>
-    $("#report_send").click(function(event) {
+    $("#reject_report").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
         data.append("reason", $('#reason').val());
-        data.append("report_file", $('#reason_file')[0].files[0]);
+        data.append("reason_file", $('#reason_file')[0].files[0]);
         event.preventDefault();
 
         if($('#reason').val() != 0 ){
            $.ajax({
             type: 'POST',
-            url: '{% url 'report_send' %}',
+            url: '{% url 'reject_report' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             success: function (result){
-               location.replace('/oogd_reports');
+               location.replace('/geodezis_reports');
             },
 
             error: function(){

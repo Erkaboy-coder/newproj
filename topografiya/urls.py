@@ -72,6 +72,12 @@ urlpatterns = [
     re_path(r'^geodezis_rejected_komeral_works/(?P<id>\d+)/$', views.geodezis_rejected_komeral_works, name='geodezis_rejected_komeral_works'),
     re_path(r'^geodeziz_show_komeral_work/(?P<id>\d+)/$', views.geodeziz_show_komeral_work, name='geodeziz_show_komeral_work'),
     re_path(r'^sent_to_oggd$', views.sent_to_oggd, name='sent_to_oggd'),
+    re_path(r'^geodezis_reports/$', views.geodezis_reports, name='geodezis_reports'),
+    re_path(r'^geodezis_report_checking/(?P<id>\d+)/$', views.geodezis_report_checking, name='geodezis_report_checking'),
+    re_path(r'^show_report_geodezis/(?P<id>\d+)/$', views.show_report_geodezis, name='show_report_geodezis'),
+    re_path(r'^reject_report$', views.reject_report, name='reject_report'),
+    re_path(r'^confirm_report$', views.confirm_report, name='confirm_report'),
+    re_path(r'^sent_to_print/(?P<id>\d+)/$', views.sent_to_print, name='sent_to_print'),
 
     # geodezist
 
@@ -79,6 +85,7 @@ urlpatterns = [
     re_path(r'^oogd_reports/$', views.oogd_reports, name='oogd_reports'),
     re_path(r'^report_doing/(?P<id>\d+)/$', views.report_doing, name='report_doing'),
     re_path(r'^report_send$', views.report_send, name='report_send'),
+    re_path(r'^confirm_print$', views.confirm_print, name='confirm_print'),
     re_path(r'^show_report/(?P<id>\d+)/$', views.show_report, name='show_report'),
     # oogd_reports
 

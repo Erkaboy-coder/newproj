@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Бош геодезис назорати {% endblock %}
+{% block title %} Хисобатни текшириш {% endblock %}
 
 {% block content%}
 
@@ -129,7 +129,7 @@
                                 {% for work in rejects %}
                                     <hr>
                                        <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
+                                       <li><b>Хатолик сабаби:</b> {{ work.reason }}</li>
                                     <hr>
                                 {% endfor %}
 
@@ -355,12 +355,12 @@
                 <div class="page-header">
                     <div class="row">
 
-                        <div class="col-sm-6">
-                             <h3>Хисобот шакллантириш</h3>
+                         <div class="col-sm-6">
+                            <h3>Хисоботни текшириш</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'oogd_reports' %}">Хисоботлар</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'show_report' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'geodezis_reports' %}">Хисоботлар</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'show_report_geodezis' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
                         </div>
@@ -392,7 +392,7 @@
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича хисобот шакллантириш</h4>
+                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича ҳисоботни текшириш</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
                                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"

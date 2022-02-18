@@ -36,6 +36,7 @@ def counter():
     count['leader_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=2).all().count()
 
     count['reports_oogd'] = Report.objects.filter(status=0).all().count()
+    count['new_geodezis_reports'] = Report.objects.filter(status=1).all().count()
 
     return count
 
@@ -1967,6 +1968,99 @@ def geodeziz_show_komeral_work(request,id):
 
     return render(request, 'geodezis/head_komeral/show_komeral_work.html', context)
 
+
+def geodezis_reports(request):
+    new_ones = Report.objects.filter(status=0).all()
+    checking_ones = Report.objects.filter(status=1).all()
+    rejected_ones = Report.objects.filter(status=2).all()
+    less_time_ones = Report.objects.filter(status=3).all()
+    aggreed_ones = Report.objects.filter(status=4).all()
+    rejecteds = ReportReject.objects.all()
+    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),
+               'rejecteds': rejecteds,'checking_ones': checking_ones}
+    # print(objects)
+    return render(request, 'geodezis/report/reports.html', context)
+
+def geodezis_report_checking(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = ReportReject.objects.filter(object=workerobject.object).all()
+    report = Report.objects.filter(object=id).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report}
+
+    return render(request, 'geodezis/report/report_checking.html', context)
+
+def show_report_geodezis(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = ReportReject.objects.filter(object=workerobject.object).all()
+    report = Report.objects.filter(object=id).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report}
+
+    return render(request, 'geodezis/report/show_report.html', context)
+
+def reject_report(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('work_id')
+        worker = data.get('worker')
+        reason = data.get('reason')
+        reason_file =request.FILES.get('reason_file')
+
+        report = Report.objects.filter(object=id).first()
+        report.status = 2
+        report.save()
+
+        work = ReportReject(object=report.object, file=reason_file,reason=reason)
+        work.save()
+
+        history = History(object=report.object, status=22, comment="Geodezis xisoborni rad etgan!", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def confirm_report(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('work_id')
+        worker = data.get('worker')
+
+
+        report = Report.objects.filter(object=id).first()
+        report.status = 4
+        report.save()
+
+        history = History(object=report.object, status=23, comment="Geodezis xisoborni tasdiqlandi!", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
 # geodezis
 
 # oogd_reports
@@ -1994,7 +2088,7 @@ def report_doing(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
-    rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
+    rejects = ReportReject.objects.filter(object=workerobject.object).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral}
@@ -2038,12 +2132,64 @@ def show_report(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
-    rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
-
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+    rejects = ReportReject.objects.filter(object=workerobject.object).all()
+    report = Report.objects.filter(object=id).first()
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work':work, 'rejects':rejects, 'sirie_type':sirie_type,
+               'siriefiles': sirie_files, 'aktkomeral':aktkomeral, 'report': report}
 
     return render(request, 'oogd_reporter/report/show_report.html', context)
+
+def sent_to_print(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = ReportReject.objects.filter(object=workerobject.object).all()
+    report = Report.objects.filter(object=id).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
+               'rejects': rejects, 'sirie_type': sirie_type,
+               'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report}
+
+    return render(request, 'oogd_reporter/report/sent_to_print.html', context)
+
+def confirm_print(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('work_id')
+        worker = data.get('worker')
+
+        report = Report.objects.filter(object=id).first()
+        report.status = 5
+        report.save()
+
+        workerobject = WorkerObject.objects.filter(object=report.object).first()
+        workerobject.status = 5
+        workerobject.status_geodezis_komeral = 5
+        workerobject.save()
+
+        aktkomeral = AktKomeralForm.objects.filter(object=report.object).first()
+        aktkomeral.status = 5
+        aktkomeral.save()
+
+        programwork = ProgramWork.objects.filter(object=report.object).first()
+        programwork.status=5
+        programwork.save()
+
+        history = History(object=report.object, status=24, comment="Obektni pechatga yuborish", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
 # oogd_reports
 
 def signin(request):

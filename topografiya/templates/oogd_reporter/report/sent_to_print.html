@@ -514,6 +514,11 @@
                                     <hr>
 {#                                    <div class="card">#}
 
+                                    <div class="row p-2 mb-2">
+                                        <div class="col-md-12 card p-2 shadow-lg">
+                                            <button class="btn btn-lg bg-warning" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="confirm_print"  style="width: 100%;"> <i class="fa fa-print"></i> Печатга юбориш</button>
+                                        </div>
+                                    </div>
 
                                     <div class="row p-r-40">
 
@@ -599,6 +604,33 @@
         }
 
 
+
+        });
+</script>
+
+
+<script>
+    $("#confirm_print").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        event.preventDefault();
+         $.ajax({
+            type: 'POST',
+            url: '{% url 'confirm_print' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace('/oogd_reports');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
 
         });
 </script>

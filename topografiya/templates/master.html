@@ -260,10 +260,10 @@
                                     </li>
 
                                     <li>
-                                        <a href="">Ҳисобот
-                                            {% if count.geodezis_komeral_works_to_check != 0 %}
+                                        <a href="{% url 'geodezis_reports' %}">Ҳисобот
+                                            {% if count.new_geodezis_reports != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
-                                                    {{ count.geodezis_komeral_works_to_check }}
+                                                    {{ count.new_geodezis_reports }}
                                                 </span>
                                             {% endif %}
                                         </a>
@@ -300,7 +300,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="">Ҳисобот
+                                        <a href="{% url 'geodezis_reports' %}">Ҳисобот
                                             {% if count.geodezis_komeral_works_to_check != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                     {{ count.geodezis_komeral_works_to_check }}

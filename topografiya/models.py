@@ -902,6 +902,10 @@ class History(models.Model):
     # status = 19 Geodezis komeral nazoratidan qayta yuborilgan ish
     # status = 20 Geodezis komeral nazoratni tasdiqladi
     # status = 21 Oogd xodimi hisobotni tekshiruvga yubordi
+    # status = 22 Geodezis hisobotni rad etgan
+    # status = 23 Geodezis hisobotni tasdiqlandi
+    # status = 24 Geodezis hisobotini pechatga yuborish
+
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
