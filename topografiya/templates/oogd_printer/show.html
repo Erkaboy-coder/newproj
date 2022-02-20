@@ -356,11 +356,11 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                             <h3>Хисобот шакллантириш</h3>
+                            <h3>Бош геодезис назорати</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'oogd_reports' %}">Хисоботлар</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'show_report' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'geodesiz_komeral_works' %}">Бош геодезис назорати</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'show_geodesiz_kameral_work' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
                         </div>
@@ -392,7 +392,7 @@
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича хисобот шакллантириш</h4>
+                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича бош геодезис назорати</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
                                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
@@ -481,19 +481,9 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ комерал назорат далолатномаси</h6>
+                                                <h6>10 АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
-                                            </div>
-                                        </li>
-
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>11. Хисобот билан танишиш</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalCenter">Кўриш</button>
                                             </div>
                                         </li>
 
@@ -515,36 +505,67 @@
 {#                                    <div class="card">#}
 
 
+                                    <hr>
+                                    <br>
+                                    <br>
                                     <div class="row p-r-40">
+
+                                    {% if work.status_geodezis_komeral != 4 %}
+                                        <div class="row p-2">
+                                             <div class="col-md-6 card p-2 shadow-lg">
+                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                             </div>
+
+                                            <div class="col-md-6 card p-2 shadow-lg">
+                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.object.id }}"  id="sent_to_oggd"  style="width: 100%"> <i class="fa fa-check"></i>
+                                                    {% if pdowork.isset_programwork == True %}
+                                                        Ишни ҳисобот ёзишга юбориш
+                                                    {% else %}
+                                                        Ишни печатга юбориш
+                                                    {% endif %}
+
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% endif %}
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
                                             <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
                                             {% csrf_token %}
 
-                                        <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center" >
-
-{#                                                <button class="btn btn-lg" style="width: 100%;background-color: #0a790a;color: whitesmoke" > <i class="fa fa-mail-reply"></i> Ҳисоботни текширувга юбориш</button>#}
-
+                                        <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">
+{#                                            <button class="btn btn-outline-danger m-r-20" data-bs-toggle="modal"#}
+{#                                                    data-bs-target="#exampleModalCenter">Қайтариш#}
+{#                                            </button>#}
 {#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
 {#                                                Камерал назоратга юбориш#}
 {#                                            </button>#}
-
                                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                                                  aria-labelledby="exampleModalCenter" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
-                                                        <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title"> Ҳисобат билан танишиш</h5>
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 style="color: white;" class="modal-title">Хатолик
+                                                                хабарини тасдиқлаш</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <ol style="font-size: 18px">
-                                                                <li class="p-2"><a href="/{{ report.file }}"> <i class="fa fa-file-pdf-o"></i> Ҳисобат файли билан танишиш</a></li>
-                                                                <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
-                                                            </ol>
+                                                            <ul class="messages text text-center text-danger" id="error_show" style="display:none">
+                                                               <div class="alert alert-danger">
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
+                                                               </div>
+                                                           </ul>
+                                                            <br>
+                                                            <h5 class="m-b-20">Хатолик аризаси файли</h5>
+                                                            <input class="form-control" id="reason_file" name="reason_file" type="file">
+                                                            <h5 class="m-t-20 m-b-20">Хатолик аризаси матни</h5>
+                                                            <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button  class="btn btn-outline-danger" id="geodezis_deny_komeral" type="button">Юбориш</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -630,25 +651,25 @@
 </script>
 
     <script>
-    $("#report_send").click(function(event) {
+    $("#geodezis_deny_komeral").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
         data.append("reason", $('#reason').val());
-        data.append("report_file", $('#reason_file')[0].files[0]);
+        data.append("reason_file", $('#reason_file')[0].files[0]);
         event.preventDefault();
 
         if($('#reason').val() != 0 ){
            $.ajax({
             type: 'POST',
-            url: '{% url 'report_send' %}',
+            url: '{% url 'geodezis_deny_komeral' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
             success: function (result){
-               location.replace('/oogd_reports');
+               location.replace('/geodesiz_komeral_works');
             },
 
             error: function(){

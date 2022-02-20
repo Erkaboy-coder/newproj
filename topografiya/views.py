@@ -22,15 +22,12 @@ from django.core import serializers
 def counter():
     count = {}
     count['new_workers_pdo'] = PdoWork.objects.filter(status_recive=0).all().count()
-    count['new_works_worker'] = PdoWork.objects.filter(status_recive=1).all().count()
-
-    count['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).all().count()
+    # count['new_works_worker'] = PdoWork.objects.filter(status_recive=1).all().count()
 
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
     count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
     count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
     count['new_komeral_works_leader'] = AktKomeralForm.objects.filter(status=0).all().count()
-    count['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).all().count()
 
     count['geodezis_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=1).all().count()
     count['leader_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=2).all().count()
@@ -38,11 +35,21 @@ def counter():
     count['reports_oogd'] = Report.objects.filter(status=0).all().count()
     count['new_geodezis_reports'] = Report.objects.filter(status=1).all().count()
 
+    count['new_ogogd_printer_works'] = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__isset_programwork=False).all().count()
+
+
     return count
+
+def new_work_counter(request):
+    count_works = {}
+    count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
+    count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
+    count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
+    return count_works
 
 @login_required(login_url='/signin')
 def index(request):
-    context = {'count': counter()}
+    context = {'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'index.html', context)
 
 def pdoworks(request):
@@ -52,8 +59,7 @@ def pdoworks(request):
 
 def allworks(request):
     pdoworks = PdoWork.objects.filter(status=0)
-
-    context = {'pdoworks': pdoworks,'count': counter()}
+    context = {'pdoworks': pdoworks, 'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'leader/all_works.html', context)
 
 def program_works_leader(request):
@@ -178,7 +184,7 @@ def leader_polevoy_works(request):
     less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
     aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
     rejecteds = PolevoyWorkReject.objects.all()
-    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+    context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds}
     return render(request, 'leader/polevoy/polevoy_works.html', context)
 
@@ -395,7 +401,7 @@ def send_to_kameral(request):
         workerobject.status = 4
         workerobject.save()
 
-        kameral = AktKomeralForm(workerobject=workerobject.object)
+        kameral = AktKomeralForm(object=workerobject.object)
         kameral.save()
 
 
@@ -454,7 +460,7 @@ def leader_komeral_works(request):
     aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
     rejecteds = KameralWorkReject.objects.all()
 
-    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+    context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'new_ones':new_ones,
                'rejecteds': rejecteds}
     return render(request, 'leader/komeral/komeral_works.html', context)
@@ -467,7 +473,7 @@ def leader_komeral_checking(request):
     aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).all()  # tasdiqlangan ishlar
     rejecteds = LeaderKomeralWorkReject.objects.all()
 
-    context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
+    context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'rejecteds': rejecteds}
     return render(request, 'leader/head_komeral/komeral_works.html', context)
 
@@ -483,10 +489,6 @@ def checking_komeral_works(request,id):
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
-
-
-
-
 
 
 def show_komeral_work(request,id):
@@ -575,7 +577,7 @@ def show_komeral_checking_leader(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=id)
-    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work': work, 'objects_pdo': objects_pdo,
+    context = {'objects': objects, 'work': work, 'objects_pdo': objects_pdo,
                'sirie_type': sirie_type,
                'file': sirie_files, 'count': counter(), 'rejects': rejects}
 
@@ -589,7 +591,7 @@ def leader_rejected_komeral_works(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=id)
-    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
+    context = {'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
                'file': sirie_files,'count': counter(),'rejects':rejects}
     return render(request, 'leader/head_komeral/rejected_komeral_works.html', context)
 
@@ -652,21 +654,21 @@ def re_send_to_check_komeral(request):
 # worker
 def worker_new_works(request):
     # status_recive = 1 is started work but not recived by worker
-    worker_new_works = Object.objects.filter(pdowork__status_recive=1).all()
+    worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all()
 
-    context = {'worker_new_works': worker_new_works, 'count': counter()}
+    context = {'worker_new_works': worker_new_works, 'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'worker/worker_new_works.html', context)
 
 def polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
-    new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).all() # yangi kelgan
+    new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # yangi kelgan
     checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).all() # muhokama jarayonida
     rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).all() # qaytarilgan ishlar
     less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
     aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
     rejects = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works,'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects,'count_works': new_work_counter(request)}
     return render(request, 'worker/polevoy_works.html', context)
 
 def worker_komeral_works(request):
@@ -678,8 +680,7 @@ def worker_komeral_works(request):
     rejecteds = KameralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),
-               'rejecteds': rejecteds}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'count_works': new_work_counter(request),'rejecteds': rejecteds}
     return render(request, 'worker/komeral/komeral_works.html', context)
 
 def show_rejected_komeral_works(request,id):
@@ -698,7 +699,7 @@ def show_rejected_komeral_works(request,id):
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'file': sirie_files,'aktkomeral':aktkomeral}
+               'file': sirie_files,'aktkomeral':aktkomeral,'count_works': new_work_counter(request)}
 
     return render(request, 'worker/komeral/rejected_komeral_works.html', context)
 
@@ -731,7 +732,7 @@ def polevoy_work_doing(request,id):
     programwork = ProgramWork.objects.filter(object=id).first()
 
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
-               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork}
+               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'count_works': new_work_counter(request)}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
 def send_to_check_polevoy(request):
@@ -1432,7 +1433,7 @@ def object_poyasitelniy_form(request,id):
     form4=PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).first()
 
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work, 'objects_pdo': objects_pdo,'sirie_type':sirie_type,'count': counter(),
-               'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4
+               'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request)
                }
     return render(request, 'worker/object_poyasitelniy_form.html', context)
 
@@ -1581,13 +1582,14 @@ def start(request):
         order_creator = request.POST.get('order_creator')
         pdowork = request.POST.get('pdowork')
         is_programwork = request.POST.get('is_programwork')
+        worker_ispolnitel = request.POST.get('worker_ispolnitel')
 
         pdowork = PdoWork.objects.filter(id=pdowork).first()
         pdowork.status_recive=1
         # status_recive = 1 is started work but not recived by worker
         pdowork.save()
 
-        object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=is_programwork)
+        object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=is_programwork,worker_ispolnitel = worker_ispolnitel)
         object.save()
 
         order = Order(object=object,info=info,method_creation=method_creation,method_fill=method_fill,syomka=syomka,requirements=requirements,item_check=item_check,
@@ -2191,6 +2193,29 @@ def confirm_print(request):
         return HttpResponse(0)
 
 # oogd_reports
+
+# ogogd_printer
+
+def ogogd_printer_works(request):
+    works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
+    context = {'count': counter(),'works': works}
+
+    return render(request, 'oogd_printer/works.html', context)
+
+def open_to_print(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+    work = AktKomeralForm.objects.filter(object=id).first()
+
+    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
+
+    return render(request, 'oogd_printer/show.html', context)
+
+# ogogd_printer
 
 def signin(request):
     content={}

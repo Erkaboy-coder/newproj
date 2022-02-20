@@ -200,9 +200,10 @@
                                         <i data-feather="file"></i>
 
                                         <span style="white-space: nowrap;">Янги топшириқлар
-                                              {% if count.new_works_worker != 0 %}
+                                              {% if count_works.new_works_worker != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
-                                                     {{ count.new_works_worker }}
+{#                                                     {{ count.new_works_worker }}#}
+                                                    {{ count_works.new_works_worker }}
                                                 </span>
                                               {% endif %}
                                         </span>
@@ -213,18 +214,18 @@
                                     <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
 {#                                    <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>#}
                                     <li><a href="{% url 'polevoy_works' %}">Дала назорати
-                                        {% if count.new_field_works != 0 %}
+                                        {% if count_works.new_field_works != 0 %}
                                             <span style="float: right" class="badge rounded-pill badge-danger">
-                                                     {{ count.new_field_works }}
+                                                     {{ count_works.new_field_works }}
                                                 </span>
                                               {% endif %}
 
                                     </a></li>
                                     <li>
                                          <a href="{% url 'worker_komeral_works' %}">Камерал назорат
-                                            {% if count.worker_komeral_works != 0 %}
+                                            {% if count_works.worker_komeral_works != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
-                                                     {{ count.worker_komeral_works }}
+                                                     {{ count_works.worker_komeral_works }}
                                                 </span>
                                               {% endif %}
                                             </a>
@@ -276,42 +277,56 @@
 {#                            bu geodezis profili#}
 {#                                                bu oogd printer#}
                         {% if user.profile.status == '3' %}
-                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>
-                                <ul class="nav-submenu menu-content">
-                                    <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
-                                    <li>
-                                        <a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури
-                                    {% if count.new_works_geodezis != 0 %}
-                                                <span style="margin-left: 15px" class="badge rounded-pill badge-danger">
-                                                     {{ count.new_works_geodezis }}
+                            <li>
+                                    <a class="nav-link menu-title link-nav" href="{% url 'ogogd_printer_works' %}">
+                                        <i  data-feather="printer"></i>
+
+                                        <span style="white-space: nowrap;">Янги топшириқлар
+                                              {% if count.new_ogogd_printer_works != 0 %}
+                                                <span style="float: right" class="badge rounded-pill badge-danger">
+{#                                                     {{ count.new_works_worker }}#}
+                                                    {{ count.new_ogogd_printer_works }}
                                                 </span>
                                               {% endif %}
-                                        </a>
-                                    </li>
+                                        </span>
+                                    </a>
+                                </li>
 
-                                    <li>
-                                        <a href="{% url 'geodesiz_komeral_works' %}">Комерал назорат
-                                            {% if count.geodezis_komeral_works_to_check != 0 %}
-                                                <span style="float: right" class="badge rounded-pill badge-danger">
-                                                    {{ count.geodezis_komeral_works_to_check }}
-                                                </span>
-                                            {% endif %}
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="{% url 'geodezis_reports' %}">Ҳисобот
-                                            {% if count.geodezis_komeral_works_to_check != 0 %}
-                                                <span style="float: right" class="badge rounded-pill badge-danger">
-                                                    {{ count.geodezis_komeral_works_to_check }}
-                                                </span>
-                                            {% endif %}
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                                 <br>
+{#                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>#}
+{#                                <ul class="nav-submenu menu-content">#}
+{#                                    <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>#}
+{#                                    <li>#}
+{#                                        <a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури#}
+{#                                    {% if count.new_works_geodezis != 0 %}#}
+{#                                                <span style="margin-left: 15px" class="badge rounded-pill badge-danger">#}
+{#                                                     {{ count.new_works_geodezis }}#}
+{#                                                </span>#}
+{#                                              {% endif %}#}
+{#                                        </a>#}
+{#                                    </li>#}
+{##}
+{#                                    <li>#}
+{#                                        <a href="{% url 'geodesiz_komeral_works' %}">Комерал назорат#}
+{#                                            {% if count.geodezis_komeral_works_to_check != 0 %}#}
+{#                                                <span style="float: right" class="badge rounded-pill badge-danger">#}
+{#                                                    {{ count.geodezis_komeral_works_to_check }}#}
+{#                                                </span>#}
+{#                                            {% endif %}#}
+{#                                        </a>#}
+{#                                    </li>#}
+{##}
+{#                                    <li>#}
+{#                                        <a href="{% url 'geodezis_reports' %}">Ҳисобот#}
+{#                                            {% if count.geodezis_komeral_works_to_check != 0 %}#}
+{#                                                <span style="float: right" class="badge rounded-pill badge-danger">#}
+{#                                                    {{ count.geodezis_komeral_works_to_check }}#}
+{#                                                </span>#}
+{#                                            {% endif %}#}
+{#                                        </a>#}
+{#                                    </li>#}
+{##}
+{#                                </ul>#}
+{#                            </li>#}
                             {% endif %}
                         {#                        bu oogd printer#}
 {#                        bu oogd hisobot yozadigan#}

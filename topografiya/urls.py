@@ -89,10 +89,18 @@ urlpatterns = [
     re_path(r'^show_report/(?P<id>\d+)/$', views.show_report, name='show_report'),
     # oogd_reports
 
+    # ogogdprinter
+    re_path(r'^ogogd_printer_works/$', views.ogogd_printer_works, name='ogogd_printer_works'),
+    re_path(r'^open_to_print/(?P<id>\d+)/$', views.open_to_print, name='open_to_print'),
+    # ogogdprinter
+
     re_path(r'^show_work$', views.show_work, name='show_work'),
     re_path(r'^recive_work$', views.recive_work, name='recive_work'),
     # re_path(r'^ilova_to_pdf$', views.ilova_to_pdf, name='ilova_to_pdf'),
     re_path(r'^show_pdowork/(?P<id>\d+)/$', views.show_pdowork, name='show_pdowork'),
     re_path(r'^edit_pdowork/(?P<id>\d+)/$', views.edit_pdowork, name='edit_pdowork'),
     re_path(r'^topografiya/static/files/(?P<path>.*)', serve, {'document_root': settings.DOCS_ROOT}),
+
+
+
 ]
