@@ -1,4 +1,4 @@
-from django.urls import path, re_path,url
+from django.urls import path, re_path
 from django.views.static import serve
 from django.conf import settings
 from . import views
@@ -106,5 +106,7 @@ urlpatterns = [
     re_path(r'^show_pdowork/(?P<id>\d+)/$', views.show_pdowork, name='show_pdowork'),
     re_path(r'^edit_pdowork/(?P<id>\d+)/$', views.edit_pdowork, name='edit_pdowork'),
     re_path(r'^topografiya/static/files/(?P<path>.*)', serve, {'document_root': settings.DOCS_ROOT}),
+
+
 
 ]
