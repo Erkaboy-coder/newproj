@@ -125,6 +125,7 @@
               <div class="modal-body">
                   <div class="row">
                       <div class="col-md-12">
+                            <b>Топографик геодезик дастуридан қайтиш сабаблари</b>
                             <ol>
                                 {% for work in rejects_programworks %}
                                     <hr>
@@ -134,8 +135,7 @@
                                 {% endfor %}
 
                             </ol>
-
-                            <hr>
+                            <b>Дала назоратидан қайтиш сабаблари</b>
                             <ol>
                                 {% for work in rejects_akt_polevoy_works %}
                                     <hr>
@@ -145,7 +145,7 @@
                                 {% endfor %}
 
                             </ol>
-                            <hr>
+                            <b>Комерал назоратдан қайтиш сабаблари</b>
                             <ol>
                                 {% for work in rejects_akt_komeral_works %}
                                     <hr>
@@ -155,7 +155,17 @@
                                 {% endfor %}
 
                             </ol>
-                            <hr>
+                             <b>Бош геодезис назоратидан қайтиш сабаблари</b>
+                            <ol>
+                                {% for work in rejects_akt_komeral_leader_works %}
+                                    <hr>
+                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
+                                       <li>{{ work.reason }}</li>
+                                    <hr>
+                                {% endfor %}
+
+                            </ol>
+                            <b>Ҳисобот текширувидан қайтиш сабаблари</b>
                             <ol>
                                 {% for work in rejects_reports %}
                                     <hr>

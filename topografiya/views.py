@@ -2250,6 +2250,13 @@ def history(request):
     works = WorkerObject.objects.filter(status = 5).all()
     content={'count': counter(),'works':works}
     return render(request,'history.html',content)
+def workers(request):
+    workers = Worker.objects.filter(status=0).all()
+    objects = Object.objects.all()
+    workerobjects = WorkerObject.objects.all()
+    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects}
+
+    return render(request,'leader/workers.html', content)
 
 def show_all_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
@@ -2269,13 +2276,15 @@ def show_all_works(request,id):
     rejects_programworks = ProgramWorkReject.objects.filter(programowork=programwork).all()
     rejects_akt_polevoy_works = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
     rejects_akt_komeral_works = KameralWorkReject.objects.filter(workerobject=pdowork).all()
+    rejects_akt_komeral_leader_works = LeaderKomeralWorkReject.objects.filter(object=pdowork).all()
 
-    sum = int(rejects_programworks.count())+int(rejects_reports.count())+int(rejects_akt_komeral_works.count())+int(rejects_akt_polevoy_works.count())
+    sum = int(rejects_programworks.count())+int(rejects_reports.count())+int(rejects_akt_komeral_works.count())+int(rejects_akt_polevoy_works.count())+int(rejects_akt_komeral_leader_works.count())
 
     report = Report.objects.filter(object=id).first()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work': work, 'rejects_reports':rejects_reports,
-               'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works, 'rejects_akt_komeral_works': rejects_akt_komeral_works,
+               'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
+               'rejects_akt_komeral_works': rejects_akt_komeral_works,'rejects_akt_komeral_leader_works':rejects_akt_komeral_leader_works,
                'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'sum':sum}
 
     return render(request, 'show.html', context)
