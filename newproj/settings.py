@@ -24,9 +24,9 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 1    # 1 kun
 SECRET_KEY = 'django-insecure-a!gq#3^5z+-mu+vw^=i!xly%nj%whi&#kj$f&l!+=%3f8eor9d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['uzgashk.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','uzgashk.herokuapp.com']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
