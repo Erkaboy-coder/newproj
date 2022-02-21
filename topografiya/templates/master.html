@@ -292,41 +292,6 @@
                                     </a>
                                 </li>
 
-{#                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>#}
-{#                                <ul class="nav-submenu menu-content">#}
-{#                                    <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>#}
-{#                                    <li>#}
-{#                                        <a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури#}
-{#                                    {% if count.new_works_geodezis != 0 %}#}
-{#                                                <span style="margin-left: 15px" class="badge rounded-pill badge-danger">#}
-{#                                                     {{ count.new_works_geodezis }}#}
-{#                                                </span>#}
-{#                                              {% endif %}#}
-{#                                        </a>#}
-{#                                    </li>#}
-{##}
-{#                                    <li>#}
-{#                                        <a href="{% url 'geodesiz_komeral_works' %}">Комерал назорат#}
-{#                                            {% if count.geodezis_komeral_works_to_check != 0 %}#}
-{#                                                <span style="float: right" class="badge rounded-pill badge-danger">#}
-{#                                                    {{ count.geodezis_komeral_works_to_check }}#}
-{#                                                </span>#}
-{#                                            {% endif %}#}
-{#                                        </a>#}
-{#                                    </li>#}
-{##}
-{#                                    <li>#}
-{#                                        <a href="{% url 'geodezis_reports' %}">Ҳисобот#}
-{#                                            {% if count.geodezis_komeral_works_to_check != 0 %}#}
-{#                                                <span style="float: right" class="badge rounded-pill badge-danger">#}
-{#                                                    {{ count.geodezis_komeral_works_to_check }}#}
-{#                                                </span>#}
-{#                                            {% endif %}#}
-{#                                        </a>#}
-{#                                    </li>#}
-{##}
-{#                                </ul>#}
-{#                            </li>#}
                             {% endif %}
                         {#                        bu oogd printer#}
 {#                        bu oogd hisobot yozadigan#}
@@ -352,7 +317,7 @@
                         {#                        bu oogd hisobot yozadigan#}
 
                             <li class="dropdown"><a class="nav-link menu-title link-nav" href="#"><i data-feather="message-circle"></i><span>Хабарлар<span style="float: right" class="badge rounded-pill badge-danger">3</span></span></a></li>
-                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="#"><i data-feather="arrow-down-circle"></i><span>Aрхив</span></a></li>
+                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'history' %}"><i data-feather="arrow-down-circle"></i><span>Aрхив</span></a></li>
                             <li class="dropdown"><a class="nav-link menu-title link-nav" href="../starter-kit/settings.html"><i data-feather="settings"></i><span>Созламалар</span></a></li>
                             <li style="position: fixed;bottom: 10px;"><a  href="tel:+998711715658"><i data-feather="phone"></i> +998711715658</a></li>
                         </ul>

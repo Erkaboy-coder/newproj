@@ -92,7 +92,12 @@ urlpatterns = [
     # ogogdprinter
     re_path(r'^ogogd_printer_works/$', views.ogogd_printer_works, name='ogogd_printer_works'),
     re_path(r'^open_to_print/(?P<id>\d+)/$', views.open_to_print, name='open_to_print'),
+    re_path(r'^confirm_print2$', views.confirm_print2, name='confirm_print2'),
     # ogogdprinter
+
+    re_path(r'^history/$', views.history, name='history'),
+    re_path(r'^show_all_works/(?P<id>\d+)/$', views.show_all_works, name='show_all_works'),
+
 
     re_path(r'^show_work$', views.show_work, name='show_work'),
     re_path(r'^recive_work$', views.recive_work, name='recive_work'),

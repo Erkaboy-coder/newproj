@@ -1939,7 +1939,11 @@ def sent_to_oggd(request):
         workerobject.status_geodezis_komeral=4
         workerobject.save()
 
+
+
         object = Object.objects.filter(id=work_id).first()
+        object.worker_geodezis = worker
+        object.save()
 
         if object.isset_programwork == True:
             report = Report(object=object)
@@ -2215,7 +2219,67 @@ def open_to_print(request,id):
 
     return render(request, 'oogd_printer/show.html', context)
 
+def confirm_print2(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('work_id')
+        worker = data.get('worker')
+
+
+        workerobject = WorkerObject.objects.filter(object=id).first()
+        workerobject.status = 5
+        workerobject.status_geodezis_komeral = 5
+        workerobject.save()
+
+        aktkomeral = AktKomeralForm.objects.filter(object=workerobject.object).first()
+        aktkomeral.status = 5
+        aktkomeral.save()
+        object = Object.objects.filter(id=workerobject.object).first()
+        object.worker_ogogd = worker
+        object.save()
+
+        history = History(object=workerobject.object, status=22, comment="Obektni pechatga yuborish hisobotsiz", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
 # ogogd_printer
+def history(request):
+    works = WorkerObject.objects.filter(status = 5).all()
+    content={'count': counter(),'works':works}
+    return render(request,'history.html',content)
+
+def show_all_works(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+
+    order = Order.objects.filter(object=id).first()
+
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
+
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    programwork = ProgramWork.objects.filter(object=id).first()
+
+    rejects_reports = ReportReject.objects.filter(object=workerobject.object).all()
+    rejects_programworks = ProgramWorkReject.objects.filter(programowork=programwork).all()
+    rejects_akt_polevoy_works = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
+    rejects_akt_komeral_works = KameralWorkReject.objects.filter(workerobject=pdowork).all()
+
+    sum = int(rejects_programworks.count())+int(rejects_reports.count())+int(rejects_akt_komeral_works.count())+int(rejects_akt_polevoy_works.count())
+
+    report = Report.objects.filter(object=id).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work': work, 'rejects_reports':rejects_reports,
+               'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works, 'rejects_akt_komeral_works': rejects_akt_komeral_works,
+               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'sum':sum}
+
+    return render(request, 'show.html', context)
+
 
 def signin(request):
     content={}

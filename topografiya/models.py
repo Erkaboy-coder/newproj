@@ -905,6 +905,7 @@ class History(models.Model):
     # status = 22 Geodezis hisobotni rad etgan
     # status = 23 Geodezis hisobotni tasdiqlandi
     # status = 24 Geodezis hisobotini pechatga yuborish
+    # status = 25 Geodezis 2 hisobotini pechatga yuborish
 
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)

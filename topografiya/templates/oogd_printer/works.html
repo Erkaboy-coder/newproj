@@ -23,6 +23,14 @@
             <br>
             <div class="container-fluid blog-page">
                 <div class="row">
+                     {% if not works %}
+                        <div class="col-sm-12">
+                             <div class="card text-center p-4 bg-images text-warning">
+                                 <h4>Yangi topshiriq yo'q</h4>
+                            </div>
+                        </div>
+
+                    {% endif %}
 
 
                     {% for work in works %}

@@ -1,0 +1,130 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Архив {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Aрхив</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i
+                                        class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'history' %}">Aрхив</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Aрхивга келиб тушган ишлар ҳақида маълумотлар</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Геодезис назорат бўйича">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <select class="form-control form-control-info btn-square"
+                                                name="select">
+                                            <option value="opt1">Komilov Sardorbek</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                            <option value="opt3">Type 3</option>
+                                            <option value="opt3">Type 3</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input class="form-control" type="text"
+                                               placeholder="Дала назорати бўйича">
+                                    </div>
+                                </div>
+                                <div class="row m-t-15">
+                                    <div class="col-lg-3">
+                                        <input class="form-control" type="text"
+                                               placeholder="ID raqam bo'yich">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input class="datepicker-here form-control digits" type="text" data-language="ru" data-multiple-dates-separator=", " data-position="bottom left" placeholder="dan...">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input class="datepicker-here form-control digits" type="text" data-language="ru" data-multiple-dates-separator=", " data-position="bottom right" placeholder="...gach">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-primary w-100 text-center">
+                                            Қидириш
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive p-l-30 p-r-30 p-b-30">
+                                <table class="table table-bordered">
+                                    <thead class="table-primary">
+                                    <tr>
+                                        <th class="text-center" scope="col">№</th>
+                                        <th scope="col">Ишнибажарувчи</th>
+                                        <th scope="col">Ташкилот номи</th>
+                                        <th scope="col">Ишмазмуни</th>
+                                        <th scope="col" class="text-center">Муддати</th>
+                                        <th scope="col" class="text-center">Кўриш</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for work in works %}
+                                        <tr>
+                                            <th class="text-center" scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ work.object.worker_ispolnitel}}</td>
+                                            <td>{{ work.object.pdowork.customer}}</td>
+                                            <td>{{ work.object.pdowork.object_name}}</td>
+                                            <td class="text-center">{{ work.object.pdowork.work_term}} kun</td>
+                                            <td class="text-center">
+                                                <a href="{% url 'show_all_works' id=work.object.id %}">
+                                                    <button class="btn btn-outline-primary">Кўриш</button>
+                                                </a>
+                                            </td>
+                                            <td class="text-center"><i class="fa fa-trash-o txt-danger f-20"></i></td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xl-12">
+                                <nav class="float-end p-b-30 p-r-30">
+                                    <ul class="pagination pagination-primary">
+                                        <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">Олдинги</a></li>
+                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2<span class="sr-only"></span></a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">Кейинги</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
