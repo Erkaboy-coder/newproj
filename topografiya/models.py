@@ -824,7 +824,6 @@ class TopografikPlan(models.Model):
 
 class Order(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='orderobject')
-
     info = models.TextField(blank=True)
     method_creation = models.TextField(blank=True)
     method_fill = models.TextField(blank=True)

@@ -21,23 +21,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-<style>
-    .bg-image{
-        position: relative;
-        background-image: url("{% static 'assets/images/banner.jpg' %}") ;
-        background-repeat: no-repeat;
-        background-size:100% 100%;
-    }
-    .bg-image:before{
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(34, 45, 115, 0.5);
-    }
-</style>
 <div class="loader-wrapper">
     <div class="theme-loader">
         <div class="loader-p"></div>
@@ -46,7 +29,8 @@
 <section class="bg-image">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-12 p-0">
+            <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{% static 'assets/images/0001.jpg' %}" alt="looginpage"></div>
+            <div class="col-xl-7 p-0">
                 <div class="login-card">
                     <form class="theme-form login-form shadow-lg" autocomplete="off" action="{% url 'login' %}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}

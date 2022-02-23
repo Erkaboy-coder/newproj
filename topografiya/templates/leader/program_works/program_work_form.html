@@ -55,10 +55,8 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><br>
-                                                    <form class="dropzone dz-clickable" id="singleFileUpload">
-                                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                                            <h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                                                        </div>
+                                                    <form class="" id="singleFileUpload">
+                                                            <input class="form-control" type="file">
                                                     </form>
                                                     <br>
                                                     <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>
@@ -87,13 +85,14 @@
 {#                                               </div>#}
 
                                                <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
-                                               <p>По <span><input class="w-50 formact" name="a0" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
+                                               <p>По <span><input class="w-50 formact" name="a0" value="{{ object.object.pdowork.object_name }} {{ object.object.pdowork.object_address }}" type="text" placeholder="наименование объекта, его местоположение"></span> </p>
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
                                                <p>
                                                    Основанием для производства работ послужило техническое задание, выданное
                                                    <span><input class="w-50 m-b-5 formact" required name="a1_1" type="text"></span>
+                                                   <br>
                                                    Цель, назначение и объем проектируемых работ
-                                                   <span><input class="w-75 m-b-5 formact" required name="a1_2" type="text"></span>
+                                                   <span><input class="w-50 m-b-5 formact"  name="a1_2" type="text"></span>
                                                    Дополнительные требования к выполнению геодезических работ
                                                    <span><input class="w-75 m-b-5 formact" required name="a1_3" type="text"></span>
                                                </p>
@@ -280,15 +279,16 @@
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
                                                <div class="floder_input">
                                                    <div class="row">
-                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
-                                                           1. Копии задания на производство изысканий;
-                                                       </div>
-                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
-                                                           2. Схема топографо-геодезической изученности района (участка) работ;
-                                                       </div>
-                                                       <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
-                                                           3. Схема проектируемой опорной геодезической сети;
-                                                       </div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий</a></div>
+                                                       <div class="col-lg-6 mt-3"><input class="form-control" name="file1_1" id="file1_1" type="file"></div>
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
+                                                       <div class="col-lg-6 mt-3"><input class="form-control" name="file1_2" id="file1_2" type="file"></div>
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
+                                                       <div class="col-lg-6 mt-3"><input class="form-control" name="file1_3" id="file1_3" type="file"></div>
+
+
                                                        <div style="font-size: 20px;"><span><i style="color: #168eea;font-size: 20px;" class="fa fa-file-pdf-o"></i></span>
                                                            4. Картограмма расположения участков топографической съемки;
                                                        </div>

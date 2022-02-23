@@ -55,7 +55,7 @@
             {% if work %}
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="card">
+                        <div class="card" id="exportContent">
                             <div class="card-body ">
                                 <div class="col-xs-12">
                                     <div class="file-sidebar">
@@ -848,6 +848,36 @@
 
 </div>
 
+{#                             <button class="edit_akt btn btn-primary pull-left" onclick="Ekport2Doc('exportContent','test')" type="button"> <i class="fa fa-file-word-o"></i> Wordga o'girish</button>#}
+{##}
+{##}
+{#    <script>#}
+{#        function Ekport2Doc(element,filename = ''){#}
+{#            var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head<meta charset='utf-8'><title>Export HTML To Doc </title></head><body>";#}
+{#            var postHtml = "</body></html>";#}
+{#            var html = preHtml+document.getElementById(element).innerHtml+postHtml;#}
+{#            var blob = new Blob(['\ufeff',html],{#}
+{#                type: 'application/msword'#}
+{#            });#}
+{##}
+{#            var url = 'data:application/vnd.ms-word;charset=utf-8,'+encodeURIComponent();#}
+{#            filename = filename?filename+'.doc': 'document.doc';#}
+{#            var downloadlink = document.createElement("a");#}
+{##}
+{#            document.body.appendChild(downloadlink);#}
+{##}
+{#            if(navigator.ms.SaveOrOpenBlob){#}
+{#                navigator.msSaveOrOpenBlob(blob,filename);#}
+{#            }else{#}
+{#               downloadlink.href = url;#}
+{#               downloadlink.download = filename;#}
+{#               downloadlink.click();#}
+{#            }#}
+{##}
+{#            document.body.removeChild(downloadlink);#}
+{##}
+{#        }#}
+{#    </script>#}
 
                                 {% if workerobject.status_geodezis_komeral != 1 %}
                                     <button class="edit_akt btn btn-warning pull-right" id="save_akt" type="button"> <i class="fa fa-save"></i>  Saqlash</button>
@@ -871,6 +901,7 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
     $("#save_akt").click(function(event) {
         var data = new FormData();

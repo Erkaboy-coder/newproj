@@ -9,6 +9,7 @@ urlpatterns = [
     re_path(r'^login/$', views.login, name='login'),
     re_path(r'^logout/$', views.logout, name='logout'),
     re_path(r'^pdoworks/$', views.pdoworks, name='pdoworks'),
+    re_path(r'^save_order$', views.save_order, name='save_order'),
     re_path(r'^allworks/$', views.allworks, name='allworks'),
     re_path(r'^program_works_leader/$', views.program_works_leader, name='program_works_leader'),
     re_path(r'^program_work_form_store/$', views.program_work_form_store, name='program_work_form_store'),

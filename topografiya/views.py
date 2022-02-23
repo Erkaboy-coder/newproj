@@ -57,6 +57,42 @@ def pdoworks(request):
     context = {'pdoworks': pdoworks,'count': counter()}
     return render(request, 'leader/pdo_works.html', context)
 
+def save_order(request):
+    if request.method == 'POST':
+        data = request.POST
+        isset_programwork = data.get('isset_programwork')
+        info = data.get('info')
+        worker_ispolnitel = data.get('worker_ispolnitel')
+        method_creation = data.get('method_creation')
+        method_fill = data.get('method_fill')
+        syomka = data.get('syomka')
+        requirements = data.get('requirements')
+        item_check = data.get('item_check')
+        adjustment_methods = data.get('adjustment_methods')
+        list_of_materials = data.get('list_of_materials')
+        type_of_sirie = data.get('type_of_sirie')
+        order_creator = data.get('order_creator')
+        order_receiver = data.get('order_receiver')
+        pdowork_id = data.get('pdowork_id')
+
+        pdowork = PdoWork.objects.filter(id=pdowork_id).first()
+
+        object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=isset_programwork,
+                        worker_ispolnitel=worker_ispolnitel)
+        object.save()
+
+        order = Order(object=object, info=info, method_creation=method_creation, method_fill=method_fill, syomka=syomka,
+                      requirements=requirements, item_check=item_check,
+                      list_of_materials=list_of_materials, adjustment_methods=adjustment_methods,
+                      type_of_sirie=type_of_sirie, order_creator=order_creator,order_receiver=order_receiver)
+        order.save()
+
+
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+
 def allworks(request):
     pdoworks = PdoWork.objects.filter(status=0)
     context = {'pdoworks': pdoworks, 'count': counter(),'count_works': new_work_counter(request)}
@@ -1485,7 +1521,7 @@ def order_to_pdf(request):
         # print(work.first().pdowork.id)
         # pdowork = PdoWork.objects.filter(id=work.first().pdowork.id)
         order = Order.objects.filter(object=object.id).first()
-
+        print(object.pdowork.tz)
         context = '''
                 <!DOCTYPE html>
                 <html lang="en">
@@ -1503,11 +1539,12 @@ def order_to_pdf(request):
                         </style>
                 </head>
                 <body>
-                <h2 style="text-align: center;margin-top: 55px">ПРЕДПИСАНИЕ на выполнение топографо-геодезических работ</h2>
+                <h2 style="text-align: center;margin-top: 55px">ПРЕДПИСАНИЕ</h2>
+                <p style='text-align: center'>на выполнение топографо-геодезических работ</p>
                 <br>
                 <ol>''';
 
-        context += '<li>Должность, Ф.И.О. исполнителя' + object.pdowork.customer_info + ' </li>';
+        context += '<li>Должность, Ф.И.О. исполнителя ' + object.worker_ispolnitel + ' </li>';
         context += '<li>Наименование объекта ' + object.pdowork.object_name + '</li>';
         context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
         context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
@@ -1521,15 +1558,14 @@ def order_to_pdf(request):
         context += '<li>Поверки геодезических инструментов ' + order.item_check + '</li>';
         context += '<li>Методы и программы уравнивания ' + order.adjustment_methods + '</li>';
         context += '<li>Перечень предоставляемых материалов ' + order.list_of_materials + '</li>';
-        context += '<li>Перечень предоставляемых материалов ' + order.list_of_materials + '</li>';
-        context += ''' <li>Приложение
-                        <ol>
-                            <li>Копия технического задания;</li>
-                        <li>Графическое приложение.</li>
-                    </ol>
-                    </li>''';
+        context += '<li>Метод топографической съемки ' + order.type_of_sirie + '</li>';
+        context += ' <li>Приложение: <ol>'
+        context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
+        context += ' <li><a href=http://0.0.0.0:1515/'+str(object.pdowork.smeta)+'>Графическое приложение</a>.</li>';
+        context += '</ol></li>';
 
         context += '<p>Предписание составил: ' + order.order_creator + ' </p>';
+        context += '<p>Предписание получил: ' + object.worker_ispolnitel + ' </p>';
         context += '''</ol>
                 </body>
                 </html>''';
@@ -1555,14 +1591,14 @@ def order_to_pdf(request):
 
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
-    workers=Worker.objects.filter(branch=pdowork.branch)
+    workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
     context = {'pdowork': pdowork, 'workers': workers,'count': counter()}
     return render(request, 'leader/show_pdowork.html', context)
 
 def edit_pdowork(request,id):
 
     pdowork = PdoWork.objects.filter(id=id).filter(status_recive=1).first()
-    workers=Worker.objects.filter(branch=pdowork.branch)
+    workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
     order = Order.objects.filter(object__pdowork=pdowork).first()
     object=Object.objects.filter(pdowork=pdowork).first()
     context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter()}
