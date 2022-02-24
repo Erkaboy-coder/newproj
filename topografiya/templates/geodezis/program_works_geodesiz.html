@@ -16,7 +16,7 @@
                             <h3>Топографик-геодезик дастури</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
-                                <li class="breadcrumb-item active">Топографик-геодезик дастури текшируви </li>
+                                <li class="breadcrumb-item active"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури текшируви</a> </li>
                             </ol>
                         </div>
                     </div>
@@ -91,15 +91,18 @@
                                                             <div><b>Келишув санаси:</b> {{ object.object.pdowork.agreement_date}}</div>
                                                             <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
                                                             <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
-                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
-
-                                                                {% for work in rejecteds %}
-                                                                    {% if work.programowork.object.id == object.object.id %}
-                                                                        {{ forloop.counter }}
-                                                                    {% endif %}
-                                                                {% endfor %}
-
-                                                            </span></div>
+                                                             <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
+                                                                <span style="color: #168eea;font-size:30px;">
+                                                                    {% for work in rejecteds %}
+                                                                        {% if work.programowork.object.id == object.object.id %}
+{#                                                                            {% if forloop.last %}#}
+{#                                                                                    {{ forloop.counter }}#}
+{#                                                                                {% endif %}#}
+                                                                            <b  class="count" data-all="{{ work.programowork.object.id }},"></b>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                         <hr>
 
@@ -215,5 +218,21 @@
             </div>
 
         </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.count').each(function(i,obj){
+    let text=$(this).attr('data-all');
+    num=text.split(',');
+    let s=0;
+    for(let i in num){
+    if(num[i]!='')
+      s++;
+      }
+        $(this).text(s);
+    });
+  });
+
+</script>
 
 {% endblock %}

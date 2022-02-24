@@ -181,6 +181,22 @@ class ProgramWorkForm(models.Model):
 
     class Meta:
         verbose_name_plural = "ProgramWorkForm"
+class ProgramWorkFiles(models.Model):
+    programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkformfiles')
+    file1 = models.FileField("Fayli 1", upload_to='topografiya/static/files/programfiles', blank=True)
+    file2 = models.FileField("Fayli 2", upload_to='topografiya/static/files/programfiles', blank=True)
+    file3 = models.FileField("Fayli 3", upload_to='topografiya/static/files/programfiles', blank=True)
+    file4 = models.FileField("Fayli 4", upload_to='topografiya/static/files/programfiles', blank=True)
+    file5 = models.FileField("Fayli 5", upload_to='topografiya/static/files/programfiles', blank=True)
+    file6 = models.FileField("Fayli 6", upload_to='topografiya/static/files/programfiles', blank=True)
+    file7 = models.FileField("Fayli 7", upload_to='topografiya/static/files/programfiles', blank=True)
+
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.programworkform.programwork.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "ProgramWorkFiles"
 
 class ProgramWorkFormTable1(models.Model):
     programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkform')
@@ -905,6 +921,8 @@ class History(models.Model):
     # status = 23 Geodezis hisobotni tasdiqlandi
     # status = 24 Geodezis hisobotini pechatga yuborish
     # status = 25 Geodezis 2 hisobotini pechatga yuborish
+    # status = 26 Ishchi dastur o'zgartirildi
+    # status = 27 Ishchi dasturi teskhiruvga yuborilgan
 
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)

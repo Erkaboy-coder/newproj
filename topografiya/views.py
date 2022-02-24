@@ -4,7 +4,7 @@ from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork
     PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
     AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
     AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, AktKomeralForm, KameralWorkReject, LeaderKomeralWorkReject, \
-    Report, ReportReject
+    Report, ReportReject, ProgramWorkFiles
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -114,10 +114,15 @@ def program_works_leader(request):
 def program_work_form(request,id):
 
     object = ProgramWork.objects.filter(object=id).first()
-    order = Order.objects.filter(object=object.id).first()
-    workers = Worker.objects.filter(branch=object.object.pdowork.branch)
+    order = Order.objects.filter(object=object.object.id).first()
+    workers = Worker.objects.filter(branch=object.object.pdowork.branch).filter(status=0)
 
-    context = {'object': object, 'order': order, 'workers': workers,'count': counter()}
+    form = ProgramWorkForm.objects.filter(programwork__object=id).first()
+    formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
+    formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
+    files = ProgramWorkFiles.objects.filter(programworkform=form).first()
+
+    context = {'object': object, 'order': order, 'workers': workers,'count': counter(),'form':form, 'formtable1': formtable1, 'formtable2': formtable2,'files':files}
     return render(request, 'leader/program_works/program_work_form.html', context)
 
 def program_work_form_edit(request,id):
@@ -126,16 +131,187 @@ def program_work_form_edit(request,id):
     form = ProgramWorkForm.objects.filter(programwork__object=id).first()
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
-
+    files = ProgramWorkFiles.objects.filter(programworkform=form).first()
     rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
 
-    order = Order.objects.filter(object=object.id).first()
-    workers = Worker.objects.filter(branch=object.pdowork.branch)
+    order = Order.objects.filter(object=id).first()
+    workers = Worker.objects.filter(branch=object.pdowork.branch).filter(status=0)
 
 
-    context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,
+    context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
                'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
     return render(request, 'leader/program_works/program_work_form_edit.html', context)
+
+def program_work_form_re_sent_to_check(request,id):
+
+    object = Object.objects.filter(id=id).first()
+    form = ProgramWorkForm.objects.filter(programwork__object=id).first()
+    formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
+    formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
+    files = ProgramWorkFiles.objects.filter(programworkform=form).first()
+    rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
+
+    order = Order.objects.filter(object=id).first()
+    workers = Worker.objects.filter(branch=object.pdowork.branch).filter(status=0)
+
+
+    context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
+               'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
+    return render(request, 'leader/program_works/program_work_form_re_sent_to_check.html', context)
+
+
+def program_work_save_edits(request,id):
+    if request.method == 'POST':
+        a0 = request.POST.get('a0')
+        a1_1 = request.POST.get('a1_1')
+        a1_2 = request.POST.get('a1_2')
+        a1_3 = request.POST.get('a1_3')
+
+        a2 = request.POST.get('a2')
+        a3 = request.POST.get('a3')
+        a4 = request.POST.get('a4')
+        a5 = request.POST.get('a5')
+        a6 = request.POST.get('a6')
+        a7 = request.POST.get('a7')
+
+        # jadval_1
+        a7_1_1 = request.POST.get('a7_1_1')
+        a7_1_2 = request.POST.get('a7_1_2')
+        a7_1_3 = request.POST.get('a7_1_3')
+        a7_1_4 = request.POST.get('a7_1_4')
+        a7_1_5 = request.POST.get('a7_1_5')
+        # jadval_1
+
+        a7_2 = request.POST.get('a7_2')
+        a7_3 = request.POST.get('a7_3')
+        a7_4 = request.POST.get('a7_4')
+
+        a8 = request.POST.get('a8')
+        a8_1 = request.POST.get('a8_1')
+        a9_1 = request.POST.get('a9_1')
+
+        # jadval_2
+        a9_2_1 = request.POST.get('a9_2_1')
+        a9_2_2 = request.POST.get('a9_2_2')
+        a9_2_3 = request.POST.get('a9_2_3')
+        a9_2_4 = request.POST.get('a9_2_4')
+        a9_2_5 = request.POST.get('a9_2_5')
+        a9_2_6 = request.POST.get('a9_2_6')
+        a9_2_7 = request.POST.get('a9_2_7')
+        # jadval_2
+
+        a9_3 = request.POST.get('a9_3')
+        a9_4 = request.POST.get('a9_4')
+
+        a10 = request.POST.get('a10')
+        a11 = request.POST.get('a11')
+        a12 = request.POST.get('a12')
+
+        file1 = request.FILES.get('file1')
+        file2 = request.FILES.get('file2')
+        file3 = request.FILES.get('file3')
+        file4 = request.FILES.get('file4')
+        file5 = request.FILES.get('file5')
+        file6 = request.FILES.get('file6')
+        file7 = request.FILES.get('file7')
+
+        program_work_creator = request.POST.get('program_work_creator')
+
+        object = Object.objects.filter(id=id).first()
+        programwork=ProgramWork.objects.filter(object=object.id).first()
+
+        form = ProgramWorkForm.objects.filter(programwork=programwork).first()
+        form.programwork=programwork
+        form.a0=a0
+        form.a1_1=a1_1
+        form.a1_2 = a1_2
+        form.a1_3 = a1_3
+        form.a2 = a2
+        form.a3 = a3
+        form.a4 = a4
+        form.a5 = a5
+        form.a6=a6
+        form.a7=a7
+        form.a7_2=a7_2
+        form.a7_3=a7_3
+        form.a7_4=a7_4
+        form.a8=a8
+        form.a8_1=a8_1
+        form.a9_1=a9_1
+        form.a9_3=a9_3
+        form.a9_4=a9_4
+        form.a10=a10
+        form.a11=a11
+        form.a12=a12
+        form.program_work_creator=program_work_creator
+        form.save()
+
+        formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
+        formtable1.programworkform=form
+        formtable1.a7_1_1=a7_1_1
+        formtable1.a7_1_2=a7_1_2
+        formtable1.a7_1_3=a7_1_3
+        formtable1.a7_1_4=a7_1_4
+        formtable1.a7_1_5=a7_1_5
+        formtable1.save()
+
+        formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
+        formtable2.programworkform=form
+        formtable2.a9_2_1=a9_2_1
+        formtable2.a9_2_2=a9_2_2
+        formtable2.a9_2_3=a9_2_3
+        formtable2.a9_2_4=a9_2_4
+        formtable2.a9_2_5=a9_2_5
+        formtable2.a9_2_6=a9_2_6
+        formtable2.a9_2_7=a9_2_7
+        formtable2.save()
+
+        files = ProgramWorkFiles.objects.filter(programworkform=form).first()
+        if file1:
+            files.file1 = file1
+        else:
+            files.file1=files.file1
+
+        if file2:
+            files.file2 = file2
+        else:
+            files.file2 = files.file2
+
+        if file3:
+            files.file3 = file3
+        else:
+            files.file3 = files.file3
+
+        if file4:
+            files.file4 = file4
+        else:
+            files.file4 = files.file4
+
+        if file5:
+            files.file1 = file5
+        else:
+            files.file5 = files.file5
+
+        if file6:
+            files.file6 = file6
+        else:
+            files.file6 = files.file6
+
+
+        if file7:
+            files.file6 = file7
+        else:
+            files.file7 = files.file7
+
+        files.save()
+
+
+        history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi", user_id = program_work_creator)
+        # status=26 ishchi dastur o'zgarishlari saqlandi
+        history.save()
+
+
+        return redirect('program_work_form', id=programwork.object.id)
 
 def program_work_form_store(request):
     if request.method == 'POST':
@@ -184,12 +360,20 @@ def program_work_form_store(request):
         a10 = request.POST.get('a10')
         a11 = request.POST.get('a11')
         a12 = request.POST.get('a12')
+        # files
+        file1 = request.FILES.get('file1')
+        file2 = request.FILES.get('file2')
+        file3 = request.FILES.get('file3')
+        file4 = request.FILES.get('file4')
+        file5 = request.FILES.get('file5')
+        file6 = request.FILES.get('file6')
+        file7 = request.FILES.get('file7')
 
         program_work_creator = request.POST.get('program_work_creator')
 
         programwork = ProgramWork.objects.filter(object=object).first()
-        programwork.status = 1
-        programwork.save()
+        # programwork.status = 1
+        # programwork.save()
         # status  = 1 bu tekshiruvga yuborilgan
 
         programworkform = ProgramWorkForm(programwork=programwork, a0=a0, a1_1=a1_1, a1_2=a1_2, a1_3=a1_3, a2=a2, a3=a3, a4=a4, a5=a5, a6=a6, a7=a7, a7_2=a7_2,
@@ -202,9 +386,33 @@ def program_work_form_store(request):
         programworkformtable2 = ProgramWorkFormTable2(programworkform=programworkform, a9_2_1=a9_2_1, a9_2_2=a9_2_2, a9_2_3=a9_2_3, a9_2_4=a9_2_4, a9_2_5=a9_2_5, a9_2_6=a9_2_6, a9_2_7=a9_2_7)
         programworkformtable2.save()
 
+        programwork_file = ProgramWorkFiles(programworkform=programworkform,file1=file1,file2=file2,file3=file3,file4=file4,file5=file5,file6=file6,file7=file7)
+        programwork_file.save()
 
-        # messages.success(request, "Ish tekshiruvga yuborildi !")
-        return HttpResponseRedirect('/program_works_leader')
+
+        # messages.success(request, "O'zgarishlar saqlandi !")
+        return redirect('program_work_form', id=programwork.object.id)
+
+def sent_to_check_programwork(request):
+    if request.method == 'POST':
+        data = request.POST
+        object_id = data.get('object_id')
+        worker = data.get('worker')
+        programwork = ProgramWork.objects.filter(object=object_id).first()
+        programwork.status = 1
+        programwork.save()
+        # status  = 1 bu tekshiruvga yuborilgan
+
+
+        history = History(object=programwork.object, status=27, comment="Ishchi dasturi tekshiruvga yuborildi", user_id=worker)
+        history.save()
+
+        return HttpResponse(1)
+
+    else:
+
+        return HttpResponse(0)
+
 
 def history_program_work(request):
     pdoworks = PdoWork.objects.filter(status=0)
@@ -1589,6 +1797,84 @@ def order_to_pdf(request):
     else:
         return HttpResponse(0)
 
+def doing_program_work_file(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('data-id')
+        object = ProgramWork.objects.filter(id=id).first()
+
+        # print(work.first().pdowork.id)
+        # pdowork = PdoWork.objects.filter(id=work.first().pdowork.id)
+        order = Order.objects.filter(object=object.id).first()
+        print(object.pdowork.tz)
+        context = '''
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Title</title>
+                        <style>
+                            li{
+                                padding: 5px;
+                            }
+                            li{
+                            font-size:18px;
+                            }
+
+                        </style>
+                </head>
+                <body>
+                <h2 style="text-align: center;margin-top: 55px">ПРЕДПИСАНИЕ</h2>
+                <p style='text-align: center'>на выполнение топографо-геодезических работ</p>
+                <br>
+                <ol>''';
+
+        context += '<li>Должность, Ф.И.О. исполнителя ' + object.worker_ispolnitel + ' </li>';
+        context += '<li>Наименование объекта ' + object.pdowork.object_name + '</li>';
+        context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
+        context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
+        context += '<li>Виды и объемы работ ' + object.pdowork.work_type + '</li>';
+        context += '<li>Сроки выполнения работ ' + object.pdowork.work_term + '</li>';
+        context += '<li>Исходные данные, система координат и высот, использование материалов работ прошлых лет ' + order.info + '</li>';
+        context += '<li>Метод создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек ' + order.method_creation + '</li>';
+        context += '<li>Метод создания геодезического и (или) съемочного обоснования, закрепление пунктов, точекМетод выполнения топографической съемки. Технические требования и технология выполнения работ ' + order.method_fill + '</li>';
+        context += '<li>Съемка инженерно-подземных коммуникаций ' + order.syomka + '</li>';
+        context += '<li>Особые требования ' + order.requirements + '</li>';
+        context += '<li>Поверки геодезических инструментов ' + order.item_check + '</li>';
+        context += '<li>Методы и программы уравнивания ' + order.adjustment_methods + '</li>';
+        context += '<li>Перечень предоставляемых материалов ' + order.list_of_materials + '</li>';
+        context += '<li>Метод топографической съемки ' + order.type_of_sirie + '</li>';
+        context += ' <li>Приложение: <ol>'
+        context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
+        context += ' <li><a href=http://0.0.0.0:1515/'+str(object.pdowork.smeta)+'>Графическое приложение</a>.</li>';
+        context += '</ol></li>';
+
+        context += '<p>Предписание составил: ' + order.order_creator + ' </p>';
+        context += '<p>Предписание получил: ' + object.worker_ispolnitel + ' </p>';
+        context += '''</ol>
+                </body>
+                </html>''';
+
+        options = {
+            'page-size': 'A4',
+            'encoding': "UTF-8",
+            'margin-top': '0.2in',
+            'margin-right': '0.2in',
+            'margin-bottom': '0.2in',
+            'margin-left': '0.2in',
+            'orientation': 'portrait',
+            # landscape bu albomiy qiladi
+        }
+        # display = Display(visible=0, size=(500, 500)).start()
+        pdfkit.from_string(context, 'topografiya/static/files/file.pdf', options)
+
+        response = HttpResponse(data, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="order.pdf"'
+        return response
+    else:
+        return HttpResponse(0)
+
+
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
     workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
@@ -1629,7 +1915,7 @@ def start(request):
         object.save()
 
         order = Order(object=object,info=info,method_creation=method_creation,method_fill=method_fill,syomka=syomka,requirements=requirements,item_check=item_check,
-                     list_of_materials=list_of_materials,adjustment_methods=adjustment_methods,type_of_sirie=type_of_sirie,order_creator=order_creator)
+                     list_of_materials=list_of_materials,adjustment_methods=adjustment_methods,type_of_sirie=type_of_sirie,order_creator=order_creator,order_receiver=worker_ispolnitel)
         order.save()
         print(is_programwork)
 
@@ -1727,10 +2013,11 @@ def program_work_event(request, id):
     workers = Worker.objects.filter(branch=object.programwork.object.pdowork.branch)
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=object).first()
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=object).first()
+    files = ProgramWorkFiles.objects.filter(programworkform=object).first()
 
     rejects = ProgramWorkReject.objects.filter(programowork=object.programwork).all()
 
-    context = {'object': object, 'order': order, 'workers': workers,'formtable2':formtable2,'formtable1':formtable1,'count': counter()}
+    context = {'object': object, 'order': order, 'workers': workers, 'formtable2':formtable2, 'formtable1': formtable1, 'count': counter(), 'rejects': rejects,'files': files}
     return render(request, 'geodezis/program_work_event.html', context)
 
 def confirm_program_work(request):
@@ -1825,6 +2112,14 @@ def program_work_form_re_sent(request,id):
         a11 = request.POST.get('a11')
         a12 = request.POST.get('a12')
 
+        file1 = request.FILES.get('file1')
+        file2 = request.FILES.get('file2')
+        file3 = request.FILES.get('file3')
+        file4 = request.FILES.get('file4')
+        file5 = request.FILES.get('file5')
+        file6 = request.FILES.get('file6')
+        file7 = request.FILES.get('file7')
+
         program_work_creator = request.POST.get('program_work_creator')
 
         object = Object.objects.filter(id=id).first()
@@ -1876,6 +2171,44 @@ def program_work_form_re_sent(request,id):
         formtable2.a9_2_6=a9_2_6
         formtable2.a9_2_7=a9_2_7
         formtable2.save()
+
+        files = ProgramWorkFiles.objects.filter(programworkform=form).first()
+        if file1:
+            files.file1 = file1
+        else:
+            files.file1 = files.file1
+
+        if file2:
+            files.file2 = file2
+        else:
+            files.file2 = files.file2
+
+        if file3:
+            files.file3 = file3
+        else:
+            files.file3 = files.file3
+
+        if file4:
+            files.file4 = file4
+        else:
+            files.file4 = files.file4
+
+        if file5:
+            files.file1 = file5
+        else:
+            files.file5 = files.file5
+
+        if file6:
+            files.file6 = file6
+        else:
+            files.file6 = files.file6
+
+        if file7:
+            files.file6 = file7
+        else:
+            files.file7 = files.file7
+
+        files.save()
 
         programwork = ProgramWork.objects.filter(object=id).first()
         programwork.status = 1

@@ -31,73 +31,72 @@
                       <div class="col-lg-6">
                           <div class="mb-2">
                               <b>Шартнома рақами<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_number }}</p>
+                              <p>{{ work.object.pdowork.object_number }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Шартнома санаси</b>
-                              <p>{{ pdowork.pdowork.agreement_date }}</p>
+                              <p>{{ work.object.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Обект номи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_name }} </p>
+                              <p>{{ work.object.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
                               <b>Буюрмачи</b>
-                              <p>{{ pdowork.pdowork.customer }}</p>
+                              <p>{{ work.object.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Обект манзили<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_address }}</p>
+                              <p>{{ work.object.pdowork.object_address }}</p>
                           </div>
                       </div>
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>Бажариш муддати<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_term }} kun</p>
+                              <p>{{ work.object.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
                               <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.customer_info }}</p>
+                              <p>{{ work.object.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Иш тури<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_type }}</p>
+                              <p>{{ work.object.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Нархи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                              <p>{{ work.object.pdowork.object_cost}}</p>
                           </div>
                           <div class="mb-2">
                               <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.department }}</p>
+                              <p>{{ work.object.pdowork.department }}</p>
                           </div>
                       </div>
                   </div>
-                  <ul class="folder">
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <a href="/{{ work.object.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                      </div>
+                       <div class="col-md-12">
+                          <a href="#" target="_blank" class="file" data-id="{{ programwork.object.id }}"><h6 class=""> <i class="fa fa-file-word-o"></i> Илова файли билан танишиш</h6></a>
+                      </div>
+                      {% if programwork %}
+                            {% if programwork.status == 4 %}
+                               <div class="col-md-12">
+                                  <a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" ><h6 class=""> <i class="fa fa-file-word-o"></i> Топографик-геодезик дастури файли билан танишиш</h6></a>
                               </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                  </ul>
+                              {% else %}
+                                  <a href="#" target="_blank"><h6 class="text-warning"> <i class="fa fa-file-word-o"></i>Топографик-геодезик дастури тайёрланмоқда</h6></a>
+                              {% endif %}
+                      {% endif %}
+                  </div>
+
               </div>
           </div>
       </div>
@@ -157,6 +156,11 @@
 
                                 </button>
                             {% endif %}
+
+                              <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-refresh"></i>
+                                    Буюртма ҳақида маълумот
+                              </button>
+
 
                         </div>
 
@@ -957,6 +961,72 @@
             alert('Iltimos maydonlarni toldirishingizni soraymiz');}
     });
 </script>
+<script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/program_work_file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+        <script type="text/javascript">
+    $(document).on('click',".file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'order_to_pdf' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
     {% endblock %}
 
 

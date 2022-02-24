@@ -15,9 +15,14 @@ urlpatterns = [
     re_path(r'^program_work_form_store/$', views.program_work_form_store, name='program_work_form_store'),
     re_path(r'^program_work_form/(?P<id>\d+)/$', views.program_work_form, name='program_work_form'),
     re_path(r'^program_work_form_edit/(?P<id>\d+)/$', views.program_work_form_edit, name='program_work_form_edit'),
+    re_path(r'^program_work_form_re_sent_to_check/(?P<id>\d+)/$', views.program_work_form_re_sent_to_check, name='program_work_form_re_sent_to_check'),
+    re_path(r'^program_work_save_edits/(?P<id>\d+)/$', views.program_work_save_edits, name='program_work_save_edits'),
+    re_path(r'^sent_to_check_programwork$', views.sent_to_check_programwork, name='sent_to_check_programwork'),
+    re_path(r'^program_work_form_re_sent/(?P<id>\d+)/$', views.program_work_form_re_sent,name='program_work_form_re_sent'),
     re_path(r'^history_program_work/$', views.history_program_work, name='history_program_work'),
     re_path(r'^start/$', views.start, name='start'),
     re_path(r'^order_to_pdf$', views.order_to_pdf, name='order_to_pdf'),
+    re_path(r'^doing_program_work_file$', views.doing_program_work_file, name='doing_program_work_file'),
     re_path(r'^edit_pdowork_changes/$', views.edit_pdowork_changes, name='edit_pdowork_changes'),
     re_path(r'^leader_polevoy_works/$', views.leader_polevoy_works, name='leader_polevoy_works'),
     re_path(r'^checking_polevoy_works/(?P<id>\d+)/$', views.checking_polevoy_works, name='checking_polevoy_works'),
@@ -65,7 +70,7 @@ urlpatterns = [
     re_path(r'^program_work_event/(?P<id>\d+)/$', views.program_work_event, name='program_work_event'),
     re_path(r'^confirm_program_work$', views.confirm_program_work, name='confirm_program_work'),
     re_path(r'^reject_program_work$', views.reject_program_work, name='reject_program_work'),
-    re_path(r'^program_work_form_re_sent/(?P<id>\d+)/$', views.program_work_form_re_sent, name='program_work_form_re_sent'),
+
 
     re_path(r'^geodesiz_komeral_works/$', views.geodesiz_komeral_works, name='geodesiz_komeral_works'),
     re_path(r'^show_geodesiz_kameral_work/(?P<id>\d+)/$', views.show_geodesiz_kameral_work, name='show_geodesiz_kameral_work'),

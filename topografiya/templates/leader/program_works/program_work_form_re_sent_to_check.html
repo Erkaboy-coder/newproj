@@ -1,20 +1,19 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Топографик-Геодезик Дастури формаси {% endblock %}
+{% block title %} Топографик-Геодезик Дастури o'zgartirish {% endblock %}
 
 {% block content%}
 
 {% block stylecontent %}
-
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
 <style>
     .formact{
         border: 1px solid #e6edef;
     }
 </style>
-
 {% endblock stylecontent %}
+
     <div class="modal fade modal-bookmark " id="exampleModal1"
        tabindex="-1" aria-labelledby="exampleModalLabel1"
        style="display: none;" aria-hidden="true">
@@ -45,22 +44,30 @@
       </div>
   </div>
 
+
         <div class="page-body">
 
             <div class="container-fluid">
                 <div class="page-header">
+
                     <div class="row">
                         <div class="col-sm-6">
                             <h3>Топографик-геодезик дастури</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури</a> </li>
-                                <li class="breadcrumb-item"><a href="{% url 'program_work_event' id=order.object.id %}">{{ object.programwork.object.pdowork.object_name }}</a></li>
+                                {% if user.profile.status == '1' %}
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a> </li>
+                                {% endif %}
+                                {% if user.profile.status == '2' %}
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури</a> </li>
+                                {% endif %}
+
+                                <li class="breadcrumb-item">{{ object.pdowork.object_name }}</li>
 
                             </ol>
                         </div>
 
-                        <div class="col-sm-6 text-end">
+                     <div class="col-sm-6 text-end">
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
@@ -85,39 +92,44 @@
                 <div class="row">
                     <div class="col-sm-12 col-xl-12 xl-100">
                         <div class="card">
-{#                            <div class="card-header pb-0">#}
-{#                                <h5>Топографик-геодезик дастури</h5>#}
-{#                            </div>#}
+                            <div class="card-header pb-0">
+                                {% if form.programwork.status == 4 %}
+                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> Тасдиқланган иш</b></div>
+                                {% endif %}
+                                {% if form.programwork.status == 2 %}
+                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> Рад этилган иш</b></div>
+                                {% endif %}
+                            </div>
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
-{#                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>#}
-                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Топографик-геодезик дастури</a></li>
+                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>
+                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Форма орқали киритиш</a></li>
                                     <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Илова</a></li>
                                     <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Буюртма ҳақида маълумот</a></li>
                                 </ul>
 
                                 <div class="tab-content" id="icon-tabContent">
 
-{#                                    <div class="tab-pane fade " id="icon-home" role="tabpanel" aria-labelledby="icon-home-tab">#}
-{#                                        <div class="row">#}
-{#                                            <div class="col">#}
-{#                                                <div class="mb-3"><br>#}
-{#                                                    <form class="dropzone dz-clickable" id="singleFileUpload">#}
-{#                                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>#}
-{#                                                            <h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>#}
-{#                                                        </div>#}
-{#                                                    </form>#}
-{#                                                    <br>#}
-{#                                                    <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
+                                    <div class="tab-pane fade " id="icon-home" role="tabpanel" aria-labelledby="icon-home-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3"><br>
+                                                    <form class="dropzone dz-clickable" id="singleFileUpload">
+                                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
+                                                            <h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                                                        </div>
+                                                    </form>
+                                                    <br>
+                                                    <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
 
                                     <div class="tab-pane fade show active" id="profile-icon" role="tabpanel" aria-labelledby="profile-icon-tab">
                                       <div class="top-forma m-t-40">
-                                           <form method="post" enctype="multipart/form-data" >
+                                          <form method="post" action="{% url 'program_work_form_re_sent' id=object.id %}" enctype="multipart/form-data" >
                                         {% csrf_token %}
 
 {#                                               <div class="mb-3 row">#}
@@ -134,50 +146,50 @@
 {#                                               </div>#}
 
                                                <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
-                                               <p>По <span><input class="w-50 formact" name="a0" value="{{ object.a0 }}" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
+                                               <p>По <span><input class="w-50 formact" name="a0" value="{{ form.a0 }}" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
-                                              <p>
+                                             <p>
                                                    Основанием для производства работ послужило техническое задание, выданное
-                                                   <span><input class="w-50 m-b-5 formact" required name="a1_1" value="{{ object.a1_1 }}" type="text"></span>
+                                                   <span><input class="w-50 m-b-5 formact" required name="a1_1" value="{{ form.a1_1 }}" type="text"></span>
                                                    <br>
                                                    Цель, назначение и объем проектируемых работ<span><input class="m-b-5 formact" style="width: 70%" name="a1_2" value="{{ form.a1_2 }}" type="text"></span>
                                                    Дополнительные требования к выполнению геодезических работ
-                                                   <span><input class="m-b-5 formact" required name="a1_3" value="{{ object.a1_3 }}" style="width: 55%" type="text"></span>
+                                                   <span><input class="m-b-5 formact" required name="a1_3" value="{{ form.a1_3 }}" style="width: 55%" type="text"></span>
                                                </p>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a2" placeholder="указываются физико-географические условия местности">{{ object.a2 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a2" placeholder="указываются физико-географические условия местности">{{ form.a2 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="a3" value="{{ object.a3 }}" type="text" placeholder="">
+                                                       <input class="form-control" name="a3" value="{{ form.a3 }}" type="text" placeholder="">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" name="a4" type="text" placeholder="производится описание существующей геодезической сети, ее класс, разряд, система координат и высот, исходные пункты для ">{{ object.a4 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" name="a4" type="text" placeholder="производится описание существующей геодезической сети, ее класс, разряд, система координат и высот, исходные пункты для ">{{ form.a4 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a5" placeholder="обоснование видов и классов (разрядов) проектируемой опорной геодезической сети и схемы ее построения с расчетом точности ">{{ object.a5 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a5" placeholder="обоснование видов и классов (разрядов) проектируемой опорной геодезической сети и схемы ее построения с расчетом точности ">{{ form.a5 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" name="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ object.a6 }}</textarea>
+                                                       <textarea class="form-control" name="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a6 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" name="a7" class="form-control" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ object.a7 }}</textarea>
+                                                       <textarea style="height: 100px;" name="a7" class="form-control" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a7 }}</textarea>
                                                    </div>
                                                </div>
                                                <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
@@ -218,38 +230,38 @@
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.2</span> При горизонтальной и высотной съемках застроенных территорий</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" name="a7_2" type="text" placeholder="указывается необходимость обмеров по контуру зданий, сооружений, их координирование">{{ object.a7_2 }}</textarea>
+                                                       <textarea class="form-control" name="a7_2" type="text" placeholder="указывается необходимость обмеров по контуру зданий, сооружений, их координирование">{{ form.a7_2 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.3</span> Привязка инженерно-геологических выработок, геофизических и др. точек</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" name="a7_3" type="text" placeholder="требования к разбивке и планово-высотной привязке инженерно-геологических выработок и других точек">{{ object.a7_3 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" name="a7_3" type="text" placeholder="требования к разбивке и планово-высотной привязке инженерно-геологических выработок и других точек">{{ form.a7_3 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.4</span> Составление топографических планов</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a7_4" placeholder="масштаб, номенклатура, система координат и высот">{{ object.a7_4 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a7_4" placeholder="масштаб, номенклатура, система координат и высот">{{ form.a7_4 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" name="a8" type="text" placeholder="указывается метод съемки: по выходам подземных коммуникаций, с помощью трубокабелеискателя, шурфованием, их эскизирование и координирование; согласование схем подземных коммуникаций с технологическими службами ">{{ object.a8 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" name="a8" type="text" placeholder="указывается метод съемки: по выходам подземных коммуникаций, с помощью трубокабелеискателя, шурфованием, их эскизирование и координирование; согласование схем подземных коммуникаций с технологическими службами ">{{ form.a8 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Составление планов подземных коммуникаций</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a8_1" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр.">{{ object.a8_1 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a8_1" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр.">{{ form.a8_1 }}</textarea>
                                                    </div>
                                                </div>
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</h5>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" type="text" name="a9_1" placeholder="указывается планово-высотная привязка трасс, их закрепление в натуре, схемы привязок, абрис, сдача заказчику по акту закрепленных трасс">{{ object.a9_1 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" type="text" name="a9_1" placeholder="указывается планово-высотная привязка трасс, их закрепление в натуре, схемы привязок, абрис, сдача заказчику по акту закрепленных трасс">{{ form.a9_1 }}</textarea>
                                                    </div>
                                                </div>
                                                <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
@@ -294,99 +306,100 @@
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Ведомости:</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="a9_3" type="text" value="{{ object.a9_3 }}" placeholder="наименование">
+                                                       <input class="form-control" name="a9_3" type="text" value="{{ form.a9_3 }}" placeholder="наименование">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Прочие материалы:</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="a9_4" type="text" value="{{ object.a9_4 }}" placeholder="наименование">
+                                                       <input class="form-control" name="a9_4" type="text" value="{{ form.a9_4 }}" placeholder="наименование">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a10" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ">{{ object.a10 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a10" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ">{{ form.a10 }}</textarea>
                                                    </div>
                                                </div>
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</h5>
                                                <p>
                                                    К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии <span><sup style="color: red">*</sup></span>
-                                                   <textarea style="height: 100px;" name="a11" class="form-control" placeholder="кто проводит, где, когда">{{ object.a11 }}</textarea>
+                                                   <textarea style="height: 100px;" name="a11" class="form-control" placeholder="кто проводит, где, когда">{{ form.a11 }}</textarea>
                                                </p>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" name="a12" type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки">{{ object.a12 }}</textarea>
+                                                       <textarea class="form-control" name="a12" type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки">{{ form.a12 }}</textarea>
                                                    </div>
                                                </div>
                                                <h5 class="text-center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
-                                               <div class="floder_input">
+
+                                              <div class="floder_input">
                                                    <div class="row">
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
                                                        {% if files.file1 %}
-{#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file1" id="file1" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file1 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                            <div class="col-lg-6 mt-3"><input class="form-control" required name="file1" id="file1" type="file"></div>#}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file1" id="file1" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file1 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                            <div class="col-lg-6 mt-3"><input class="form-control" required name="file1" id="file1" type="file"></div>
                                                            {% endif %}
 
 
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
                                                         {% if files.file2 %}
-{#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file2 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>#}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
                                                            {% endif %}
 
 
 
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
                                                         {% if files.file3 %}
-{#                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file3 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>#}
+                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
                                                            {% endif %}
 
 
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
                                                         {% if files.file4 %}
-{#                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file4 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>#}
+                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
                                                            {% endif %}
 
 
 
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
                                                        {% if files.file5 %}
-{#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file5 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>#}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
                                                            {% endif %}
 
 
 
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
                                                         {% if files.file6 %}
-{#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file6 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                           <div class="col-lg-6 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>#}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                           <div class="col-lg-6 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
                                                            {% endif %}
 
 
 
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
                                                         {% if files.file7 %}
-{#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>#}
-                                                       <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file7 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-{#                                                           {% else %}#}
-{#                                                           <div class="col-lg-6 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>#}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                           <div class="col-lg-6 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
                                                            {% endif %}
 
 
@@ -394,71 +407,20 @@
                                                        <h5 class="m-t-15">Примечание. <i>Допускается совмещение прилагаемых схем и картограмм.</i></h5>
                                                    </div>
                                                </div>
-                                               <div class="m-b-20 m-t-20 row">
-                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Создатель программу</label>
+
+                                              <div class="m-b-20 m-t-20 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="program_work_creator" type="text" value="{{ object.programwork.object.worker_leader }}">
+                                                       <input class="form-control" name="program_work_creator" type="text" value="{{ object.worker_leader }}">
                                                    </div>
                                                </div>
-{#                                               <div class="mb-3 row">#}
-{#                                                   <div class="col-sm-12 d-flex justify-content-between">#}
-{#                                                       <div class="">#}
-{#                                                           <button type="reset" class="btn btn-outline-danger"> Майдонни тозалаш</button>#}
-{#                                                       </div>#}
-{#                                                   </div>#}
-{#                                               </div>#}
-{#                                               <hr>#}
-{#                                              <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">#}
-{#                                               <button type="submit" class="float-end btn btn-primary ">Текширувга юбориш</button>#}
-{#                                               <button type="button" class="float-end btn btn-outline-warning m-r-5"> Сақлаш</button>#}
-                                                     </form>
 
-                                           <div class="row">
-                                            <hr>
-                                          <div class="col-lg-6">
-                                            <button class="btn btn-danger btn-lg w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg1">Рад етиш</button>
-                                            <div class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabelru" aria-hidden="true">
-                                              <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                  <div class="modal-header bg-danger">
-                                                    <h4 class="modal-title" id="myLargeModalLabelru">Рад етиш</h4>
-                                                    <div data-bs-dismiss="modal" type="button" aria-label="Close">X</div>
-                                                  </div>
+                                               {% if form.programwork.status == 2 %}
+                                                    <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">
+                                                    <button type="submit" class="float-end btn btn-primary ">Қайта текширувга юбориш</button>
+                                              {% endif %}
 
-                                                  <div class="modal-body">
-
-                                                        <div class="alert alert-warning" id="message_error" style="display: none;font-size: 14px">
-                                                            <i class="fa fa-warning"></i><strong> Илтимос!</strong> Сабаб кўрсатинг!
-                                                        </div>
-
-                                                      <div class="row m-t-20">
-                                                      <div class="col-lg-12">
-                                                        <textarea  style="height: 120px;" name="reason" id="reason" class="form-control" placeholder="Сабабини кўрсатинг"></textarea>
-                                                      </div>
-
-
-                                                      <div class="col-lg-12 m-t-20">
-                                                        <input class="form-control" name="file" id="file" type="file">
-                                                      </div>
-                                                      <div class="col-lg-12 m-t-20">
-                                                        <button type="button" id="reject_program_work" worker="{{ user.profile.full_name }}" object-id="{{ object.programwork.object.id }}" class="btn btn-danger float-end">Юбориш</button>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-
-                                          <div class="col-lg-6">
-                                            <button class="btn btn-primary btn-lg w-100" id="confirm" worker="{{ user.profile.full_name }}" object-id="{{ object.programwork.object.id }}" > Тасдиқлаш</button>
-                                          </div>
-
-                                        </div>
-
-
-
+                                          </form>
                                       </div>
                                     </div>
 
@@ -478,64 +440,64 @@
                                                                                 <div class="mb-2">
                                                                                     <b>Шартнома рақами<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.object_number }}</p>
+                                                                                    <p>{{ object.pdowork.object_number }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Шартнома санаси</b>
-                                                                                    <p>{{ object.programwork.object.pdowork.agreement_date }}</p>
+                                                                                    <p>{{ object.pdowork.agreement_date }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Обект номи<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.object_name }} </p>
+                                                                                    <p>{{ object.pdowork.object_name }} </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Буюрмачи</b>
-                                                                                    <p>{{ object.programwork.object.pdowork.customer }}</p>
+                                                                                    <p>{{ object.pdowork.customer }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Обект манзили<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.object_address }}</p>
+                                                                                    <p>{{ object.pdowork.object_address }}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 text-end">
                                                                                 <div class="mb-2">
                                                                                     <b>Бажариш муддати<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.work_term }} kun</p>
+                                                                                    <p>{{ object.pdowork.work_term }} kun</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Буюртмачи маълумотлари<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.customer_info }}</p>
+                                                                                    <p>{{ object.pdowork.customer_info }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Иш тури<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.work_type }}</p>
+                                                                                    <p>{{ object.pdowork.work_type }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Нархи<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.object_cost}}</p>
+                                                                                    <p>{{ object.pdowork.object_cost}}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Маъсул бажарувчи бўлим<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.department }}</p>
+                                                                                    <p>{{ object.pdowork.department }}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         <ul class="folder">
                                                                             <li class="folder-box">
-                                                                                <a href="/{{ object.programwork.object.pdowork.latter }}">
+                                                                                <a href="/{{ object.pdowork.latter }}">
                                                                                     <i class="fa fa-file-pdf-o f-20 txt-dark"></i>  Буюрта хати билан танишиш
                                                                                 </a>
                                                                             </li>
                                                                             <li class="folder-box m-b-5 m-t-5">
                                                                                 <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
-                                                                                <a href="/{{ object.programwork.object.pdowork.tz }}">
+                                                                                <a href="/{{ object.pdowork.tz }}">
                                                                                         Техник топшириқ файли билан танишиш
                                                                                 </a>
 
@@ -543,7 +505,7 @@
 
                                                                             <li class="folder-box">
                                                                                 <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
-                                                                                <a href="/{{ object.programwork.object.pdowork.smeta }}">Смета файли
+                                                                                <a href="/{{ object.pdowork.smeta }}">Смета файли
                                                                                             билан танишиш</a>
                                                                             </li>
 
@@ -567,12 +529,12 @@
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
-                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.programwork.object.isset_programwork == True %}checked{% endif %}>
+                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
                                                                                     <label for="radio1"><span class="digits">Ҳа</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
-                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.programwork.object.isset_programwork == False %}checked{% endif %}>
+                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
                                                                                     <label for="radio4">Йўқ</label>
                                                                                 </div>
 
@@ -591,7 +553,7 @@
                                                                                 <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel">
 {#                                                                                    <option value="{{ object.worker_ispolnitel }}" selected>{{ object.worker_ispolnitel }}</option>#}
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.programwork.object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -607,7 +569,7 @@
                                                                                     Должность, Ф.И.О. исполнителя
                                                                                 </label>
                                                                                 <div class="col-sm-9">
-                                                                                    <input class="form-control" type="text" value="{{ object.programwork.object.pdowork.customer_info }}">
+                                                                                    <input class="form-control" type="text" value="{{ object.pdowork.customer_info }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -615,7 +577,7 @@
                                                                                     объекта</label>
                                                                                 <div class="col-sm-9">
                                                                                     <input class="form-control"
-                                                                                           type="text" value="{{ object.programwork.object.pdowork.object_name }}">
+                                                                                           type="text" value="{{ object.pdowork.object_name }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -624,7 +586,7 @@
                                                                                 <div class="col-sm-9">
                                                                                     <input class="form-control"
                                                                                            type="text"
-                                                                                           value="{{ object.programwork.object.pdowork.object_address}}">
+                                                                                           value="{{ object.pdowork.object_address}}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -632,7 +594,7 @@
                                                                                 <div class="col-sm-9">
                                                                                     <input class="form-control"
                                                                                            type="text"
-                                                                                           value="{{ object.programwork.object.pdowork.customer }}">
+                                                                                           value="{{ object.pdowork.customer }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -641,7 +603,7 @@
                                                                                 <div class="col-sm-9">
                                                                                     <input class="form-control"
                                                                                            type="text"
-                                                                                           value="{{ object.programwork.object.pdowork.work_type }}">
+                                                                                           value="{{ object.pdowork.work_type }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -651,7 +613,7 @@
                                                                                     <input class="form-control digits"
                                                                                            id="example-datetime-local-input"
                                                                                            type="text"
-                                                                                           value="{{ object.programwork.object.pdowork.work_term }} kun">
+                                                                                           value="{{ object.pdowork.work_term }} kun">
                                                                                 </div>
                                                                             </div>
 
@@ -769,15 +731,18 @@
 {#                                                                            <hr>#}
 {#                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>#}
 {#                                                                            <button class="float-end btn btn-primary" type="submit"> <i class="fa fa-check"></i> Ишни узгартириш</button>#}
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                    </div>
-                                        </div>
+                                                        </div>
 
                                     </div>
+                                </div>
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -791,72 +756,7 @@
     <script src="{% static 'assets/js/script.js' %}"></script>
     <script src="{% static 'assets/js/boottable.js' %}"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).on('click',"#confirm",function(){
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("object-id", $(this).attr('object-id'));
-        data.append("worker", $(this).attr('worker'));
-        event.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '{% url 'confirm_program_work' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (result){
-               location.replace('/program_works_geodezis');
-            },
-
-            error: function(){
-              alert('Serverga yubara olmaymiz !! ');
-            }
-
-        });
-
-    });
-</script>
-
-    <script type="text/javascript">
-    $(document).on('click',"#reject_program_work",function(){
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("object-id", $(this).attr('object-id'));
-        data.append("reason", $('#reason').val());
-        data.append("reject_file", $('#file')[0].files[0]);
-        data.append("worker", $(this).attr('worker'));
-        event.preventDefault();
-        if($('#reason').val() == 0){
-           $('#message_error').css('display','block');
-        }
-        else{
-            $.ajax({
-            type: 'POST',
-            url: '{% url 'reject_program_work' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (result){
-               location.replace('/program_works_geodezis');
-            },
-
-            error: function(){
-              alert('Serverga yubara olmaymiz !! ');
-            }
-
-        });
-        }
-
-    });
-</script>
-
-
-    {% endblock %}
+        {% endblock %}
 
 <script src="{% static 'assets/js/dropzone/dropzone.js' %}"></script>
 <script src="{% static 'assets/js/dropzone/dropzone-script.js' %}"></script>
