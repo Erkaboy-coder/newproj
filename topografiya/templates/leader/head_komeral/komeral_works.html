@@ -93,9 +93,7 @@
                                                                 <span style="color: #168eea;font-size:30px;">
                                                                     {% for work in rejecteds %}
                                                                         {% if work.object == object.object %}
-                                                                            {% if forloop.last %}
-                                                                                    {{ forloop.counter }}
-                                                                                {% endif %}
+                                                                            <b  class="count" data-all="{{ work.object}},"></b>
                                                                         {% endif %}
                                                                     {% endfor %}
                                                                 </span>
@@ -209,5 +207,20 @@
             </div>
 
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.count').each(function(i,obj){
+    let text=$(this).attr('data-all');
+    num=text.split(',');
+    let s=0;
+    for(let i in num){
+    if(num[i]!='')
+      s++;
+      }
+        $(this).text(s);
+    });
+  });
 
+</script>
 {% endblock %}

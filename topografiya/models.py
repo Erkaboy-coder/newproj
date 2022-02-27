@@ -158,7 +158,6 @@ class ProgramWorkForm(models.Model):
     a4 = models.TextField(blank=True)
     a5 = models.TextField(blank=True)
     a6 = models.TextField(blank=True)
-    a7 = models.TextField(blank=True)
 
     a7_2 = models.TextField(blank=True)
     a7_3 = models.TextField(blank=True)
@@ -181,22 +180,7 @@ class ProgramWorkForm(models.Model):
 
     class Meta:
         verbose_name_plural = "ProgramWorkForm"
-class ProgramWorkFiles(models.Model):
-    programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkformfiles')
-    file1 = models.FileField("Fayli 1", upload_to='topografiya/static/files/programfiles', blank=True)
-    file2 = models.FileField("Fayli 2", upload_to='topografiya/static/files/programfiles', blank=True)
-    file3 = models.FileField("Fayli 3", upload_to='topografiya/static/files/programfiles', blank=True)
-    file4 = models.FileField("Fayli 4", upload_to='topografiya/static/files/programfiles', blank=True)
-    file5 = models.FileField("Fayli 5", upload_to='topografiya/static/files/programfiles', blank=True)
-    file6 = models.FileField("Fayli 6", upload_to='topografiya/static/files/programfiles', blank=True)
-    file7 = models.FileField("Fayli 7", upload_to='topografiya/static/files/programfiles', blank=True)
 
-    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
-    def __str__(self):
-        return self.programworkform.programwork.object.pdowork.object_name
-
-    class Meta:
-        verbose_name_plural = "ProgramWorkFiles"
 
 class ProgramWorkFormTable1(models.Model):
     programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkform')
@@ -228,6 +212,23 @@ class ProgramWorkFormTable2(models.Model):
 
     class Meta:
         verbose_name_plural = "ProgramWorkFormTable2"
+
+class ProgramWorkFiles(models.Model):
+    programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkfiles')
+    file1 = models.FileField("Fayli 1", upload_to='topografiya/static/files/programfiles', blank=True)
+    file2 = models.FileField("Fayli 2", upload_to='topografiya/static/files/programfiles', blank=True)
+    file3 = models.FileField("Fayli 3", upload_to='topografiya/static/files/programfiles', blank=True)
+    file4 = models.FileField("Fayli 4", upload_to='topografiya/static/files/programfiles', blank=True)
+    file5 = models.FileField("Fayli 5", upload_to='topografiya/static/files/programfiles', blank=True)
+    file6 = models.FileField("Fayli 6", upload_to='topografiya/static/files/programfiles', blank=True)
+    file7 = models.FileField("Fayli 7", upload_to='topografiya/static/files/programfiles', blank=True)
+
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    def __str__(self):
+        return self.programworkform.programwork.object.pdowork.object_name
+
+    class Meta:
+        verbose_name_plural = "ProgramWorkFiles"
 
 class AktPolevoyForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktpolevoyobject')
@@ -304,61 +305,6 @@ class AktPolevoyForm(models.Model):
     a69 = models.TextField(blank=True)
     a70 = models.TextField(blank=True)
     a71 = models.TextField(blank=True)
-    a72 = models.TextField(blank=True)
-    a73 = models.TextField(blank=True)
-    a74 = models.TextField(blank=True)
-    a75 = models.TextField(blank=True)
-    a76 = models.TextField(blank=True)
-    a77 = models.TextField(blank=True)
-    a78 = models.TextField(blank=True)
-    a79 = models.TextField(blank=True)
-    a80 = models.TextField(blank=True)
-    a81 = models.TextField(blank=True)
-    a82 = models.TextField(blank=True)
-    a83 = models.TextField(blank=True)
-    a84 = models.TextField(blank=True)
-    a85 = models.TextField(blank=True)
-    a86 = models.TextField(blank=True)
-    a87 = models.TextField(blank=True)
-    a88 = models.TextField(blank=True)
-    a89 = models.TextField(blank=True)
-    a90 = models.TextField(blank=True)
-    a91 = models.TextField(blank=True)
-    a92 = models.TextField(blank=True)
-    a93 = models.TextField(blank=True)
-    a94 = models.TextField(blank=True)
-    a95 = models.TextField(blank=True)
-    a96 = models.TextField(blank=True)
-    a97 = models.TextField(blank=True)
-    a98 = models.TextField(blank=True)
-    a99 = models.TextField(blank=True)
-    a100 = models.TextField(blank=True)
-    a101 = models.TextField(blank=True)
-    a102 = models.TextField(blank=True)
-    a103 = models.TextField(blank=True)
-    a104 = models.TextField(blank=True)
-    a105 = models.TextField(blank=True)
-    a106 = models.TextField(blank=True)
-    a107 = models.TextField(blank=True)
-    a108 = models.TextField(blank=True)
-    a109 = models.TextField(blank=True)
-    a110 = models.TextField(blank=True)
-    a111 = models.TextField(blank=True)
-    a112 = models.TextField(blank=True)
-    a113 = models.TextField(blank=True)
-    a114 = models.TextField(blank=True)
-    a115 = models.TextField(blank=True)
-    a116 = models.TextField(blank=True)
-    a117 = models.TextField(blank=True)
-    a118 = models.TextField(blank=True)
-    a119 = models.TextField(blank=True)
-    a120 = models.TextField(blank=True)
-    a121 = models.TextField(blank=True)
-    a122 = models.TextField(blank=True)
-    a123 = models.TextField(blank=True)
-    a124 = models.TextField(blank=True)
-    a125 = models.TextField(blank=True)
-    a126 = models.TextField(blank=True)
 
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
@@ -393,7 +339,6 @@ class AktPolovoyTable2(models.Model):
     a2_4 = models.TextField(blank=True)
     a2_5 = models.TextField(blank=True)
     a2_6 = models.TextField(blank=True)
-    a2_7 = models.TextField(blank=True)
 
     def __str__(self):
         return self.a2_1
@@ -479,6 +424,7 @@ class AktPolovoyTable7(models.Model):
     a7_3 = models.TextField(blank=True)
     a7_4 = models.TextField(blank=True)
     a7_5 = models.TextField(blank=True)
+    a7_6 = models.TextField(blank=True)
 
     def __str__(self):
         return self.a7_1
@@ -493,7 +439,6 @@ class AktPolovoyTable8(models.Model):
     a8_2 = models.TextField(blank=True)
     a8_3 = models.TextField(blank=True)
     a8_4 = models.TextField(blank=True)
-    a8_5 = models.TextField(blank=True)
 
     def __str__(self):
         return self.a8_1
@@ -630,8 +575,7 @@ class AktKomeralForm(models.Model):
     a60 = models.TextField(blank=True)
     a61 = models.TextField(blank=True)
     a62 = models.TextField(blank=True)
-    a63 = models.TextField(blank=True)
-    a64 = models.TextField(blank=True)
+
 
     def __str__(self):
         return self.object.pdowork.object_name
@@ -923,6 +867,7 @@ class History(models.Model):
     # status = 25 Geodezis 2 hisobotini pechatga yuborish
     # status = 26 Ishchi dastur o'zgartirildi
     # status = 27 Ishchi dasturi teskhiruvga yuborilgan
+    # status = 28 AKT komeral nazorat saqlandi
 
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)

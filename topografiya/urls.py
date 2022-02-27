@@ -41,6 +41,7 @@ urlpatterns = [
     re_path(r'^show_komeral_work/(?P<id>\d+)/$', views.show_komeral_work, name='show_komeral_work'),
     re_path(r'^rejected_komeral_works/(?P<id>\d+)/$', views.rejected_komeral_works, name='rejected_komeral_works'),
     re_path(r'^save_akt_komeral$', views.save_akt_komeral, name='save_akt_komeral'),
+    re_path(r'^sent_to_check_akt$', views.sent_to_check_akt, name='sent_to_check_akt'),
     re_path(r'^deny_komeral$', views.deny_komeral, name='deny_komeral'),
 
     # worker

@@ -125,7 +125,9 @@
               <div class="modal-body">
                   <div class="row">
                       <div class="col-md-12">
-                            <b>Топографик геодезик дастуридан қайтиш сабаблари</b>
+                            {% if rejects_programworks %}
+                                <b>Топографик геодезик дастуридан қайтиш сабаблари</b>
+                            {% endif %}
                             <ol>
                                 {% for work in rejects_programworks %}
                                     <hr>
@@ -135,7 +137,9 @@
                                 {% endfor %}
 
                             </ol>
+                      {% if rejects_akt_polevoy_works %}
                             <b>Дала назоратидан қайтиш сабаблари</b>
+                      {% endif %}
                             <ol>
                                 {% for work in rejects_akt_polevoy_works %}
                                     <hr>
@@ -145,7 +149,9 @@
                                 {% endfor %}
 
                             </ol>
+                      {% if rejects_akt_komeral_works %}
                             <b>Комерал назоратдан қайтиш сабаблари</b>
+                      {% endif %}
                             <ol>
                                 {% for work in rejects_akt_komeral_works %}
                                     <hr>
@@ -155,7 +161,9 @@
                                 {% endfor %}
 
                             </ol>
+                      {% if rejects_akt_komeral_leader_works %}
                              <b>Бош геодезис назоратидан қайтиш сабаблари</b>
+                      {% endif %}
                             <ol>
                                 {% for work in rejects_akt_komeral_leader_works %}
                                     <hr>
@@ -165,7 +173,9 @@
                                 {% endfor %}
 
                             </ol>
+                       {% if rejects_reports %}
                             <b>Ҳисобот текширувидан қайтиш сабаблари</b>
+                      {% endif %}
                             <ol>
                                 {% for work in rejects_reports %}
                                     <hr>
@@ -553,27 +563,36 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>7. Пояснительная записка</h6>
+                                                <h6>7. Предписание </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
 
-                                         <li class="file-box m-t-5">
+                                        {% if programwork %}
+                                            <li class="file-box m-t-5">
+                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                <div class="file-bottom ">
+                                                    <h6>8. Топографик-геодезик дастури </h6>
+                                                    <p>Ознакомиться с файлом отправки</p>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
+                                                </div>
+                                            </li>
+                                    {% endif %}
+
+                                        <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>8. Предписание</h6>
+                                                <h6>9. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">
-                                                    <a href="#" class="text-white" data-id="{{ workerobject.object.id }}" id="file_predpisaniya" target='_blank'>Кўриш</a>
-                                                </button>
+                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>9. АКТ дала назорати текшируви далолатномаси</h6>
+                                                <h6>10. АКТ дала назорати текшируви далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
@@ -582,35 +601,44 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ комерал назорат далолатномаси</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a class="text-white" href="{% url 'leader_akt_komeral_form_edit' id=workerobject.object.id %}">Кўриш</a></button>
-                                            </div>
-                                        </li>
-                                        {% if pdowork.isset_programwork == True %}
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>11. Топографик геодезик дастури</h6>
+                                                <h6>11 АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
                                         </li>
+                                        {% if reports %}
+                                            <li class="file-box m-t-5">
+                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                <div class="file-bottom ">
+                                                    <h6>12. Хисобот билан танишиш</h6>
+                                                    <p>Ознакомиться с файлом отправки</p>
+                                                    <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalCenter1">Кўриш</button>
+                                                </div>
+                                            </li>
                                         {% endif %}
 
-                                        {% if report %}
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>12. Топографик геодезик дастури</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                        <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenter1" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary">
+                                                            <h5 style="color: white;" class="modal-title"> Ҳисобат билан танишиш</h5>
+                                                            <div type="button" data-bs-dismiss="modal"
+                                                                 aria-label="Close">x
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ol style="font-size: 18px">
+                                                                {% for report in reports %}
+                                                                    <li class="p-2"><a href="/{{ report.file }}"> <i class="fa fa-file-pdf-o"></i> Ҳисобат файли билан танишиш</a></li>
+                                                                    <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
+                                                                {% endfor %}
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </li>
-                                        {% endif %}
-
-
-
 
                                     </ul>
 
@@ -646,7 +674,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script type="text/javascript">
-    $(document).on('click',"#file_predpisaniya",function(){
+    $(document).on('click',".file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("data-id", $(this).attr('data-id'));
@@ -678,23 +706,23 @@
     });
 </script>
 
-        <script type="text/javascript">
-    $(document).on('click',"#akt_komeral_to_pdf",function(){
+<script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("data-id", $(this).attr('data-id'));
+        data.append("data-id", $(this).attr('programwork-id'));
         {#alert($(this).attr('data-id'));#}
         event.preventDefault()
         $.ajax({
             type: 'POST',
-            url: '{% url 'akt_komeral_to_pdf' %}',
+            url: '{% url 'doing_program_work_file' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
 
             success: function (result){
-                window.open('/static/files/file.pdf','_blank');
+                window.open('/static/files/program_work_file.pdf','_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}

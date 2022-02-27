@@ -19,18 +19,22 @@
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
                                 {% if work.status_geodezis_komeral == 2 %}
                                     <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
+                                    {% elif work.status_geodezis_komeral == 1 %}
+                                         <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
                                 {% else %}
                                     <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
                                 {% endif %}
 
-                                {% if work.status_geodezis_komeral != 2 %}
-                                    <li class="breadcrumb-item"><a href="{% url 'polevoy_work_doing' id=work.object.id %}">Выполнение работ</a></li>
+                                {% if work.status_geodezis_komeral == 2 %}
+                                    <li class="breadcrumb-item"><a href="{% url 'show_komeral_checking_leader' id=work.object.id %}">Выполнение работ</a></li>
+                                    {% elif work.status_geodezis_komeral == 1 %}
+                                     <li class="breadcrumb-item"><a href="{% url 'show_komeral_checking_leader' id=work.object.id %}">Выполнение работ</a></li>
                                 {% endif %}
 
                                 {% if work.status_geodezis_komeral == 2 %}
                                 <li class="breadcrumb-item"><a href="{% url 'leader_rejected_komeral_works' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
                                  {% else %}
-                                <li class="breadcrumb-item">{{ work.object.pdowork.object_name}}</li>
+                                <li class="breadcrumb-item"><a href="{% url 'object_poyasitelniy_form' id=work.object.id %}">{{ work.object.pdowork.object_name}}</a></li>
                                 {% endif %}
 {#                                <li class="breadcrumb-item">По топографо-геодезическим работам</li>#}
                             </ol>
@@ -66,27 +70,28 @@
 {#                                                            <div class="col-lg-5">#}
 {#                                                                <input class="datepicker-here form-control digits" type="text" data-multiple-dates="3" data-multiple-dates-separator=", " data-language="ru" data-bs-original-title="" title="">#}
 {#                                                            </div>#}
-{#                                                            <h5 class="text-center f-w-600 m-t-10">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h5>#}
-{#                                                            <h6 class="text-center">По топографо-геодезическим работам</h6>#}
+                                                            <h5 class="text-center f-w-600 m-t-10">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h5>
+                                                            <h6 class="text-center">По топографо-геодезическим работам</h6>
+                                                            <br><br>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Топографо-геодезические работы</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Топографо-геодезические работы <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
-                                                                    <input class="form-control" type="text" name="b1" id="b1" placeholder="наименование объекта и его местонахождение">
+                                                                    <input class="form-control" type="text" name="b1" id="b1" value="{{ work.object.pdowork.object_name }} {{ work.object.pdowork.object_address }}" placeholder="наименование объекта и его местонахождение">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row m-t-15">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным <sup class="text-danger" style="font-size: 15px">*</sup></label>
                                                                 <div class="col-sm-9">
-                                                                    <textarea style="height: 100px;" class="form-control" type="text" name="b2" id="b2" placeholder="полное наименование организации-заказчика"></textarea>
+                                                                    <textarea style="height: 100px;" class="form-control" type="text" name="b2" id="b2" placeholder="полное наименование организации-заказчика">{{ work.object.pdowork.customer }} {{ work.object.pdowork.customer_info }}</textarea>
                                                                 </div>
                                                             </div>
                                                             <p>
                                                                 и договором №
                                                                 <span>
-                                                                    <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_1" name="b_1">
+                                                                    <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_1" name="b_1" value="{{ work.object.pdowork.object_number}}">
                                                                 </span>
                                                                 от
-                                                                <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_2" name="b_2"></span>
+                                                                <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_2" name="b_2" value="{{ work.object.pdowork.agreement_date}}"></span>
                                                                 20
                                                                 <span>
 
@@ -96,7 +101,7 @@
                                                                 г
                                                             </p>
                                                             <div class="mb-3 row m-t-15">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
 
 
@@ -105,25 +110,25 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">3.1</span> Ответственный исполнитель</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">3.1</span> Ответственный исполнитель <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
 
-                                                                         <input class="form-control" type="text" name="b3_1" id="b3_1" placeholder="">
+                                                                         <input class="form-control" type="text" name="b3_1" id="b3_1" placeholder="" value="{{ work.object.worker_ispolnitel }}">
 
 
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> Начальник партии</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> Начальник партии <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
 
-                                                                         <input class="form-control" type="text" name="b4" id="b4" placeholder="">
+                                                                         <input class="form-control" type="text" name="b4" id="b4" placeholder="" value="{{ work.object.worker_leader }}">
 
 
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> Система координат</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> Система координат <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
 
                                                                          <input class="form-control" type="text" name="b5" id="b5" placeholder="">
@@ -132,7 +137,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> Система высот</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> Система высот <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
 
                                                                         <input class="form-control" type="text" name="b6" id="b6" placeholder="">
@@ -141,14 +146,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> Исходные пункты (плановые и высотные)</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> Исходные пункты (плановые и высотные) <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
 
                                                                         <textarea style="height: 100px;" class="form-control" type="text" name="b7" id="b7" placeholder="названия и номера пунктов, класс-разряд, наименование организации выполнявшей работы, год производства, наименование объекта"></textarea>
 
                                                                 </div>
                                                             </div>
-                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">8</span> Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1</h5>
+                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">8</span> Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1 <sup class="text-danger" style="font-size: 11px">*</sup></h5>
                                                             <p class="text-end">Таблица 1</p>
                                                             <div class="col-sm-12 m-t-10">
                                                                 <div class="card border-0">
@@ -156,38 +161,30 @@
                                                                         <table class="table table-bordered" id="childTable8">
 
                                                                             <thead class="table-primary">
-                                                                            <tr>
-                                                                                <th scope="col">№</th>
-                                                                                <th scope="col">Наименование работ</th>
-                                                                                <th scope="col">Измеритель</th>
-                                                                                <th scope="col">Объемы работ по проекту</th>
-                                                                                <th scope="col">Фактически выполнено</th>
-                                                                                <th scope="col"></th>
-                                                                            </tr>
+                                                                                <tr>
+                                                                                    <th scope="col">№</th>
+                                                                                    <th scope="col">Наименование работ</th>
+                                                                                    <th scope="col">Измеритель</th>
+                                                                                    <th scope="col">Объемы работ по проекту</th>
+                                                                                    <th scope="col">Фактически выполнено</th>
+                                                                                    <th scope="col"></th>
+                                                                                </tr>
                                                                             </thead>
 
                                                                             <tbody>
                                                                             <tr>
                                                                                 <td scope="row">1</td>
                                                                                 <td>
-
-                                                                                        <input class="border-0 w-100" type="text"  name="b8_1" id="b8_1" placeholder="">
-
+                                                                                    <input class="border-0 w-100" type="text"  name="b8_1" id="b8_1" placeholder="">
                                                                                 </td>
                                                                                 <td>
-
-                                                                                        <input class="border-0 w-100" type="text" name="b8_2" id="b8_2" placeholder="">
-
+                                                                                    <input class="border-0 w-100" type="text" name="b8_2" id="b8_2" placeholder="">
                                                                                 </td>
                                                                                 <td>
-
-                                                                                        <input class="border-0 w-100" type="text" name="b8_3" id="b8_3" placeholder="">
-
+                                                                                    <input class="border-0 w-100" type="text" name="b8_3" id="b8_3" placeholder="">
                                                                                 </td>
                                                                                 <td>
-
-                                                                                         <input class="border-0 w-100" type="text" name="b8_4" id="b8_4" placeholder="">
-
+                                                                                    <input class="border-0 w-100" type="text" name="b8_4" id="b8_4" placeholder="">
                                                                                 </td>
                                                                                 <td><i id="addrow8" onclick="childrentabl6()"  class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                                             </tr>
@@ -442,7 +439,7 @@
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">19</span>  Топографическая съемка</label>
+                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">19</span>  Топографическая съемка <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                 <div class="col-sm-9">
 
                                                         <textarea class="form-control" type="text" name="b19" id="b19" placeholder="метод съемки, используемые инструменты и их номера;"></textarea>
@@ -475,11 +472,11 @@
                                                     </textarea>
                                                 </div>
                                             </div>
-                                            <h5 class=""><span class="badge rounded-pill badge-primary">21</span> По выявлению и съёмке подземных коммуникаций на объекте:</h5>
+                                            <h5 class=""><span class="badge rounded-pill badge-primary">21</span> По выявлению и съёмке подземных коммуникаций на объекте: <sup class="text-danger" style="font-size: 11px">*</sup></h5>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label txt-danger">Работа выполнена исполнителем</label>
+                                                <label class="col-sm-3 col-form-label txt-danger">Работа выполнена исполнителем </label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" name="b21" id="b21" value='{{ user.profile.full_name }}' placeholder="">
+                                                    <input class="form-control" type="text" name="b21" id="b21" value='{{ work.object.worker_ispolnitel }}' placeholder="">
                                                 </div>
                                             </div>
                                             <p>в нижеследующем объёме:</p>
@@ -637,19 +634,19 @@
                                                 <span><input style="border:1px solid #e6e8eb" type="text" name="d_6" id="d_6" class="w-75" placeholder="эксплуатирующих организаций,опроса населения и т. д.)"></span>
                                             </p>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Обследование и нивелирование колодцев производилось с использование</label>
+                                                <label class="col-sm-3 col-form-label">Обследование и нивелирование колодцев производилось с использование <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                 <div class="col-sm-9">
                                                     <textarea class="form-control" name="d_7" id="d_7" type="text" placeholder="нивелир, рейка, рулетка, штанга и т. д"></textarea>
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Прослушивание ИПК выполнялось с применение трубокабелеискателей</label>
+                                                <label class="col-sm-3 col-form-label">Прослушивание ИПК выполнялось с применение трубокабелеискателей <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                 <div class="col-sm-9">
                                                     <textarea class="form-control" name="d_8" id="d_8" type="text" placeholder="указать марку"></textarea>
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Привязка точек прослушивания и съёмка выходов ИПК производилась</label>
+                                                <label class="col-sm-3 col-form-label">Привязка точек прослушивания и съёмка выходов ИПК производилась <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                 <div class="col-sm-9">
                                                     <textarea class="form-control" type="text" name="d_9" id="d_9" placeholder="указать от чего, метод, инструменты"></textarea>
                                                 </div>
@@ -672,15 +669,15 @@
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Записку составил</label>
+                                                <label class="col-sm-3 col-form-label">Записку составил <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" type="text" name="d_12" id="d_12" placeholder="число, подпись, должность, фамилия, имя, отчество">
+                                                    <input class="form-control" type="text" name="d_12" id="d_12" value="{{ work.object.worker_ispolnitel }}" placeholder="число, подпись, должность, фамилия, имя, отчество">
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
-                                                <label class="col-sm-3 col-form-label">Контроль и приемка работ</label>
+                                                <label class="col-sm-3 col-form-label">Контроль и приемка работ <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                 <div class="col-sm-9">
-                                                    <input class="form-control" name="d_13" id="d_13" type="text" placeholder="должность, Ф.И.О. проверяющего, дата проведения контроля и приемки, оценка работ">
+                                                    <input class="form-control" name="d_13" id="d_13" type="text"  placeholder="должность, Ф.И.О. проверяющего, дата проведения контроля и приемки, оценка работ">
                                                 </div>
                                             </div>
                                               {% if work.status == 0 %}
@@ -729,13 +726,13 @@
 {#                                                            <h5 class="text-center f-w-600 m-t-10">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h5>#}
 {#                                                            <h6 class="text-center">По топографо-геодезическим работам</h6>#}
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Топографо-геодезические работы</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">1</span> Топографо-геодезические работы <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
                                                                     <input class="form-control" type="text" name="b1" id="b1" value="{{ form.b1 }}">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row m-t-15">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
                                                                     <textarea style="height: 100px;" class="form-control" type="text" name="b2" id="b2">{{ form.b2 }}</textarea>
                                                                 </div>
@@ -743,7 +740,6 @@
                                                             <p>
                                                                 и договором №
                                                                 <span>
-
                                                                     <input style="border: 1px solid #e6e8eb; border-radius: 3px;"  type="text" class="" value="{{ form.b_1 }}" id="b_1" name="b_1">
                                                                 </span>
                                                                 от
@@ -759,38 +755,38 @@
                                                                 г
                                                             </p>
                                                             <div class="mb-3 row m-t-15">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
                                                                     <textarea style="height: 100px;" class="form-control" type="text" name="b3" id="b3">{{ form.b3 }}</textarea>
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">3.1</span> Ответственный исполнитель</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">3.1</span> Ответственный исполнитель <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
                                                                     <input  type="text" class="form-control" value="{{ form.b3_1 }}" id="b3_1" name="b3_1">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> Начальник партии</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> Начальник партии <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
                                                                     <input type="text" class="form-control" value="{{ form.b4 }}" id="b4" name="b4">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> Система координат</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> Система координат <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
-                                                                    <input type="text"class="form-control" value="{{ form.b4 }}" id="b5" name="b5">
+                                                                    <input type="text"class="form-control" id="b5" name="b5" value="{{ form.b5 }}">
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> Система высот</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> Система высот <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
-                                                                    <input type="text"class="form-control" value="{{ form.b4 }}" id="b6" name="b6">
+                                                                    <input type="text"class="form-control"  id="b6" name="b6" value="{{ form.b6 }}">
 
                                                                 </div>
                                                             </div>
                                                             <div class="mb-3 row">
-                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> Исходные пункты (плановые и высотные)</label>
+                                                                <label class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> Исходные пункты (плановые и высотные) <sup class="text-danger" style="font-size: 11px">*</sup></label>
                                                                 <div class="col-sm-9">
                                                                     <textarea style="height: 100px;" class="form-control" type="text" name="b7" id="b7" placeholder="названия и номера пунктов, класс-разряд, наименование организации выполнявшей работы, год производства, наименование объекта">{{ form.b7 }}</textarea>
                                                                 </div>

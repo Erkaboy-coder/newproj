@@ -577,7 +577,10 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body ">
-                                <div class="col-xs-12">
+                               <div class="col-xs-12">
+                                    <div class="file-sidebar">
+                                        <div class="pricing-plan">
+                                            <div class="col-xs-12">
                                     <div class="file-sidebar">
                                         <div class="pricing-plan">
                                             <div class="col-md-12">
@@ -758,35 +761,36 @@
                                                 <p><span class="badge rounded-pill badge-primary">3</span> Работы
                                                     выполнены в <span><input style="border:1px solid #e6edef;"
                                                                              type="text" id="a31" name="a31" value="{{ work.a31 }}"></span> системе
-                                                    координат и в и грунтовые репера системе высот.</p>
+                                                    координат и в <input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a32" name="a32" value="{{ work.a32 }}"> системе высот.</p>
                                                 <p>Результаты полевого контроля:</p>
                                                 <p><span class="badge rounded-pill badge-primary">4</span> Исходными
                                                     пунктами для построения съемочного обоснования послужили:</p>
                                                 <textarea style="width: 50%" class="form-control" type="text"
-                                                          placeholder="..." id="a32" name="a32">{{ work.a32 }}</textarea>
+                                                          placeholder="..." id="a33" name="a33">{{ work.a32 }}</textarea>
                                                 <p class="m-t-10">и грунтовые репера <span>
                                                     <input
-                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a33" name="a33" value="{{ work.a33 }}"></span>
+                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span>
                                                     имеющие отметки нивелирования <span><input
-                                                            style="border:1px solid #e6edef;" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span> кл.
+                                                            style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="{{ work.a35 }}"></span> кл.
                                                 </p>
                                                 <p>
                                                     <span class="badge rounded-pill badge-primary">5</span>
                                                     Длины ходов от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="{{ work.a35 }}"></span>
-                                                    до
                                                     <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36" value="{{ work.a36 }}"></span>
-                                                    км Абсолютные ошибки от
+                                                    до
                                                     <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37" value="{{ work.a37 }}"></span>
+                                                    км Абсолютные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a38" name="a38" value="{{ work.a38 }}"></span>
                                                     до
                                                     <span><input class="m-b-10" style="border:1px solid #e6edef;"
-                                                                 type="text" id="a38" name="a38" value="{{ work.a38 }}"></span>
+                                                                 type="text" id="a39" name="a39" value="{{ work.a39 }}"></span>
                                                     м.Относительные ошибки от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a39" name="a39" value="{{ work.a39 }}"></span>
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="{{ work.a40 }}"></span>
                                                     до
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="{{ work.a40 }}"></span>.
-                                                    Система ходов уравнена
                                                     <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41" value="{{ work.a41 }}"></span>.
+                                                    Система ходов уравнена
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a42" name="a42" value="{{ work.a42 }}"></span>.
                                                 </p>
                                                 <form class="theme-form">
                                                     <div class="mb-3 row">
@@ -794,8 +798,8 @@
                                                                 class="badge rounded-pill badge-primary">6</span>
                                                             Техническое нивелирование выполнено</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a42" name="a42"
-                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания">{{ work.a42 }}</textarea>
+                                                            <textarea class="form-control" type="text" id="a43" name="a43"
+                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания">{{ work.a43 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <p><span class="badge rounded-pill badge-primary">7</span> Состояние
@@ -803,43 +807,43 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">журналы:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a43" name="a43" value="{{ work.a43 }}"
+                                                            <input class="form-control" type="text" id="a44" name="a44" value="{{ work.a44 }}"
                                                                    placeholder="кто, когда проверил и принял, максимальные расхождения в полуприемах, отсчетах по рейке, измерениях линий">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">схемы:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a44" name="a44" value="{{ work.a44 }}"
+                                                            <input class="form-control" type="text" id="a45" name="a45" value="{{ work.a45 }}"
                                                                    placeholder="масштаб, назначение, качество каждой схемы">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">абрисы:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" placeholder="" id="a45" name="a45" value="{{ work.a45 }}">
+                                                            <input class="form-control" type="text" placeholder="" id="a46" name="a46" value="{{ work.a46 }}">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Акт сдачи пунктов на
                                                             наблюдение за сохранностью</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a46" name="a46"
-                                                                   placeholder="когда, кому сданы – Ф.И.О." value="{{ work.a46 }}">
+                                                            <input class="form-control" type="text" id="a47" name="a47"
+                                                                   placeholder="когда, кому сданы – Ф.И.О." value="{{ work.a47 }}">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Каталог:</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a47" name="a47"
-                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами">{{ work.a47 }}</textarea>
+                                                            <textarea class="form-control" type="text" id="a48" name="a48"
+                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами">{{ work.a48 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Вычислительные
                                                             материалы</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a48" name="a48" value="{{ work.a48 }}"
+                                                            <input class="form-control" type="text" id="a49" name="a49" value="{{ work.a49 }}"
                                                                    placeholder="качество оформления">
                                                         </div>
                                                     </div>
@@ -848,7 +852,7 @@
                                                             тех. отчет</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="text"
-                                                                   placeholder="кто и что составил, качество" id="a49" value="{{ work.a49 }}" name="a49">
+                                                                   placeholder="кто и что составил, качество" id="a50" value="{{ work.a50 }}" name="a50">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -856,20 +860,20 @@
                                                                 class="badge rounded-pill badge-primary">8</span> Работа
                                                             выполнена в границах</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a50" name="a50"
+                                                            <textarea class="form-control" type="text" id="a51" name="a51"
                                                                       placeholder="
                                                                       указать среднее количество пикетов на дм2, заполнение контуров, правильность
                                                                       применения условных знаков,
                                                                       сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">
-                                                            {{ work.a50 }}</textarea>
+                                                            {{ work.a51 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Замечания
                                                             исправил</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" value="{{ work.a51 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a51" name="a51">
+                                                            <input class="form-control" type="text" value="{{ work.a52 }}"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a52" name="a52">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -877,29 +881,21 @@
                                                             границах</label>
                                                         <div class="col-sm-9">
                                                             <textarea class="form-control" type="text"
-                                                                      placeholder="" id="a52" name="a52">{{ work.a52 }}</textarea>
+                                                                      placeholder="" id="a53" name="a53">{{ work.a53 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу сдал</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a53" value="{{ work.a53 }}" name="a53"
+                                                            <input class="form-control" type="text" id="a54" value="{{ work.a54 }}" name="a54"
                                                                    placeholder="подпись, Ф.И.О., исполнителя">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу принял</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a54" name="a54" value="{{ work.a54 }}"
+                                                            <input class="form-control" type="text" id="a55" name="a55" value="{{ work.a55 }}"
                                                                    placeholder="подпись, Ф.И.О., должность принявшего">
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Общая оценка качества
-                                                            выпускаемой продукции</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="number"
-                                                                      placeholder="" id="a55" name="a55">{{ work.a55 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <h5 class="text-center m-b-20 m-t-20"><span
@@ -907,6 +903,9 @@
                                                         камерального контроля и приемки работ по съемке инженерных
                                                         сетей.
                                                     </h5>
+                                                    <br>
+                                                    <h4 style="text-align: center">Результаты камерального контроля ИПК:</h4>
+                                                    <br>
                                                     <p>
                                                         Топографическая съемка инженерных сетей проверена на
                                                         <span><input type="text" class="actform" id="a56" name="a56" value="{{ work.a56 }}"></span>
@@ -959,6 +958,13 @@
                                             <img class="bg-img" style="width: 20%;"
                                                  src="{% static 'assets/images/clock.jpg' %}"
                                                  alt="">
+                                        </div>
+                                    </div>
+                                </div>
+{#                                             <div class="card p-2 shadow-lg w-25 float-end">#}
+{#                                                    <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>#}
+{#                                             </div>#}
+
                                         </div>
                                     </div>
                                 </div>

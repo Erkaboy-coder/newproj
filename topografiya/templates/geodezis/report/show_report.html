@@ -23,7 +23,7 @@
 </style>
 {% endblock stylecontent %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
-
+{% csrf_token %}
   <div class="modal fade modal-bookmark " id="exampleModal"
        tabindex="-1" aria-labelledby="exampleModalLabel"
        style="display: none;" aria-hidden="true">
@@ -413,7 +413,7 @@
                                             <div class="file-bottom">
                                                 <h6>2. Абрис</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" reports class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -421,7 +421,7 @@
                                             <div class="file-bottom">
                                                 <h6>3. Кроки</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" reports class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -429,7 +429,7 @@
                                             <div class="file-bottom">
                                                 <h6>4. Эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" reports class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -438,7 +438,7 @@
                                             <div class="file-bottom">
                                                 <h6>5. Ж эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" reports class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -447,23 +447,46 @@
                                             <div class="file-bottom ">
                                                 <h6>6. Лист эксплуатирующими </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file   }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}"  reportsclass="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>7. Пояснительная записка</h6>
+                                                <h6>7. Предписание </h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                        {% if programwork %}
+                                            {% if programwork.status == 4 %}
+                                            <li class="file-box m-t-5">
+                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                <div class="file-bottom ">
+                                                    <h6>8. Топографик-геодезик дастури </h6>
+                                                    <p>Ознакомиться с файлом отправки</p>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+
+                                       <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>9. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
                                         </li>
 
-                                         <li class="file-box m-t-5">
+
+
+                                        <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>8. Топографик-Геодезик Дастури</h6>
+                                                <h6>10. АКТ дала назорати текшируви далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
@@ -472,7 +495,7 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>9. АКТ дала назорати текшируви далолатномаси</h6>
+                                                <h6>11. АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
                                             </div>
@@ -481,21 +504,13 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ комерал назорат далолатномаси</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
-                                            </div>
-                                        </li>
-
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>11. Хисобот билан танишиш</h6>
+                                                <h6>12. Хисобот билан танишиш</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModalCenter">Кўриш</button>
                                             </div>
                                         </li>
+
 
 
                                     </ul>
@@ -564,6 +579,71 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script type="text/javascript">
+    $(document).on('click',".file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'order_to_pdf' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/program_work_file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
 <script>
     $("#save_akt").click(function(event) {
         var data = new FormData();

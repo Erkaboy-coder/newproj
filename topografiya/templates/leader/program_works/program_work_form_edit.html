@@ -186,11 +186,9 @@
                                                        <textarea class="form-control" name="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a6 }}</textarea>
                                                    </div>
                                                </div>
-                                               <div class="mb-3 row">
-                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</label>
-                                                   <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" name="a7" class="form-control" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a7 }}</textarea>
-                                                   </div>
+                                                <div class="mb-3 row text-center">
+                                                   <p style="text-align: center" class=" col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
+
                                                </div>
                                                <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
                                                <div class="col-sm-12">
@@ -336,17 +334,18 @@
 
                                               <div class="floder_input">
                                                    <div class="row">
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
                                                        {% if files.file1 %}
+                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
+
 {#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file1" id="file1" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file1 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}
 {#                                                            <div class="col-lg-6 mt-3"><input class="form-control" required name="file1" id="file1" type="file"></div>#}
                                                            {% endif %}
 
-
+                                                   {% if files.file2 %}
                                                        <div class="col-lg-7 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
-                                                        {% if files.file2 %}
+
 {#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file2 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}
@@ -354,18 +353,18 @@
                                                            {% endif %}
 
 
-
+                                                       {% if files.file3 %}
                                                        <div class="col-lg-7 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
-                                                        {% if files.file3 %}
+
 {#                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file3 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}
 {#                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>#}
                                                            {% endif %}
 
-
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
                                                         {% if files.file4 %}
+                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
+
 {#                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file4 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}
@@ -373,9 +372,9 @@
                                                            {% endif %}
 
 
-
+                                                    {% if files.file5 %}
                                                        <div class="col-lg-7 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
-                                                       {% if files.file5 %}
+
 {#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file5 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}
@@ -383,9 +382,9 @@
                                                            {% endif %}
 
 
-
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
                                                         {% if files.file6 %}
+                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
+
 {#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file6 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}
@@ -393,9 +392,9 @@
                                                            {% endif %}
 
 
-
-                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
                                                         {% if files.file7 %}
+                                                       <div class="col-lg-7 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
+
 {#                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>#}
                                                        <div class="col-lg-5 mt-3 text-center"><a href="/{{ files.file7 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 {#                                                           {% else %}#}

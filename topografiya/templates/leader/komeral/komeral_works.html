@@ -93,9 +93,7 @@
                                                                 <span style="color: #168eea;font-size:30px;">
                                                                     {% for work in rejecteds %}
                                                                         {% if work.workerobject == object.object %}
-                                                                            {% if forloop.last %}
-                                                                                    {{ forloop.counter }}
-                                                                                {% endif %}
+                                                                             <b  class="count" data-all="{{ work.workerobject }},"></b>
                                                                         {% endif %}
                                                                     {% endfor %}
                                                                 </span>
@@ -181,7 +179,7 @@
                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
-                                                            <a href="{% url 'checking_komeral_works' id=object.object.id %}">
+                                                            <a href="{% url 'show_komeral_work' id=object.object.id %}">
                                                                 <button class="btn btn-square btn-outline-primary-2x float-end">
                                                                     Батафсил маълумот
                                                                 </button>
@@ -209,5 +207,20 @@
             </div>
 
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.count').each(function(i,obj){
+    let text=$(this).attr('data-all');
+    num=text.split(',');
+    let s=0;
+    for(let i in num){
+    if(num[i]!='')
+      s++;
+      }
+        $(this).text(s);
+    });
+  });
 
+</script>
 {% endblock %}

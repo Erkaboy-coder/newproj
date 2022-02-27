@@ -141,7 +141,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
-                                <li class="breadcrumb-item">{{ work.object.pdowork.object_name }}</li>
+                                <li class="breadcrumb-item"><a href="{% url 'polevoy_work_doing' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
 {#                                <li class="breadcrumb-item">Выполнение работ</li>#}
                             </ol>
                         </div>
@@ -870,7 +870,7 @@
                      {% if programwork %}
                          {% if programwork.status == 4 %}
                              <div class="col-md-6 card p-2 shadow-lg">
-                                 <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Текширувга юбориш</button>
+                                 <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy"  style="width: 100%"> <i class="fa fa-check"></i> Текширувга юбориш</button>
                              </div>
                          {% else %}
                              <div class="col-md-6 card p-2 shadow-lg">
@@ -879,9 +879,9 @@
                          {% endif %}
                      {% else %}
 
-                        <div class="col-md-6 card p-2 shadow-lg">
-                             <button type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Текширувга юбориш</button>
-                        </div>
+{#                        <div class="col-md-6 card p-2 shadow-lg">#}
+{#                             <button type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Текширувга юбориш</button>#}
+{#                        </div>#}
                      {% endif %}
                 </div>
                 {% endif %}

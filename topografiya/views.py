@@ -172,7 +172,7 @@ def program_work_save_edits(request,id):
         a4 = request.POST.get('a4')
         a5 = request.POST.get('a5')
         a6 = request.POST.get('a6')
-        a7 = request.POST.get('a7')
+
 
         # jadval_1
         a7_1_1 = request.POST.get('a7_1_1')
@@ -231,7 +231,6 @@ def program_work_save_edits(request,id):
         form.a4 = a4
         form.a5 = a5
         form.a6=a6
-        form.a7=a7
         form.a7_2=a7_2
         form.a7_3=a7_3
         form.a7_4=a7_4
@@ -326,7 +325,6 @@ def program_work_form_store(request):
         a4 = request.POST.get('a4')
         a5 = request.POST.get('a5')
         a6 = request.POST.get('a6')
-        a7 = request.POST.get('a7')
 
         # jadval_1
         a7_1_1 = request.POST.get('a7_1_1')
@@ -376,7 +374,7 @@ def program_work_form_store(request):
         # programwork.save()
         # status  = 1 bu tekshiruvga yuborilgan
 
-        programworkform = ProgramWorkForm(programwork=programwork, a0=a0, a1_1=a1_1, a1_2=a1_2, a1_3=a1_3, a2=a2, a3=a3, a4=a4, a5=a5, a6=a6, a7=a7, a7_2=a7_2,
+        programworkform = ProgramWorkForm(programwork=programwork, a0=a0, a1_1=a1_1, a1_2=a1_2, a1_3=a1_3, a2=a2, a3=a3, a4=a4, a5=a5, a6=a6, a7_2=a7_2,
                                         a7_3=a7_3, a7_4=a7_4, a8=a8, a8_1=a8_1, a9_1=a9_1, a9_3=a9_3, a9_4=a9_4, a10=a10, a11=a11, a12=a12, program_work_creator=program_work_creator)
         programworkform.save()
 
@@ -434,10 +432,11 @@ def leader_polevoy_works(request):
 
 def checking_polevoy_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
+
     pdowork = Object.objects.filter(id=id).first()
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=workerobject.object.id).first()
     work = AktPolevoyForm.objects.filter(object=id).first()
     work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
     work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
@@ -452,7 +451,7 @@ def checking_polevoy_works(request,id):
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
-                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects
+                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
                }
 
     return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
@@ -727,10 +726,12 @@ def checking_komeral_works(request,id):
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
     work = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
+    work = AktKomeralForm.objects.filter(object=id).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work': work,
+               'work':work, 'rejects':rejects, 'programwork': programwork}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
 
@@ -779,12 +780,41 @@ def save_akt_komeral(request):
             d['a'+str(j)]=i
         AktKomeralForm.objects.filter(object=work_id).update(**d)
 
+        # workerobject=WorkerObject.objects.filter(object=work_id).first()
+        # workerobject.status_geodezis_komeral=1
+        # workerobject.save()
+
+        # history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
+        # history.save()
+        history = History(object=object, status=28, comment="Komeral nazorat aktisi saqlandi", user_id=worker)
+        history.save()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def sent_to_check_akt(request):
+    if request.method == 'POST':
+        data = request.POST
+        work_id = data.get('work_id')
+        worker = data.get('worker')
+        array=data.get('array')
+
+        d={}
+        object=Object.objects.filter(id=work_id).first()
+        j=0
+        d = {'object': object, 'status': 4}
+        for i in array.split(','):
+            j=j+1
+            d['a'+str(j)]=i
+        AktKomeralForm.objects.filter(object=work_id).update(**d)
+
         workerobject=WorkerObject.objects.filter(object=work_id).first()
         workerobject.status_geodezis_komeral=1
         workerobject.save()
 
         history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
         history.save()
+
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -1369,7 +1399,7 @@ def store(request):
 
         workerobject=WorkerObject.objects.filter(id=work_id).first()
 
-        form1 = PoyasitelniyForm(workerobject=workerobject,b1=b1,b2=b2,b_1=b_1,b_2=b_2,b3=b3,b3_1=b3_1,b4=b4,b5=b5,b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
+        form1 = PoyasitelniyForm(workerobject=workerobject, b1=b1, b2=b2, b_1=b_1, b_2=b_2, b3=b3, b3_1=b3_1, b4=b4, b5=b5, b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
                                  ,b13=b13,b14=b14,b15=b15,b16_a=b16_a,b16_b=b16_b,b19=b19,b19_1=b19_1,b19_2=b19_2,b20=b20,b21=b21,c_1=c_1,c_2=c_2,c_3=c_3,c_4=c_4,c_5=c_5,c_6=c_6
                                  ,c_7=c_7,c_8=c_8,c_9=c_9,c_10=c_10,c_11=c_11,c_12=c_12,c_13=c_13,c_14=c_14,c_15=c_15,c_16=c_16,c_17=c_17,c_18=c_18,c_19=c_19
                                  ,c_20=c_20,c_21=c_21,c_22=c_22,c_23=c_23,c_24=c_24,c_25=c_25,c_26=c_26,d_1=d_1,d_2=d_2,d_3=d_3,d_4=d_4,d_5=d_5,d_6=d_6,d_7=d_7
@@ -1801,59 +1831,262 @@ def doing_program_work_file(request):
     if request.method == 'POST':
         data = request.POST
         id = data.get('data-id')
-        object = ProgramWork.objects.filter(id=id).first()
+        programwork = ProgramWork.objects.filter(id=id).first()
+        form = ProgramWorkForm.objects.filter(programwork=programwork).first()
+        programworkfile = ProgramWorkFiles.objects.filter(programworkform=form).first()
+        programworktable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
+        programworktable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
 
         # print(work.first().pdowork.id)
         # pdowork = PdoWork.objects.filter(id=work.first().pdowork.id)
-        order = Order.objects.filter(object=object.id).first()
-        print(object.pdowork.tz)
+        # order = Order.objects.filter(object=form.object.id).first()
+        # order = Order.objects.filter(object=form.object.id).first()
+
         context = '''
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Title</title>
-                        <style>
-                            li{
-                                padding: 5px;
-                            }
-                            li{
-                            font-size:18px;
-                            }
+        <!DOCTYPE html>
+<html lang="en">
 
-                        </style>
-                </head>
-                <body>
-                <h2 style="text-align: center;margin-top: 55px">ПРЕДПИСАНИЕ</h2>
-                <p style='text-align: center'>на выполнение топографо-геодезических работ</p>
-                <br>
-                <ol>''';
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <style>
+        li {
+            padding: 5px;
+        }
+        th,tr,table,td{
+            border: 1px solid black
+        }
+        input{
+                border: 0px solid;
+                font-size:20px;
+        }
+        textarea{
+            border: 0px solid;
+        }
+         body{
+            font-size: 25px;
+        }
+    </style>
+</head>
 
-        context += '<li>Должность, Ф.И.О. исполнителя ' + object.worker_ispolnitel + ' </li>';
-        context += '<li>Наименование объекта ' + object.pdowork.object_name + '</li>';
-        context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
-        context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
-        context += '<li>Виды и объемы работ ' + object.pdowork.work_type + '</li>';
-        context += '<li>Сроки выполнения работ ' + object.pdowork.work_term + '</li>';
-        context += '<li>Исходные данные, система координат и высот, использование материалов работ прошлых лет ' + order.info + '</li>';
-        context += '<li>Метод создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек ' + order.method_creation + '</li>';
-        context += '<li>Метод создания геодезического и (или) съемочного обоснования, закрепление пунктов, точекМетод выполнения топографической съемки. Технические требования и технология выполнения работ ' + order.method_fill + '</li>';
-        context += '<li>Съемка инженерно-подземных коммуникаций ' + order.syomka + '</li>';
-        context += '<li>Особые требования ' + order.requirements + '</li>';
-        context += '<li>Поверки геодезических инструментов ' + order.item_check + '</li>';
-        context += '<li>Методы и программы уравнивания ' + order.adjustment_methods + '</li>';
-        context += '<li>Перечень предоставляемых материалов ' + order.list_of_materials + '</li>';
-        context += '<li>Метод топографической съемки ' + order.type_of_sirie + '</li>';
-        context += ' <li>Приложение: <ol>'
-        context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
-        context += ' <li><a href=http://0.0.0.0:1515/'+str(object.pdowork.smeta)+'>Графическое приложение</a>.</li>';
-        context += '</ol></li>';
+<body>
 
-        context += '<p>Предписание составил: ' + order.order_creator + ' </p>';
-        context += '<p>Предписание получил: ' + object.worker_ispolnitel + ' </p>';
-        context += '''</ol>
-                </body>
-                </html>''';
+    <div style="padding: 100px">
+
+        <h2 style="text-align: center;">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h2>
+        <br>
+        <p>По <span><input class="w-50 formact" name="a0" value="'''+str(form.a0)+'''" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
+        <h5 style="text-align: center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
+        <p>
+            Основанием для производства работ послужило техническое задание, выданное
+            <span><input class="w-50 m-b-5 formact" name="a1_1" value="'''+str(form.a1_1)+'''" type="text"></span>
+            <br> Цель, назначение и объем проектируемых работ
+            <span><input class="w-75 m-b-5 formact" required name="a1_2" value="'''+str(form.a1_2)+'''" type="text"></span> Дополнительные требования к выполнению геодезических работ
+            <span><input class="w-75 m-b-5 formact" required name="a1_3" value="'''+str(form.a1_3)+'''" type="text"></span>
+        </p>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary" style="text-align: center">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</p>
+            <div class="col-sm-9">
+                <p>'''+str(form.a2)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</p>
+            <div class="col-sm-9">
+                <input class="form-control" name="a3" value="'''+str(form.a3)+'''" type="text" placeholder="">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</p>
+            <div class="col-sm-9">
+                <p>'''+str(form.a4)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</p>
+            <div class="col-sm-9">
+                <p>'''+str(form.a5)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</p>
+            <div class="col-sm-9">
+                <p>'''+str(form.a6)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
+        </div>
+        <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
+        <div class="col-sm-12">
+            <div class="card border-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered" style="border: 1px solid black" id="childTable">
+                        <thead class="bg-primary">
+                            <tr style="border: 1px solid black">
+                                <th scope="col">Наименование площадки, участка</th>
+                                <th scope="col">Метод съемки</th>
+                                <th scope="col">Масштаб съемки</th>
+                                <th scope="col">Высота сечения рельефа, м</th>
+                                <th scope="col">Объем</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><input class="border-0 w-100" type="text" name="a7_1_1" value="'''+str(programworktable1.a7_1_1)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" type="text" name="a7_1_2" value="'''+str(programworktable1.a7_1_2)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" type="text" name="a7_1_3" value="'''+str(programworktable1.a7_1_3)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" type="text" name="a7_1_4" value="'''+str(programworktable1.a7_1_4)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" type="text" name="a7_1_5" value="'''+str(programworktable1.a7_1_5)+'''" placeholder=""></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.2</span> При горизонтальной и высотной съемках застроенных территорий</label>
+            <div class="col-sm-9">
+                <p>'''+str(form.a7_2)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.3</span> Привязка инженерно-геологических выработок, геофизических и др. точек</label>
+            <div class="col-sm-9">
+                <p">'''+str(form.a7_3)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.4</span> Составление топографических планов</label>
+            <div class="col-sm-9">
+                <p>'''+str(form.a7_4)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
+            <div class="col-sm-9">
+                <p>'''+str(form.a8)+'''</p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Составление планов подземных коммуникаций</label>
+            <div class="col-sm-9">
+                <p>'''+str(form.a8_1)+'''</p>
+            </div>
+        </div>
+        <h5 style="text-align: center" class="text-center"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</h5>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
+            <div class="col-sm-9">
+                <p>'''+str(form.a9_1)+'''</p>
+            </div>
+        </div>
+        <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
+        <div class="col-sm-12">
+            <div class="card border-0">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered" id="childTable4">
+                        <thead class="bg-primary">
+                            <tr>
+                                <th scope="col">Наименование трассы, участка</th>
+                                <th scope="col">Масштаб плана трассы</th>
+                                <th scope="col">Масштаб продольного профиля</th>
+                                <th scope="col">Масштаб продольного профиля горизонтальный</th>
+                                <th scope="col">Масштаб продольного профиля вертикальный</th>
+                                <th scope="col">Масштаб перехода горизонтальный</th>
+                                <th scope="col">Масштаб перехода вертикальный</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input class="border-0 w-100" name="a9_2_1" value="'''+str(programworktable2.a9_2_1)+'''" type="text" placeholder=""></td>
+                                <td><input class="border-0 w-100" name="a9_2_2" type="text" value="'''+str(programworktable2.a9_2_2)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" name="a9_2_3" type="text" value="'''+str(programworktable2.a9_2_3)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" name="a9_2_4" type="text" value="'''+str(programworktable2.a9_2_4)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" name="a9_2_5" type="text" value="'''+str(programworktable2.a9_2_5)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" name="a9_2_6" type="text" value="'''+str(programworktable2.a9_2_6)+'''" placeholder=""></td>
+                                <td><input class="border-0 w-100" name="a9_2_7" type="text" value="'''+str(programworktable2.a9_2_7)+'''" placeholder=""></td>
+                               
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Ведомости:</label>
+            <div class="col-sm-9">
+                <input class="form-control" name="a9_3" type="text" value="'''+str(form.a9_3)+'''" placeholder="наименование">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Прочие материалы:</label>
+            <div class="col-sm-9">
+                <input class="form-control" name="a9_4" type="text" value="'''+str(form.a9_4)+'''" placeholder="наименование">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</p>
+            <div class="col-sm-9">
+                <p>'''+str(form.a10)+'''</p>
+            </div>
+        </div>
+        <h5 style="text-align: center" class="text-center"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</h5>
+        <p>
+            К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии
+            <p>'''+str(form.a11)+'''</p>
+        </p>
+        <div class="mb-3 row">
+            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</p>
+            <div class="col-sm-9">
+                <p>'''+str(form.a12)+'''</p>
+            </div>
+        </div>
+        <h5 style="text-align: center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
+
+        <div class="floder_input">
+            <div class="row">''';
+
+        if programworkfile.file1:
+            context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file1)+'''"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий </a><br>''';
+        if programworkfile.file2:
+            context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file2)+'''"><i class="fa fa-file-pdf-o"></i>Схема топографо-геодезической изученности района (участка) работ </a><br>''';
+        if programworkfile.file3:
+            context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file3)+'''"><i class="fa fa-file-pdf-o"></i>Схема проектируемой опорной геодезической сети </a><br>''';
+        if programworkfile.file4:
+            context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file4)+'''"><i class="fa fa-file-pdf-o"></i>Картограмма расположения участков топографической съемки </a><br>''';
+        if programworkfile.file5:
+            context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file5)+'''"><i class="fa fa-file-pdf-o"></i>Чертежи специальных геодезических центров, если намечена их закладка </a><br>''';
+        if programworkfile.file6:
+            context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file6)+'''"><i class="fa fa-file-pdf-o"></i>Топографические карты (планы) с указанием проектных вариантов трасс </a><br>''';
+        if programworkfile.file7:
+            context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file7)+'''"><i class="fa fa-file-pdf-o"></i>Схема линейных сооружений </a><br>''';
+
+
+        context+='''<h5 class="m-t-15">Примечание. <i>Допускается совмещение прилагаемых схем и картограмм.</i></h5>
+            </div>
+        </div>
+
+        <div class="m-b-20 m-t-20 row">
+            <label class="col-sm-3 col-form-label">Программу составил</label>
+            <div class="col-sm-9">
+                <input class="form-control" name="program_work_creator" type="text" value="'''+str(form.program_work_creator)+'''">
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
+               ''';
 
         options = {
             'page-size': 'A4',
@@ -1866,10 +2099,10 @@ def doing_program_work_file(request):
             # landscape bu albomiy qiladi
         }
         # display = Display(visible=0, size=(500, 500)).start()
-        pdfkit.from_string(context, 'topografiya/static/files/file.pdf', options)
+        pdfkit.from_string(context, 'topografiya/static/files/program_work_file.pdf', options)
 
         response = HttpResponse(data, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="order.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="program_work_file.pdf"'
         return response
     else:
         return HttpResponse(0)
@@ -2077,7 +2310,7 @@ def program_work_form_re_sent(request,id):
         a4 = request.POST.get('a4')
         a5 = request.POST.get('a5')
         a6 = request.POST.get('a6')
-        a7 = request.POST.get('a7')
+
 
         # jadval_1
         a7_1_1 = request.POST.get('a7_1_1')
@@ -2137,7 +2370,6 @@ def program_work_form_re_sent(request,id):
         form.a4 = a4
         form.a5 = a5
         form.a6=a6
-        form.a7=a7
         form.a7_2=a7_2
         form.a7_3=a7_3
         form.a7_4=a7_4
@@ -2245,11 +2477,11 @@ def show_geodesiz_kameral_work(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'programwork':programwork}
 
     return render(request, 'geodezis/head_komeral/checking_komeral_works.html', context)
 
@@ -2289,11 +2521,11 @@ def geodezis_rejected_komeral_works(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
 
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work, 'rejects': rejects, 'sirie_type': sirie_type,
+               'siriefiles': sirie_files,'aktkomeral': aktkomeral, 'programwork': programwork}
 
     return render(request, 'geodezis/head_komeral/rejected_komeral_works.html', context)
 
@@ -2307,8 +2539,6 @@ def sent_to_oggd(request):
         workerobject=WorkerObject.objects.filter(object=work_id).first()
         workerobject.status_geodezis_komeral=4
         workerobject.save()
-
-
 
         object = Object.objects.filter(id=work_id).first()
         object.worker_geodezis = worker
@@ -2335,11 +2565,11 @@ def geodeziz_show_komeral_work(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork}
 
     return render(request, 'geodezis/head_komeral/show_komeral_work.html', context)
 
@@ -2367,12 +2597,12 @@ def geodezis_report_checking(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork}
 
     return render(request, 'geodezis/report/report_checking.html', context)
 
@@ -2390,9 +2620,9 @@ def show_report_geodezis(request,id):
 
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork}
 
     return render(request, 'geodezis/report/show_report.html', context)
 
@@ -2462,11 +2692,11 @@ def report_doing(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
-
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral}
+    reports = Report.objects.filter(object=id).all()
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork,'reports':reports}
 
     return render(request, 'oogd_reporter/report/report_doing.html', context)
 
@@ -2507,10 +2737,13 @@ def show_report(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
+    programwork = ProgramWork.objects.filter(object=id).first()
+
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
-    report = Report.objects.filter(object=id).first()
+    reports = Report.objects.filter(object=id).all()
+    print(reports)
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work':work, 'rejects':rejects, 'sirie_type':sirie_type,
-               'siriefiles': sirie_files, 'aktkomeral':aktkomeral, 'report': report}
+               'siriefiles': sirie_files, 'aktkomeral':aktkomeral, 'reports': reports, 'programwork': programwork}
 
     return render(request, 'oogd_reporter/report/show_report.html', context)
 
@@ -2649,12 +2882,13 @@ def show_all_works(request,id):
 
     sum = int(rejects_programworks.count())+int(rejects_reports.count())+int(rejects_akt_komeral_works.count())+int(rejects_akt_polevoy_works.count())+int(rejects_akt_komeral_leader_works.count())
 
-    report = Report.objects.filter(object=id).first()
+    report = Report.objects.filter(object=id).all()
+
 
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work': work, 'rejects_reports':rejects_reports,
                'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
                'rejects_akt_komeral_works': rejects_akt_komeral_works,'rejects_akt_komeral_leader_works':rejects_akt_komeral_leader_works,
-               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'sum':sum}
+               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'reports': report,'sum':sum,'programwork':programwork}
 
     return render(request, 'show.html', context)
 
