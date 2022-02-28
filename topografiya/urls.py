@@ -23,6 +23,7 @@ urlpatterns = [
     re_path(r'^start/$', views.start, name='start'),
     re_path(r'^order_to_pdf$', views.order_to_pdf, name='order_to_pdf'),
     re_path(r'^doing_program_work_file$', views.doing_program_work_file, name='doing_program_work_file'),
+    re_path(r'^doing_akt_komeral_file$', views.doing_akt_komeral_file, name='doing_akt_komeral_file'),
     re_path(r'^edit_pdowork_changes/$', views.edit_pdowork_changes, name='edit_pdowork_changes'),
     re_path(r'^leader_polevoy_works/$', views.leader_polevoy_works, name='leader_polevoy_works'),
     re_path(r'^checking_polevoy_works/(?P<id>\d+)/$', views.checking_polevoy_works, name='checking_polevoy_works'),

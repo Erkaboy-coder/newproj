@@ -2055,20 +2055,32 @@ def doing_program_work_file(request):
 
         if programworkfile.file1:
             context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file1)+'''"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий </a><br>''';
+        else:
+            context +='';
         if programworkfile.file2:
             context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file2)+'''"><i class="fa fa-file-pdf-o"></i>Схема топографо-геодезической изученности района (участка) работ </a><br>''';
+        else:
+            context +='';
         if programworkfile.file3:
             context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file3)+'''"><i class="fa fa-file-pdf-o"></i>Схема проектируемой опорной геодезической сети </a><br>''';
+        else:
+            context +='';
         if programworkfile.file4:
             context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file4)+'''"><i class="fa fa-file-pdf-o"></i>Картограмма расположения участков топографической съемки </a><br>''';
+        else:
+            context += '';
         if programworkfile.file5:
             context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file5)+'''"><i class="fa fa-file-pdf-o"></i>Чертежи специальных геодезических центров, если намечена их закладка </a><br>''';
+        else:
+            context +='';
         if programworkfile.file6:
             context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file6)+'''"><i class="fa fa-file-pdf-o"></i>Топографические карты (планы) с указанием проектных вариантов трасс </a><br>''';
+        else:
+            context +='';
         if programworkfile.file7:
             context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file7)+'''"><i class="fa fa-file-pdf-o"></i>Схема линейных сооружений </a><br>''';
-
-
+        else:
+            context +='';
         context+='''<h5 class="m-t-15">Примечание. <i>Допускается совмещение прилагаемых схем и картограмм.</i></h5>
             </div>
         </div>
@@ -2099,7 +2111,7 @@ def doing_program_work_file(request):
             # landscape bu albomiy qiladi
         }
         # display = Display(visible=0, size=(500, 500)).start()
-        pdfkit.from_string(context, 'topografiya/static/files/program_work_file.pdf', options)
+        pdfkit.from_string(context, 'topografiya/static/files/program-work/program_work_file.pdf', options)
 
         response = HttpResponse(data, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="program_work_file.pdf"'
@@ -2107,6 +2119,379 @@ def doing_program_work_file(request):
     else:
         return HttpResponse(0)
 
+
+def doing_akt_komeral_file(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('data-id')
+        work = AktKomeralForm.objects.filter(object=id).first()
+
+        context = '''
+        <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li {
+            padding: 5px;
+        }
+        th,tr,table,td{
+            border: 1px solid black
+        }
+        input{
+                border: 0px solid;
+        }
+        textarea{
+            border: 0px solid;
+        }
+        body{
+            font-size: 20px;
+        }
+          p {
+        margin: 0;
+        color: #111727 !important;
+    }
+
+
+    </style>
+</head>
+
+<body>
+
+    <div style="padding: 100px">
+
+         <div class="col-md-12">
+                                                <p style="float: right">ШНК 1.02.07-19 стр.</p>
+             <br>
+                                                <div class="row" style="float: right">
+                                                    <div class="col-xl-8"></div>
+                                                    <div class="col-xl-4 col-sm-5 col-lg-5">
+                                                        <div class="text-end input-group date" id="dt-minimum"
+                                                             data-target-input="nearest">
+                                                            <p>'''+str(work.a1)+'''</p>
+                                                            <div class="input-group-text" data-target="#dt-minimum"
+                                                                 data-toggle="datetimepicker"><i
+                                                                    class="fa fa-calendar"> </i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br>
+                                                <h3 style="text-align: center">А К Т</h3>
+                                                <h4 class="mb-3 " style="text-align: center">Камеральной проверки и приемки
+                                                    топографических работ <span></span>
+                                                    <br>
+                                                </h4>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        По объекту: <p>'''+str(work.a2)+'''</p>
+                                                        <br>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        Проверка и приемка
+                                                            произведена
+                                                            <p>'''+str(work.a3)+'''</p>
+                                                            <br>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                       В присутствии
+                                                        исполнителя
+                                                        
+                                                            <p>'''+str(work.a4)+'''</p>
+                                                            <br>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        В процессе проверки
+                                                            установлено:
+                                                            <br>
+                                                            1. Топографические работы выполнены в соответствии '''+str(work.a5)+'''
+                                                        <br>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                         2.Работа
+                                                            выполнена в границах
+                                                            '''+str(work.a6)+''' 
+                                                            и в следующих объемах:
+                                                        <br>
+                                                    </div>
+                                                    <br>
+                                                </form>
+                                                <div class="col-sm-12">
+                                                    <div class="card border-0">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead class="bg-primary">
+                                                                <tr>
+                                                                    <th scope="col">№</th>
+                                                                    <th scope="col">Наименование виды работ</th>
+                                                                    <th scope="col">Ед.измерения</th>
+                                                                    <th scope="col">Объем работ <br>по заданию</th>
+                                                                    <th scope="col">Объем работ <br> факти-ческий</th>
+                                                                    <th scope="col">Категория работ</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">1</th>
+                                                                    <td>Отыскивание исходных пунктов</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a7" value="'''+str(work.a7)+'''" name="a7"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a8" name="a8" value="'''+str(work.a8)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a9" name="a9" value="'''+str(work.a9)+'''"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">2</th>
+                                                                    <td>Создание обоснования</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a10" name="a10" value="'''+str(work.a10)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a11" name="a11" value="'''+str(work.a11)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a12" name="a12" value="'''+str(work.a12)+'''"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">3</th>
+                                                                    <td>Техническое нивелирование</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a13" name="a13" value="'''+str(work.a13)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a14" name="a14" value="'''+str(work.a14)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a15" name="a15" value="'''+str(work.a15)+'''"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">4</th>
+                                                                    <td>Закладка центров</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a16" name="a16" value="'''+str(work.a16)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a17" name="a17" value="'''+str(work.a17)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a18" name="a18" value="'''+str(work.a18)+'''"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">5</th>
+                                                                    <td>Координирование углов</td>
+                                                                    <td>точка</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a19" name="a19" value="'''+str(work.a19)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a20" name="a20" value="'''+str(work.a20)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a21" name="a21" value="'''+str(work.a21)+'''"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">6</th>
+                                                                    <td>
+                                                                        Тахеометрическая съемка М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a22" name="a22" value="'''+str(work.a22)+'''"></span>
+                                                                        сечением рельефа горизонталями через
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a23" name="a23" value="'''+str(work.a23)+'''"></span>м
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a24" name="a24" value="'''+str(work.a24)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a25" name="a25" value="'''+str(work.a25)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a26" name="a26" value="'''+str(work.a26)+'''"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">7</th>
+                                                                    <td>
+                                                                        Корректура съемки М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a27" name="a27" value="'''+str(work.a27)+'''"></span>
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a28" name="a28" value="'''+str(work.a28)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a29" name="a29" value="'''+str(work.a29)+'''"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a30" name="a30" value="'''+str(work.a30)+'''"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <p><span class="badge rounded-pill badge-primary">3.</span> Работы
+                                                    выполнены в <span><input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a31" name="a31" value="'''+str(work.a31)+'''"></span> системе
+                                                    координат и в <input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a32" name="a32" value="'''+str(work.a32)+'''"> системе высот.</p>
+                                                <br>
+                                                <p>Результаты полевого контроля:</p>
+                                                <p><span class="badge rounded-pill badge-primary">4.</span> Исходными
+                                                    пунктами для построения съемочного обоснования послужили:</p>
+                                                '''+str(work.a33)+'''
+                                                <br>
+                                                <p class="m-t-10">и грунтовые репера <span>
+                                                    <input
+                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a34" name="a34" value="'''+str(work.a34)+'''"></span>
+                                                    имеющие отметки нивелирования <span><input
+                                                            style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="'''+str(work.a35)+'''"></span> кл.
+                                                </p>
+                                                <br>
+                                                <p>
+                                                    <span class="badge rounded-pill badge-primary">5.</span>
+                                                    Длины ходов от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36" value="'''+str(work.a36)+'''"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37" value="'''+str(work.a37)+'''"></span>
+                                                    км Абсолютные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a38" name="a38" value="'''+str(work.a38)+'''"></span>
+                                                    до
+                                                    <span><input class="m-b-10" style="border:1px solid #e6edef;"
+                                                                 type="text" id="a39" name="a39" value="'''+str(work.a39)+'''"></span>
+                                                    м.Относительные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="'''+str(work.a40)+'''"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41" value="'''+str( work.a41)+'''"></span>.
+                                                    Система ходов уравнена
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a42" name="a42" value="'''+str(work.a42)+'''"></span>.
+                                                </p>
+                                                <br>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <span class="badge rounded-pill badge-primary">6.</span>
+                                                            Техническое нивелирование выполнено '''+str(work.a43)+'''
+                                                    </div>
+                                                     <br>
+                                                    <p><span class="badge rounded-pill badge-primary">7.</span> Состояние
+                                                        полевой документации:</p>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        журналы: '''+str(work.a44)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        схемы: '''+str(work.a45)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        абрисы: '''+str(work.a46)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Акт сдачи пунктов на наблюдение за сохранностью '''+str(work.a47)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Каталог: '''+str(work.a48)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Вычислительные материалы '''+str(work.a49)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Пояснительная записка,
+                                                            тех. отчет '''+str(work.a50)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        <span class="badge rounded-pill badge-primary">8</span> 
+                                                                Замечания по оформлению планшетов
+                                                       
+                                                            '''+str(work.a51)+'''
+                                      
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Замечания исправил '''+str(work.a52)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        Заключение по работе в целом и оценка качества работ '''+str(work.a53)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        Работу сдал:  '''+str(work.a54)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Работу принял:  '''+str(work.a55)+'''
+                                                    <br>
+                                                    </div>
+                                                    <h5 class="text-center m-b-20 m-t-20"><span
+                                                            class="badge rounded-pill badge-primary">9</span>
+                                                        камерального контроля и приемки работ по съемке инженерных
+                                                        сетей.
+                                                    </h5>
+                                                    <br>
+                                                    <h4 style="text-align: center">Результаты камерального контроля ИПК:</h4>
+                                                    <br>
+                                                    <p>
+                                                        Топографическая съемка инженерных сетей проверена на '''+str(work.a56)+''' листах(е), и/или планшетах(е) с номенклатурой:
+                                                        '''+str(work.a57)+'''
+                                                    </p>
+                                                    <div class="mb-3 row">
+                                                        Замечание по экспликации колодцев и опор '''+str(work.a58)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        Замечания исправил '''+str(work.a59)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <br>
+                                                        Заключение '''+str(work.a60)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Оценка качества работ : '''+str(work.a61)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                        Работу сдал: '''+str(work.a62)+'''
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                    <br>
+                                                       Работу принял : '''+str(work.a63)+'''
+                                                    </div>
+                                                </form>
+                                            </div>
+
+    </div>
+
+</body>
+
+</html>
+               ''';
+
+        options = {
+            'page-size': 'A4',
+            'encoding': "UTF-8",
+            'margin-top': '0.2in',
+            'margin-right': '0.2in',
+            'margin-bottom': '0.2in',
+            'margin-left': '0.2in',
+            'orientation': 'portrait',
+            # landscape bu albomiy qiladi
+        }
+        # display = Display(visible=0, size=(500, 500)).start()
+        pdfkit.from_string(context, 'topografiya/static/files/akt-komeral/akt_komeral.pdf', options)
+
+        response = HttpResponse(data, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="akt_komeral.pdf"'
+        return response
+    else:
+        return HttpResponse(0)
 
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()

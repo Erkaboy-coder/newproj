@@ -132,7 +132,8 @@
                                                                     <th scope="col">№</th>
                                                                     <th scope="col">Наименование виды работ</th>
                                                                     <th scope="col">Ед.измерения</th>
-                                                                    <th colspan="2" scope="col">Объем работ / факт</th>
+                                                                    <th scope="col">Объем работ <br>по заданию</th>
+                                                                    <th scope="col">Объем работ <br> факти-ческий</th>
                                                                     <th scope="col">Категория работ</th>
                                                                 </tr>
                                                                 </thead>
@@ -242,7 +243,7 @@
                                                 <p><span class="badge rounded-pill badge-primary">4</span> Исходными
                                                     пунктами для построения съемочного обоснования послужили:</p>
                                                 <textarea style="width: 50%" class="form-control" type="text"
-                                                          placeholder="..." id="a33" name="a33">{{ work.a32 }}</textarea>
+                                                          placeholder="..." id="a33" name="a33">{{ work.a33 }}</textarea>
                                                 <p class="m-t-10">и грунтовые репера <span>
                                                     <input
                                                         style="border:1px solid #e6edef;width: 39%" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span>
@@ -332,8 +333,7 @@
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label"><span
-                                                                class="badge rounded-pill badge-primary">8</span> Работа
-                                                            выполнена в границах</label>
+                                                                class="badge rounded-pill badge-primary">8</span> Замечания по оформлению планшетов</label>
                                                         <div class="col-sm-9">
                                                             <textarea class="form-control" type="text" id="a51" name="a51"
                                                                       placeholder="

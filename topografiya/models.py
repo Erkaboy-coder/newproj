@@ -575,6 +575,7 @@ class AktKomeralForm(models.Model):
     a60 = models.TextField(blank=True)
     a61 = models.TextField(blank=True)
     a62 = models.TextField(blank=True)
+    a63 = models.TextField(blank=True)
 
 
     def __str__(self):
