@@ -733,8 +733,7 @@ def checking_komeral_works(request,id):
     work = AktKomeralForm.objects.filter(object=id).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work': work,
-               'work':work, 'rejects':rejects, 'programwork': programwork}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order,'work':work, 'rejects':rejects, 'programwork': programwork}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
 
@@ -762,8 +761,9 @@ def rejected_komeral_works(request,id):
     work = AktKomeralForm.objects.filter(object=id).first()
 
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
-
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects}
+    programwork = ProgramWork.objects.filter(object=id).first()
+    
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'programwork': programwork}
 
     return render(request, 'leader/komeral/rejected_komeral_works.html', context)
 
@@ -896,6 +896,8 @@ def leader_akt_form_edit(request,id):
                }
 
     return render(request, 'leader/head_komeral/akt_polevoy.html', context)
+
+
 
 def leader_akt_komeral_form_edit(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
@@ -1313,6 +1315,7 @@ def store(request):
         b2 = data.get('b2')
         b_1 = data.get('b_1')
         b_2 = data.get('b_2')
+        b_3 = data.get('b_3')
         b3 = data.get('b3')
         b3_1 = data.get('b3_1')
         b4 = data.get('b4')
@@ -1402,7 +1405,7 @@ def store(request):
 
         workerobject=WorkerObject.objects.filter(id=work_id).first()
 
-        form1 = PoyasitelniyForm(workerobject=workerobject, b1=b1, b2=b2, b_1=b_1, b_2=b_2, b3=b3, b3_1=b3_1, b4=b4, b5=b5, b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
+        form1 = PoyasitelniyForm(workerobject=workerobject, b1=b1, b2=b2, b_1=b_1, b_2=b_2,b_3=b_3, b3=b3, b3_1=b3_1, b4=b4, b5=b5, b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
                                  ,b13=b13,b14=b14,b15=b15,b16_a=b16_a,b16_b=b16_b,b19=b19,b19_1=b19_1,b19_2=b19_2,b20=b20,b21=b21,c_1=c_1,c_2=c_2,c_3=c_3,c_4=c_4,c_5=c_5,c_6=c_6
                                  ,c_7=c_7,c_8=c_8,c_9=c_9,c_10=c_10,c_11=c_11,c_12=c_12,c_13=c_13,c_14=c_14,c_15=c_15,c_16=c_16,c_17=c_17,c_18=c_18,c_19=c_19
                                  ,c_20=c_20,c_21=c_21,c_22=c_22,c_23=c_23,c_24=c_24,c_25=c_25,c_26=c_26,d_1=d_1,d_2=d_2,d_3=d_3,d_4=d_4,d_5=d_5,d_6=d_6,d_7=d_7
@@ -1441,6 +1444,7 @@ def edit_poyasitelniy(request):
         b2 = data.get('b2')
         b_1 = data.get('b_1')
         b_2 = data.get('b_2')
+        b_3 = data.get('b_3')
         b3 = data.get('b3')
         b3_1 = data.get('b3_1')
         b4 = data.get('b4')
@@ -1536,6 +1540,7 @@ def edit_poyasitelniy(request):
         form1.b2=b2
         form1.b_1=b_1
         form1.b_2=b_2
+        form1.b_3=b_3
         form1.b3=b3
         form1.b3_1=b3_1
         form1.b4=b4
@@ -1802,6 +1807,30 @@ def recive_work(request):
         return HttpResponse(1)
     else:
         return HttpResponse(0)
+
+def show_akt_polevoy_worker(request,id):
+    workerobject = WorkerObject.objects.filter(object=id).first()
+    pdowork = Object.objects.filter(id=id).first()
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+    order = Order.objects.filter(object=id).first()
+    worker = Worker.objects.filter()
+    work = AktPolevoyForm.objects.filter(object=id).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+
+    rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+               'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
+                'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects, 'count_works': new_work_counter(request)}
+
+    return render(request, 'worker/komeral/akt_polevoy.html', context)
 
 # worker
 
@@ -2548,6 +2577,2075 @@ def doing_akt_komeral_file(request):
     else:
         return HttpResponse(0)
 
+def doing_poyasitelniy_file(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('object-id')
+        object=WorkerObject.objects.filter(object=id).first()
+        print(object)
+        form = PoyasitelniyForm.objects.filter(workerobject=object.id).first()
+        print(form)
+        form1 = PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form).first()
+        form2 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).first()
+        form3 = PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).first()
+        form4 = PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).first()
+
+        context = '''
+        <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li {
+            padding: 5px;
+        }
+        th,tr,table,td{
+            border: 1px solid black
+        }
+        input{
+                border: 0px solid;
+                display: inline-block;
+        }
+
+        textarea{
+            border: 0px;
+        }
+
+        body{
+            font-size: 20px;
+        }
+          p {
+        margin: 0;
+        color: #111727 !important;
+    }
+
+    </style>
+</head>
+
+<body>
+
+    <div style="padding: 100px">
+         <div class="card">
+                            <div class="card-body">
+                                <form action="#" method="POST">
+                                    <div class="setup-content" id="step-1">
+                                        <div class="col-xs-12">
+                                            <div class="file-sidebar ">
+                                                <div class="pricing-plan border-0">
+                                                    <div class="col-md-12">
+                                                        <h2 style="text-align: center">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h2>
+                                                        <p style="text-align: center">по топографо-геодезическим работам</p>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="mb-3 row">
+                                                                1. Топографо-геодезические работы  '''+str(form.b1)+'''
+                                                                <br><br>
+                                                            </div>
+                                                            <div class="mb-3 row m-t-15">
+                                                                2. Топографо-геодезические работы выполнялись в соответствии с техническим заданием, выданным '''+str(form.b2)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                            <p>
+                                                                и договором № '''+str(form.b_1)+''' от "'''+str(form.b_2)+'''" г
+                                                                <br><br>
+                                                            </p>
+                                                            <div class="mb-3 row m-t-15">
+                                                                3. Полевые топографо-геодезические работы выполнены в соответствии с действующими градостроительными нормами бригадой в составе '''+str(form.b3)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                               3.1 Ответственный исполнитель '''+str(form.b3_1)+'''
+                                                                <br>
+                                                                <br>
+                                                            <div class="mb-3 row">
+                                                                4. Начальник партии '''+str(form.b4)+'''
+                                                                    <br>
+                                                                    <br>
+
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                5. Система координат '''+str(form.b5)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                6. Система высот '''+str(form.b6)+'''
+                                                                    <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                7. Исходные пункты (плановые и высотные) '''+str(form.b7)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">8</span> Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1</h5>
+                                                            <p class="text-end">Таблица 1</p>
+                                                            <div class="col-sm-12 m-t-10">
+                                                                <div class="card border-0">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered" id="childTable8">
+
+                                                                            <thead class="table-primary">
+                                                                            <tr>
+                                                                                <th scope="col">№</th>
+                                                                                <th scope="col">Наименование работ</th>
+                                                                                <th scope="col">Измеритель</th>
+                                                                                <th scope="col">Объемы работ по проекту</th>
+                                                                                <th scope="col">Фактически выполнено</th>
+
+                                                                            </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td scope="row">1</td>
+                                                                                <td>
+                                                                                   '''+str(form1.b8_1)+'''
+                                                                                </td>
+                                                                                <td>
+                                                                                    '''+str(form1.b8_2)+'''
+                                                                                </td>
+                                                                                <td>
+                                                                                    '''+str(form1.b8_3)+'''
+                                                                                </td>
+                                                                                <td>
+                                                                                   '''+str(form1.b8_4)+'''
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+
+                                                            <div class="mb-3 row">
+                                                                8.1 Номенклатура планшетов '''+str(form.b8_1_1)+'''
+                                                                <br>
+                                                            </div>
+                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> Каталог координат и высот исходных пунктов и точек долговременного закрепления</h5>
+                                                            <div class="col-sm-12 m-t-10">
+                                                                <div class="card border-0">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered" id="childTable9">
+                                                                            <thead class="table-primary">
+                                                                            <tr>
+                                                                                <th scope="col">№</th>
+                                                                                <th scope="col">Номер пункта и тип закрепления</th>
+                                                                                <th scope="col">Координаты x</th>
+                                                                                <th scope="col">Координаты y</th>
+                                                                                <th scope="col">Высота</th>
+
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <td scope="row">1</td>
+                                                                                <td>
+                                                                                    '''+str(form2.b9_1)+'''
+                                                                                </td>
+                                                                                <td>
+                                                                                     '''+str(form2.b9_2)+'''
+                                                                                </td>
+                                                                                <td>
+                                                                                     '''+str(form2.b9_3)+'''
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    '''+str(form2.b9_4)+'''
+                                                                                </td>
+                                                                            </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                                <br>
+                                                            <div class="mb-3 row">
+                                                                10. Планово-высотное обоснование выполнено '''+str(form.b10)+'''
+                                                                        <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                11. Пункты съемочного обоснования закреплены '''+str(form.b11)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                               12. Постоянные геодезические знаки сданы по акту на наблюдение за сохранностью представителю '''+str(form.b12)+'''
+                                                                           <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                    13. Угловые измерения проводились '''+str(form.b13)+'''
+                                                                    <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                14. Линейные измерения выполнены '''+str(form.b14)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                               15. Нивелирование производилось нивелиром '''+str(form.b15)+'''
+                                                                <br>
+                                                            </div>
+                                                            <h5><span class="badge rounded-pill badge-primary">16</span> Уравнивание съёмочного обоснования произведено:</h5>
+                                                            <div class="mb-3 row">
+                                                                    a) планового '''+str(form.b16_a)+'''
+                                                                    <br>
+                                                                    <br>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                б) высотного '''+str(form.b16_b)+'''
+                                                                <br>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="setup-content" id="step-2">
+                                        <div class="col-xs-12">
+                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">17</span> Техническая характеристика планового съемочного обоснования приводится в таблице 2.</h5>
+                                            <p class="text-end"> Таблица 2</p>
+                                            <div class="col-sm-12 m-t-10">
+                                                <div class="card border-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="childTableTen">
+                                                            <thead class="table-primary">
+                                                            <tr>
+                                                                <th scope="col">№</th>
+                                                                <th scope="col">Наименование хода</th>
+                                                                <th scope="col">Длина хода в км</th>
+                                                                <th scope="col">Число узлов</th>
+                                                                <th scope="col">Угловые невязки получен</th>
+                                                                <th scope="col">Угловые невязки допустим</th>
+                                                                <th scope="col">Линейные невязки абсолют</th>
+                                                                <th scope="col">Линейные невязки относит</th>
+
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td scope="row">1</td>
+                                                                <td>
+                                                                     '''+str(form3.b17_1)+'''
+                                                                </td>
+                                                                <td>
+
+                                                                   '''+str(form3.b17_2)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form3.b17_3)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form3.b17_4)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form3.b17_5)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form3.b17_6)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form3.b17_7)+'''
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">18</span> Техническая характеристика высотного съемочного обоснования приводится в таблице 3.</h5>
+                                            <div class="col-sm-12 m-t-10">
+                                                <div class="card border-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="childTableEleven">
+                                                            <thead class="table-primary">
+                                                            <tr>
+                                                                <th scope="col">№</th>
+                                                                <th scope='col'>Наименование хода</th>
+                                                                <th scope="col">Число станций км/хода</th>
+                                                                <th scope="col">Невязки в ходах в мм получен</th>
+                                                                <th scope="col">Невязки в ходах в мм допустим</th>
+                                                                <th scope="col">Примечание</th>
+
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td scope="row">1</td>
+                                                                <td>
+                                                                   '''+str(form4.b18_1)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form4.b18_2)+'''
+                                                                </td>
+                                                                <td>
+                                                                        '''+str(form4.b18_3)+'''
+                                                                </td>
+                                                                <td>
+                                                                    '''+str(form4.b18_4)+'''
+                                                                </td>
+                                                                <td>'''+str(form4.b18_5)+'''</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                19. Топографическая съемка '''+str(form.b19)+'''
+                                                 <br>
+                                                <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                19.1 Горизонтальная съемка застроенной территории производилась '''+str(form.b19_1)+'''
+                                                <br>
+                                                <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                19.2 Высотная съемка застроенной территории производилась '''+str(form.b19_2)+'''
+                                                 <br>
+                                                <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                20. Обновление топографической съемки '''+str(form.b20)+'''
+                                                 <br>
+                                                <br>
+                                            </div>
+                                            <h5 class="">21. По выявлению и съёмке подземных коммуникаций на объекте:</h5>
+                                            <div class="mb-3 row">
+                                                Работа выполнена исполнителем '''+str(object.object.worker_ispolnitel)+'''
+                                                <br>
+                                                <br>
+                                            <p>в нижеследующем объёме:</p>
+                                            <div class="col-sm-12">
+                                                <div class="card border-0">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead class="table-primary">
+                                                            <tr>
+                                                                <th scope="col">№</th>
+                                                                <th scope="col">Виды работ</th>
+                                                                <th scope="col">Ед.измерен</th>
+                                                                <th scope="col">Объём работ</th>
+                                                                <th scope="col">Категория</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <th scope="row">1</th>
+                                                                <td>Рекогносцировка трасс ИПК</td>
+                                                                <td>км</td>
+                                                                <td>'''+str(form.c_1)+'''</td>
+                                                                <td>'''+str(form.c_2)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">2</th>
+                                                                <td>Прослушивание и привязка точек ИПК</td>
+                                                                <td>точка</td>
+                                                                <td>'''+str(form.c_3)+'''</td>
+                                                                <td>'''+str(form.c_4)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">3</th>
+                                                                <td>Прослушивание точек ИПК без привязки с К=0,56</td>
+                                                                <td>точка</td>
+                                                                <td>'''+str(form.c_5)+'''</td>
+                                                                <td>'''+str(form.c_6)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">4</th>
+                                                                <td>Определение глубин заложения ИПК</td>
+                                                                <td>точка</td>
+                                                                <td>'''+str(form.c_7)+'''</td>
+                                                                <td>'''+str(form.c_8)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">5</th>
+                                                                <td>Привязка выходов ИПК</td>
+                                                                <td>точка</td>
+                                                                <td>'''+str(form.c_9)+'''</td>
+                                                                <td>'''+str(form.c_10)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">6</th>
+                                                                <td>Обследование колодцев</td>
+                                                                <td>колодец</td>
+                                                                <td>'''+str(form.c_11)+'''</td>
+                                                                <td>'''+str(form.c_12)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">7</th>
+                                                                <td>Нивелирование колодцев с коэффициентом = 0,5</td>
+                                                                <td>га</td>
+                                                                <td>'''+str(form.c_13)+'''</td>
+                                                                <td>'''+str(form.c_14)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">8</th>
+                                                                <td>Описание надземных сооружений, коммуникаций</td>
+                                                                <td>опора,узел</td>
+                                                                <td>'''+str(form.c_15)+'''</td>
+                                                                <td>'''+str(form.c_16)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">9</th>
+                                                                <td>Нивелирование надземных сооружений</td>
+                                                                <td>опора, точка</td>
+                                                                <td>'''+str(form.c_17)+'''</td>
+                                                                <td>'''+str(form.c_18)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">10</th>
+                                                                <td>Обследование территории съёмки, где отсутствуют ИПК</td>
+                                                                <td>га</td>
+                                                                <td>'''+str(form.c_19)+'''</td>
+                                                                <td>'''+str(form.c_20)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">11</th>
+                                                                <td>Обследование колодцев с К=0,5; (завален, залит)</td>
+                                                                <td>колодец</td>
+                                                                <td>'''+str(form.c_21)+'''</td>
+                                                                <td>'''+str(form.c_22)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">12</th>
+                                                                <td>Составление ведомости экспликации колодцев ИПК</td>
+                                                                <td>колодец</td>
+                                                                <td>'''+str(form.c_23)+'''</td>
+                                                                <td>'''+str(form.c_24)+'''</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">13</th>
+                                                                <td>Составление планов ИПК</td>
+                                                                <td>га</td>
+                                                                <td>'''+str(form.c_25)+'''</td>
+                                                                <td>'''+str(form.c_26)+'''</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="setup-content" id="step-3">
+                                        <div class="col-xs-12">
+                                            <h5>Инженерные подземные сети представлены:</h5>
+                                            <div class="mb-3 row">
+                                                1. Работа выполнена исполнителем '''+str(form.d_1)+'''
+                                                <br><br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                2. Самотечные трубопроводы: '''+str(form.d_2)+'''
+                                                    <br><br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                3. Кабельныелинии: '''+str(form.d_3)+'''
+                                                <br>
+                                                <br>
+                                            </div>
+                                            <p>
+                                                Неметаллические трубопроводы и резервные кабели '''+str(form.d_4)+'''  на планшета '''+str(form.d_5)+''' нанесены по неуточнённым данным '''+str(form.d_6)+'''
+                                                <br>
+                                                <br>
+                                            </p>
+                                            <div class="mb-3 row">
+                                                Обследование и нивелирование колодцев производилось с использование '''+str(form.d_7)+'''
+                                                <br>
+                                                <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                Прослушивание ИПК выполнялось с применение трубокабелеискателей '''+str(form.d_8)+'''
+                                                    <br>
+                                                    <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                    Привязка точек прослушивания и съёмка выходов ИПК производилась '''+str(form.d_9)+'''
+                                                    <br>
+                                                    <br>
+                                            </div>
+                                            <p>
+                                                Все выявленные подземные коммуникации нанесены на топографический план в масштабе 1: '''+str(form.d_10)+''' и принятых условных знаках.
+                                                <br>
+                                                <br>
+                                            </p>
+                                            <div class="mb-3 row">
+                                                Выполненные работы по выявлению подземных коммуникаций проконтролированы и приняты  '''+str(form.d_11)+'''
+                                                <br>
+                                                <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                Записку составил '''+str(form.d_12)+'''
+                                                <br>
+                                                <br>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                Контроль и приемка работ '''+str(form.d_13)+'''
+                                                <br>
+                                                <br>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+    </div>
+
+</body>
+
+</html>
+                ''';
+
+        options = {
+            'page-size': 'A4',
+            'encoding': "UTF-8",
+            'margin-top': '0.2in',
+            'margin-right': '0.2in',
+            'margin-bottom': '0.2in',
+            'margin-left': '0.2in',
+            'orientation': 'portrait',
+            # landscape bu albomiy qiladi
+        }
+        # display = Display(visible=0, size=(500, 500)).start()
+        pdfkit.from_string(context, 'topografiya/static/files/poyasitelniy/poyasitelniy.pdf', options)
+
+        response = HttpResponse(data, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="poyasitelniy.pdf"'
+        return response
+    else:
+        return HttpResponse(0)
+
+def doing_akt_polevoy_file(request):
+    if request.method == 'POST':
+        data = request.POST
+        id = data.get('data-id')
+        object = Object.objects.filter(id=id).first()
+
+        workerobject = WorkerObject.objects.filter(object=id).first()
+        pdowork = Object.objects.filter(id=id).first()
+        siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+        order = Order.objects.filter(object=id).first()
+
+        work = AktPolevoyForm.objects.filter(object=id).first()
+        work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
+        work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
+        work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
+        work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
+        work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
+        work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
+        work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
+        work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+
+        rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
+
+        # print(work.first().pdowork.id)
+        # pdowork = PdoWork.objects.filter(id=work.first().pdowork.id)
+        order = Order.objects.filter(object=object.id).first()
+        print(object.pdowork.tz)
+        context = '''
+               <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li {
+            padding: 5px;
+        }
+        th,tr,table,td{
+            border: 1px solid black
+        }
+        input{
+                border: 0px solid;
+                display: inline-block;
+        }
+
+        textarea{
+            border: 0px;
+        }
+
+        body{
+            font-size: 20px;
+        }
+          p {
+        margin: 0;
+        color: #111727 !important;
+    }
+
+    </style>
+</head>
+
+<body>
+
+    <div style="padding: 100px">
+
+<form action="#" method="POST">
+                                                                <div class="setup-content" id="step-1">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="file-sidebar">
+                                                                            <div class="pricing-plan">
+                                                                                <div class="col-md-12">
+                                                                                    <p class="text-end" style="float: right">ШНК
+                                                                                        1.02.07-19 </p>
+                                                                                    <br>
+                                                                                    <p class="text-end" style="float: right">
+                                                                                        Приложение F обязательное
+                                                                                    </p>
+                                                                                    <br>
+                                                                                    <div class="row" style="float: right">
+                                                                                        <div class="col-lg-8"></div>
+
+                                                                                        <div class="col-xl-4 col-sm-5 col-lg-5">
+                                                                                            <div class="text-end input-group date"
+                                                                                                 id="dt-minimum"
+                                                                                                 data-target-input="nearest">
+                                                                                                <input id="a1" name="a1" value="'''+str(work.a1)+'''" class="text-end form-control datetimepicker-input digits"
+                                                                                                       type="text"
+                                                                                                       data-target="#dt-minimum">
+                                                                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker">
+                                                                                                    <i class="fa fa-calendar"> </i>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+
+                                                                                    <h3 class="text-center" style="text-align: center">АКТ</h3>
+                                                                                    <div class="col-md-12">
+                                                                                        <br>
+                                                                                        <h5 class="text-center" style="text-align: center">1. Полевого
+                                                                                            контроля и приемки
+                                                                                            топографических
+                                                                                            работ</h5>
+                                                                                        <p>Мы, нижеподписавшиеся: '''+str(work.a2)+'''</p>
+                                                                                        <p>составили настоящий акт в
+                                                                                            том, что за период с</p>
+
+                                                                                        <div class="input-group date w-50"
+                                                                                             id="dt-disab-days"
+                                                                                             data-target-input="nearest">
+                                                                                            <input class="form-control datetimepicker-input digits"
+                                                                                                   type="text" id="a3" value="'''+str(work.a3)+'''" name="a3"
+                                                                                                   data-target="#dt-disab-days">
+
+                                                                                            <div class="input-group-text"
+                                                                                                 data-target="#dt-disab-days"
+                                                                                                 data-toggle="datetimepicker">
+                                                                                                <i class="fa fa-calendar"></i>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <p>произведен контроль и приемка
+                                                                                            топографических работ,
+                                                                                            выполненных на объекте:</p>
+                                                                                        <input style="width: 50%" id="a4" value="'''+str(work.a4)+'''" name="a4"
+                                                                                               class="form-control"
+                                                                                               type="text"
+                                                                                               placeholder="№ дог.">
+                                                                                        <p>по заданию заказчика</p>
+                                                                                        <input style="width: 50%" id="a5" value="'''+str(work.a5)+'''" name="a5"
+                                                                                               class="form-control"
+                                                                                               type="text"
+                                                                                               placeholder=""><br>
+                                                                                        <h5 class="text-center">виды и
+                                                                                            объемы выполненных
+                                                                                            работ: </h5>
+                                                                                        <div class="col-sm-12">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered">
+                                                                                                        <thead class="bg-primary">
+                                                                                                        <tr>
+                                                                                                            <th scope="col">
+                                                                                                                № п/п
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Наименование
+                                                                                                                виды
+                                                                                                                работ
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Ед.измерения
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Объем
+                                                                                                                работ /
+                                                                                                                факт
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Категория
+                                                                                                                работ
+                                                                                                            </th>
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Теодолитные
+                                                                                                                хода
+                                                                                                            </td>
+                                                                                                            <td>км</td>
+                                                                                                            <td><input id="a6" name="a6" value="'''+str(work.a6)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a7" name="a7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="'''+str(work.a7)+'''"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                2
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Техническое
+                                                                                                                нивелирование
+                                                                                                            </td>
+                                                                                                            <td>км</td>
+                                                                                                            <td><input id="a8" name="a8" value="'''+str(work.a8)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a9" name="a9" value="'''+str(work.a9)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                3
+                                                                                                            </th>
+                                                                                                            <td>Закладка
+                                                                                                                центров
+                                                                                                                тип
+                                                                                                            </td>
+                                                                                                            <td>знак
+                                                                                                            </td>
+                                                                                                            <td><input id="a10" name="a10" value="'''+str(work.a10)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a11" name="a11" value="'''+str(work.a11)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                4
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Координирование
+                                                                                                                углов
+                                                                                                            </td>
+                                                                                                            <td>точ</td>
+                                                                                                            <td><input id="a12" name="a12" value="'''+str(work.a12)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a13" name="a13" value="'''+str(work.a13)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                5
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Мензульная
+                                                                                                                съемка
+                                                                                                                М1:500
+                                                                                                                сеч.м
+                                                                                                            </td>
+                                                                                                            <td>га</td>
+                                                                                                            <td><input id="a14" name="a14" value="'''+str(work.a14)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a15" name="a15" value="'''+str(work.a15)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                6
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Тахеометрическая
+                                                                                                                съемка
+                                                                                                                М:1 сеч
+                                                                                                                м
+                                                                                                            </td>
+                                                                                                            <td>га</td>
+                                                                                                            <td><input id="a16" name="a16" value="'''+str(work.a16)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a17" name="a17" value="'''+str(work.a17)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                7
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Корректура
+                                                                                                                съемки
+                                                                                                                М1:
+                                                                                                            </td>
+                                                                                                            <td>га</td>
+                                                                                                            <td><input id="a18" name="a18" value="'''+str(work.a18)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a19" name="a19" value="'''+str(work.a19)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                8
+                                                                                                            </th>
+                                                                                                            <td>
+                                                                                                                Перенос
+                                                                                                                проекта
+                                                                                                                в натуру
+                                                                                                                и
+                                                                                                                исполнительная
+                                                                                                                съемка
+                                                                                                            </td>
+                                                                                                            <td>км</td>
+                                                                                                            <td><input id="a20" name="a20" value="'''+str(work.a20)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a21" name="a21" value="'''+str(work.a21)+'''"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <p>Работы выполнены в
+                                                                                            соответствии с программой
+                                                                                            работ, в
+                                                                                            <span><input id="a22" name="a22" value="'''+str(work.a22)+'''"
+                                                                                                    style="border:1px solid #e6edef;"
+                                                                                                    type="text"></span>
+                                                                                            системе
+                                                                                            координат и в
+                                                                                            <span><input id="a23" name="a23" value="'''+str(work.a23)+'''"
+                                                                                                    style="border:1px solid #e6edef;"
+                                                                                                    type="text"></span>
+                                                                                            системе высот.</p>
+                                                                                        <h6>Результаты полевого
+                                                                                            контроля:</h6>
+                                                                                        <p>
+                                                                                            <span class="badge rounded-pill badge-primary">a)</span>
+                                                                                            теодолитные хода
+                                                                                        </p>
+
+                                                                                        <div class="col-sm-12 m-t-5">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered"
+                                                                                                           id="childTable">
+                                                                                                        <thead class="table-primary">
+                                                                                                        <tr>
+                                                                                                            <th scope="col">
+                                                                                                                №
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Наименование
+                                                                                                                хода
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Длина
+                                                                                                                хода
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                К-во
+                                                                                                                углов
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Угл
+                                                                                                                невязки:получ,допуст
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Лин.невязки:абсол,относит
+                                                                                                            </th>
+                                                                                                            <th scope=""></th>
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td><input id="a1_1" name="a1_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_1 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a1_2" name="a1_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_2 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a1_3" name="a1_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_3 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a1_4" name="a1_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_4 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a1_5" name="a1_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_5 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a1_6" name="a1_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_6 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a1_7" name="a1_7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table1.a1_7 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow"
+                                                                                                                   onclick="childrenRow()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                                <p>
+                                                                                                    выполненные
+                                                                                                    <span><input  id="a24" name="a24" value="'''+str(work.a24)+'''"
+                                                                                                            class="form-control w-50"
+                                                                                                            type="text"></span>
+                                                                                                </p>
+                                                                                                <p>контрольные</p> '''+str(work.a25)+'''
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <p><span
+                                                                                                class="badge rounded-pill badge-primary">б)</span>
+                                                                                            нивелирные хода</p>
+                                                                                        <div class="col-sm-12 m-t-5">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered"
+                                                                                                           id="childTable1">
+                                                                                                        <thead class="table-primary">
+                                                                                                         <tr>
+                                                                                                            <th scope="col">
+                                                                                                                №
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Наименование
+                                                                                                                хода
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Длина
+                                                                                                                хода
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                К-во
+                                                                                                                штатив
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Невязки в мм
+                                                                                                                <br>
+                                                                                                                получ
+                                                                                                            </th>
+                                                                                                             <th scope="col">
+                                                                                                                Невязки в мм
+                                                                                                                 <br>
+                                                                                                                 допуст
+                                                                                                            </th>
+
+                                                                                                            <th scope="col">
+                                                                                                                Примеч
+                                                                                                            </th>
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td><input  id="a2_1" name="a2_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder=""value="{{ work_table2.a2_1 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_2" name="a2_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table2.a2_2 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_3" name="a2_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table2.a2_3 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_4" name="a2_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table2.a2_4 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_5" name="a2_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table2.a2_5 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_6" name="a2_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table2.a2_6 }}">
+                                                                                                            </td>
+
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                                <p>
+                                                                                                    выполненные
+                                                                                                    <span><input id="a26" name="a26" value="'''+str(work.a26)+'''"
+                                                                                                            class="form-control w-50"
+                                                                                                            type="text"></span>
+                                                                                                </p>
+                                                                                                <p>контрольные</p> '''+str(work.a27)+'''
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <p>Топографическая съемка,
+                                                                                            перенос проекта в натуру,
+                                                                                            контрольно-испольнительная
+                                                                                            съемка (виды выполненных
+                                                                                            работ
+                                                                                            подчеркнуть)
+                                                                                            проверена на
+                                                                                            <span><input id="a28" value="'''+str(work.a28)+'''" name="a28" style="border:1px solid #e6edef;" type="text"></span>
+                                                                                            планшетах с номенклатурой:
+                                                                                            <span>
+                                                                                                <input id="a29" value="'''+str(work.a29)+'''" name="a29" style="border:1px solid #e6edef;" type="text"></span>
+                                                                                        </p>
+                                                                                        <div class="col-sm-12 m-t-10">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered"
+                                                                                                           id="childTable2">
+                                                                                                        <thead class="bg-primary">
+                                                                                                        <tr>
+                                                                                                            <th scope="col">
+                                                                                                                №
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Оценка
+                                                                                                                качества
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Средняя
+                                                                                                                ошибка
+                                                                                                                (расхождение)
+                                                                                                                в мм
+                                                                                                                плана
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Расхождение
+                                                                                                                превышающее
+                                                                                                                1мм
+                                                                                                                плана в
+                                                                                                                проц.
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Средняя
+                                                                                                                ошибка
+                                                                                                                (расхождение)
+                                                                                                                в см по
+                                                                                                                высоте
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Расхождения
+                                                                                                                превышающие
+                                                                                                                двойной
+                                                                                                                в проц.
+                                                                                                            </th>
+                                                                                                           
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                         <tr>
+                                                                                                            <td class="table-primary"
+                                                                                                                scope="row">
+                                                                                                                1
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_1" name="a3_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_1 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_2" name="a3_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_2 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_3" name="a3_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_3 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_4" name="a3_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_4 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_5" name="a3_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_5 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_6" name="a3_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_6 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_7" name="a3_7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_7 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_8" name="a3_8"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_8 }}">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <input id="a3_9" name="a3_9"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table3.a3_9 }}">
+                                                                                                            </td>
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <p>Состояние полевой
+                                                                                            документации:</p> '''+str(work.a30)+'''
+                                                                                        <br>
+                                                                                        <p>Замечания по оформлению
+                                                                                            планшетов:</p> '''+str(work.a31)+'''
+
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="setup-content" id="step-2">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="file-sidebar">
+                                                                            <div class="pricing-plan">
+                                                                                <div class="col-md-12">
+                                                                                    <p class="text-end">ШНК
+                                                                                        1.02.07-19</p>
+                                                                                    <h4 class="text-center m-b-40" style="text-align: center">
+                                                                                        Таблица контрольных измерений
+                                                                                        (план)</h4>
+                                                                                    <form action="">
+
+                                                                                        <h6 class="text-center" style="text-align: center">Контроль
+                                                                                            и оценка качества
+                                                                                            горизонтальной съемки</h6>
+                                                                                        <div class="col-sm-12 m-t-5">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered"
+                                                                                                           id="childTable3">
+                                                                                                        <thead class="table-primary">
+                                                                                                         <tr>
+                                                                                                            <th scope="col">
+                                                                                                                №
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Расстояния
+                                                                                                                с плана
+                                                                                                                (м)
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Расстояния
+                                                                                                                в натуре (м)
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Расхождения (гр.3-гр.2) (м)
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Расхождения (гр.3-гр.2) d, (мм) плана
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Между
+                                                                                                                какими
+                                                                                                                контурами
+                                                                                                                произведены
+                                                                                                                промеры
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Примечание
+                                                                                                            </th>
+                                                                                                           
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                         <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td><input id="a4_1" name="a4_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table4.a4_1 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_2" name="a4_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="" value="{{ work_table4.a4_2 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_3" name="a4_3" value="{{ work_table4.a4_3 }}"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_4" name="a4_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table4.a4_4 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_5" name="a4_5"
+                                                                                                                    class="border-0 w-100" value="{{ work_table4.a4_5 }}"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_6" name="a4_6" value="{{ work_table4.a4_6 }}"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <p>
+                                                                                            Количество расхождений между
+                                                                                            ближайшими контурами
+                                                                                            (капитальные здания и
+                                                                                            сооружения) превышающих
+                                                                                            допуск (0,4 мм. плана)
+                                                                                            <span><input type="text" id="a32" name="a32" value="'''+str(work.a32)+'''"
+                                                                                                         class="form-plan w-50"></span>
+                                                                                            Средняя погрешность
+                                                                                            положения на плане предметов
+                                                                                            и контуров местности с
+                                                                                            четкими очертаниями в мм
+                                                                                            плана
+                                                                                            d<sup>cp</sup>=d/n
+                                                                                            <span><input type="text" id="a33" name="a33" value="'''+str(work.a33)+'''"
+                                                                                                         class="w-25 m-t-10 form-plan"></span>
+                                                                                            мм, при допуске 0,5мм.
+                                                                                        </p>
+                                                                                        <p>
+                                                                                            Количество расхождений,
+                                                                                            превышающих удвоенного
+                                                                                            значения допустимой средней
+                                                                                            ошибки, получено
+                                                                                            <span><input type="text" id="a34" name="a34" value="'''+str(work.a34)+'''"
+                                                                                                         class="form-plan"></span>,
+                                                                                            что составляет
+                                                                                            <span><input type="text" id="a35" name="a35" value="'''+str(work.a35)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            %, при допуске 10%.
+                                                                                        </p>
+                                                                                        <b>Количество расхождений
+                                                                                            превышающих предельную
+                                                                                            погрешность: </b>
+                                                                                        <p>
+                                                                                            <span class="badge rounded-pill badge-primary">a)</span>
+                                                                                            для капитальной застройки
+                                                                                            <span><input type="text" id="a36" name="a36"  value="'''+str(work.a36)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            или % при допуске 5%;
+                                                                                            <span class="badge rounded-pill badge-primary">б)</span>
+                                                                                            для предметов и контуров
+                                                                                            местности с четкими
+                                                                                            очертаниями
+                                                                                            <span><input type="text" id="a37" name="a37" value="'''+str(work.a37)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            или % при допуске 5%.
+                                                                                        </p>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Оценка
+                                                                                                качества горизонтальной
+                                                                                                съемки:</label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input class="form-control" id="a38" name="a38" value="'''+str(work.a38)+'''"
+                                                                                                       type="text"
+                                                                                                       placeholder="">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Замечания
+                                                                                                по пропуску элементов
+                                                                                                ситуации, правильности
+                                                                                                применения условных
+                                                                                                знаков:</label>
+                                                                                            <div class="col-sm-9"> '''+str(work.a39)+'''
+                                                                                            </div>
+                                                                                        </div>
+
+
+                                                                                        <h4 class="text-center m-b-40 m-t-40" style="text-align: center">
+                                                                                            Таблица контрольных
+                                                                                            измерений (рельеф)</h4>
+
+                                                                                        <h6 class="text-center" style="text-align: center">Контроль
+                                                                                            и оценка качества
+                                                                                            горизонтальной съемки</h6>
+                                                                                        <div class="col-sm-12 m-t-5">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered"
+                                                                                                           id="childTable4">
+                                                                                                        <thead class="table-primary">
+                                                                                                        <tr>
+                                                                                                            <th scope="col">
+                                                                                                                №
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Отметка
+                                                                                                                <br>
+                                                                                                                с плана
+                                                                                                                (м)
+                                                                                                            </th>
+                                                                                                            <th scope="col">
+                                                                                                                Отметка
+                                                                                                                <br>
+                                                                                                                в натуре (м)
+                                                                                                            </th>
+                                                                                                            <th scope="col" class="text-center">
+                                                                                                                Расхождения (гр.3-гр.2)
+                                                                                                                <br> (м)
+                                                                                                            </th>
+                                                                                                            <th scope="col" class="text-center">
+                                                                                                                Расхождения (гр.3-гр.2)
+                                                                                                                <br> d, (мм) плана
+                                                                                                            </th>
+                                                                                                            <th scope="col" class="text-center">
+                                                                                                                Наименование
+контур
+                                                                                                            </th>
+                                                                                                            <th scope="col" class="text-center">
+                                                                                                                Примечание
+                                                                                                            </th>
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td><input id="a5_1" name="a5_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table5.a5_1 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_2" name="a5_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table5.a5_2 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_3" name="a5_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table5.a5_3 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_4" name="a5_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table5.a5_4 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_5" name="a5_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table5.a5_5 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_6" name="a5_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table5.a5_6 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <p>
+                                                                                            Средняя ошибка в см
+                                                                                            H<sub>cp</sub>=H/n=
+                                                                                            <span><input type="text" id="a40" name="a40" value="'''+str(work.a40)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            см при допуске
+                                                                                            <span><input type="text" id="a41" name="a41" value="'''+str(work.a41)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            см.
+                                                                                        </p>
+                                                                                        <p>Примечания
+                                                                                            Количество предельных
+                                                                                            расхождений (не превышающих
+                                                                                            удвоенное значение
+                                                                                            допустимой средней ошибки)
+                                                                                            получено
+                                                                                            <span><input type="text" id="a42" name="a42" value="'''+str(work.a42)+'''"
+                                                                                                         class="form-plan"></span>,
+                                                                                            что составляет
+                                                                                            <span><input type="text" id="a43" name="a43" value="'''+str(work.a43)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            %, при допуске 10 %.
+                                                                                        </p>
+                                                                                        <p>
+                                                                                            Количество расхождений,
+                                                                                            превышающих удвоенную
+                                                                                            среднюю допустимую
+                                                                                            погрешность
+                                                                                            <span><input type="text" id="a44" name="a44" value="'''+str(work.a44)+'''"
+                                                                                                         class="form-plan"></span>,
+                                                                                            что составляет
+                                                                                            <span><input type="text" id="a45" name="a45" value="'''+str(work.a45)+'''"
+                                                                                                         class="form-plan"></span>
+                                                                                            %, при допуске 5 %.
+                                                                                        </p>
+                                                                                        <b>Примечания:</b>
+                                                                                        <p>
+                                                                                            1. При углах наклона
+                                                                                            местности до 20 допустимая
+                                                                                            средняя ошибка по высоте
+                                                                                            равна 12см.
+                                                                                        </p>
+                                                                                        <p>
+                                                                                            2. При углах наклона
+                                                                                            местности более 20
+                                                                                            допустимая средняя ошибка по
+                                                                                            высоте равна:
+                                                                                        </p>
+                                                                                        <p> – сечение рельефа через 0.5м
+                                                                                            - 17см;</p>
+                                                                                        <p> – сечение рельефа через 1м -
+                                                                                            34см;</p>
+                                                                                        <p> – сечение рельефа через 2м -
+                                                                                            67см;</p>
+                                                                                        <p> – сечение рельефа через 5м -
+                                                                                            167см;</p>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Оценка
+                                                                                                качества горизонтальной
+                                                                                                съемки:</label>
+                                                                                            <div class="col-sm-9">
+                                                                                                <input id="a46" name="a46" class="form-control" value="'''+str(work.a46)+'''"
+                                                                                                       type="text"
+                                                                                                       placeholder="">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Замечания
+                                                                                                по пропуску элементов
+                                                                                                ситуации, правильности
+                                                                                                применения условных
+                                                                                                знаков:</label> '''+str(work.a47)+'''
+                                                                                        </div>
+
+                                                                                        <br><br>
+                                                                                    </form>
+
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="setup-content" id="step-3">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="file-sidebar">
+                                                                            <div class="pricing-plan">
+                                                                                <div class="col-md-12">
+
+                                                                                        <h4 class="m-t-20 text-center" style="text-align: center">2. полевого контроля и приемки работ по съемке инженерных сетей</h4>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Мы, нижеподписавшиеся:</label> '''+str(work.a48)+'''
+                                                                                        </div>
+                                                                                        <p> составили настоящий акт в том, что за период с
+                                                                                            <span><input type="text" class="form-plan" id="a49" value="'''+str(work.a49)+'''" name="a80"></span>
+                                                                                            по
+                                                                                            <span><input type="text" id="a50" name="a50" value="'''+str(work.a50)+'''" class="form-plan"></span>
+                                                                                            20
+                                                                                            <span><input type="text" id="a51" name="a51" value="'''+str(work.a51)+'''" class="form-plan"></span>
+                                                                                            г.
+                                                                                            произведен контроль и
+                                                                                            приемка работ по съемке
+                                                                                            инженерных сетей,
+                                                                                            выполненных на объекте:
+                                                                                        </p> '''+str(work.a52)+'''
+                                                                                        <p>
+                                                                                            № договор
+                                                                                            <span><input type="text" id="a84" value="'''+str(work.a53)+'''" name="a53" class="form-plan m-t-10"></span>
+                                                                                        </p>
+                                                                                        <p>Соответствие объемов
+                                                                                            выполненных работ указанным:
+                                                                                            в пояснительной записке; в
+                                                                                            программе работ.</p>
+                                                                                        <h5 class="text-center f-w-700 m-b-20 m-t-20" style="text-align: center">
+                                                                                            Результаты полевого
+                                                                                            контроля:</h5>
+                                                                                        <p>
+                                                                                            Съемка инженерных сетей
+                                                                                            проверена на
+                                                                                            <span><input type="text" id="a54" value="'''+str(work.a54)+'''" name="a54"
+                                                                                                         class="form-plan m-b-10"></span>
+                                                                                            листах, и/или планшетах с
+                                                                                            номенклатурой:
+                                                                                        </p> '''+str(work.a55)+'''
+                                                                                        <div class="col-sm-12 m-t-20">
+                                                                                            <div class="card border-0">
+                                                                                                <div class="table-responsive">
+                                                                                                    <table class="table table-bordered"
+                                                                                                           id="childTable5">
+                                                                                                        <thead class="table-primary">
+                                                                                                        <tr>
+                                                                                                            <th scope="col">
+                                                                                                                №
+                                                                                                            </th>
+                                                                                                            <th scope="col">Планшет (лист)
+                                                                                                            </th>
+                                                                                                            <th colspan="2" scope="col">Средняя ошибка (расхождение) в мм плана
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Расхождения,
+                                                                                                                превышающие
+                                                                                                                1,4мм
+                                                                                                                плана в
+                                                                                                                процентах
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Средняя
+                                                                                                                ошибка
+                                                                                                                (расхождение)
+                                                                                                                в см по
+                                                                                                                высоте
+                                                                                                            </th>
+                                                                                                            <th colspan="2"
+                                                                                                                scope="col">
+                                                                                                                Расхождения,
+                                                                                                                превышающие
+                                                                                                                удвоенное
+                                                                                                                значение
+                                                                                                                средней
+                                                                                                                ошибки в
+                                                                                                                проц.
+                                                                                                            </th>
+                                                                                                           
+                                                                                                        </tr>
+                                                                                                        </thead>
+                                                                                                        <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td><input id="a6_1" name="a6_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_1 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_2" name="a6_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_2 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_3" name="a6_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_3 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_4" name="a6_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_4 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_5" name="a6_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_5 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_6" name="a6_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_6 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_7" name="a6_7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_7 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_8" name="a6_8"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_8 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_9" name="a6_9"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" value="{{ work_table6.a6_9 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            
+                                                                                                        </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Состояние
+                                                                                                полевой и камеральной
+                                                                                                документации:</label> '''+str(work.a56)+'''
+                                                                                        </div>
+                                                                                        <div class="mb-3 row">
+                                                                                            <label class="col-sm-3 col-form-label">Замечания
+                                                                                                по оформлению планшетов,
+                                                                                                ЦТП:</label> '''+str(work.a57)+'''
+                                                                                        </div>
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="setup-content" id="step-4">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="file-sidebar">
+                                                                            <div class="pricing-plan">
+                                                                                <div class="col-md-12">
+                                                                                    <p class="text-end">ШНК
+                                                                                        1.02.07-19 </p>
+                                                                                    <p class="text-end">Приложение к
+                                                                                        акту полевого контроля</p>
+                                                                                     <h4 class="text-center f-w-600" style="text-align: center">
+                                                                                        ВЕДОМОСТЬ</h4>
+                                                                                    <h5 class="text-center f-w-600" style="text-align: center">
+                                                                                        контрольных измерений
+                                                                                        (план)</h5>
+
+                                                                                        <h5 class="text-center f-w-600 m-t-20" style="text-align: center">
+                                                                                        Контроль и оценка качества
+                                                                                        съемки инженерных сетей</h5>
+
+                                                                                    <div class="col-sm-12 m-t-5">
+                                                                                        <div class="card border-0">
+                                                                                            <div class="table-responsive">
+                                                                                                <table class="table table-bordered"
+                                                                                                       id="childTable6">
+                                                                                                    <thead class="table-primary">
+                                                                                                   <tr>
+                                                                                                        <th scope="col">
+                                                                                                            №
+                                                                                                        </th>
+                                                                                                        <th scope="col" class="text-center">
+                                                                                                            Расстояния
+                                                                                                            <br>
+                                                                                                            с плана (м)
+                                                                                                        </th>
+                                                                                                        <th scope="col" class="text-center">
+                                                                                                            Расстояния
+                                                                                                            <br> в натуре м
+                                                                                                        </th>
+                                                                                                        <th scope="col" class="text-center">
+                                                                                                            Расхождения
+                                                                                                            <br>
+                                                                                                            d,м
+                                                                                                        </th>
+                                                                                                        <th scope="col" class="text-center">
+                                                                                                            Расхождения
+                                                                                                            <br>
+                                                                                                            d (мм) плана
+                                                                                                        </th>
+                                                                                                        <th scope="col" class="text-center">
+                                                                                                            Между какими контурами и инженерными сооружениями произведены промеры
+                                                                                                        </th>
+                                                                                                        
+                                                                                                    </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <tr>
+                                                                                                        <th scope="row">
+                                                                                                            1
+                                                                                                        </th>
+                                                                                                        <td><input id="a7_1" name="a7_1" value="{{ work_table7.a7_1 }}"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_2" name="a7_2"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table7.a7_2 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_3" name="a7_3"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table7.a7_3 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_4" name="a7_4"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table7.a7_4 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_5" name="a7_5"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table7.a7_5 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        
+                                                                                                    </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p>
+                                                                                        Средняя погрешность положения на
+                                                                                        плане инженерных сетей
+                                                                                        d<sub>cp.</sub>=d/n
+                                                                                        <span><input type="text" id="a58" value="'''+str(work.a58)+'''" name="a58"
+                                                                                                     class="form-plan"></span>
+                                                                                        мм, при допуске
+                                                                                        <span><input type="text" id="a59" value="'''+str(work.a59)+'''" name="a59"
+                                                                                                     class="form-plan"></span>
+                                                                                        мм, по <span class="bg-warning">ШНК 1.02.08</span>
+                                                                                    </p>
+                                                                                    <p>
+                                                                                        Количество предельных
+                                                                                        расхождений (не более удвоенных
+                                                                                        средних допустимых) получено
+                                                                                        <span><input type="text" id="a60" name="a60" value="'''+str(work.a60)+'''"
+                                                                                                     class="form-plan"></span>
+                                                                                        , что составляет
+                                                                                        <span><input type="text" id="a61" name="a61" value="'''+str(work.a61)+'''"
+                                                                                                     class="form-plan"></span>
+                                                                                        %, при допуске 10%.
+                                                                                    </p>
+
+                                                                                    <div class="mb-3 row">
+                                                                                        <label class="col-sm-3 col-form-label">Оценка
+                                                                                            качества плановой съемки
+                                                                                            инженерных сетей</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input class="form-control" id="a62" name="a62" value="'''+str(work.a62)+'''"
+                                                                                                   type="text"
+                                                                                                   placeholder="соответствует или не соответствует требованиям ШНК 1.02.08-15">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="mb-3 row">
+                                                                                       Замечания
+                                                                                            по пропуску элементов
+                                                                                            инженерных сетей,
+                                                                                            правильности применения
+                                                                                            условных знаков: '''+str(work.a63)+'''
+
+                                                                                    </div>
+                                                                                    <div class="mb-3 row">
+                                                                                        <label class="col-sm-3 col-form-label">Проверку
+                                                                                            произвел(и) </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input class="form-control" id="a64" value="'''+str(work.a64)+'''"  name="a64"
+                                                                                                   type="text"
+                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="mb-3 row">
+                                                                                        <label class="col-sm-3 col-form-label">С
+                                                                                            актом ознакомлен(ы)</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input class="form-control" id="a65" value="'''+str(work.a65)+'''" name="65"
+                                                                                                   type="text"
+                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="setup-content" id="step-5">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="file-sidebar">
+                                                                            <div class="pricing-plan">
+                                                                                <div class="col-md-12">
+                                                                                    <p class="text-end">ШНК
+                                                                                        1.02.07-19 </p>
+                                                                                    <p class="text-end">Приложение к
+                                                                                        акту полевого контроля</p>
+                                                                                    <h4 class="text-center f-w-600" style="text-align: center">
+                                                                                        ВЕДОМОСТЬ</h4>
+                                                                                    <h5 class="text-center f-w-600" style="text-align: center">
+                                                                                        Контрольных
+                                                                                        измерений-высота</h5>
+                                                                                <h5 class="text-center f-w-600 m-t-20" style="text-align: center">
+                                                                                        Контроль и оценка качества
+                                                                                        съемки инженерных сетей</h5>
+
+                                                                                    <div class="col-sm-12 m-t-5">
+                                                                                        <div class="card border-0">
+                                                                                            <div class="table-responsive">
+                                                                                                <table class="table table-bordered"
+                                                                                                       id="childTable7">
+                                                                                                    <thead class="table-primary">
+                                                                                                     <tr>
+                                                                                                        <th scope="col">
+                                                                                                            №
+                                                                                                        </th>
+                                                                                                        <th scope="col">
+                                                                                                            Глубина заложения
+                                                                                                            коммуникации
+                                                                                                            <br>
+                                                                                                            с плана см
+                                                                                                        </th>
+                                                                                                        <th scope="col">
+                                                                                                            Глубина заложения
+                                                                                                            коммуникации
+                                                                                                            <br>
+                                                                                                            в натуре cм
+                                                                                                        </th>
+                                                                                                        <th scope="col">
+                                                                                                            Расхождения(h)
+                                                                                                            <br>
+                                                                                                            (гр.3-гр.2) см
+                                                                                                        </th>
+
+                                                                                                        <th scope="col">
+                                                                                                           Описание местоположения
+                                                                                                            контрольного замера
+                                                                                                        </th>
+                                                                                                        
+                                                                                                    </tr>
+                                                                                                    </thead>
+                                                                                                    <tbody>
+                                                                                                    <tr>
+                                                                                                        <th scope="row">
+                                                                                                            1
+                                                                                                        </th>
+                                                                                                        <td><input id="a8_1" name="a8_1"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table8.a8_1 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a8_2" name="a8_2"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table8.a8_2 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a8_3" name="a8_3"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table8.a8_3 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a8_4" name="a8_4"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" value="{{ work_table8.a8_4 }}"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+
+                                                                                                        
+                                                                                                    </tr>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <p>
+                                                                                        Предельные расхождения между
+                                                                                        значениями глубин заложения
+                                                                                        инженерных коммуникаций,
+                                                                                        определенных во время
+                                                                                        съемки с помощью приборов и
+                                                                                        инструментов и по
+                                                                                        данным контрольных полевых
+                                                                                        измерений, не должны превышать
+                                                                                        15% глубины заложения.
+                                                                                    </p>
+
+                                                                                    <p>
+                                                                                        Средняя ошибка (расхождение) в
+                                                                                        см по высоте h<sub>cp.</sub>=h/n
+                                                                                        <span><input type="text" id="a66" name="a66" value="'''+str(work.a66)+'''}"
+                                                                                                     class="form-plan"></span>
+                                                                                        см, при допуске
+                                                                                        <span><input type="text" id="a122" name="a67" value="'''+str(work.a67)+'''"
+                                                                                                     class="form-plan"></span>
+                                                                                        см.
+                                                                                    </p>
+
+                                                                                    <div class="mb-3 row">
+                                                                                        <label class="col-sm-3 col-form-label">Оценка
+                                                                                            качества плановой съемки
+                                                                                            инженерных сетей</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input class="form-control" id="a68" name="a68" value="'''+str(work.a68)+'''"
+                                                                                                   type="text"
+                                                                                                   placeholder="соответствует или не соответствует требованиям ШНК 1.02.08-15">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 row">
+                                                                                        Замечания '''+str(work.a69)+'''
+
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 row">
+                                                                                        <label class="col-sm-3 col-form-label">Проверку
+                                                                                            произвел(и) </label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input class="form-control" id="a70" name="a70" value="'''+str(work.a70)+'''"
+                                                                                                   type="text"
+                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="mb-3 row">
+                                                                                        <label class="col-sm-3 col-form-label">С
+                                                                                            актом ознакомлен(ы)</label>
+                                                                                        <div class="col-sm-9">
+                                                                                            <input class="form-control" id="a71" name="a71" value="'''+str(work.a71)+'''"
+                                                                                                   type="text"
+                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                        </div>
+                                                                                    </div>
+
+
+                                                                                </div>
+
+
+
+                                                                            </div>
+
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                </form>
+    </div>
+
+</body>
+
+</html>
+               ''';
+
+        options = {
+            'page-size': 'A4',
+            'encoding': "UTF-8",
+            'margin-top': '0.2in',
+            'margin-right': '0.2in',
+            'margin-bottom': '0.2in',
+            'margin-left': '0.2in',
+            'orientation': 'portrait',
+            # landscape bu albomiy qiladi
+        }
+        # display = Display(visible=0, size=(500, 500)).start()
+        pdfkit.from_string(context, 'topografiya/static/files/file.pdf', options)
+
+        response = HttpResponse(data, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="order.pdf"'
+        return response
+    else:
+        return HttpResponse(0)
+
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
     workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
@@ -2963,7 +5061,6 @@ def geodezis_rejected_komeral_works(request,id):
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
-
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work, 'rejects': rejects, 'sirie_type': sirie_type,
                'siriefiles': sirie_files,'aktkomeral': aktkomeral, 'programwork': programwork}
 

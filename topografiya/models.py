@@ -635,6 +635,7 @@ class PoyasitelniyForm(models.Model):
     b2 = models.TextField(blank=True)
     b_1 = models.TextField(blank=True)
     b_2 = models.TextField(blank=True)
+    b_3 = models.TextField(blank=True)
     b3 = models.TextField(blank=True)
     b3_1 = models.TextField(blank=True)
     b4 = models.TextField(blank=True)

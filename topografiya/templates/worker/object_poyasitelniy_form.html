@@ -29,6 +29,8 @@
                                     <li class="breadcrumb-item"><a href="{% url 'show_komeral_checking_leader' id=work.object.id %}">Выполнение работ</a></li>
                                     {% elif work.status_geodezis_komeral == 1 %}
                                      <li class="breadcrumb-item"><a href="{% url 'show_komeral_checking_leader' id=work.object.id %}">Выполнение работ</a></li>
+                                    {% else %}
+                                    <li class="breadcrumb-item"><a href="{% url 'polevoy_work_doing' id=work.object.id %}">Выполнение работ</a></li>
                                 {% endif %}
 
                                 {% if work.status_geodezis_komeral == 2 %}
@@ -94,9 +96,7 @@
                                                                 <span><input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_2" name="b_2" value="{{ work.object.pdowork.agreement_date}}"></span>
                                                                 20
                                                                 <span>
-
                                                                          <input style="border: 1px solid #e6e8eb; border-radius: 3px;" type="text" class="" id="b_3" name="b_3"></span>
-
 
                                                                 г
                                                             </p>
@@ -1031,7 +1031,7 @@
                                                                     <input class="border-0 w-100" type="text" name="b18_4" id="b18_4" value="{{ form4.b18_4 }}" placeholder="">
 
                                                                 </td>
-                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" placeholder=""></td>
+                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" placeholder="" value="{{ form4.b18_5 }}"></td>
                                                                 <td><i id="addroweleven" onclick="childrentableight()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                             </tr>
                                                             </tbody>
@@ -1318,6 +1318,7 @@
         data.append("b2", $('#b2').val());
         data.append("b_1", $('#b_1').val());
         data.append("b_2", $('#b_2').val());
+        data.append("b_3", $('#b_3').val());
         data.append("b3", $('#b3').val());
         data.append("b3_1", $('#b3_1').val());
         data.append("b4", $('#b4').val());
@@ -1439,6 +1440,7 @@
         data.append("b2", $('#b2').val());
         data.append("b_1", $('#b_1').val());
         data.append("b_2", $('#b_2').val());
+        data.append("b_3", $('#b_3').val());
         data.append("b3", $('#b3').val());
         data.append("b3_1", $('#b3_1').val());
         data.append("b4", $('#b4').val());

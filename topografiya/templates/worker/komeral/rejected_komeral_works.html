@@ -151,8 +151,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -840,7 +840,8 @@
                         <div class="ribbon-wrapper card shadow">
                             <div class="card-body">
                                 <div class="ribbon ribbon-clip ribbon-primary">7</div>
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95942.65769716408!2d69.20932726033043!3d41.282576225565485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xa5a9323b4aa5cb98!2z0KLQsNGI0LrQtdC90YIsINCj0LfQsdC10LrQuNGB0YLQsNC9!5e0!3m2!1sru!2s!4v1642709720963!5m2!1sru!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                <div id="map"></div>
+                                                <br>
                             </div>
                         </div>
                     </div>
@@ -860,16 +861,17 @@
 
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
+                                 <div class="ribbon ribbon-right ribbon-color_one"><i class="fa fa-check"></i></div>
                                 <div class="card-body">
                                     <div class="ribbon ribbon-clip ribbon-primary">9</div>
-                                    <h5>АКТ дала назорати<sup class="txt-danger">*</sup></h5>
-                                    <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">
+                                    <h5>АКТ дала назорат<sup class="txt-danger">*</sup></h5>
+                                    <a href="{% url "show_akt_polevoy_worker" id=work.object.id %}">
                                         <button class="btn btn-outline-primary w-100">Кўриш</button>
                                     </a>
                                 </div>
                             </div>
                         </div>
-
+                    {% if aktkomeral.status == 4 %}
                     <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
@@ -881,6 +883,7 @@
                                 </div>
                             </div>
                         </div>
+                    {% endif %}
 
                 </div>
 
@@ -901,6 +904,88 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).on('click',"#doing_poyasitelniy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_poyasitelniy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/poyasitelniy/poyasitelniy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+        <script>
+    $(document).ready(function(){
+    var data = new FormData();
+    data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+    data.append('id',{{ pdowork.id }});
+
+        $.ajax({
+            url: '/obj_data',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'post',
+            success: function (result) {
+                    json_point=JSON.parse(result.data1);
+                    console.log(json_point.features);
+                    if (json_point.features[0].geometry!=null){
+                        json_point.features[0].geometry.coordinates.forEach(function(corr,i){
+                             var point={type:'Point',coordinates:corr};
+                            L.geoJson(point,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                            });
+                        });
+                    }
+
+                    json_line=JSON.parse(result.data2);
+                    if (json_line.features[0].geometry!=null){
+                    json_line.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polyline={type:'LineString',coordinates:corr};
+                    L.geoJson(polyline,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+
+
+                    json_polygon=JSON.parse(result.data3);
+                    if (json_polygon.features[0].geometry!=null){
+                    json_polygon.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polygon={type:'Polygon',coordinates:corr};
+                    L.geoJson(polygon,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+            },
+            error: function(){
+              console.log('xatolik')
+            }
+
+    });
+    });
+    </script>
 <script type="text/javascript">
     $(document).on('click',"#save_files",function(){
         var data = new FormData();

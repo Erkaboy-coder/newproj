@@ -150,8 +150,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -881,11 +881,9 @@
                              </div>
                          {% endif %}
                      {% else %}
-                        {% if programwork.status != 2 %}
                             <div class="col-md-6 card p-2 shadow-lg">
                                  <button type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Текширувга юбориш</button>
                             </div>
-                            {% endif %}
                      {% endif %}
                 </div>
                 {% endif %}

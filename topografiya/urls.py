@@ -23,7 +23,9 @@ urlpatterns = [
     re_path(r'^start/$', views.start, name='start'),
     re_path(r'^order_to_pdf$', views.order_to_pdf, name='order_to_pdf'),
     re_path(r'^doing_program_work_file$', views.doing_program_work_file, name='doing_program_work_file'),
+    re_path(r'^doing_poyasitelniy_file$', views.doing_poyasitelniy_file, name='doing_poyasitelniy_file'),
     re_path(r'^doing_akt_komeral_file$', views.doing_akt_komeral_file, name='doing_akt_komeral_file'),
+    re_path(r'^doing_akt_polevoy_file$', views.doing_akt_polevoy_file, name='doing_akt_polevoy_file'),
     re_path(r'^edit_pdowork_changes/$', views.edit_pdowork_changes, name='edit_pdowork_changes'),
     re_path(r'^leader_polevoy_works/$', views.leader_polevoy_works, name='leader_polevoy_works'),
     re_path(r'^checking_polevoy_works/(?P<id>\d+)/$', views.checking_polevoy_works, name='checking_polevoy_works'),
@@ -64,6 +66,7 @@ urlpatterns = [
     re_path(r'^leader_akt_form_edit/(?P<id>\d+)/$', views.leader_akt_form_edit, name='leader_akt_form_edit'),
     re_path(r'^leader_akt_komeral_form_edit/(?P<id>\d+)/$', views.leader_akt_komeral_form_edit, name='leader_akt_komeral_form_edit'),
     re_path(r'^re_send_to_check_komeral$', views.re_send_to_check_komeral, name='re_send_to_check_komeral'),
+    re_path(r'^show_akt_polevoy_worker/(?P<id>\d+)/$', views.show_akt_polevoy_worker, name='show_akt_polevoy_worker'),
 
     # worker
 

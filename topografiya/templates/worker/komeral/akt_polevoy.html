@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Майдон назоратини текшириш {% endblock %}
+{% block title %}  АКТ майдон назорати далолатномаси {% endblock %}
 
 {% block content%}
 
@@ -18,555 +18,44 @@
 {% endblock stylecontent %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
 
-  <div class="modal fade modal-bookmark " id="exampleModal"
-       tabindex="-1" aria-labelledby="exampleModalLabel"
-       style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-              <div class="modal-header bg-primary">
-                  <h5 class="modal-title" id="exampleModalLabel">
-                      Буюртма ҳақида маълумот</h5>
-                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  <div class="row">
-                      <div class="col-lg-6">
-                          <div class="mb-2">
-                              <b>Шартнома рақами<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_number }}</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Шартнома санаси</b>
-                              <p>{{ pdowork.pdowork.agreement_date }}</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Обект номи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_name }} </p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Буюрмачи</b>
-                              <p>{{ pdowork.pdowork.customer }}</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Обект манзили<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_address }}</p>
-                          </div>
-                      </div>
-                      <div class="col-lg-6 text-end">
-                          <div class="mb-2">
-                              <b>Бажариш муддати<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_term }} kun</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.customer_info }}</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Иш тури<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_type }}</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Нархи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_cost}}</p>
-                          </div>
-                          <div class="mb-2">
-                              <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.department }}</p>
-                          </div>
-                      </div>
-                  </div>
-                  <ul class="folder">
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-  </div>
-
-    <div class="modal fade modal-bookmark " id="exampleModal1"
-       tabindex="-1" aria-labelledby="exampleModalLabel1"
-       style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-              <div class="modal-header bg-danger">
-                  <h5 class="modal-title text-white" id="exampleModalLabel1">
-                      Рад этилганлар
-                  </h5>
-                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  <div class="row">
-                      <div class="col-md-12">
-                            <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
-
-                            </ol>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
-
-<div class="modal fade bd-example-modal-lg" tabindex="0" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title " id="myLargeModalLabel">
-                    {% if order.type_of_sirie == '0' %}
-                        Полевые материалы по БПЛА
-                    {% endif %}
-                    {% if order.type_of_sirie == '1' %}
-                        Полевые материалы GNSS
-                    {% endif %}
-                    {% if order.type_of_sirie == '1' %}
-                        Сырые измерительные данные для тахеометрической съемки (по факту)
-                    {% endif %}
-                </h4>
-                <div type="button" data-bs-dismiss="modal" aria-label="Close">X</div>
-            </div>
-            <div class="modal-body">
-
-                       <div class="row text-end">
-                    {% if order.type_of_sirie == '0' %}
-                        {% if siriefiles.file1_1 %}
-                                <div class="col-lg-6 m-b-10">
-                                    <div class="m-b-10">
-                                        <div>Разрешение на залет от МО РУз</div>
-                                        <a href="/{{ siriefiles.file1_1 }}"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                                    </div>
-                                </div>
-                        {% endif %}
-                        {% if siriefiles.file1_2 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class="m-b-10">
-                            <div>Схема планирования залета БПЛА<sup style="color: red;">*</sup></div>
-                            <a  href="/{{ siriefiles.file1_2 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_3 %}
-                    <div class="col-lg-6 m-b-10">
-                          <div class="m-b-10">
-                            <div>Схема выполненных залетов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_3 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_4 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class='m-b-10'>
-                            <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_4 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_5 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class="m-b-10">
-                            <div>Схема расположение опознаков и исходные пункты<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_5 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_6 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class="m-b-10">
-                            <div>Каталог координат исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_6 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_7 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class="m-b-10">
-                            <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_8 %}
-                    <div class="col-lg-6 m-b-10">
-                         <div class="m-b-10">
-                            <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_8 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_9 %}
-                    <div class="col-lg-6 m-b-10">
-                         <div class="m-b-10">
-                            <div>Отчёт обработки ортофотоплана<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_9 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_10 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class="m-b-10">
-                            <div>Измерения, скаченные с прибора(БПЛА)<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_10 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                        {% if siriefiles.file1_11 %}
-                    <div class="col-lg-6 m-b-10">
-                        <div class="m-b-10">
-                            <div>Фото. опознаков<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_11 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                        </div>
-                    </div>
-                            {% endif %}
-                    {% endif %}
-
-                    {% if order.type_of_sirie == '1' %}
-                        {% if siriefiles.file2_1 %}
-                         <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Каталог координат исходных пунктов</div>
-                                <a href="/{{ siriefiles.file2_1 }}"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                        {% if siriefiles.file2_2 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Каталог кооодинат долговременных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file2_2 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                        {% if siriefiles.file2_3 %}
-                        <div class="col-lg-6 m-b-10">
-                              <div class="m-b-10">
-                                <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_3 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                        {% if siriefiles.file2_4 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class='m-b-10'>
-                                <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_4 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                        {% if siriefiles.file2_5 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_5 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                        {% if siriefiles.file2_6 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Измерения, скаченные с прибора ( GNSS )<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_6 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                        {% if siriefiles.file2_7 %}
-                         <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Схема калибровки с границами объекта<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                            {% endif %}
-                    {% endif %}
-
-                     {% if order.type_of_sirie == '2' %}
-                         {% if siriefiles.file3_1 %}
-                         <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Ведомость обследования наличия и состояния пунктов геодезической сети на объекте</div>
-                                <a href="/{{ siriefiles.file3_1 }}"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_2 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Каталог исходных пунктов и ранее заложенных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file3_2 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_3 %}
-                        <div class="col-lg-6 m-b-10">
-                              <div class="m-b-10">
-                                <div>Схема съемочного обоснования<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_3 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_4 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class='m-b-10'>
-                                <div>Хурналы нивелирования теодолитных ходов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_4 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_5 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Ведомость уравнивания теодолитных ходов и характеристики<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_5 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_6 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Ведомость нивелирных ходов и характеристики<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_6 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_7 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Схема уравнивания<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_8 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Схема размещения объекта по планшетам<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_8 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_9 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Каталог координат (пикеты)<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_9 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                         {% if siriefiles.file3_10 %}
-                        <div class="col-lg-6 m-b-10">
-                            <div class="m-b-10">
-                                <div>Измерения, скаченные с прибора (тахеометра)<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_10 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
-                            </div>
-                        </div>
-                             {% endif %}
-                    {% endif %}
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-        <div class="page-body">
+<div class="page-body">
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Майдон назоратини текшириш</h3>
+                            <h3>Майдон назоратини AKT</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'leader_polevoy_works' %}">Майдон назоратини текшириш</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'checking_polevoy_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                {% if pdowork.worker_ispolnitel == user.profile.full_name %}
+                                    <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">Комерал назорат</a></li>
+                                    <li class="breadcrumb-item" ><a href="{% url 'show_rejected_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                    <li class="breadcrumb-item" ><a href="{% url 'show_akt_polevoy_worker' id=workerobject.object.id %}">АКТ майдон назорати далолатномаси</a></li>
+                                {% endif %}
+                                <br>
+                                {% if pdowork.worker_leader == user.profile.full_name  %}
+                                    <li class="breadcrumb-item"><a href="{% url 'leader_komeral_works' %}">Комерал назорат</a></li>
+                                    <li class="breadcrumb-item" ><a href="{% url 'checking_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                    <li class="breadcrumb-item" ><a href="{% url 'show_akt_polevoy_worker' id=workerobject.object.id %}">АКТ майдон назорати далолатномаси</a></li>
+                                {% endif %}
                             </ol>
                         </div>
-                        <div class="col-sm-6 text-end">
-                            {% if rejects %}
-                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
-                                    Рад этилишлар сони
-                                     <span class="badge rounded-pill bg-white">
-                                        <b class="text-danger">{{ rejects.count }}</b>
-                                     </span>
 
-                                </button>
-                            {% endif %}
-                            <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
-                                Буюртма ҳақида маълумот
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-12 col-md-12 box-col-12">
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича дала назорати ва қабул қилиш далолатномаси</h4>
-                                    <div class="row m-b-30">
-                                        <div class="col-lg-12">
-                                             <div id="map"></div>
-                                                <br>
-                                        </div>
-                                    </div>
-                                    <ul class="files ">
-                                        <li class="file-box ">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
-                                            <div class="file-bottom">
-                                                <h6>1. Скрыть изм-ные данные</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="btn btn-primary w-100 m-t-10">Кўриш</button>
-                                            </div>
-                                        </li>
-                                        <li class="file-box ">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom">
-                                                <h6>2. Абрис</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" class="text-white">Кўриш</a></button>
-                                            </div>
-                                        </li>
-                                        <li class="file-box ">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
-                                            <div class="file-bottom">
-                                                <h6>3. Кроки</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" class="text-white">Кўриш</a></button>
-                                            </div>
-                                        </li>
-                                        <li class="file-box ">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
-                                            <div class="file-bottom">
-                                                <h6>4. Эксплуатация колодцев</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" class="text-white">Кўриш</a></button>
-                                            </div>
-                                        </li>
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i>
-                                            </div>
-                                            <div class="file-bottom">
-                                                <h6>5. Ж эксплуатация колодцев</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" class="text-white">Кўриш</a></button>
-                                            </div>
-                                        </li>
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i>
-                                            </div>
-                                            <div class="file-bottom ">
-                                                <h6>6. Лист эксплуатирующими </h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file   }}" class="text-white">Кўриш</a></button>
-                                            </div>
-                                        </li>
 
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>7. Предписание </h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
-                                            </div>
-                                        </li>
-
-                                         {% if programwork %}
-                                            {% if programwork.status == 4 %}
-                                            <li class="file-box m-t-5">
-                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                                <div class="file-bottom ">
-                                                    <h6>8. Топографик-геодезик дастури </h6>
-                                                    <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
-                                                </div>
-                                            </li>
-                                        {% endif %}
-                                    {% endif %}
-
-                                        <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>9. Пояснительная записка</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
-                                            </div>
-                                        </li>
+                                    <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+    <div class="row">
+        <div class="col-sm-12">
 
 
-
-                                    </ul>
-
-{#                                    <ul class="folder ">#}
-{#                                        <li class="folder-box m-t-5">#}
-{#                                            <h6>8. Время проверить</h6>#}
-{#                                            <div class="media align-items-center"><i#}
-{#                                                    class="fa fa-clock-o f-36 txt-danger"></i>#}
-{#                                                <div class="media-body ms-3">#}
-{#                                                    <p style="font-size: 14px; color: #999999" class="m-0"><span style="font-size: 20px; color: #168eea">16</span>/01/2022</p>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </li>#}
-{#                                    </ul>#}
-                                    <hr>
-{#                                    <div class="card">#}
-
-                                    <h4 class="m-t-25 ">Муҳандислик тармоқлари сиёмкаси бўйича дала назорати ва қабул қилиш далолатномаси</h4>
-                                    <div class="row p-r-40">
-                                        <div class="col-sm-2 tabs-responsive-side">
-                                            <div class="nav flex-column nav-pills border-tab nav-left" id="v-pills-tab"
-                                                 role="tablist" aria-orientation="vertical">
-                                                <a class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false">Тайёр файлни юклаш</a>
-                                                <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true" style="white-space: nowrap;">Форма орқали киритиш</a></div>
-                                            </div>
-                                        <div class="col-sm-10">
-                                            <div class="tab-content" id="v-pills-tabContent">
-                                                <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
-                                                     aria-labelledby="v-pills-home-tab">
-                                                    <form id="singleFileUpload" action="">
-                                                        <div class="dz-message needsclick">
-                                                            <br>
-                                                            <input type="file" class="form-control" id="polevoy_file" name="polevoy_file">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel"
-                                                     aria-labelledby="v-pills-profile-tab">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-
-
-
-                                                            {% if work %}
+ {% if work %}
                                                                 <form action="#" method="POST">
                                                                 <div class="setup-content" id="step-1">
                                                                     <div class="col-xs-12">
@@ -1056,7 +545,7 @@
                                                                                                             type="text"></span>
                                                                                                 </p>
                                                                                                 <p>контрольные</p>
-                                                                                                <textarea id="a27" value="{{ work.a27 }}" name="a27" class="form-control w-50">{{ work.a26 }}</textarea>
+                                                                                                <textarea id="a27" name="a27" class="form-control w-50">{{ work.a27 }}</textarea>
                                                                                             </div>
                                                                                         </div>
                                                                                         <p>Топографическая съемка,
@@ -1196,13 +685,6 @@
                                                                                                 placeholder="указать среднее количество пикетов на 1 кв дц:,">{{ work.a31 }}</textarea>
 
 
-                                                                                         {% if workerobject.status != 4  %}
-                                                                                            {% if workerobject.status != 2 %}
-                                                                                        <button class="edit_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                        </button>
-                                                                                            {% endif %}
-                                                                                            {% endif %}
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
                                                                                                 type="button">Keyingisi
@@ -1567,13 +1049,7 @@
 
                                                                                         <br><br>
                                                                                     </form>
-                                                                                     {% if workerobject.status != 4  %}
-                                                                                    {% if workerobject.status != 2 %}
-                                                                                    <button class="edit_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                    </button>
-                                                                                        {% endif %}
-                                                                                        {% endif %}
+
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
                                                                                             type="button">Keyingisi <i
@@ -1764,13 +1240,6 @@
 
 
 
-                                                                                     {% if workerobject.status != 4  %}
-                                                {% if workerobject.status != 2 %}
-                                                                                         <button class="edit_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                        </button>
-                                                                                        {% endif %}
-                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
@@ -1939,13 +1408,8 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-                                                                                     {% if workerobject.status != 4  %}
-                                                {% if workerobject.status != 2 %}
-                                                                                    <button class="edit_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                    </button>
-                                                    {% endif %}
-                                                    {% endif %}
+
+
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Keyingisi <i
                                                                                             class="fa fa-long-arrow-right"></i>
@@ -2109,8 +1573,8 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-                                                                                 {% if workerobject.status != 4  %}
-                                                                                {% if workerobject.status != 2 %}
+                                                                                 {% if workerobject.status_geodezis_komeral != 4 %}
+                {% if workerobject.status_geodezis_komeral != 1 %}
                                                                                     <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Yakunlash
                                                                                     </button>
@@ -2790,11 +2254,7 @@
 
 
 
-                                                                                        {% if workerobject.status != 4 %}
-                                                                                            <button class="save_akt btn btn-warning pull-left"
-                                                                                                    type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                            </button>
-                                                                                            {% endif %}
+
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
                                                                                                 type="button">Keyingisi
@@ -3161,11 +2621,7 @@
 
                                                                                         <br><br>
                                                                                     </form>
-                                                                                    {% if workerobject.status != 4 %}
-                                                                                    <button class="save_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                    </button>
-                                                                                        {% endif %}
+
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
                                                                                             type="button">Keyingisi <i
@@ -3362,11 +2818,7 @@
                                                                                             </div>
                                                                                         </div>
 
-                                                                {% if workerobject.status != 4 %}
-                                                                                     <button class="save_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                    </button>
-                                                                {% endif %}
+
 
                                                                                     <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
@@ -3536,11 +2988,7 @@
                                                                                     </div>
 
 
-                                                                                    {% if workerobject.status != 4 %}
-                                                                                    <button class="save_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
-                                                                                    </button>
-                                                                                        {% endif %}
+
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Keyingisi <i
                                                                                             class="fa fa-long-arrow-right"></i>
@@ -3726,92 +3174,30 @@
                                                                 </form>
 
                                                             {% endif %}
-                                                        </div>
-                                                    </div>
-                                                    <div class="stepwizard m-t-50">
-                                                        <div class="stepwizard-row setup-panel">
-                                                            <div class="stepwizard-step"><a class="btn btn-primary"
-                                                                                            href="#step-1">1</a></div>
-                                                            <div class="stepwizard-step"><a class="btn btn-light"
-                                                                                            href="#step-2">2</a></div>
-                                                            <div class="stepwizard-step"><a class="btn btn-light"
-                                                                                            href="#step-3">3</a></div>
-                                                            <div class="stepwizard-step"><a class="btn btn-light"
-                                                                                            href="#step-4">4</a></div>
-                                                            <div class="stepwizard-step"><a class="btn btn-light"
-                                                                                            href="#step-5">5</a></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+        </div>
+    </div>
+    <div class="stepwizard m-t-50">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step"><a class="btn btn-primary" href="#step-1">1</a></div>
+            <div class="stepwizard-step"><a class="btn btn-light" href="#step-2">2</a></div>
+            <div class="stepwizard-step"><a class="btn btn-light" href="#step-3">3</a></div>
+            <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a></div>
+            <div class="stepwizard-step"><a class="btn btn-light" href="#step-5">5</a></div>
+        </div>
+    </div>
+</div>
 
-                                            {% if workerobject.status != 4  %}
-                                                {% if workerobject.status != 2 %}
-                                                <div class="row p-2 mb-2">
-                                                    <div class="col-md-6 card p-2 shadow-lg">
-                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
-                                                    </div>
-
-                                                    <div class="col-md-6 card p-2 shadow-lg">
-                                                        <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_kameral"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
-                                                    </div>
-                                                </div>
-                                                {% endif %}
-                                            {% endif %}
-
-                                     <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
-                                            {% csrf_token %}
-
-                                        <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">
-{#                                            <button class="btn btn-outline-danger m-r-20" data-bs-toggle="modal"#}
-{#                                                    data-bs-target="#exampleModalCenter">Қайтариш#}
-{#                                            </button>#}
-{#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
-{#                                                Камерал назоратга юбориш#}
-{#                                            </button>#}
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                 aria-labelledby="exampleModalCenter" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-danger">
-                                                            <h5 style="color: white;" class="modal-title">Хатолик
-                                                                хабарини тасдиқлаш</h5>
-                                                            <div type="button" data-bs-dismiss="modal"
-                                                                 aria-label="Close">x
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <ul class="messages text text-center text-danger" id="error_show" style="display:none">
-                                                               <div class="alert alert-danger">
-                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
-                                                               </div>
-                                                           </ul>
-                                                            <br>
-                                                            <h5 class="m-b-20-">Хатолик аризаси</h5>
-                                                            <input class="form-control" id="reason_file" name="reason_file" type="file">
-                                                            <h5 class="m-t-20 m-b-20">Хатолик аризаси</h5>
-                                                            <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button  class="btn btn-outline-danger" id="deny_polevoy" type="button">Юбориш</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                </div>
-
-
             </div>
-        </div>
+</div>
+
+<input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
+<input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+{% csrf_token %}
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -3991,227 +3377,6 @@
 
         });
 </script>
-
-
-<script>
-    $("#send_to_kameral").click(function(event) {
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("worker", $('#worker').val());
-        data.append("work_id", $('#work_id').val());
-        var form = "{{ work.pk }}";
-        event.preventDefault();
-
-        if(form){
-           $.ajax({
-            type: 'POST',
-            url: '{% url 'send_to_kameral' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result){
-               location.replace('/leader_polevoy_works');
-            },
-
-            error: function(){
-              alert('Ajax da xatolik !! ');
-            }
-        });
-        }
-        else{
-          alert("Maydonni to'ldiring");
-        }
-
-
-
-        });
-</script>
-
-    <script>
-    $("#deny_polevoy").click(function(event) {
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("worker", $('#worker').val());
-        data.append("work_id", $('#work_id').val());
-        data.append("reason", $('#reason').val());
-        data.append("reason_file", $('#reason_file')[0].files[0]);
-        event.preventDefault();
-
-        if($('#reason').val() != 0 ){
-           $.ajax({
-            type: 'POST',
-            url: '{% url 'deny_polevoy' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result){
-               location.replace('/leader_polevoy_works');
-            },
-
-            error: function(){
-              alert('Ajax da xatolik !! ');
-            }
-        });
-        }
-        else{
-          $('#error_show').css('display','block');
-        }
-
-
-
-        });
-</script>
-
-<script type="text/javascript">
-    $(document).on('click',".file",function(){
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("data-id", $(this).attr('data-id'));
-        {#alert($(this).attr('data-id'));#}
-        event.preventDefault()
-        $.ajax({
-            type: 'POST',
-            url: '{% url 'order_to_pdf' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (result){
-                window.open('/static/files/file.pdf','_blank');
-{#                var link = document.createElement('a');#}
-{#                link.href = "/static/files/file.pdf";#}
-{#                link.download = "file_" + new Date() + ".pdf";#}
-{#                link.click();#}
-{#                link.remove();#}
-            },
-
-            error: function(){
-              alert('Serverga yubara olmaymiz !! ');
-            }
-
-        });
-
-    });
-</script>
-    
-<script type="text/javascript">
-    $(document).on('click',"#doing_program_work_file",function(){
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("data-id", $(this).attr('programwork-id'));
-        {#alert($(this).attr('data-id'));#}
-        event.preventDefault()
-        $.ajax({
-            type: 'POST',
-            url: '{% url 'doing_program_work_file' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (result){
-                window.open('/static/files/program_work_file.pdf','_blank');
-{#                var link = document.createElement('a');#}
-{#                link.href = "/static/files/file.pdf";#}
-{#                link.download = "file_" + new Date() + ".pdf";#}
-{#                link.click();#}
-{#                link.remove();#}
-            },
-
-            error: function(){
-              alert('Serverga yubara olmaymiz !! ');
-            }
-
-        });
-
-    });
-</script>
-        <script type="text/javascript">
-    $(document).on('click',"#doing_poyasitelniy_file",function(){
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-         data.append("object-id", $(this).attr('object-id'));
-
-        event.preventDefault()
-        $.ajax({
-            type: 'POST',
-            url: '{% url 'doing_poyasitelniy_file' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (result){
-                window.open('/static/files/poyasitelniy/poyasitelniy.pdf','_blank');
-{#                var link = document.createElement('a');#}
-{#                link.href = "/static/files/file.pdf";#}
-{#                link.download = "file_" + new Date() + ".pdf";#}
-{#                link.click();#}
-{#                link.remove();#}
-            },
-
-            error: function(){
-              alert('Serverga yubara olmaymiz !! ');
-            }
-
-        });
-
-    });
-</script>
-        <script>
-    $(document).ready(function(){
-    var data = new FormData();
-    data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-    data.append('id',{{ pdowork.id }});
-
-        $.ajax({
-            url: '/obj_data',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'post',
-            success: function (result) {
-                    json_point=JSON.parse(result.data1);
-                    console.log(json_point.features);
-                    if (json_point.features[0].geometry!=null){
-                        json_point.features[0].geometry.coordinates.forEach(function(corr,i){
-                             var point={type:'Point',coordinates:corr};
-                            L.geoJson(point,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
-                            });
-                        });
-                    }
-
-                    json_line=JSON.parse(result.data2);
-                    if (json_line.features[0].geometry!=null){
-                    json_line.features[0].geometry.coordinates.forEach(function(corr,i){
-                    var polyline={type:'LineString',coordinates:corr};
-                    L.geoJson(polyline,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
-                    });
-                    });
-                }
-
-
-                    json_polygon=JSON.parse(result.data3);
-                    if (json_polygon.features[0].geometry!=null){
-                    json_polygon.features[0].geometry.coordinates.forEach(function(corr,i){
-                    var polygon={type:'Polygon',coordinates:corr};
-                    L.geoJson(polygon,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
-                    });
-                    });
-                }
-            },
-            error: function(){
-              console.log('xatolik')
-            }
-
-    });
-    });
-    </script>
-
 
 
 {% endblock %}
