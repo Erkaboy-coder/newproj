@@ -4,7 +4,7 @@ from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork
     PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
     AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
     AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, AktKomeralForm, KameralWorkReject, LeaderKomeralWorkReject, \
-    Report, ReportReject, ProgramWorkFiles
+    Report, ReportReject, ProgramWorkFiles,Lines,Polygons,Points
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -14,6 +14,9 @@ from django.contrib.auth.decorators import login_required
 from pyvirtualdisplay import Display
 import pdfkit
 from django.db.models import Q
+from django.contrib.gis.geos import GEOSGeometry
+from django.core.serializers import serialize
+from django.core import serializers
 
 from django.core import serializers
 
@@ -1653,8 +1656,48 @@ def save_files(request):
         vidimes =request.FILES.get('vidimes')
         list =request.FILES.get('list')
 
+        points = data.get('geometry_point')
+        lines = data.get('geometry_line')
+        polygons = data.get('geometry_polygon')
 
         object = WorkerObject.objects.filter(id=id).first()
+
+        points_1 = Points.objects.filter(object=object.object).first()
+        lines_1 = Lines.objects.filter(object=object.object).first()
+        polygons_1 = Polygons.objects.filter(object=object.object).first()
+
+        if points_1:
+            points_1.object = object.object
+            points_1.title = 'Edited points'
+            points_1.points = GEOSGeometry(points)
+            points_1.save()
+        else:
+            if points:
+                points = Points(object=object.object, title='new points', points=GEOSGeometry(points))
+                points.save()
+
+        if lines_1:
+            lines_1.object = object.object
+            lines_1.title = 'Edited lines'
+            lines_1.lines = GEOSGeometry(lines)
+            lines_1.save()
+
+        else:
+            if lines:
+                lines = Lines(object=object.object, title='new lines', lines=GEOSGeometry(lines))
+                lines.save()
+
+        if polygons_1:
+            polygons_1.object = object.object
+            polygons_1.title = 'Edited polygons'
+            polygons_1.polygons = GEOSGeometry(polygons)
+            polygons_1.save()
+
+        else:
+            if polygons:
+                polygons = Polygons(object=object.object, title='new lines', polygons=GEOSGeometry(polygons))
+                polygons.save()
+
 
         if abris:
             object.abris_file = abris
@@ -1693,6 +1736,18 @@ def save_files(request):
         return HttpResponse(1)
     else:
         return HttpResponse(0)
+
+def obj_data(request):
+    id=request.POST.get('id')
+
+    lines = Lines.objects.filter(object=id)
+    points = Points.objects.filter(object=id)
+    polygons = Polygons.objects.filter(object=id)
+
+    test_data_p= serializers.serialize('geojson',points, geometry_field='points',fields=['points',])
+    test_data_l= serializers.serialize('geojson',lines, geometry_field='lines',fields=['lines',])
+    test_data_po= serializers.serialize('geojson',polygons, geometry_field='polygons',fields=['polygons',])
+    return JsonResponse({'data1':test_data_p,'data2':test_data_l,'data3':test_data_po})
 
 def object_poyasitelniy_form(request,id):
     work = WorkerObject.objects.filter(object=id).first()

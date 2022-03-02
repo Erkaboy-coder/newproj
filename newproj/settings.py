@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'topografiya'
+    'topografiya',
+    'leaflet',
+    'django.contrib.gis'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,50 @@ DOCS_ROOT='topografiya/static/files/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+LEAFLET_CONFIG={
+'DEFAULT_CENTER':(41.41264,63.454122),
+'DEFAULT_ZOOM':6,
+'MAX_ZOOM':20,
+'MIN_ZOOM':1,
+# 'SCALE': 'both',
+
+'TILES':[
+
+('OpenStreetMap','http://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/ {y}.png',
+    {'attribution':'OpenStreetMap'}),
+
+('GoogleStreet','http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+            { 'maxZoom': 20,
+              'subdomains':['mt0','mt1','mt2','mt3'],
+               'attribution':'GoogleStreet',
+            }),
+
+('GoogleTerrain','http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+            { 'maxZoom': 20,
+              'subdomains':['mt0','mt1','mt2','mt3'],
+               'attribution':'GoogleStreet',
+            }),
+('GoogleHybrid','http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+            { 'maxZoom': 20,
+              'subdomains':['mt0','mt1','mt2','mt3'],
+               'attribution':'GoogleStreet',
+            }),
+
+('GoogleSet','http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+    {
+               'maxZoom': 20,
+              'subdomains':['mt0','mt1','mt2','mt3'],
+               'attribution':'GoogleSet'}),
+
+
+
+
+],
+
+'ATTRIBUTION_PREFIX':'',
+# 'MINIMAP':True,
+# 'RESET_VIEW':False,
+#'ATTRIBUTION_PREFIX':"<a href='http://www.uzgashkliti.uz'>Uzgashkliti</a>",
+
+
+}

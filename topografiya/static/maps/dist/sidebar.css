@@ -1,0 +1,73 @@
+#sidebar {
+  position: fixed;
+  top: 20%;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  z-index: 999;
+   }
+  #sidebar[data-position="right"] {
+    right: -240px; }
+    #sidebar[data-position="right"].open {
+      -webkit-transform: translate3d(-240px, 0, 0);
+      transform: translate3d(-240px, 0, 0); }
+    #sidebar[data-position="right"] .icons {
+      float: left; }
+  #sidebar[data-position="left"] {
+    left: -240px; }
+    #sidebar[data-position="left"].open {
+      -webkit-transform: translate3d(240px, 0, 0);
+      transform: translate3d(240px, 0, 0); }
+    #sidebar[data-position="left"] .icons {
+      float: right; }
+  #sidebar .icons {
+    width: 50px;
+    float: left;
+    min-height: 1px; }
+    #sidebar .icons .icon {
+
+    background: rgba(255,255,255,1);
+       margin-bottom: 5px;
+       }
+      #sidebar .icons .icon:hover {
+        background-color: #FFEFD5; }
+      #sidebar .icons .icon:last-child {
+        margin-bottom: 0px; }
+      #sidebar .icons .icon.active {
+        background-color: #FFEFD5; }
+      #sidebar .icons .icon span {
+        margin: 0.34em;
+        color: white;
+        font-size: 1.5em; }
+      #sidebar .icons .icon img {
+        width: 25px;
+        margin-top: 5px;
+       margin-left: 12px;
+      }
+  #sidebar .contents {
+    width: 240px;
+    height: 360px;
+    float: left;
+    background: rgba(255,255,255,0.9);
+     overflow-y: auto;
+    overflow-x: hidden; }
+    #sidebar .contents .content {
+      padding: 5px 25px 25px 25px;
+      color: #000; }
+      #sidebar .contents .content.hide {
+        display: none; }
+      #sidebar .contents .content.show {
+        display: block; }
+      #sidebar .contents .content h3 {
+        color: #000; }
+      #sidebar .contents .content ul {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 10px; }
+        #sidebar .contents .content ul li {
+          margin-bottom: 15px; }
+          #sidebar .contents .content ul li:last-child {
+            margin-bottom: 0px; }
+      #sidebar .contents .content img {
+        max-width: 100%; }
+
+/*# sourceMappingURL=sidebar.css.map */

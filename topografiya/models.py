@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.gis.db import models
+
 from datetime import datetime, date, timezone
 User = settings.AUTH_USER_MODEL
 # Create your models here.
@@ -840,6 +842,36 @@ class ReportReject(models.Model):
         verbose_name_plural = "ReportReject"
 
 # Oggd
+
+class Points(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='objectpoints')
+    title = models.CharField(max_length=255, blank=True, null=True)
+    points = models.MultiPointField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name_plural = "Points"
+
+class Lines(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='objectlines')
+    title = models.CharField(max_length=255,blank=True, null=True)
+    lines = models.MultiLineStringField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name_plural = "Lines"
+
+class Polygons(models.Model):
+    object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='objectpolygons')
+    title = models.CharField(max_length=255,blank=True, null=True)
+    polygons=models.MultiPolygonField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name_plural = "Polygons"
 
 class History(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='historyobject')

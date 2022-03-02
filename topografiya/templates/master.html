@@ -32,10 +32,33 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}">
 
+    <link rel="stylesheet" href="{% static 'maps/dist/leaflet.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'maps/myleaflet/mydraw.css' %}">
+    <link href="{% static 'maps/myleaflet/zoomBox.css' %}" rel="stylesheet">
+    <link href="{% static 'maps/myleaflet/fullscreen.css' %}" rel='stylesheet' />
+
     <style>
         .active2{
             background-color: #0dcaf0;
         }
+
+        #map {
+      width: 100%;
+      height: 600px;
+      z-index:1;
+      border: 2px solid #dee2e6;
+    }
+
+    .leaflet-control-layers-list input{
+
+      display: inline;
+      font-size: 12px;
+      width: 14px;
+      height: 14px;
+      margin-bottom: 0px;
+      margin-right: 5px;
+    }
+
     </style>
     {% block stylecontent %}
 
@@ -349,6 +372,218 @@
         </footer>
     </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'maps/myleaflet/openlayers.js' %}"></script>
+
+<script src="{% static 'maps/myleaflet/fullscreen.js' %}"></script>
+
+<!--     <link rel="stylesheet" href="static/maps/myleaflet/L.Control.Layers.Tree.css" crossorigin=""/>
+    <script src="static/maps/myleaflet/L.Control.Layers.Tree.js"></script>
+
+ -->
+<script type="text/javascript">
+
+var mapOptions = {
+  center: [41.558,63.486062],
+  zoom: 6,
+  attributionControl: false,
+  zoomControl:true,
+  fullscreenControl: true,
+  maxZoom:22,
+  minZoom:5,
+  maxBounds: [
+        //south west
+        [33.3029861, 46.01074218],
+        //north east
+        [49.3966750,78.474609]
+        ],
+};
+
+var map = new L.map('map', mapOptions);
+
+   var openstreetmap = new L.TileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png');
+
+    var  googleStreets = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+          maxZoom: 20,
+          subdomains:['mt0','mt1','mt2','mt3']
+           });
+
+         var googleHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+              maxZoom: 20,
+              subdomains:['mt0','mt1','mt2','mt3']
+          });
+        var  googleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+              maxZoom: 20,
+              subdomains:['mt0','mt1','mt2','mt3']
+          });
+
+        var  googleTerrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+         subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+
+
+map.addLayer(googleStreets);
+L.control.scale().addTo(map);
+
+
+var baseLayers = {
+
+	"OpenStreetMap": openstreetmap,
+	"GoogleStreets": googleStreets,
+	"GoogleHybrid": googleHybrid,
+	"GoogleSat": googleSat,
+	"GoogleTerrain": googleTerrain
+};
+
+var hydMarker = new L.Marker([41.558,63.486062]);
+
+
+// my_layer=L.nonTiledLayer.wms('http://127.0.0.1:8080/geoserver/dshk/wms?', {
+//             zIndex: 100,
+//             maxZoom: 22,
+//             minZoom: 1,
+//             opacity: 0.8,
+//             layers: 'dshk:topografiya_tests2',
+//             format: 'image/png',
+//             transparent: true,
+//             });
+
+
+
+// var overlays = {
+// 	"My layer": my_layer
+// };
+
+// L.control.layers(baseLayers,overlays).addTo(map);
+
+
+L.control.layers(baseLayers).addTo(map);
+
+
+
+
+
+drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+const drawControl = new L.Control.Draw({
+  position: 'topleft',
+  draw: {
+    polyline: {
+      metric: true,
+      shapeOptions: {
+        color: '#000',
+      },
+    },
+    polygon: {
+      allowIntersection: false,
+      showArea: true,
+      drawError: {
+        color: '#ff0000',
+        timeout: 1000,
+      },
+      shapeOptions: {
+        color: '#0000ff',
+      },
+    },
+    // circle: {
+    //   shapeOptions: {
+    //     color: '#662d91',
+    //   },
+    // },
+    marker: true,
+    circle : false,
+    rectangle : false,
+
+  },
+  edit: {
+    featureGroup: drawnItems,
+    remove: true,
+    buffer: {
+      replacePolylines: false,
+      separateBuffer: false,
+    },
+  },
+});
+
+map.addControl(drawControl);
+
+
+
+var _round = function(num, len) {
+  return Math.round(num*(Math.pow(10, len)))/(Math.pow(10, len));
+};
+var strLatLng = function(latlng) {
+  return "("+_round(latlng.lat, 8)+", "+_round(latlng.lng, 8)+")";
+};
+
+var getPopupContent = function(layer) {
+  if(layer instanceof L.Marker) {
+    return strLatLng(layer.getLatLng());
+  }
+  else if(layer instanceof L.Circle) {
+    var center = layer.getLatLng(),
+    radius = layer.getRadius();
+    return "Markaz: " + strLatLng(center) + "<br />" + "Radius: " + _round(radius, 2) + " m";
+  } else if(layer instanceof L.Polygon) {
+    var latlngs = layer._defaultShape ? layer._defaultShape() : layer.getLatLngs(),
+    area = L.GeometryUtil.geodesicArea(latlngs);
+    return "Maydon: "+L.GeometryUtil.readableArea(area, true);
+  } else if (layer instanceof L.Polyline) {
+    var latlngs = layer._defaultShape ? layer._defaultShape() : layer.getLatLngs(),
+    distance = 0;
+    if (latlngs.length < 2) {
+      return "Masofa: N/A";
+    } else {
+      for (var i = 0; i < latlngs.length-1; i++) {
+        distance += latlngs[i].distanceTo(latlngs[i+1]);
+      }
+      L.popup().setContent("Masofa: "+_round(distance, 2)+" m").setLatLng(latlngs[latlngs.length-1]).openOn(map);
+      return "Masofa: "+_round(distance, 2)+" m";
+    }
+  }
+  return null;
+};
+
+
+map.on(L.Draw.Event.CREATED, function(event) {
+  var layer = event.layer;
+  var content = getPopupContent(layer);
+  if (content !== null) {
+    layer.bindPopup(content);
+  }
+  drawnItems.addLayer(layer);
+});
+
+map.on(L.Draw.Event.EDITED, function(event) {
+  var layers = event.layers,
+  content = null;
+  layers.eachLayer(function(layer) {
+    content = getPopupContent(layer);
+    if (content !== null) {
+      layer.setPopupContent(content);
+    }
+  });
+});
+
+
+
+
+
+
+
+</script>
+
+
+
+
 <!-- latest jquery-->
 <script src="{% static 'assets/js/jquery-3.5.1.min.js' %}"></script>
 <!-- feather icon js-->
