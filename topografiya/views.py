@@ -450,7 +450,7 @@ def checking_polevoy_works(request,id):
     work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
 
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
-
+    
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
@@ -729,7 +729,6 @@ def checking_komeral_works(request,id):
     order = Order.objects.filter(object=id).first()
     work = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
-    work = AktKomeralForm.objects.filter(object=id).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order,'work':work, 'rejects':rejects, 'programwork': programwork}

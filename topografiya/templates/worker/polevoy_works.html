@@ -130,7 +130,7 @@
                                                             <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
 
 
-                                   <b  class="count" data-all="{% for work in rejecteds %}{% if work.workerobject.object.id == object.object.id %} {{ work.workerobject.object.id }},{% endif %}{% endfor %}"></b>
+                                        <b  class="count" data-all="{% for work in rejects %}{% if work.workerobject.object.id == object.object.id %} {{ work.workerobject.id }},{% endif %}{% endfor %}"></b>
 
                                                             </span></div>
                                                         </div>

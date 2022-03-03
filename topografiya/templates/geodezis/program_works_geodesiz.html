@@ -93,14 +93,9 @@
                                                             <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
                                                              <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
                                                                 <span style="color: #168eea;font-size:30px;">
-                                                                    {% for work in rejecteds %}
-                                                                        {% if work.programowork.object.id == object.object.id %}
-{#                                                                            {% if forloop.last %}#}
-{#                                                                                    {{ forloop.counter }}#}
-{#                                                                                {% endif %}#}
-                                                                            <b  class="count" data-all="{{ work.programowork.object.id }},"></b>
-                                                                        {% endif %}
-                                                                    {% endfor %}
+                <b  class="count" data-all="{% for work in rejecteds %}{% if work.programowork.object.id == object.object.id %} {{ work.programowork.object.id }},{% endif %}{% endfor %}"></b>
+
+
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -218,7 +213,7 @@
             </div>
 
         </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 $('.count').each(function(i,obj){

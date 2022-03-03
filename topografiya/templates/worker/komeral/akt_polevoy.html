@@ -34,7 +34,11 @@
                                 <br>
                                 {% if pdowork.worker_leader == user.profile.full_name  %}
                                     <li class="breadcrumb-item"><a href="{% url 'leader_komeral_works' %}">Комерал назорат</a></li>
+                                    {% if workerobject.status == 4 %}
+                                    <li class="breadcrumb-item" ><a href="{% url 'rejected_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                        {% else %}
                                     <li class="breadcrumb-item" ><a href="{% url 'checking_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                        {% endif %}
                                     <li class="breadcrumb-item" ><a href="{% url 'show_akt_polevoy_worker' id=workerobject.object.id %}">АКТ майдон назорати далолатномаси</a></li>
                                 {% endif %}
                             </ol>
@@ -1573,13 +1577,15 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-                                                                                 {% if workerobject.status_geodezis_komeral != 4 %}
-                {% if workerobject.status_geodezis_komeral != 1 %}
-                                                                                    <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"
-                                                                                            type="button">Yakunlash
-                                                                                    </button>
-                                                                                    {% endif %}
-                                                                                    {% endif %}
+{#                                                                                 {% if workerobject.status_geodezis_komeral != 4 %}#}
+{#                                                                                        {% if workerobject.status_geodezis_komeral != 1 %}#}
+{#                                                                                            {% if workerobject.status != 2 %}#}
+{#                                                                                                <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"#}
+{#                                                                                                        type="button">Yakunlash#}
+{#                                                                                                </button>#}
+{#                                                                                            {% endif %}#}
+{#                                                                                        {% endif %}#}
+{#                                                                                    {% endif %}#}
 
 
 
@@ -3151,11 +3157,15 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-                                                                                {% if workerobject.status != 4 %}
-                                                                                    <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
-                                                                                            type="button">Yakunlash
-                                                                                    </button>
-                                                                                    {% endif %}
+{#                                                                               {% if workerobject.status_geodezis_komeral != 4 %}#}
+{#                                                                                        {% if workerobject.status_geodezis_komeral != 1 %}#}
+{#                                                                                            {% if workerobject.status != 2 %}#}
+{#                                                                                                <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"#}
+{#                                                                                                        type="button">Yakunlash#}
+{#                                                                                                </button>#}
+{#                                                                                            {% endif %}#}
+{#                                                                                        {% endif %}#}
+{#                                                                                    {% endif %}#}
 
 
 

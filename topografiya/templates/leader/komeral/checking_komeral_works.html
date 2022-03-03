@@ -954,7 +954,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
+                                                        <label class="col-sm-3 col-form-label">Оценка качества работ <sup class="text-danger">*</sup></label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
                                                         </div>
@@ -1348,7 +1348,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/program_work_file.pdf','_blank');
+                window.open('/static/files/program-work/program_work_file.pdf','_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}

@@ -425,8 +425,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -588,6 +588,38 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/program-work/program_work_file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
 <script type="text/javascript">
     $(document).on('click',".file",function(){
         var data = new FormData();
