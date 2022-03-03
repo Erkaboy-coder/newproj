@@ -151,8 +151,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -744,7 +744,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" value="{{ work.abris_file }}" abris-id="1"  id="abris" name="abris" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.abris_file }}" class="text-success">
+                                            <a href="/{{ work.abris_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -766,7 +766,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" kroki-id="1" value="{{ work.kroki_file }}"  id="kroki" name="kroki" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.kroki_file }}" class="text-success">
+                                            <a href="/{{ work.kroki_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -787,7 +787,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control"  jurnal-id="1"  id="jurnal" name="jurnal" value="{{ work.jurnal_file }}" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.jurnal_file }}" class="text-success">
+                                            <a href="/{{ work.jurnal_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -808,7 +808,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" vidimes-id="1"  id="vidimes" name="vidimes" value="{{ work.vidimes_file }}" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.vidimes_file }}" class="text-success">
+                                            <a href="/{{ work.vidimes_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -848,7 +848,8 @@
                         <div class="ribbon-wrapper card shadow">
                             <div class="card-body">
                                 <div class="ribbon ribbon-clip ribbon-primary">7</div>
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95942.65769716408!2d69.20932726033043!3d41.282576225565485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xa5a9323b4aa5cb98!2z0KLQsNGI0LrQtdC90YIsINCj0LfQsdC10LrQuNGB0YLQsNC9!5e0!3m2!1sru!2s!4v1642709720963!5m2!1sru!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                        <div id="map"></div>
+                                            <br>
                             </div>
                         </div>
                     </div>
@@ -913,6 +914,41 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).on('click',"#save_files",function(){
+        if(drawnItems.toGeoJSON().features.length==0){
+            alert("Vektorli ma'lumot yo'q");
+        }
+        else{
+        json_str_point='{"type": "MultiPoint","coordinates":[';
+        json_str_line='{"type": "multiLineString","coordinates":[';
+        json_str_polygon='{"type": "MultiPolygon","coordinates":[';
+
+
+        for (var i in drawnItems.toGeoJSON().features){
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='Point'){
+
+        json_str_point+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+        if(i!=drawnItems.toGeoJSON().features.length-1)
+        json_str_point+=',';
+        }
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='Polygon'){
+            json_str_polygon+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+            if(i!=drawnItems.toGeoJSON().features.length-1)
+            json_str_polygon+=',';
+        }
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='LineString'){
+            json_str_line+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+            if(i!=drawnItems.toGeoJSON().features.length-1)
+            json_str_line+=',';
+        }
+
+        }
+        json_str_point+=']}';
+        json_str_polygon+=']}';
+        json_str_line+=']}';
+
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("work-id", $(this).attr('work-id'));
@@ -923,7 +959,9 @@
         data.append("jurnal", $('#jurnal')[0].files[0]);
         data.append("vidimes", $('#vidimes')[0].files[0]);
         data.append("list", $('#list')[0].files[0]);
-
+        data.append('geometry_point',json_str_point);
+        data.append('geometry_line',json_str_line);
+        data.append('geometry_polygon',json_str_polygon);
         event.preventDefault();
         $.ajax({
            type: 'POST',
@@ -941,10 +979,60 @@
               alert('Serverga yubara olmaymiz !! ');
             }
         });
+    }
+    });
+
+</script>
+        <script>
+    $(document).ready(function(){
+    var data = new FormData();
+    data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+    data.append('id',{{ work.object.id }});
+
+        $.ajax({
+            url: '/obj_data',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'post',
+            success: function (result) {
+                    json_point=JSON.parse(result.data1);
+                    console.log(json_point.features);
+                    if (json_point.features[0].geometry!=null){
+                        json_point.features[0].geometry.coordinates.forEach(function(corr,i){
+                             var point={type:'Point',coordinates:corr};
+                            L.geoJson(point,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                            });
+                        });
+                    }
+
+                    json_line=JSON.parse(result.data2);
+                    if (json_line.features[0].geometry!=null){
+                    json_line.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polyline={type:'LineString',coordinates:corr};
+                    L.geoJson(polyline,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+
+
+                    json_polygon=JSON.parse(result.data3);
+                    if (json_polygon.features[0].geometry!=null){
+                    json_polygon.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polygon={type:'Polygon',coordinates:corr};
+                    L.geoJson(polygon,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+            },
+            error: function(){
+              console.log('xatolik')
+            }
 
     });
-</script>
-
+    });
+    </script>
     <script type="text/javascript">
     $(document).on('click',"#re_send_to_check_komeral",function(){
         var data = new FormData();

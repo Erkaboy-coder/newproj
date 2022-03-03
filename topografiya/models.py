@@ -160,6 +160,7 @@ class ProgramWorkForm(models.Model):
     a4 = models.TextField(blank=True)
     a5 = models.TextField(blank=True)
     a6 = models.TextField(blank=True)
+    a7 = models.TextField(blank=True)
 
     a7_2 = models.TextField(blank=True)
     a7_3 = models.TextField(blank=True)

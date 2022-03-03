@@ -416,7 +416,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'leader_komeral_works' %}">Комерал назорати текшируви</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'checking_polevoy_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'show_komeral_work' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
                         </div>
@@ -425,8 +425,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -451,8 +451,8 @@
                                     <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича комерал назорати ва қабул қилиш далолатномаси</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
-                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
-                                                    height="500" style="border:0;width: 97%;" allowfullscreen="" loading="lazy"></iframe>
+                                           <div id="map"></div>
+                                            <br>
                                         </div>
                                     </div>
                                     <ul class="files ">
@@ -510,18 +510,42 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>7. Пояснительная записка</h6>
+                                                <h6>7. Предписание </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                            </div>
+                                        </li>
+
+                                        {% if programwork %}
+                                            {% if programwork.status == 4 %}
+                                            <li class="file-box m-t-5">
+                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                <div class="file-bottom ">
+                                                    <h6>8. Топографик-геодезик дастури </h6>
+                                                    <p>Ознакомиться с файлом отправки</p>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>9. Пояснительная записка</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>8. АКТ дала назорати текшируви</h6>
+                                                <h6>10. АКТ дала назорати текшируви</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+
                                             </div>
                                         </li>
 
@@ -1235,6 +1259,134 @@
 
 
         });
+</script>
+<script type="text/javascript">
+    $(document).on('click',".file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'order_to_pdf' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/program_work_file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+                <script type="text/javascript">
+    $(document).on('click',"#doing_poyasitelniy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_poyasitelniy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/poyasitelniy/poyasitelniy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+                    <script type="text/javascript">
+    $(document).on('click',"#doing_akt_polevoy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_polevoy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
 </script>
 
     <script>

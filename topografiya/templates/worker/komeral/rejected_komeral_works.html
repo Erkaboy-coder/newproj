@@ -306,7 +306,9 @@
                                     {% endif %}
                                         <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
                                         <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
-                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                    {% if aktkomeral.status != 0 or aktkomeral.status != 4  %}
+                                        <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                        {% endif %}
                                 </form>
                                 {% endif %}
 
@@ -704,7 +706,10 @@
                                     {% endif %}
 {#                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">#}
                                         <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
-                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+
+                                     {% if aktkomeral.status != 0 or aktkomeral.status != 4  %}
+                                            <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                         {% endif %}
                                 </form>
                                 {% endif %}
 
@@ -852,9 +857,8 @@
                                 <div class="card-body">
                                     <div class="ribbon ribbon-clip ribbon-primary">8</div>
                                     <h5>Пояснительная записка<sup class="txt-danger">*</sup></h5>
-                                    <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">
-                                        <button class="btn btn-outline-primary w-100">по топографо-геодезическим работам</button>
-                                    </a>
+<button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+
                                 </div>
                             </div>
                         </div>
@@ -865,21 +869,24 @@
                                 <div class="card-body">
                                     <div class="ribbon ribbon-clip ribbon-primary">9</div>
                                     <h5>АКТ дала назорат<sup class="txt-danger">*</sup></h5>
-                                    <a href="{% url "show_akt_polevoy_worker" id=work.object.id %}">
-                                        <button class="btn btn-outline-primary w-100">Кўриш</button>
-                                    </a>
+
+ <button class="btn btn-outline-primary w-100 m-t-10" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}"> Кўриш</button>
+
                                 </div>
                             </div>
                         </div>
                     {% if aktkomeral.status == 4 %}
                     <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
+                                 <div class="ribbon ribbon-right ribbon-color_one"><i class="fa fa-check"></i></div>
                                 <div class="card-body">
                                     <div class="ribbon ribbon-clip ribbon-primary">10</div>
                                     <h5>АКТ комерал назорати<sup class="txt-danger">*</sup></h5>
-                                    <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">
-                                        <button class="btn btn-outline-primary w-100">Кўриш</button>
-                                    </a>
+                                                <button class="btn btn-outline-primary w-100 m-t-10" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}"> Кўриш</button>
+
+{#                                    <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">#}
+{#                                        <button class="btn btn-outline-primary w-100">Кўриш</button>#}
+{#                                    </a>#}
                                 </div>
                             </div>
                         </div>
@@ -904,6 +911,103 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).on('click',".file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'order_to_pdf' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+                        <script type="text/javascript">
+    $(document).on('click',"#doing_akt_polevoy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_polevoy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+                        <script type="text/javascript">
+    $(document).on('click',"#doing_akt_komeral_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("data-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_komeral_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/akt-komeral/akt_komeral.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
     <script type="text/javascript">
     $(document).on('click',"#doing_poyasitelniy_file",function(){
         var data = new FormData();
@@ -988,6 +1092,41 @@
     </script>
 <script type="text/javascript">
     $(document).on('click',"#save_files",function(){
+        if(drawnItems.toGeoJSON().features.length==0){
+            alert("Vektorli ma'lumot yo'q");
+        }
+        else{
+        json_str_point='{"type": "MultiPoint","coordinates":[';
+        json_str_line='{"type": "multiLineString","coordinates":[';
+        json_str_polygon='{"type": "MultiPolygon","coordinates":[';
+
+
+        for (var i in drawnItems.toGeoJSON().features){
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='Point'){
+
+        json_str_point+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+        if(i!=drawnItems.toGeoJSON().features.length-1)
+        json_str_point+=',';
+        }
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='Polygon'){
+            json_str_polygon+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+            if(i!=drawnItems.toGeoJSON().features.length-1)
+            json_str_polygon+=',';
+        }
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='LineString'){
+            json_str_line+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+            if(i!=drawnItems.toGeoJSON().features.length-1)
+            json_str_line+=',';
+        }
+
+        }
+        json_str_point+=']}';
+        json_str_polygon+=']}';
+        json_str_line+=']}';
+
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("work-id", $(this).attr('work-id'));
@@ -998,7 +1137,9 @@
         data.append("jurnal", $('#jurnal')[0].files[0]);
         data.append("vidimes", $('#vidimes')[0].files[0]);
         data.append("list", $('#list')[0].files[0]);
-
+        data.append('geometry_point',json_str_point);
+        data.append('geometry_line',json_str_line);
+        data.append('geometry_polygon',json_str_polygon);
         event.preventDefault();
         $.ajax({
            type: 'POST',
@@ -1016,8 +1157,9 @@
               alert('Serverga yubara olmaymiz !! ');
             }
         });
-
+    }
     });
+
 </script>
 
     <script type="text/javascript">

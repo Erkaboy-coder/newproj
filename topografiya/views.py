@@ -176,7 +176,6 @@ def program_work_save_edits(request,id):
         a5 = request.POST.get('a5')
         a6 = request.POST.get('a6')
 
-
         # jadval_1
         a7_1_1 = request.POST.get('a7_1_1')
         a7_1_2 = request.POST.get('a7_1_2')
@@ -745,10 +744,10 @@ def show_komeral_work(request,id):
     order = Order.objects.filter(object=id).first()
 
     work = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,'programwork':programwork}
 
     return render(request, 'leader/komeral/show_komeral_work.html', context)
 
@@ -1078,13 +1077,21 @@ def save_sirie_files(request):
         workerobject.save()
 
         object_id = Object.objects.filter(id=object.object.id).first()
+        aktkomeral = AktKomeralForm.objects.filter(object=object_id).first()
 
         history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=worker)
         history.save()
+
         if object.status_geodezis_komeral == 2:
             return redirect('leader_rejected_komeral_works', id=object_id.id)
+        if aktkomeral:
+            if aktkomeral.status == 2:
+                return redirect('show_rejected_komeral_works', id=object_id.id)
+            else:
+                return redirect('polevoy_work_doing', id=object_id.id)
         else:
             return redirect('polevoy_work_doing', id=object_id.id)
+        
 
     else:
         return HttpResponseRedirect('/')
@@ -1294,14 +1301,22 @@ def edit_sirie_files(request,id):
         workerobject.save()
 
         object_id = Object.objects.filter(id=object.object.id).first()
+        aktkomeral = AktKomeralForm.objects.filter(object=object_id).first()
 
         history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=worker)
         history.save()
-
+        
         if object.status_geodezis_komeral == 2:
             return redirect('leader_rejected_komeral_works', id=object_id.id)
+        if aktkomeral:
+            if aktkomeral.status == 2:
+                return redirect('show_rejected_komeral_works', id=object_id.id)
+            else:
+                return redirect('polevoy_work_doing', id=object_id.id)
         else:
             return redirect('polevoy_work_doing', id=object_id.id)
+        
+
     else:
         return HttpResponseRedirect('/')
 
@@ -1765,9 +1780,9 @@ def object_poyasitelniy_form(request,id):
     form2=PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).first()
     form3=PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).first()
     form4=PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).first()
-
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work, 'objects_pdo': objects_pdo,'sirie_type':sirie_type,'count': counter(),
-               'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request)
+               'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request),'aktkomeral':aktkomeral
                }
     return render(request, 'worker/object_poyasitelniy_form.html', context)
 
@@ -3139,7 +3154,7 @@ def doing_poyasitelniy_file(request):
 def doing_akt_polevoy_file(request):
     if request.method == 'POST':
         data = request.POST
-        id = data.get('data-id')
+        id = data.get('object-id')
         object = Object.objects.filter(id=id).first()
 
         workerobject = WorkerObject.objects.filter(object=id).first()
@@ -3157,12 +3172,7 @@ def doing_akt_polevoy_file(request):
         work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
         work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
 
-        rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
 
-        # print(work.first().pdowork.id)
-        # pdowork = PdoWork.objects.filter(id=work.first().pdowork.id)
-        order = Order.objects.filter(object=object.id).first()
-        print(object.pdowork.tz)
         context = '''
                <!DOCTYPE html>
 <html lang="en">
@@ -3526,7 +3536,7 @@ def doing_akt_polevoy_file(request):
                                                                                                                 scope="col">
                                                                                                                 Лин.невязки:абсол,относит
                                                                                                             </th>
-                                                                                                            <th scope=""></th>
+                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
@@ -3536,45 +3546,40 @@ def doing_akt_polevoy_file(request):
                                                                                                             </th>
                                                                                                             <td><input id="a1_1" name="a1_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_1 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_2" name="a1_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_2 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_2)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_3" name="a1_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_3 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_3)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_4" name="a1_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_4 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_5" name="a1_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_5 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_5)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_6" name="a1_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_6 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_6)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_7" name="a1_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table1.a1_7 }}"
+                                                                                                                    type="text" value="'''+str(work_table1.a1_7)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
-                                                                                                            <td>
-                                                                                                                <i id="addrow"
-                                                                                                                   onclick="childrenRow()"
-                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
-                                                                                                                   aria-hidden="true"></i>
-                                                                                                            </td>
+                                                                                                           
                                                                                                         </tr>
                                                                                                         </tbody>
                                                                                                     </table>
@@ -3638,32 +3643,32 @@ def doing_akt_polevoy_file(request):
                                                                                                             <td><input  id="a2_1" name="a2_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder=""value="{{ work_table2.a2_1 }}">
+                                                                                                                    placeholder=""value="'''+str(work_table2.a2_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_2" name="a2_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_2 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table2.a2_2)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_3" name="a2_3"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_3 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table2.a2_3)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_4" name="a2_4"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_4 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table2.a2_4)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_5" name="a2_5"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_5 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table2.a2_5)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_6" name="a2_6"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_6 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table2.a2_6)+'''">
                                                                                                             </td>
 
                                                                                                             
@@ -3749,48 +3754,48 @@ def doing_akt_polevoy_file(request):
                                                                                                             <td><input id="a3_1" name="a3_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_1 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_2" name="a3_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_2 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_2)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_3" name="a3_3"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_3 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_3)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_4" name="a3_4"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_4 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_4)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_5" name="a3_5"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_5 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_5)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_6" name="a3_6"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_6 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_6)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_7" name="a3_7"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_7 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_7)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_8" name="a3_8"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_8 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_8)+'''">
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <input id="a3_9" name="a3_9"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_9 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table3.a3_9)+'''">
                                                                                                             </td>
                                                                                                             
                                                                                                         </tr>
@@ -3873,29 +3878,29 @@ def doing_akt_polevoy_file(request):
                                                                                                             <td><input id="a4_1" name="a4_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table4.a4_1 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table4.a4_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a4_2" name="a4_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="{{ work_table4.a4_2 }}">
+                                                                                                                    placeholder="" value="'''+str(work_table4.a4_2)+'''">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_3" name="a4_3" value="{{ work_table4.a4_3 }}"
+                                                                                                            <td><input id="a4_3" name="a4_3" value="'''+str(work_table4.a4_3)+'''"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_4" name="a4_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table4.a4_4 }}"
+                                                                                                                    type="text" value="'''+str(work_table4.a4_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_5" name="a4_5"
-                                                                                                                    class="border-0 w-100" value="{{ work_table4.a4_5 }}"
+                                                                                                                    class="border-0 w-100" value="'''+str(work_table4.a4_5)+'''"
                                                                                                                     type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_6" name="a4_6" value="{{ work_table4.a4_6 }}"
+                                                                                                            <td><input id="a4_6" name="a4_6" value="'''+str(work_table4.a4_6)+'''"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
                                                                                                                     placeholder="">
@@ -4028,32 +4033,32 @@ def doing_akt_polevoy_file(request):
                                                                                                             </th>
                                                                                                             <td><input id="a5_1" name="a5_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_1 }}"
+                                                                                                                    type="text" value="'''+str(work_table5.a5_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_2" name="a5_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_2 }}"
+                                                                                                                    type="text" value="'''+str(work_table5.a5_2)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_3" name="a5_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_3 }}"
+                                                                                                                    type="text" value="'''+str(work_table5.a5_3)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_4" name="a5_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_4 }}"
+                                                                                                                    type="text" value="'''+str(work_table5.a5_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_5" name="a5_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_5 }}"
+                                                                                                                    type="text" value="'''+str(work_table5.a5_5)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_6" name="a5_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_6 }}"
+                                                                                                                    type="text" value="'''+str(work_table5.a5_6)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             
@@ -4238,47 +4243,47 @@ def doing_akt_polevoy_file(request):
                                                                                                             </th>
                                                                                                             <td><input id="a6_1" name="a6_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_1 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_2" name="a6_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_2 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_2)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_3" name="a6_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_3 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_3)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_4" name="a6_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_4 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_5" name="a6_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_5 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_5)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_6" name="a6_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_6 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_6)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_7" name="a6_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_7 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_7)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_8" name="a6_8"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_8 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_8)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_9" name="a6_9"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_9 }}"
+                                                                                                                    type="text" value="'''+str(work_table6.a6_9)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             
@@ -4364,29 +4369,29 @@ def doing_akt_polevoy_file(request):
                                                                                                         <th scope="row">
                                                                                                             1
                                                                                                         </th>
-                                                                                                        <td><input id="a7_1" name="a7_1" value="{{ work_table7.a7_1 }}"
+                                                                                                        <td><input id="a7_1" name="a7_1" value="'''+str(work_table7.a7_1)+'''"
                                                                                                                 class="border-0 w-100"
                                                                                                                 type="text"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_2" name="a7_2"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_2 }}"
+                                                                                                                type="text" value="'''+str(work_table7.a7_2)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_3" name="a7_3"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_3 }}"
+                                                                                                                type="text" value="'''+str(work_table7.a7_3)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_4" name="a7_4"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_4 }}"
+                                                                                                                type="text" value="'''+str(work_table7.a7_4)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_5" name="a7_5"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_5 }}"
+                                                                                                                type="text" value="'''+str(work_table7.a7_5)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         
@@ -4426,7 +4431,7 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-9">
                                                                                             <input class="form-control" id="a62" name="a62" value="'''+str(work.a62)+'''"
                                                                                                    type="text"
-                                                                                                   placeholder="соответствует или не соответствует требованиям ШНК 1.02.08-15">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="mb-3 row">
@@ -4443,7 +4448,7 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-9">
                                                                                             <input class="form-control" id="a64" value="'''+str(work.a64)+'''"  name="a64"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="mb-3 row">
@@ -4452,7 +4457,7 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-9">
                                                                                             <input class="form-control" id="a65" value="'''+str(work.a65)+'''" name="65"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
 
@@ -4521,23 +4526,23 @@ def doing_akt_polevoy_file(request):
                                                                                                         </th>
                                                                                                         <td><input id="a8_1" name="a8_1"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_1 }}"
+                                                                                                                type="text" value="'''+str(work_table8.a8_1)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_2" name="a8_2"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_2 }}"
+                                                                                                                type="text" value="'''+str(work_table8.a8_2)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_3" name="a8_3"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_3 }}"
+                                                                                                                type="text" value="'''+str(work_table8.a8_3)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_4" name="a8_4"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_4 }}"
-                                                                                                                placeholder="">
+                                                                                                                type="text" value="'''+str(work_table8.a8_4)+'''"
+                                                                                                             >
                                                                                                         </td>
 
                                                                                                         
@@ -4578,7 +4583,7 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-9">
                                                                                             <input class="form-control" id="a68" name="a68" value="'''+str(work.a68)+'''"
                                                                                                    type="text"
-                                                                                                   placeholder="соответствует или не соответствует требованиям ШНК 1.02.08-15">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
 
@@ -4593,7 +4598,7 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-9">
                                                                                             <input class="form-control" id="a70" name="a70" value="'''+str(work.a70)+'''"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
 
@@ -4603,7 +4608,7 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-9">
                                                                                             <input class="form-control" id="a71" name="a71" value="'''+str(work.a71)+'''"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
 
@@ -4638,10 +4643,10 @@ def doing_akt_polevoy_file(request):
             # landscape bu albomiy qiladi
         }
         # display = Display(visible=0, size=(500, 500)).start()
-        pdfkit.from_string(context, 'topografiya/static/files/file.pdf', options)
+        pdfkit.from_string(context, 'topografiya/static/files/akt_polevoy/akt-polevoy.pdf', options)
 
         response = HttpResponse(data, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="order.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="akt-polevoy.pdf"'
         return response
     else:
         return HttpResponse(0)
@@ -5348,13 +5353,36 @@ def ogogd_printer_works(request):
 def open_to_print(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
-    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
+
     order = Order.objects.filter(object=id).first()
-    work = AktKomeralForm.objects.filter(object=id).first()
 
-    rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+    work = WorkerObject.objects.filter(object=id).first()
+    sirie_type = Order.objects.filter(object=work.object.id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects}
+    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
+    aktkomeral = AktKomeralForm.objects.filter(object=id).first()
+
+    programwork = ProgramWork.objects.filter(object=id).first()
+
+    rejects_reports = ReportReject.objects.filter(object=workerobject.object).all()
+    rejects_programworks = ProgramWorkReject.objects.filter(programowork=programwork).all()
+    rejects_akt_polevoy_works = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
+    rejects_akt_komeral_works = KameralWorkReject.objects.filter(workerobject=pdowork).all()
+    rejects_akt_komeral_leader_works = LeaderKomeralWorkReject.objects.filter(object=pdowork).all()
+
+    sum = int(rejects_programworks.count()) + int(rejects_reports.count()) + int(
+        rejects_akt_komeral_works.count()) + int(rejects_akt_polevoy_works.count()) + int(
+        rejects_akt_komeral_leader_works.count())
+
+    report = Report.objects.filter(object=id).all()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
+               'rejects_reports': rejects_reports,
+               'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
+               'rejects_akt_komeral_works': rejects_akt_komeral_works,
+               'rejects_akt_komeral_leader_works': rejects_akt_komeral_leader_works,
+               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'reports': report,
+               'sum': sum, 'programwork': programwork}
 
     return render(request, 'oogd_printer/show.html', context)
 
@@ -5364,8 +5392,9 @@ def confirm_print2(request):
         id = data.get('work_id')
         worker = data.get('worker')
 
+        object = Object.objects.filter(id=id).first()
 
-        workerobject = WorkerObject.objects.filter(object=id).first()
+        workerobject = WorkerObject.objects.filter(object=object).first()
         workerobject.status = 5
         workerobject.status_geodezis_komeral = 5
         workerobject.save()
