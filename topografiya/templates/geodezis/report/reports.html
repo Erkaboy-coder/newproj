@@ -91,11 +91,9 @@
                                                             <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
                                                             <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
                                                                 <span style="color: #168eea;font-size:30px;">
-                                                                    {% for work in rejecteds %}
-                                                                        {% if work.object == object.object %}
-                                                                            <b  class="count" data-all="{{ work.id }},"></b>
-                                                                        {% endif %}
-                                                                    {% endfor %}
+
+                <b  class="count" data-all="{% for work in rejecteds %}{% if work.object == object.object %} {{ work.object.id }},{% endif %}{% endfor %}"></b>
+
                                                                 </span>
                                                             </div>
                                                         </div>

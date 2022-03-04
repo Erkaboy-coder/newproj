@@ -425,8 +425,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -453,8 +453,8 @@
                                     <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича ҳисобот шакллантириш</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
-                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
-                                                    height="500" style="border:0;width: 97%;" allowfullscreen="" loading="lazy"></iframe>
+                                            <div id="map"></div>
+                                            <br>
                                         </div>
                                     </div>
                                     <ul class="files ">
@@ -471,7 +471,7 @@
                                             <div class="file-bottom">
                                                 <h6>2. Абрис</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -479,7 +479,7 @@
                                             <div class="file-bottom">
                                                 <h6>3. Кроки</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -487,7 +487,7 @@
                                             <div class="file-bottom">
                                                 <h6>4. Эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -496,7 +496,7 @@
                                             <div class="file-bottom">
                                                 <h6>5. Ж эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -505,11 +505,11 @@
                                             <div class="file-bottom ">
                                                 <h6>6. Лист эксплуатирующими </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file   }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
 
-                                        <li class="file-box m-t-5">
+                                       <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
                                                 <h6>7. Предписание </h6>
@@ -531,42 +531,46 @@
                                         {% endif %}
                                     {% endif %}
 
+
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
                                                 <h6>9. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ дала назорати текшируви далолатномаси</h6>
+                                                <h6>10. АКТ дала назорати текшируви</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+
                                             </div>
                                         </li>
-
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>11 АКТ комерал назорат далолатномаси</h6>
+                                                <h6>11. АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
+
                                         {% if reports %}
-                                            <li class="file-box m-t-5">
-                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                                <div class="file-bottom ">
-                                                    <h6>12. Хисобот билан танишиш</h6>
-                                                    <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModalCenter1">Кўриш</button>
-                                                </div>
-                                            </li>
+                                            {% if reports.count > 0 %}
+                                                <li class="file-box m-t-5">
+                                                    <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                    <div class="file-bottom ">
+                                                        <h6>12. Хисобот билан танишиш</h6>
+                                                        <p>Ознакомиться с файлом отправки</p>
+                                                        <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModalCenter1">Кўриш</button>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
                                         {% endif %}
 
                                         <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
@@ -669,6 +673,38 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/program-work/program_work_file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+<script type="text/javascript">
     $(document).on('click',".file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
@@ -700,24 +736,23 @@
 
     });
 </script>
-
-<script type="text/javascript">
-    $(document).on('click',"#doing_program_work_file",function(){
+                        <script type="text/javascript">
+    $(document).on('click',"#doing_akt_polevoy_file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("data-id", $(this).attr('programwork-id'));
-        {#alert($(this).attr('data-id'));#}
+         data.append("object-id", $(this).attr('akt-object-id'));
+
         event.preventDefault()
         $.ajax({
             type: 'POST',
-            url: '{% url 'doing_program_work_file' %}',
+            url: '{% url 'doing_akt_polevoy_file' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
 
             success: function (result){
-                window.open('/static/files/program_work_file.pdf','_blank');
+                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
@@ -733,6 +768,122 @@
 
     });
 </script>
+                        <script type="text/javascript">
+    $(document).on('click',"#doing_akt_komeral_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("data-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_komeral_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/akt-komeral/akt_komeral.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+    <script type="text/javascript">
+    $(document).on('click',"#doing_poyasitelniy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_poyasitelniy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/poyasitelniy/poyasitelniy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+        <script>
+    $(document).ready(function(){
+    var data = new FormData();
+    data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+    data.append('id',{{ pdowork.id }});
+
+        $.ajax({
+            url: '/obj_data',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'post',
+            success: function (result) {
+                    json_point=JSON.parse(result.data1);
+                    console.log(json_point.features);
+                    if (json_point.features[0].geometry!=null){
+                        json_point.features[0].geometry.coordinates.forEach(function(corr,i){
+                             var point={type:'Point',coordinates:corr};
+                            L.geoJson(point,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                            });
+                        });
+                    }
+
+                    json_line=JSON.parse(result.data2);
+                    if (json_line.features[0].geometry!=null){
+                    json_line.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polyline={type:'LineString',coordinates:corr};
+                    L.geoJson(polyline,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+
+
+                    json_polygon=JSON.parse(result.data3);
+                    if (json_polygon.features[0].geometry!=null){
+                    json_polygon.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polygon={type:'Polygon',coordinates:corr};
+                    L.geoJson(polygon,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+            },
+            error: function(){
+              console.log('xatolik')
+            }
+
+    });
+    });
+    </script>
+
 
 <script>
     $("#save_akt").click(function(event) {

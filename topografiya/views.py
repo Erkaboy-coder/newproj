@@ -5140,7 +5140,7 @@ def geodezis_report_checking(request,id):
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
-    report = Report.objects.filter(object=id).first()
+    report = Report.objects.filter(object=id).last()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork}
@@ -5236,6 +5236,7 @@ def report_doing(request,id):
     programwork = ProgramWork.objects.filter(object=id).first()
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     reports = Report.objects.filter(object=id).all()
+
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork,'reports':reports}
 
@@ -5299,13 +5300,13 @@ def sent_to_print(request,id):
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-
+    programwork = ProgramWork.objects.filter(object=id).first()
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
                'rejects': rejects, 'sirie_type': sirie_type,
-               'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report}
+               'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'programwork':programwork}
 
     return render(request, 'oogd_reporter/report/sent_to_print.html', context)
 
@@ -5414,7 +5415,7 @@ def confirm_print2(request):
 
 # ogogd_printer
 def history(request):
-    works = WorkerObject.objects.filter(status = 5).all()
+    works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
     content={'count': counter(),'works':works}
     return render(request,'history.html',content)
 def workers(request):
