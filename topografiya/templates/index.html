@@ -31,8 +31,15 @@
                             <div class="col-md-12">
                                 <div id="right">
                                     <div id="calendar"></div>
-                                        <div class="fc-day-event" data-time="2022-01-16">
-                                            <span class="count">2</span>
+
+
+
+
+                                            {{ object.pdowork.agreement_date|cut:'/' }}
+
+                                            <div class="fc-day-event" data-time="2022-03-16">
+
+                                            <span class="count">{{ counting }}</span>
                                             <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
@@ -43,75 +50,28 @@
                                                         <div class="modal-body">
                                                             <div class="col-sm-12">
                                                                 <div class="table-responsive">
-                                                                    <table class="table table-bordered">
-                                                                        <thead class="bg-danger">
-                                                                        <tr>
-                                                                            <th scope="col">#</th>
-                                                                            <th scope="col">Ishberuvchi</th>
-                                                                            <th scope="col">Ish nomi</th>
-                                                                            <th scope="col">Ish turi</th>
-                                                                            <th scope="col">Muddati</th>
-                                                                            <th scope="col">Ko'rish</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <th scope="row">1</th>
-                                                                            <td>Sardor Komilov</td>
-                                                                            <td>PDO</td>
-                                                                            <td>Topshiriq</td>
-                                                                            <td>12/01/2022</td>
-                                                                            <td>Ko'rish</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th scope="row">1</th>
-                                                                            <td>Sardor Komilov</td>
-                                                                            <td>PDO</td>
-                                                                            <td>Topshiriq</td>
-                                                                            <td>12/01/2022</td>
-                                                                            <td>Ko'rish</td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="fc-day-event" data-time="2022-01-22">
-                                            <span class="count">1</span>
-                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel10">Bajaralidigan ish</h4>
-                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="col-sm-12">
-                                                                <div class="table-responsive">
+
                                                                     <table class="table table-bordered">
                                                                         <thead class="bg-primary">
-                                                                        <tr>
+                                                                        <tr class="text-white">
                                                                             <th scope="col">#</th>
                                                                             <th scope="col">Ishberuvchi</th>
                                                                             <th scope="col">Ish nomi</th>
                                                                             <th scope="col">Ish turi</th>
                                                                             <th scope="col">Muddati</th>
-                                                                            <th scope="col">Ko'rish</th>
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
+                                                                        {% for work in works %}
                                                                         <tr>
-                                                                            <th scope="row">1</th>
-                                                                            <td>Sardor Komilov</td>
-                                                                            <td>PDO</td>
-                                                                            <td>Topshiriq</td>
-                                                                            <td>12/01/2022</td>
-                                                                            <td>Ko'rish</td>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td>{{ work.customer_info}}</td>
+                                                                                <td>{{ work.object_name}}</td>
+                                                                                <td>{{ work.work_type}}</td>
+                                                                                <td>{{ work.work_term}} kun</td>
                                                                         </tr>
+                                                                        {% endfor %}
+
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -121,6 +81,51 @@
                                                 </div>
                                             </div>
                                         </div>
+
+
+
+{#                                        <div class="fc-day-event" data-time="2022-03-22">#}
+{#                                            <span class="count">1</span>#}
+{#                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">#}
+{#                                                <div class="modal-dialog modal-lg">#}
+{#                                                    <div class="modal-content">#}
+{#                                                        <div class="modal-header">#}
+{#                                                            <h4 class="modal-title" id="myLargeModalLabel10">Bajaralidigan ish</h4>#}
+{#                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>#}
+{#                                                        </div>#}
+{#                                                        <div class="modal-body">#}
+{#                                                            <div class="col-sm-12">#}
+{#                                                                <div class="table-responsive">#}
+{#                                                                    <table class="table table-bordered">#}
+{#                                                                        <thead class="bg-primary">#}
+{#                                                                        <tr>#}
+{#                                                                            <th scope="col">#</th>#}
+{#                                                                            <th scope="col">Ishberuvchi</th>#}
+{#                                                                            <th scope="col">Ish nomi</th>#}
+{#                                                                            <th scope="col">Ish turi</th>#}
+{#                                                                            <th scope="col">Muddati</th>#}
+{#                                                                            <th scope="col">Ko'rish</th>#}
+{#                                                                        </tr>#}
+{#                                                                        </thead>#}
+{#                                                                        <tbody>#}
+{#                                                                        <tr>#}
+{#                                                                            <th scope="row">1</th>#}
+{#                                                                            <td>Sardor Komilov</td>#}
+{#                                                                            <td>PDO</td>#}
+{#                                                                            <td>Topshiriq</td>#}
+{#                                                                            <td>12/01/2022</td>#}
+{#                                                                            <td>Ko'rish</td>#}
+{#                                                                        </tr>#}
+{#                                                                        </tbody>#}
+{#                                                                    </table>#}
+{#                                                                </div>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+
                                     </div>
                                 </div>
                             </div>

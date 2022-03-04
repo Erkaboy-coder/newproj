@@ -43,6 +43,8 @@ def counter():
 
     return count
 
+
+@login_required(login_url='/signin')
 def new_work_counter(request):
     count_works = {}
     count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
@@ -52,14 +54,23 @@ def new_work_counter(request):
 
 @login_required(login_url='/signin')
 def index(request):
-    context = {'count': counter(),'count_works': new_work_counter(request)}
+
+    worker = Worker.objects.all()
+    works = PdoWork.objects.filter(status_recive=1).all()
+
+    # print(request.user.profile.full_name)
+    counting = works.count()
+
+    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works, 'counting': counting}
     return render(request, 'index.html', context)
 
+@login_required(login_url='/signin')
 def pdoworks(request):
     pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2))
     context = {'pdoworks': pdoworks,'count': counter()}
     return render(request, 'leader/pdo_works.html', context)
 
+@login_required(login_url='/signin')
 def save_order(request):
     if request.method == 'POST':
         data = request.POST
@@ -95,12 +106,13 @@ def save_order(request):
     else:
         return HttpResponse(0)
 
-
+@login_required(login_url='/signin')
 def allworks(request):
     pdoworks = PdoWork.objects.filter(status=0)
     context = {'pdoworks': pdoworks, 'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'leader/all_works.html', context)
 
+@login_required(login_url='/signin')
 def program_works_leader(request):
     new_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=0).all()
     checking_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=1).all()
@@ -114,6 +126,7 @@ def program_works_leader(request):
     # print(objects)
     return render(request, 'leader/program_works/program_works.html', context)
 
+@login_required(login_url='/signin')
 def program_work_form(request,id):
 
     object = ProgramWork.objects.filter(object=id).first()
@@ -128,6 +141,7 @@ def program_work_form(request,id):
     context = {'object': object, 'order': order, 'workers': workers,'count': counter(),'form':form, 'formtable1': formtable1, 'formtable2': formtable2,'files':files}
     return render(request, 'leader/program_works/program_work_form.html', context)
 
+@login_required(login_url='/signin')
 def program_work_form_edit(request,id):
 
     object = Object.objects.filter(id=id).first()
@@ -145,6 +159,7 @@ def program_work_form_edit(request,id):
                'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
     return render(request, 'leader/program_works/program_work_form_edit.html', context)
 
+@login_required(login_url='/signin')
 def program_work_form_re_sent_to_check(request,id):
 
     object = Object.objects.filter(id=id).first()
@@ -162,7 +177,7 @@ def program_work_form_re_sent_to_check(request,id):
                'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
     return render(request, 'leader/program_works/program_work_form_re_sent_to_check.html', context)
 
-
+@login_required(login_url='/signin')
 def program_work_save_edits(request,id):
     if request.method == 'POST':
         a0 = request.POST.get('a0')
@@ -314,6 +329,7 @@ def program_work_save_edits(request,id):
 
         return redirect('program_work_form', id=programwork.object.id)
 
+@login_required(login_url='/signin')
 def program_work_form_store(request):
     if request.method == 'POST':
         object = request.POST.get('object_id')
@@ -393,6 +409,7 @@ def program_work_form_store(request):
         # messages.success(request, "O'zgarishlar saqlandi !")
         return redirect('program_work_form', id=programwork.object.id)
 
+@login_required(login_url='/signin')
 def sent_to_check_programwork(request):
     if request.method == 'POST':
         data = request.POST
@@ -414,12 +431,14 @@ def sent_to_check_programwork(request):
         return HttpResponse(0)
 
 
+@login_required(login_url='/signin')
 def history_program_work(request):
     pdoworks = PdoWork.objects.filter(status=0)
 
     context = {'pdoworks': pdoworks, 'count': counter()}
     return render(request, 'leader/history_program_work.html', context)
 
+@login_required(login_url='/signin')
 def leader_polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
     # new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).all() # yangi kelgan
@@ -432,6 +451,7 @@ def leader_polevoy_works(request):
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds}
     return render(request, 'leader/polevoy/polevoy_works.html', context)
 
+@login_required(login_url='/signin')
 def checking_polevoy_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
 
@@ -458,6 +478,7 @@ def checking_polevoy_works(request,id):
 
     return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
 
+@login_required(login_url='/signin')
 def save_akt_polevoy(request):
     if request.method == 'POST':
         data = request.POST
@@ -547,6 +568,7 @@ def save_akt_polevoy(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def edit_akt_polevoy(request):
     if request.method == 'POST':
         data = request.POST
@@ -636,6 +658,7 @@ def edit_akt_polevoy(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def send_to_kameral(request):
     if request.method == 'POST':
         data = request.POST
@@ -672,6 +695,7 @@ def send_to_kameral(request):
 #     else:
 #         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def deny_polevoy(request):
     if request.method == 'POST':
         data = request.POST
@@ -696,6 +720,7 @@ def deny_polevoy(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def leader_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
     new_ones = AktKomeralForm.objects.filter(status=0).all()  # komeral nazoratiga kelgan ishlar
@@ -710,6 +735,7 @@ def leader_komeral_works(request):
                'rejecteds': rejecteds}
     return render(request, 'leader/komeral/komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def leader_komeral_checking(request):
     # status_recive = 1 is started work but not recived by worker
     checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).all()  # dala nazorati muhokama jarayonida
@@ -722,6 +748,7 @@ def leader_komeral_checking(request):
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'rejecteds': rejecteds}
     return render(request, 'leader/head_komeral/komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def checking_komeral_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -735,7 +762,7 @@ def checking_komeral_works(request,id):
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
 
-
+@login_required(login_url='/signin')
 def show_komeral_work(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -750,6 +777,7 @@ def show_komeral_work(request,id):
 
     return render(request, 'leader/komeral/show_komeral_work.html', context)
 
+@login_required(login_url='/signin')
 def rejected_komeral_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -765,6 +793,7 @@ def rejected_komeral_works(request,id):
 
     return render(request, 'leader/komeral/rejected_komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def save_akt_komeral(request):
     if request.method == 'POST':
         data = request.POST
@@ -793,6 +822,7 @@ def save_akt_komeral(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def sent_to_check_akt(request):
     if request.method == 'POST':
         data = request.POST
@@ -820,6 +850,7 @@ def sent_to_check_akt(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def deny_komeral(request):
     if request.method == 'POST':
         data = request.POST
@@ -844,6 +875,7 @@ def deny_komeral(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def show_komeral_checking_leader(request,id):
     work = WorkerObject.objects.filter(object=id).first()
     objects = PdoWork.objects.filter(status_recive=1).all()
@@ -858,6 +890,7 @@ def show_komeral_checking_leader(request,id):
 
     return render(request, 'leader/head_komeral/show_komeral_work.html', context)
 
+@login_required(login_url='/signin')
 def leader_rejected_komeral_works(request,id):
     work = WorkerObject.objects.filter(object=id).first()
     objects = PdoWork.objects.filter(status_recive=1).all()
@@ -870,6 +903,7 @@ def leader_rejected_komeral_works(request,id):
                'file': sirie_files,'count': counter(),'rejects':rejects}
     return render(request, 'leader/head_komeral/rejected_komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def leader_akt_form_edit(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -896,7 +930,7 @@ def leader_akt_form_edit(request,id):
     return render(request, 'leader/head_komeral/akt_polevoy.html', context)
 
 
-
+@login_required(login_url='/signin')
 def leader_akt_komeral_form_edit(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -909,6 +943,7 @@ def leader_akt_komeral_form_edit(request,id):
 
     return render(request, 'leader/head_komeral/akt_komeral.html', context)
 
+@login_required(login_url='/signin')
 def re_send_to_check_komeral(request):
     if request.method == 'POST':
         data = request.POST
@@ -929,6 +964,7 @@ def re_send_to_check_komeral(request):
 
 
 # worker
+@login_required(login_url='/signin')
 def worker_new_works(request):
     # status_recive = 1 is started work but not recived by worker
     worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all()
@@ -936,6 +972,7 @@ def worker_new_works(request):
     context = {'worker_new_works': worker_new_works, 'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'worker/worker_new_works.html', context)
 
+@login_required(login_url='/signin')
 def polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
     new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # yangi kelgan
@@ -948,6 +985,7 @@ def polevoy_works(request):
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects,'count_works': new_work_counter(request)}
     return render(request, 'worker/polevoy_works.html', context)
 
+@login_required(login_url='/signin')
 def worker_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
     checking_ones = AktKomeralForm.objects.filter(status=0).all()  # dala nazorati muhokama jarayonida
@@ -960,6 +998,7 @@ def worker_komeral_works(request):
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'count_works': new_work_counter(request),'rejecteds': rejecteds}
     return render(request, 'worker/komeral/komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def show_rejected_komeral_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -980,6 +1019,7 @@ def show_rejected_komeral_works(request,id):
 
     return render(request, 'worker/komeral/rejected_komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def send_to_check_komeral(request):
     if request.method == 'POST':
         data = request.POST
@@ -998,6 +1038,7 @@ def send_to_check_komeral(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def polevoy_work_doing(request,id):
     work = WorkerObject.objects.filter(object=id).first()
     objects = PdoWork.objects.filter(status_recive=1).all()
@@ -1012,6 +1053,7 @@ def polevoy_work_doing(request,id):
                'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'count_works': new_work_counter(request)}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
+@login_required(login_url='/signin')
 def send_to_check_polevoy(request):
     if request.method == 'POST':
         data = request.POST
@@ -1031,6 +1073,7 @@ def send_to_check_polevoy(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def save_sirie_files(request):
     if request.method == 'POST':
         id = request.POST.get('work-id')
@@ -1095,6 +1138,7 @@ def save_sirie_files(request):
     else:
         return HttpResponseRedirect('/')
 
+@login_required(login_url='/signin')
 def edit_sirie_files(request,id):
     if request.method == 'POST':
         worker = request.POST.get('worker')
@@ -1319,6 +1363,7 @@ def edit_sirie_files(request,id):
     else:
         return HttpResponseRedirect('/')
 
+@login_required(login_url='/signin')
 def store(request):
     if request.method == 'POST':
         data = request.POST
@@ -1448,6 +1493,7 @@ def store(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def edit_poyasitelniy(request):
     if request.method == 'POST':
         data = request.POST
@@ -1662,7 +1708,7 @@ def edit_poyasitelniy(request):
     else:
         return HttpResponse(0)
 
-
+@login_required(login_url='/signin')
 def save_files(request):
     if request.method == 'POST':
         data = request.POST
@@ -1756,6 +1802,7 @@ def save_files(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def obj_data(request):
     id=request.POST.get('id')
 
@@ -1768,6 +1815,7 @@ def obj_data(request):
     test_data_po= serializers.serialize('geojson',polygons, geometry_field='polygons',fields=['polygons',])
     return JsonResponse({'data1':test_data_p,'data2':test_data_l,'data3':test_data_po})
 
+@login_required(login_url='/signin')
 def object_poyasitelniy_form(request,id):
     work = WorkerObject.objects.filter(object=id).first()
     objects = PdoWork.objects.filter(status_recive=1).all()
@@ -1785,6 +1833,7 @@ def object_poyasitelniy_form(request,id):
                }
     return render(request, 'worker/object_poyasitelniy_form.html', context)
 
+@login_required(login_url='/signin')
 def show_work(request):
     if request.method == 'POST':
         data = request.POST
@@ -1796,6 +1845,7 @@ def show_work(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def recive_work(request):
     if request.method == 'POST':
         data = request.POST
@@ -1822,6 +1872,7 @@ def recive_work(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def show_akt_polevoy_worker(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -1847,7 +1898,7 @@ def show_akt_polevoy_worker(request,id):
     return render(request, 'worker/komeral/akt_polevoy.html', context)
 
 # worker
-
+@login_required(login_url='/signin')
 def order_to_pdf(request):
     if request.method == 'POST':
         data = request.POST
@@ -1925,6 +1976,7 @@ def order_to_pdf(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def doing_program_work_file(request):
     if request.method == 'POST':
         data = request.POST
@@ -2217,7 +2269,7 @@ def doing_program_work_file(request):
     else:
         return HttpResponse(0)
 
-
+@login_required(login_url='/signin')
 def doing_akt_komeral_file(request):
     if request.method == 'POST':
         data = request.POST
@@ -2591,6 +2643,7 @@ def doing_akt_komeral_file(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def doing_poyasitelniy_file(request):
     if request.method == 'POST':
         data = request.POST
@@ -3150,6 +3203,7 @@ def doing_poyasitelniy_file(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def doing_akt_polevoy_file(request):
     if request.method == 'POST':
         data = request.POST
@@ -3642,7 +3696,7 @@ def doing_akt_polevoy_file(request):
                                                                                                             <td><input  id="a2_1" name="a2_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder=""value="'''+str(work_table2.a2_1)+'''">
+                                                                                                                    value="'''+str(work_table2.a2_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_2" name="a2_2"
                                                                                                                     class="border-0 w-100"
@@ -4650,12 +4704,14 @@ def doing_akt_polevoy_file(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
     workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
     context = {'pdowork': pdowork, 'workers': workers,'count': counter()}
     return render(request, 'leader/show_pdowork.html', context)
 
+@login_required(login_url='/signin')
 def edit_pdowork(request,id):
 
     pdowork = PdoWork.objects.filter(id=id).filter(status_recive=1).first()
@@ -4665,6 +4721,7 @@ def edit_pdowork(request,id):
     context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter()}
     return render(request, 'leader/edit_pdowork.html', context)
 
+@login_required(login_url='/signin')
 def start(request):
     if request.method == 'POST':
         info = request.POST.get('info')
@@ -4708,7 +4765,7 @@ def start(request):
         messages.error(request, "Bunday foydalanuvchi mavjud emas !")
         return HttpResponseRedirect('/')
 
-
+@login_required(login_url='/signin')
 def edit_pdowork_changes(request):
     if request.method == 'POST':
         info = request.POST.get('info')
@@ -4769,6 +4826,7 @@ def edit_pdowork_changes(request):
         return HttpResponseRedirect('/')
 
 # geodezis
+@login_required(login_url='/signin')
 def program_works_geodezis(request):
     new_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=1).all()
 
@@ -4782,6 +4840,7 @@ def program_works_geodezis(request):
     # print(objects)
     return render(request, 'geodezis/program_works_geodesiz.html', context)
 
+@login_required(login_url='/signin')
 def program_work_event(request, id):
     object = ProgramWorkForm.objects.filter(programwork__object=id).first()
     order = Order.objects.filter(object=object.programwork.object.id).first()
@@ -4795,6 +4854,7 @@ def program_work_event(request, id):
     context = {'object': object, 'order': order, 'workers': workers, 'formtable2':formtable2, 'formtable1': formtable1, 'count': counter(), 'rejects': rejects,'files': files}
     return render(request, 'geodezis/program_work_event.html', context)
 
+@login_required(login_url='/signin')
 def confirm_program_work(request):
     if request.method == 'POST':
         data = request.POST
@@ -4817,6 +4877,7 @@ def confirm_program_work(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def reject_program_work(request):
     if request.method == 'POST':
         data = request.POST
@@ -4840,6 +4901,8 @@ def reject_program_work(request):
         return HttpResponse(1)
     else:
         return HttpResponse(0)
+
+@login_required(login_url='/signin')
 def program_work_form_re_sent(request,id):
     if request.method == 'POST':
         a0 = request.POST.get('a0')
@@ -4995,6 +5058,7 @@ def program_work_form_re_sent(request,id):
         # messages.success(request, "Ish tekshiruvga yuborildi !")
         return HttpResponseRedirect('/program_works_leader')
 
+@login_required(login_url='/signin')
 def geodesiz_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
     checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).all()  # dala nazorati muhokama jarayonida
@@ -5008,6 +5072,7 @@ def geodesiz_komeral_works(request):
                'rejecteds': rejecteds}
     return render(request, 'geodezis/head_komeral/komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def show_geodesiz_kameral_work(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5027,6 +5092,7 @@ def show_geodesiz_kameral_work(request,id):
 
     return render(request, 'geodezis/head_komeral/checking_komeral_works.html', context)
 
+@login_required(login_url='/signin')
 def geodezis_deny_komeral(request):
     if request.method == 'POST':
         data = request.POST
@@ -5050,7 +5116,7 @@ def geodezis_deny_komeral(request):
     else:
         return HttpResponse(0)
 
-
+@login_required(login_url='/signin')
 def geodezis_rejected_komeral_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5070,7 +5136,7 @@ def geodezis_rejected_komeral_works(request,id):
 
     return render(request, 'geodezis/head_komeral/rejected_komeral_works.html', context)
 
-
+@login_required(login_url='/signin')
 def sent_to_oggd(request):
     if request.method == 'POST':
         data = request.POST
@@ -5095,6 +5161,7 @@ def sent_to_oggd(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def geodeziz_show_komeral_work(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5114,7 +5181,7 @@ def geodeziz_show_komeral_work(request,id):
 
     return render(request, 'geodezis/head_komeral/show_komeral_work.html', context)
 
-
+@login_required(login_url='/signin')
 def geodezis_reports(request):
     new_ones = Report.objects.filter(status=0).all()
     checking_ones = Report.objects.filter(status=1).all()
@@ -5127,6 +5194,7 @@ def geodezis_reports(request):
     # print(objects)
     return render(request, 'geodezis/report/reports.html', context)
 
+@login_required(login_url='/signin')
 def geodezis_report_checking(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5147,6 +5215,7 @@ def geodezis_report_checking(request,id):
 
     return render(request, 'geodezis/report/report_checking.html', context)
 
+@login_required(login_url='/signin')
 def show_report_geodezis(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5167,6 +5236,7 @@ def show_report_geodezis(request,id):
 
     return render(request, 'geodezis/report/show_report.html', context)
 
+@login_required(login_url='/signin')
 def reject_report(request):
     if request.method == 'POST':
         data = request.POST
@@ -5189,6 +5259,7 @@ def reject_report(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def confirm_report(request):
     if request.method == 'POST':
         data = request.POST
@@ -5210,6 +5281,7 @@ def confirm_report(request):
 # geodezis
 
 # oogd_reports
+@login_required(login_url='/signin')
 def oogd_reports(request):
     new_ones = Report.objects.filter(status=0).all()
     checking_ones = Report.objects.filter(status=1).all()
@@ -5222,6 +5294,7 @@ def oogd_reports(request):
     # print(objects)
     return render(request, 'oogd_reporter/report/reports.html', context)
 
+@login_required(login_url='/signin')
 def report_doing(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5242,6 +5315,7 @@ def report_doing(request,id):
 
     return render(request, 'oogd_reporter/report/report_doing.html', context)
 
+@login_required(login_url='/signin')
 def report_send(request):
     if request.method == 'POST':
         data = request.POST
@@ -5267,6 +5341,7 @@ def report_send(request):
     else:
         return HttpResponse(0)
 
+@login_required(login_url='/signin')
 def show_report(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5289,6 +5364,7 @@ def show_report(request,id):
 
     return render(request, 'oogd_reporter/report/show_report.html', context)
 
+@login_required(login_url='/signin')
 def sent_to_print(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5310,6 +5386,7 @@ def sent_to_print(request,id):
 
     return render(request, 'oogd_reporter/report/sent_to_print.html', context)
 
+@login_required(login_url='/signin')
 def confirm_print(request):
     if request.method == 'POST':
         data = request.POST
@@ -5343,13 +5420,14 @@ def confirm_print(request):
 # oogd_reports
 
 # ogogd_printer
-
+@login_required(login_url='/signin')
 def ogogd_printer_works(request):
     works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
     context = {'count': counter(),'works': works}
 
     return render(request, 'oogd_printer/works.html', context)
 
+@login_required(login_url='/signin')
 def open_to_print(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5386,6 +5464,7 @@ def open_to_print(request,id):
 
     return render(request, 'oogd_printer/show.html', context)
 
+@login_required(login_url='/signin')
 def confirm_print2(request):
     if request.method == 'POST':
         data = request.POST
@@ -5414,10 +5493,13 @@ def confirm_print2(request):
         return HttpResponse(0)
 
 # ogogd_printer
+@login_required(login_url='/signin')
 def history(request):
     works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
     content={'count': counter(),'works':works}
     return render(request,'history.html',content)
+
+@login_required(login_url='/signin')
 def workers(request):
     workers = Worker.objects.filter(status=0).all()
     objects = Object.objects.all()
@@ -5426,6 +5508,7 @@ def workers(request):
 
     return render(request,'leader/workers.html', content)
 
+@login_required(login_url='/signin')
 def show_all_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
     pdowork = Object.objects.filter(id=id).first()
@@ -5458,11 +5541,12 @@ def show_all_works(request,id):
 
     return render(request, 'show.html', context)
 
-
+@login_required(login_url='/signin')
 def signin(request):
     content={}
     return render(request,'login.html',content)
 
+@login_required(login_url='/signin')
 def login(request):
     if request.method == 'POST':
         login = request.POST.get('login')
@@ -5485,6 +5569,7 @@ def login(request):
         messages.error(request, "Bunday foydalanuvchi mavjud emas !")
         return HttpResponseRedirect('/')
 
+@login_required(login_url='/signin')
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect('/')
