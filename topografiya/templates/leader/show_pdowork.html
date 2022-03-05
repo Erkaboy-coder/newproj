@@ -33,16 +33,16 @@
                                                                                     <p>{{ pdowork.agreement_date }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Обект номи<sup
+                                                                                    <b>Объект  номи<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_name }} </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Буюрмачи</b>
+                                                                                    <b>Буюртмачи</b>
                                                                                     <p>{{ pdowork.customer }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Обект манзили<sup
+                                                                                    <b>Объект манзили<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_address }}</p>
                                                                                 </div>
@@ -54,7 +54,7 @@
                                                                                     <p>{{ pdowork.work_term }} kun</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Буюртмачи маълумотлари<sup
+                                                                                    <b>Буюртмачи реквизитлари<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.customer_info }}</p>
                                                                                 </div>
@@ -64,7 +64,7 @@
                                                                                     <p>{{ pdowork.work_type }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Нархи<sup
+                                                                                    <b>Шартнома суммаси<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_cost}}</p>
                                                                                 </div>
@@ -81,8 +81,8 @@
                                                                                         class="fa fa-file-archive-o f-36 txt-warning"></i>
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
-                                                                                            <a href="/{{ pdowork.latter }}">
-                                                                                                Буюрта хати билан танишиш
+                                                                                            <a href="/{{ pdowork.latter }}" target="_blank">
+                                                                                                Буюртма хати билан танишиш
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -92,17 +92,17 @@
                                                                                         class="fa fa-folder f-36 txt-warning"></i>
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
-                                                                                            <a href="/{{ pdowork.tz }}">Техник топшириқ
-                                                                                            файли билан танишиш</a></h6>
+                                                                                            <a href="/{{ pdowork.tz }}" target="_blank">Техник топшириқ
+                                                                                             билан танишиш</a></h6>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
                                                                             <li class="folder-box">
                                                                                 <div class="media"><i
-                                                                                        class="fa fa-file-archive-o f-36 txt-warning"></i>
+                                                                                        class="fa fa-file-archive-o f-36 txt-warning" ></i>
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
-                                                                                            <a href="/{{ pdowork.smeta }}">Смета файли
+                                                                                            <a href="/{{ pdowork.smeta }}" target="_blank">Смета
                                                                                             билан танишиш</a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -120,8 +120,8 @@
                         <div class="col-sm-6">
                             <h3>Обйект ҳақида маълумот</h3>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="../starter-kit/index.html">Бош саҳифа</a></li>
-                                <li class="breadcrumb-item">Янги шартномалар</li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'pdoworks' %}">Янги шартномалар</a></li>
                                 <li class="breadcrumb-item active">{{ pdowork.object_name }}</li>
                             </ol>
                         </div>
@@ -243,7 +243,7 @@
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
                                                                                 Топографик-геодезик ишларни бажариш учун
-                                                                                кўрсатма шаклланториш</h5>
+                                                                                кўрсатма шакллантириш</h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
@@ -305,10 +305,10 @@
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>7. </b>Исходные данные, система координат и
                                                                                     высот, использование материалов
-                                                                                    работ прошлых лет
+                                                                                    работ прошлых лет <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="info" id="info" style="height: 100px;"
+                                                                                    <textarea name="info" id="info" required style="height: 100px;"
                                                                                               class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
@@ -339,7 +339,7 @@
                                                                                     инженерно-подземных
                                                                                     коммуникаций</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="syomka" id="syomka" class="form-control"></textarea>
+                                                                                    <textarea name="syomka" id="syomka"  style="height: 100px;" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -347,17 +347,16 @@
                                                                                     <b>11. </b>Особые
                                                                                     требования</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="requirements" id="requirements"  class="form-control"></textarea>
+                                                                                    <textarea name="requirements" id="requirements"  style="height: 100px;" class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>12. </b>
-                                                                                    Поверки геодезических инструментов <sup class="text-danger">*</sup>
+                                                                                    Поверки геодезических инструментов <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="item_check" id="item_check" required class="form-control"
-                                                                                           type="text">
+                                                                                    <textarea name="item_check" id="item_check" style="height: 100px;" required class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -373,13 +372,12 @@
                                                                                     <b>13. </b>Перечень
                                                                                     предоставляемых материалов</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="list_of_materials" id="list_of_materials"  class="form-control"
-                                                                                           type="text">
+                                                                                    <textarea name="list_of_materials" id="list_of_materials" style="height: 100px;"  class="form-control"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>14. </b>Метод топографической съемки <sup class="text-danger">*</sup></label>
+                                                                                    <b>14. </b>Метод топографической съемки <sup class="text-danger" style="font-size: 14px">*</sup></label>
                                                                                 <div class="col-sm-8">
                                                                                     <select name="type_of_sirie" id="type_of_sirie" required class="js-example-disabled-results col-sm-12">
                                                                                         <option value="">--- ---</option>
@@ -395,29 +393,29 @@
 
                                                                                      <a href="/{{ pdowork.tz }}" target="_blank">
                                                                                         <div class="f-14 f-w-600 m-l-25">
-                                                                                            <span>  <label><b style="color: black">1. </b></label> <i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
+                                                                                            <span>  <label><b style="color: black">1. </b></label> <i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Tехническоe заданиe
                                                                                         </div>
                                                                                     </a>
-                                                                                    <a href="/{{ pdowork.smeta }}" target="_blank">
-                                                                                        <div class="f-14 f-w-600 m-l-25"><span>
-                                                                                            <label><b style="color: black">2. </b></label>
-                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
-                                                                                            Графическое приложение
-                                                                                        </div>
-                                                                                    </a>
+{#                                                                                    <a href="/{{ pdowork.smeta }}" target="_blank">#}
+{#                                                                                        <div class="f-14 f-w-600 m-l-25"><span>#}
+{#                                                                                            <label><b style="color: black">2. </b></label>#}
+{#                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>#}
+{#                                                                                            Графическое приложение#}
+{#                                                                                        </div>#}
+{#                                                                                    </a>#}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control" name="order_creator" id="order_creator" type="text" value="{{ user.profile.full_name }}">
+                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
                                                                                 </div>
                                                                             </div>
 
                                                                              <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание получил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" name="order_receiver" id="order_receiver" type="text" >
+                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" type="text" >
                                                                                 </div>
                                                                             </div>
 

@@ -81,7 +81,6 @@ class PdoWork(models.Model):
     object_cost = models.CharField(verbose_name='Object costs', max_length=250, blank=True)
     customer = models.CharField(verbose_name='Customer', max_length=250, blank=True)
     customer_info = models.CharField(verbose_name='Customer info', max_length=250, blank=True)
-    branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='branch')
     status = models.IntegerField(default=0, blank=True)
     status_recive = models.IntegerField(default=0, blank=True)
     # status_recive=0 yangi qabul qilingan ishlar

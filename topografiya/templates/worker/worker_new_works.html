@@ -61,20 +61,20 @@
                                         <div class="blog-post-date "><span class="blg-month">Кун</span><span
                                                 class="blg-date">{{ work.pdowork.work_term }}</span></div>
                                         <h6 class="blog-bottom-details">{{ work.pdowork.object_name}}</h6>
-                                        <div><b>Ташкилот номи:</b> {{ work.pdowork.customer_info }}</div>
-                                        <div><b>Келиб тушган вақти:</b> {{ work.pdowork.agreement_date}}</div>
+                                        <div><b>Буюртмачи номи:</b> {{ work.pdowork.customer }}</div>
+                                        <div><b>Шартнома тузилган сана:</b> {{ work.pdowork.agreement_date}}</div>
                                         <div><b>Жойлашган жойи:</b> {{ work.pdowork.object_address }}</div>
-                                        <div><b>Ишчи дастури :</b>
+                                        <div><b>Ишчи дастур :</b>
                                             {% if work.isset_programwork == True %}
                                                <b class="text-success"><i  class="fa fa-check"></i> Мавжуд</b>
                                                 {% else %}
-                                                <b class="text-danger"><i  class="fa fa-close"></i> Мавжуд эмас</b>
+                                                <b class="text-danger"><i  class="fa fa-close"></i> Талаб этилмайди</b>
                                             {% endif %}
                                         </div>
                                         <div class="detail-footer m-t-20">
                                             <button class="btn btn-primary show_work"  work-id="{{ work.pdowork.id }}"  data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal" >
-                                                Батавсил маълумот
+                                                Батафсил маълумот
                                             </button>
                                         </div>
                                     </div>
@@ -167,11 +167,11 @@ $(document).ready(function(){
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="m-b-20"><a class="f-w-500 f-15 " href="/`+result['pdowork'][0].latter+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Буюрта хати билан танишиш</a></div>
-                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Техник топшириқ файли билан танишиш</a></div>
+                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Техник топшириқ билан танишиш</a></div>
                     </div>
                     <div class="col-lg-6 text-end">
-                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Смета файли билан танишиш</a></div>
-                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` target='_blank' href='#'><i class="fa fa-file-pdf-o f-20"></i>  Илова файли билан танишиш </a></div>
+                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Смета билан танишиш</a></div>
+                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` target='_blank' href='#'><i class="fa fa-file-pdf-o f-20"></i>  Кўрсатма билан танишиш </a></div>
 
                     </div>
                 </div>

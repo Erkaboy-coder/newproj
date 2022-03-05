@@ -4,7 +4,6 @@
 {% block content%}
 {% block stylecontent %}
 
-
 {% endblock stylecontent %}
 
 
@@ -34,8 +33,9 @@
 
 
 
-
-                                            {{ object.pdowork.agreement_date|cut:'/' }}
+                                            {% for work in works %}
+                                                <p class="time" id="time" style="display: none">{{ work.agreement_date }}</p>
+                                            {% endfor %}
 
                                             <div class="fc-day-event" data-time="2022-03-16">
 
@@ -53,22 +53,24 @@
 
                                                                     <table class="table table-bordered">
                                                                         <thead class="bg-primary">
-                                                                        <tr class="text-white">
+                                                                        <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
                                                                             <th scope="col">Ishberuvchi</th>
                                                                             <th scope="col">Ish nomi</th>
                                                                             <th scope="col">Ish turi</th>
                                                                             <th scope="col">Muddati</th>
+{#                                                                            <th scope="col">Tanishish</th>#}
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
                                                                         {% for work in works %}
-                                                                        <tr>
+                                                                        <tr class="text-center">
                                                                                 <th scope="row">{{ forloop.counter }}</th>
                                                                                 <td>{{ work.customer_info}}</td>
                                                                                 <td>{{ work.object_name}}</td>
                                                                                 <td>{{ work.work_type}}</td>
                                                                                 <td>{{ work.work_term}} kun</td>
+{#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
                                                                         </tr>
                                                                         {% endfor %}
 

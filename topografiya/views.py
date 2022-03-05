@@ -131,7 +131,7 @@ def program_work_form(request,id):
 
     object = ProgramWork.objects.filter(object=id).first()
     order = Order.objects.filter(object=object.object.id).first()
-    workers = Worker.objects.filter(branch=object.object.pdowork.branch).filter(status=0)
+    workers = Worker.objects.filter(status=0)
 
     form = ProgramWorkForm.objects.filter(programwork__object=id).first()
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
@@ -152,7 +152,7 @@ def program_work_form_edit(request,id):
     rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
 
     order = Order.objects.filter(object=id).first()
-    workers = Worker.objects.filter(branch=object.pdowork.branch).filter(status=0)
+    workers = Worker.objects.filter(status=0)
 
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
@@ -170,7 +170,7 @@ def program_work_form_re_sent_to_check(request,id):
     rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
 
     order = Order.objects.filter(object=id).first()
-    workers = Worker.objects.filter(branch=object.pdowork.branch).filter(status=0)
+    workers = Worker.objects.filter(status=0)
 
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
@@ -329,7 +329,7 @@ def program_work_save_edits(request,id):
 
         return redirect('program_work_form', id=programwork.object.id)
 
-@login_required(login_url='/signin')
+
 def program_work_form_store(request):
     if request.method == 'POST':
         object = request.POST.get('object_id')
@@ -4707,7 +4707,7 @@ def doing_akt_polevoy_file(request):
 @login_required(login_url='/signin')
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
-    workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
+    workers=Worker.objects.filter(status=0)
     context = {'pdowork': pdowork, 'workers': workers,'count': counter()}
     return render(request, 'leader/show_pdowork.html', context)
 
@@ -4715,7 +4715,7 @@ def show_pdowork(request,id):
 def edit_pdowork(request,id):
 
     pdowork = PdoWork.objects.filter(id=id).filter(status_recive=1).first()
-    workers=Worker.objects.filter(branch=pdowork.branch).filter(status=0)
+    workers=Worker.objects.filter(status=0)
     order = Order.objects.filter(object__pdowork=pdowork).first()
     object=Object.objects.filter(pdowork=pdowork).first()
     context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter()}
@@ -4844,7 +4844,7 @@ def program_works_geodezis(request):
 def program_work_event(request, id):
     object = ProgramWorkForm.objects.filter(programwork__object=id).first()
     order = Order.objects.filter(object=object.programwork.object.id).first()
-    workers = Worker.objects.filter(branch=object.programwork.object.pdowork.branch)
+    workers = Worker.objects.all()
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=object).first()
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=object).first()
     files = ProgramWorkFiles.objects.filter(programworkform=object).first()
@@ -5541,12 +5541,12 @@ def show_all_works(request,id):
 
     return render(request, 'show.html', context)
 
-@login_required(login_url='/signin')
+
 def signin(request):
     content={}
     return render(request,'login.html',content)
 
-@login_required(login_url='/signin')
+
 def login(request):
     if request.method == 'POST':
         login = request.POST.get('login')
@@ -5569,7 +5569,7 @@ def login(request):
         messages.error(request, "Bunday foydalanuvchi mavjud emas !")
         return HttpResponseRedirect('/')
 
-@login_required(login_url='/signin')
+
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect('/')
