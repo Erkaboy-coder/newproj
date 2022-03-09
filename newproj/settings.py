@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'topografiya',
     'leaflet',
-    'django.contrib.gis'
+    'django.contrib.gis',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [

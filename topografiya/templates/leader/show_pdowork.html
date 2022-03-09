@@ -7,6 +7,8 @@
 {% block stylecontent %}
 
 {% endblock stylecontent %}
+{% load l10n %}
+    {% load humanize %}
 
   <div class="modal fade modal-bookmark" id="exampleModal"
                                                              tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -66,7 +68,11 @@
                                                                                 <div class="mb-2">
                                                                                     <b>Шартнома суммаси<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ pdowork.object_cost}}</p>
+                                                                                    <p>
+
+                                                                                           {{ cost|intcomma }}
+
+                                                                                    </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Маъсул бажарувчи бўлим<sup

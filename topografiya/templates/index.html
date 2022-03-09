@@ -23,6 +23,7 @@
                 </div>
             </div>
 
+
        <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -32,14 +33,15 @@
                                     <div id="calendar"></div>
 
 
+                            {% if user.profile.status == '1' %}
+                                {% for work in works %}
+                                <p class="time" id="time" style="display: none">{{ work.agreement_date }}</p>
+                                <p class="term" id="term"  style="display: none">{{ work.work_term }}</p>
 
-                                            {% for work in works %}
-                                                <p class="time" id="time" style="display: none">{{ work.agreement_date }}</p>
-                                            {% endfor %}
 
-                                            <div class="fc-day-event" data-time="2022-03-16">
+                                <div class="fc-day-event one" id="one">
 
-                                            <span class="count">{{ counting }}</span>
+                                            <span class="count"></span>
                                             <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
@@ -63,16 +65,16 @@
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                        {% for work in works %}
-                                                                        <tr class="text-center">
-                                                                                <th scope="row">{{ forloop.counter }}</th>
-                                                                                <td>{{ work.customer_info}}</td>
-                                                                                <td>{{ work.object_name}}</td>
-                                                                                <td>{{ work.work_type}}</td>
-                                                                                <td>{{ work.work_term}} kun</td>
-{#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
-                                                                        </tr>
-                                                                        {% endfor %}
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.customer_info}}</td>
+                                                                                    <td>{{ work.object_name}}</td>
+                                                                                    <td>{{ work.work_type}}</td>
+                                                                                    <td>{{ work.work_term}} kun</td>
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
 
                                                                         </tbody>
                                                                     </table>
@@ -85,48 +87,10 @@
                                         </div>
 
 
+                            {% endfor %}
+                                {% endif %}
 
-{#                                        <div class="fc-day-event" data-time="2022-03-22">#}
-{#                                            <span class="count">1</span>#}
-{#                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">#}
-{#                                                <div class="modal-dialog modal-lg">#}
-{#                                                    <div class="modal-content">#}
-{#                                                        <div class="modal-header">#}
-{#                                                            <h4 class="modal-title" id="myLargeModalLabel10">Bajaralidigan ish</h4>#}
-{#                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>#}
-{#                                                        </div>#}
-{#                                                        <div class="modal-body">#}
-{#                                                            <div class="col-sm-12">#}
-{#                                                                <div class="table-responsive">#}
-{#                                                                    <table class="table table-bordered">#}
-{#                                                                        <thead class="bg-primary">#}
-{#                                                                        <tr>#}
-{#                                                                            <th scope="col">#</th>#}
-{#                                                                            <th scope="col">Ishberuvchi</th>#}
-{#                                                                            <th scope="col">Ish nomi</th>#}
-{#                                                                            <th scope="col">Ish turi</th>#}
-{#                                                                            <th scope="col">Muddati</th>#}
-{#                                                                            <th scope="col">Ko'rish</th>#}
-{#                                                                        </tr>#}
-{#                                                                        </thead>#}
-{#                                                                        <tbody>#}
-{#                                                                        <tr>#}
-{#                                                                            <th scope="row">1</th>#}
-{#                                                                            <td>Sardor Komilov</td>#}
-{#                                                                            <td>PDO</td>#}
-{#                                                                            <td>Topshiriq</td>#}
-{#                                                                            <td>12/01/2022</td>#}
-{#                                                                            <td>Ko'rish</td>#}
-{#                                                                        </tr>#}
-{#                                                                        </tbody>#}
-{#                                                                    </table>#}
-{#                                                                </div>#}
-{#                                                            </div>#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
+
 
                                     </div>
                                 </div>
@@ -135,12 +99,32 @@
                     </div>
                 </div>
 
+
             </div>
+
         </div>
         </div>
 
-    <script src="{% static 'assets/js/fullcalendar/app.js' %}"></script>
+
+
+<script src="{% static 'assets/js/fullcalendar/app.js' %}"></script>
 <script src="{% static 'assets/js/fullcalendar/locales/ru.js' %}"></script>
+
+    <script>
+        let elements = document.getElementsByClassName("time");
+        let terms = document.getElementsByClassName("term");
+        const dates = [];
+        for(let i=0; i < elements.length; i++){
+            dates.push(elements[i].innerHTML);
+            var a = dates[i].split('/').reverse();
+            var b = a[0].toString()+'-'+a[1].toString()+'-'+(parseInt(a[2])+parseInt(terms[i].innerHTML)).toString();
+            document.getElementsByClassName("one")[i].setAttribute("data-time", b);
+            document.getElementsByClassName("count")[i].innerHTML=1;
+        }
+
+
+    </script>
+
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
@@ -177,5 +161,6 @@
     });
 
 </script>
+
 {% endblock %}
 

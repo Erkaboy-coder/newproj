@@ -44,7 +44,6 @@ def counter():
     return count
 
 
-@login_required(login_url='/signin')
 def new_work_counter(request):
     count_works = {}
     count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
@@ -56,12 +55,11 @@ def new_work_counter(request):
 def index(request):
 
     worker = Worker.objects.all()
-    works = PdoWork.objects.filter(status_recive=1).all()
 
-    # print(request.user.profile.full_name)
-    counting = works.count()
+    works = PdoWork.objects.filter(status_recive=0).all()
 
-    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works, 'counting': counting}
+
+    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works}
     return render(request, 'index.html', context)
 
 @login_required(login_url='/signin')
@@ -1948,7 +1946,6 @@ def order_to_pdf(request):
         context += '<li>Метод топографической съемки ' + order.type_of_sirie + '</li>';
         context += ' <li>Приложение: <ol>'
         context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
-        context += ' <li><a href=http://0.0.0.0:1515/'+str(object.pdowork.smeta)+'>Графическое приложение</a>.</li>';
         context += '</ol></li>';
 
         context += '<p>Предписание составил: ' + order.order_creator + ' </p>';
@@ -4704,11 +4701,14 @@ def doing_akt_polevoy_file(request):
     else:
         return HttpResponse(0)
 
+
 @login_required(login_url='/signin')
 def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
+    cost = float(pdowork.object_cost)
+
     workers=Worker.objects.filter(status=0)
-    context = {'pdowork': pdowork, 'workers': workers,'count': counter()}
+    context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost}
     return render(request, 'leader/show_pdowork.html', context)
 
 @login_required(login_url='/signin')
