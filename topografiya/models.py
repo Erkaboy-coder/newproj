@@ -794,6 +794,7 @@ class Order(models.Model):
     syomka = models.TextField(blank=True)
     requirements = models.TextField(blank=True)
     item_check = models.TextField(blank=True)
+    size = models.TextField(blank=True)
 
     adjustment_methods= models.TextField(blank=True)
     list_of_materials = models.TextField(blank=True)

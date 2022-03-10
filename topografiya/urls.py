@@ -7,6 +7,8 @@ urlpatterns = [
     re_path(r'^$', views.index, name='index'),
     re_path(r'^signin/$', views.signin, name='signin'),
     re_path(r'^login/$', views.login, name='login'),
+    re_path(r'^register/$', views.register, name='register'),
+    re_path(r'^sign_up$', views.sign_up, name='sign_up'),
     re_path(r'^logout/$', views.logout, name='logout'),
     re_path(r'^pdoworks/$', views.pdoworks, name='pdoworks'),
     re_path(r'^save_order$', views.save_order, name='save_order'),
@@ -109,6 +111,9 @@ urlpatterns = [
     re_path(r'^history/$', views.history, name='history'),
     re_path(r'^obj_data$', views.obj_data, name='obj_data'),
     re_path(r'^workers/$', views.workers, name='workers'),
+    re_path(r'^reject_worker$', views.reject_worker, name='reject_worker'),
+    re_path(r'^confirm_worker$', views.confirm_worker, name='confirm_worker'),
+    re_path(r'^show_worker/(?P<id>\d+)/$', views.show_worker, name='show_worker'),
     re_path(r'^show_all_works/(?P<id>\d+)/$', views.show_all_works, name='show_all_works'),
 
 

@@ -1,0 +1,180 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Ходимлар {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Ходим</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'workers' %}">Ходимлар</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'show_worker' id=worker.id %}">{{ worker.full_name }}</a></li>
+                            </ol>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid user-card">
+                <div class="row">
+        {% csrf_token %}
+
+                     <div class="col-md-8 ">
+                        <div class="card p-3 shadow-lg">
+                            <form class="" >
+
+                                <div class="form-group">
+                                  <label>Ходим</label>
+                                  <div class="small-group">
+                                    <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
+                                      <input class="form-control" type="text" id="fio" name="fio" required="" value="{{ worker.full_name }}">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label>Телефон рақам</label>
+                                  <div class="small-group">
+                                    <div class="input-group"><span class="input-group-text"><i class="fa fa-mobile"></i></span>
+                                      <input class="form-control" type="number" id="contact" name="contact" required="" value="{{ worker.contact }}">
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label>Електрон почта манзили</label>
+                                  <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
+                                    <input class="form-control" type="email" required="" id="email" name="email" value="{{ worker.email }}">
+                                  </div>
+                                </div>
+
+                              <div class="form-group">
+                                  <label>Бўлим</label>
+                                  <div class="input-group"><span class="input-group-text"><i class="fa fa-group"></i></span>
+                                  <input class="form-control" type="email" required="" id="email" name="email" value="{{ worker.department.name }}">
+{#                                     <select required class="form-control" id="department" name="department">#}
+{##}
+{#                                         {% for department in departments %}#}
+{#                                             <option value="{{ department.id }}" {% if worker.department_id == department.id %} selected {% endif %}> {{ department.name }} </option>#}
+{#                                         {% endfor %}#}
+{#                                     </select>#}
+                                  </div>
+                                </div>
+
+                             <div class="form-group">
+                                  <label>Статуси</label>
+                                  <div class="input-group"><span class="input-group-text">
+                                      {% if worker.live == '1' %}
+                                        <i class="fa fa-check"></i>
+                                      {% else %}
+                                        <i class="fa fa-warning"></i>
+                                      {% endif %}
+                                  </span>
+                                     <select required class="form-control" id="status" name="status">
+                                             <option value="0" {% if worker.live == '1' %} selected {% endif %}> Фаол </option>
+                                             <option value="1" {% if worker.live == '0' %} selected {% endif %}> Фаол емас </option>
+                                     </select>
+                                  </div>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button class="btn btn-danger w-100  btn-block" type="button" id="reject_worker"> <i class="fa fa-close"></i> Рад етиш</button>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary w-100  btn-block" type="button" id="confirm_worker"><i class="fa fa-check"></i> Рухсат бериш</button>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" value="{{ worker.id }}" id="worker_id" style="display: none">
+
+                                </div>
+
+                              </form>
+                        </div>
+                    </div>
+
+                 <div class="col-md-4 ">
+
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+        </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <script>
+        $(document).on('click',"#reject_worker",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+
+        data.append("id", $('#worker_id').val());
+
+               $.ajax({
+                type: 'POST',
+                url: '{% url 'reject_worker' %}',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result){
+                  location.replace('/workers');
+                },
+
+                error: function(){
+                  alert('Ajax da xatolik !! ');
+                }
+            });
+
+
+
+        });
+</script>
+    <script>
+        $(document).on('click',"#confirm_worker",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+
+        data.append("id", $('#worker_id').val());
+
+               $.ajax({
+                type: 'POST',
+                url: '{% url 'confirm_worker' %}',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result){
+                  location.replace('/workers');
+                },
+
+                error: function(){
+                  alert('Ajax da xatolik !! ');
+                }
+            });
+
+
+
+        });
+</script>
+
+{% endblock %}

@@ -4,7 +4,7 @@ from .models import Branch, PdoWork, Worker, Order, Object, History, ProgramWork
     PoyasitelniyFormTable1, PoyasitelniyFormTable2, PoyasitelniyFormTable3, PoyasitelniyFormTable4, AktPolevoyForm, \
     AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, AktPolovoyTable6, \
     AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, AktKomeralForm, KameralWorkReject, LeaderKomeralWorkReject, \
-    Report, ReportReject, ProgramWorkFiles,Lines,Polygons,Points
+    Report, ReportReject, ProgramWorkFiles, Lines, Polygons, Points, Department
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -4707,7 +4707,7 @@ def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
     cost = float(pdowork.object_cost)
 
-    workers=Worker.objects.filter(status=0)
+    workers=Worker.objects.filter(status=0).filter(department=request.user.profile.department)
     context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost}
     return render(request, 'leader/show_pdowork.html', context)
 
@@ -4735,6 +4735,7 @@ def start(request):
         type_of_sirie = request.POST.get('type_of_sirie')
         order_creator = request.POST.get('order_creator')
         pdowork = request.POST.get('pdowork')
+        size = request.POST.get('size')
         is_programwork = request.POST.get('is_programwork')
         worker_ispolnitel = request.POST.get('worker_ispolnitel')
 
@@ -4747,7 +4748,7 @@ def start(request):
         object.save()
 
         order = Order(object=object,info=info,method_creation=method_creation,method_fill=method_fill,syomka=syomka,requirements=requirements,item_check=item_check,
-                     list_of_materials=list_of_materials,adjustment_methods=adjustment_methods,type_of_sirie=type_of_sirie,order_creator=order_creator,order_receiver=worker_ispolnitel)
+                     list_of_materials=list_of_materials,size=size,adjustment_methods=adjustment_methods,type_of_sirie=type_of_sirie,order_creator=order_creator,order_receiver=worker_ispolnitel)
         order.save()
         print(is_programwork)
 
@@ -5501,12 +5502,52 @@ def history(request):
 
 @login_required(login_url='/signin')
 def workers(request):
-    workers = Worker.objects.filter(status=0).all()
+    workers = Worker.objects.filter(status=0).filter(department=request.user.profile.department).all()
     objects = Object.objects.all()
     workerobjects = WorkerObject.objects.all()
-    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects}
+    departments = Department.objects.all()
+    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments': departments}
 
     return render(request,'leader/workers.html', content)
+
+@login_required(login_url='/signin')
+def show_worker(request,id):
+    worker = Worker.objects.filter(id=id).first()
+    objects = Object.objects.all()
+    workerobjects = WorkerObject.objects.all()
+    departments = Department.objects.all()
+
+    content={'count': counter(), 'worker': worker, 'objects': objects, 'workerobjects':workerobjects,'departments': departments}
+
+    return render(request,'leader/show_worker.html', content)
+
+@login_required(login_url='/signin')
+def reject_worker(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        worker = Worker.objects.filter(id=id).first()
+        user = User.objects.filter(username=worker.email).first()
+        worker.delete()
+        user.delete()
+
+    
+        return HttpResponse(1)
+
+    return HttpResponse('0')
+
+
+@login_required(login_url='/signin')
+def confirm_worker(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        worker = Worker.objects.filter(id=id).first()
+        worker.permission = True
+        worker.live = 1
+        worker.save()
+
+        return HttpResponse(1)
+
+    return HttpResponse('0')
 
 @login_required(login_url='/signin')
 def show_all_works(request,id):
@@ -5569,6 +5610,34 @@ def login(request):
         messages.error(request, "Bunday foydalanuvchi mavjud emas !")
         return HttpResponseRedirect('/')
 
+def register(request):
+    workers = Worker.objects.filter(status=0).all()
+    objects = Object.objects.all()
+    workerobjects = WorkerObject.objects.all()
+    departments = Department.objects.all()
+    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments}
+
+    return render(request,'regiter.html', content)
+
+def sign_up(request):
+    if request.method == 'POST':
+        fio = request.POST.get('fio')
+        email = request.POST.get('email')
+        contact = request.POST.get('contact')
+        password = request.POST.get('password')
+        department = request.POST.get('department')
+        depart = Department.objects.filter(id=department).first()
+        if User.objects.filter(username=email).first():
+            messages.error(request, "Bu foydalanuvchi avval ro'yhatdan o'tgan!")
+            return HttpResponseRedirect('/signin')
+
+        else:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,department=depart,email=email,branch_id=1)
+            worker.save()
+            messages.success(request, "Siz ro'yhatdan o'tdingiz tasdiqlashini kuting!")
+            return HttpResponseRedirect('/signin')
+    return HttpResponseRedirect('/signin')
 
 def logout(request):
     auth_logout(request)

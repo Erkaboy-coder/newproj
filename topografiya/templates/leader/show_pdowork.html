@@ -287,7 +287,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>5. </b>Виды и объемы работ</label>
+                                                                                    <b>5. </b>Виды работ</label>
                                                                                 <div class="col-sm-8">
                                                                                     <input class="form-control"
                                                                                            type="text"
@@ -306,10 +306,19 @@
                                                                             </div>
 
 {#                                                                            fields#}
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>7. </b>объемы работ <sup class="text-danger" style="font-size: 14px">*</sup>
+                                                                                </label>
+                                                                                <div class="col-sm-8">
+                                                                                    <textarea name="size" id="size" required style="height: 100px;"
+                                                                                              class="form-control"></textarea>
+                                                                                </div>
+                                                                            </div>
 
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>7. </b>Исходные данные, система координат и
+                                                                                    <b>8. </b>Исходные данные, система координат и
                                                                                     высот, использование материалов
                                                                                     работ прошлых лет <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
@@ -320,7 +329,7 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>8. </b>Метод создания геодезического и
+                                                                                    <b>9. </b>Метод создания геодезического и
                                                                                     (или) съемочного обоснования,
                                                                                     закрепление пунктов, точек</label>
                                                                                 <div class="col-sm-8">
@@ -330,7 +339,7 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>9. </b>Метод
+                                                                                    <b>10. </b>Метод
                                                                                     выполнения топографической съемки.
                                                                                     Технические требования и технология
                                                                                     выполнения работ</label>
@@ -341,7 +350,7 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>10. </b>Съемка
+                                                                                    <b>11. </b>Съемка
                                                                                     инженерно-подземных
                                                                                     коммуникаций</label>
                                                                                 <div class="col-sm-8">
@@ -350,7 +359,7 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>11. </b>Особые
+                                                                                    <b>12. </b>Особые
                                                                                     требования</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="requirements" id="requirements"  style="height: 100px;" class="form-control"></textarea>
@@ -358,8 +367,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>12. </b>
-                                                                                    Поверки геодезических инструментов <sup class="text-danger" style="font-size: 14px">*</sup>
+                                                                                    <b>13.</b>Поверки геодезических инструментов <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="item_check" id="item_check" style="height: 100px;" required class="form-control"></textarea>
@@ -367,7 +375,7 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>13. </b>Методы
+                                                                                    <b>14. </b>Методы
                                                                                     и программы уравнивания</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="adjustment_methods" id="adjustment_methods"  class="form-control"></textarea>
@@ -375,7 +383,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>13. </b>Перечень
+                                                                                    <b>15. </b>Перечень
                                                                                     предоставляемых материалов</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="list_of_materials" id="list_of_materials" style="height: 100px;"  class="form-control"></textarea>
@@ -383,7 +391,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>14. </b>Метод топографической съемки <sup class="text-danger" style="font-size: 14px">*</sup></label>
+                                                                                    <b>16. </b>Метод топографической съемки <sup class="text-danger" style="font-size: 14px">*</sup></label>
                                                                                 <div class="col-sm-8">
                                                                                     <select name="type_of_sirie" id="type_of_sirie" required class="js-example-disabled-results col-sm-12">
                                                                                         <option value="">--- ---</option>
@@ -394,7 +402,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="floder_input">
-                                                                                <label><b>15. </b>Приложение:</label>
+                                                                                <label><b>17. </b>Приложение:</label>
                                                                                 <div class="row">
 
                                                                                      <a href="/{{ pdowork.tz }}" target="_blank">
