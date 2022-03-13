@@ -119,10 +119,10 @@ function childrentabl6() {
     t++;
     $('#childTable8').find('tbody').append('<tr><th scope="row">' + t +
         '</th>' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b8_1" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b8_2" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b8_3" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b8_4" type="text"\n' + 'placeholder=""></td>\n' +
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addrow8" onclick="childrentabl6()"\n' + '/></td>\n' +'</td></tr>');
 }
@@ -131,10 +131,10 @@ function childrentabl7() {
     h++;
     $('#childTable9').find('tbody').append('<tr><th scope="row">' + h +
         '</th>' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b9_1" type="number"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b9_2" type="number"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b9_3" type="number"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100 b9_4" type="number"\n' + 'placeholder=""></td>\n' +
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addrow9" onclick="childrentabl7()"\n' + '/></td>\n' +'</td></tr>');
 }

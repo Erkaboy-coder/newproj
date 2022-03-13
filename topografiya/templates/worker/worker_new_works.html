@@ -7,7 +7,8 @@
 {% block stylecontent %}
 
 {% endblock stylecontent %}
-
+{% load l10n %}
+    {% load humanize %}
 
 <div class="modal fade modal-bookmark" id="exampleModal"
      tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -58,12 +59,15 @@
                             <div class="card bg-images">
                                 <div class="blog-box blog-grid">
                                     <div class="blog-details-second pricing-plan">
-                                        <div class="blog-post-date "><span class="blg-month">Кун</span><span
+
+                                                                               <div class="blog-post-date"><span class="blg-month">Кун</span><span
                                                 class="blg-date">{{ work.pdowork.work_term }}</span></div>
-                                        <h6 class="blog-bottom-details">{{ work.pdowork.object_name}}</h6>
+{#                                        <a href="">#}
+                                            <h6 class="blog-bottom-details">{{ work.pdowork.object_name }}</h6>
                                         <div><b>Буюртмачи номи:</b> {{ work.pdowork.customer }}</div>
-                                        <div><b>Шартнома тузилган сана:</b> {{ work.pdowork.agreement_date}}</div>
+                                        <div><b>Шартнома тузилган сана:</b> {{ work.pdowork.agreement_date }}</div>
                                         <div><b>Жойлашган жойи:</b> {{ work.pdowork.object_address }}</div>
+
                                         <div><b>Ишчи дастур :</b>
                                             {% if work.isset_programwork == True %}
                                                <b class="text-success"><i  class="fa fa-check"></i> Мавжуд</b>
@@ -128,7 +132,7 @@ $(document).ready(function(){
                             <p>`+result['pdowork'][0].agreement_date+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Обект номи<sup style="color: red;">*</sup></b>
+                            <b>Объект номи<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_name+` </p>
                         </div>
                         <div class="mb-2">
@@ -136,17 +140,17 @@ $(document).ready(function(){
                             <p>`+result['pdowork'][0].customer+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Обект манзили<sup style="color: red;">*</sup></b>
+                            <b>Объект манзили<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_address+`</p>
                         </div>
                     </div>
                     <div class="col-lg-6 text-end">
                         <div class="mb-2">
                             <b>Бажариш муддати<sup style="color: red;">*</sup></b>
-                            <p>`+result['pdowork'][0].work_term+`</p>
+                            <p>`+result['pdowork'][0].work_term+` kun</p>
                         </div>
                         <div class="mb-2">
-                            <b>Буюртмачи маълумотлари<sup
+                            <b>Буюртмачи реквизитлари<sup
                                     style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].customer_info+`</p>
                         </div>
@@ -155,7 +159,7 @@ $(document).ready(function(){
                             <p>`+result['pdowork'][0].work_type+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Нархи<sup style="color: red;">*</sup></b>
+                            <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_cost+`</p>
                         </div>
                         <div class="mb-2">

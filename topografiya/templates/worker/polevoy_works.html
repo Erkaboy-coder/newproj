@@ -49,13 +49,14 @@
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
 
-                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
-                                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
-                                                                        <div class="blog-bottom-content">
-                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
-                                                                            <div><b>Буюртамачи: </b> {{ object.object.pdowork.customer}}</div>
-                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
-                                                                        </div>
+                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+
+                                                                         <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
+                                                                        <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer}}</div>
+                                                                        <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                        <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+
+
                                                                         <hr>
                                                                         <div class="detail-footer">
                                                                             <a href="{% url 'polevoy_work_doing' id=object.object.id %}">
@@ -82,16 +83,14 @@
 
                                              {% for object in checking_ones %}
                                                  <div class="col-xl-4 col-md-6 mt-4">
-                                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                              <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
-                                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
-                                                                        <div class="blog-bottom-content">
-                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
-                                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
-                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
-                                                                        </div>
+                                                                        <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
+                                                                        <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer}}</div>
+                                                                        <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                        <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
                                                                         <hr>
                                                                         <div class="detail-footer">
                                                                             <a href="{% url 'polevoy_work_doing' id=object.object.id %}">
@@ -121,12 +120,14 @@
                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                     <div class="pricing-plan shadow border-0">
                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
-                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
-                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
-                                                        <div class="blog-bottom-content">
-                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
-                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
-                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                    <div class="blog-post-date"><span class="blg-month">Кун</span><span
+                                                class="blg-date">{{ object.object.pdowork.work_term }}</span></div>
+{#                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>#}
+                                                        <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
+                                                        <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer}}</div>
+                                                        <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                        <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+
                                                             <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
 
 

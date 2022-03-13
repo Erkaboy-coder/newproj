@@ -7,7 +7,8 @@
 {% block stylecontent %}
 
 {% endblock stylecontent %}
-
+{% load l10n %}
+    {% load humanize %}
   <div class="modal fade modal-bookmark" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                                                              style="display: none;" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -65,7 +66,7 @@
                                                                                 <div class="mb-2">
                                                                                     <b>Шартнома суммаси<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ pdowork.object_cost}}</p>
+                                                                                    <p>{{ cost|intcomma }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>Маъсул бажарувчи бўлим<sup
@@ -244,7 +245,7 @@
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
                                                                                 Топографик-геодезик ишларни бажариш учун
-                                                                                кўрсатма шаклланториш</h5>
+                                                                                кўрсатма шакллантириш</h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
@@ -259,7 +260,7 @@
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <input class="form-control"
-                                                                                           type="text" value="{{ pdowork.object_name }}">
+                                                                                           type="text"  value="{{ pdowork.object_name }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -282,7 +283,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>5. </b>Виды и объемы работ</label>
+                                                                                    <b>5. </b>Виды работ</label>
                                                                                 <div class="col-sm-8">
                                                                                     <input class="form-control"
                                                                                            type="text"
@@ -301,90 +302,102 @@
                                                                             </div>
 
 {#                                                                            fields#}
-
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>7. </b>объемы работ <sup class="text-danger" style="font-size: 14px">*</sup>
+                                                                                </label>
+                                                                                <div class="col-sm-8">
+                                                                                    <textarea name="size" id="size" required style="height: 100px;"
+                                                                                              class="form-control">{{ order.size }}</textarea>
+                                                                                </div>
+                                                                            </div>
 
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>7. </b>Исходные данные, система координат и
+                                                                                    <b>8. </b>Исходные данные, система координат и
                                                                                     высот, использование материалов
-                                                                                    работ прошлых лет
+                                                                                    работ прошлых лет <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="info"  style="height: 100px;"
+                                                                                    <textarea name="info" id="info" required style="height: 100px;"
                                                                                               class="form-control">{{ order.info }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
-                                                                               <label class="col-sm-4 col-form-label">
-                                                                                    <b>8. </b>Метод создания геодезического и
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>9. </b>Методы создания геодезического и
                                                                                     (или) съемочного обоснования,
                                                                                     закрепление пунктов, точек</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea  name="method_creation" style="height: 100px;"
+                                                                                    <textarea  name="method_creation" id="method_creation" style="height: 100px;"
                                                                                               class="form-control">{{ order.method_creation }}</textarea>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="row mb-3">
-                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>9. </b>Метод
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>10. </b>Программы уравнивания</label>
+                                                                                <div class="col-sm-8">
+                                                                                    <textarea  name="adjustment_methods" id="adjustment_methods" style="height: 100px;"
+                                                                                              class="form-control">{{ order.adjustment_methods }}</textarea>
+                                                                                </div>
+                                                                            </div>
+
+
+
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>11. </b>Метод
                                                                                     выполнения топографической съемки.
                                                                                     Технические требования и технология
                                                                                     выполнения работ</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="method_fill"  style="height: 100px;"
+                                                                                    <textarea name="method_fill" id="method_fill"  style="height: 100px;"
                                                                                               class="form-control">{{ order.method_fill }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
-                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>10. </b>Съемка
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>12. </b>Съемка
                                                                                     инженерно-подземных
                                                                                     коммуникаций</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="syomka"  class="form-control">{{ order.syomka }}</textarea>
+                                                                                    <textarea name="syomka" id="syomka"  style="height: 100px;" class="form-control">{{ order.syomka }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>11. </b>Особые
+                                                                                    <b>13. </b>Особые
                                                                                     требования</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="requirements"  class="form-control">{{ order.requirements }}</textarea>
+                                                                                    <textarea name="requirements" id="requirements"  style="height: 100px;" class="form-control">{{ order.requirements }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>12. </b>
-                                                                                    Поверки геодезических инструментов <sup class="text-danger">*</sup>
+                                                                                    <b>14.</b>Поверки геодезических инструментов <sup class="text-danger">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="item_check"  required class="form-control"
-                                                                                           type="text" value="{{ order.item_check }}">
+                                                                                    <textarea name="item_check" id="item_check" style="height: 100px;"  class="form-control">{{ order.item_check }}</textarea>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="row mb-3">
-                                                                                <label class="col-sm-4 col-form-label">
-                                                                                    <b>13. </b>Методы
-                                                                                    и программы уравнивания</label>
-                                                                                <div class="col-sm-8">
-                                                                                    <textarea name="adjustment_methods"  class="form-control">{{ order.adjustment_methods }}</textarea>
-                                                                                </div>
-                                                                            </div>
+
+
                                                                             <div class="mb-3 row">
-                                                                               <label class="col-sm-4 col-form-label">
-                                                                                    <b>13. </b>Перечень
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>15. </b>Перечень
                                                                                     предоставляемых материалов</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="list_of_materials" class="form-control"
-                                                                                           type="text" value="{{ order.list_of_materials }}">
+                                                                                    <textarea name="list_of_materials" id="list_of_materials" style="height: 100px;"  class="form-control">{{ order.list_of_materials }}</textarea>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>14. </b>Метод топографической съемки <sup class="text-danger">*</sup></label>
+                                                                                    <b>16. </b>Метод топографической съемки <sup class="text-danger">*</sup></label>
 {#                                                                                {{ order.type_of_sirie }}#}
                                                                                 <div class="col-sm-8">
-                                                                                    <select name="type_of_sirie" required class="js-example-disabled-results col-sm-12">
+                                                                                    <select name="type_of_sirie" id="type_of_sirie" required class="js-example-disabled-results col-sm-12">
                                                                                         <option value="">--- ---</option>
                                                                                         <option value="0" {% if order.type_of_sirie == '0' %}selected{% endif %}>БПЛА</option>
                                                                                         <option value="1" {% if order.type_of_sirie == '1' %}selected{% endif %}>GNSS</option>
@@ -393,34 +406,37 @@
                                                                                 </div>
 
                                                                             </div>
+
+
                                                                             <div class="floder_input">
-                                                                                <label><b>15. </b>Приложение:</label>
+                                                                                <label><b>17. </b>Приложение:</label>
                                                                                 <div class="row">
 
                                                                                      <a href="/{{ pdowork.tz }}" target="_blank">
                                                                                         <div class="f-14 f-w-600 m-l-25">
-                                                                                            <span>  <label><b style="color: black">1. </b></label> <i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
+                                                                                            <span>  <label><b style="color: black">1. </b></label> <i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Tехническоe заданиe
                                                                                         </div>
                                                                                     </a>
-                                                                                    <a href="/{{ pdowork.smeta }}" target="_blank">
-                                                                                        <div class="f-14 f-w-600 m-l-25"><span>
-                                                                                            <label><b style="color: black">2. </b></label>
-                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
-                                                                                            Графическое приложение
-                                                                                        </div>
-                                                                                    </a>
+{#                                                                                    <a href="/{{ pdowork.smeta }}" target="_blank">#}
+{#                                                                                        <div class="f-14 f-w-600 m-l-25"><span>#}
+{#                                                                                            <label><b style="color: black">2. </b></label>#}
+{#                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>#}
+{#                                                                                            Графическое приложение#}
+{#                                                                                        </div>#}
+{#                                                                                    </a>#}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control" name="order_creator" type="text" value="{{ user.profile.full_name }}">
+                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="mb-3 row">
+
+                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание получил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" name="order_receiver" id="order_receiver" type="text" >
+                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" type="text" >
                                                                                 </div>
                                                                             </div>
 

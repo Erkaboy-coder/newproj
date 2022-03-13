@@ -456,6 +456,7 @@ class WorkerObject(models.Model):
     jurnal_file = models.FileField("Jurnal hujjat fayli", upload_to='topografiya/static/files/jurnalfiles', blank=True)
     vidimes_file = models.FileField("Vidimes hujjat fayli", upload_to='topografiya/static/files/vidimes', blank=True)
     list_agreement_file = models.FileField("Hujjat fayli", upload_to='topografiya/static/files/agreementfiles', blank=True)
+    topo_plan = models.FileField("Topo plan fayli", upload_to='topografiya/static/files/topoplans', blank=True)
     status = models.IntegerField(default=0)
     # status = 0 bolsa yangi
     # status = 1 tekshiruvga kelgan
@@ -903,6 +904,7 @@ class History(models.Model):
     # status = 26 Ishchi dastur o'zgartirildi
     # status = 27 Ishchi dasturi teskhiruvga yuborilgan
     # status = 28 AKT komeral nazorat saqlandi
+    # status = 29 Ko'rsatma fayli saqlandi
 
     user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)

@@ -56,10 +56,10 @@ def index(request):
 
     worker = Worker.objects.all()
 
-    works = PdoWork.objects.filter(status_recive=0).all()
+    works = PdoWork.objects.filter(status=0).all()
+    work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.full_name).all()
 
-
-    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works}
+    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works,'work_new_works' :work_new_works}
     return render(request, 'index.html', context)
 
 @login_required(login_url='/signin')
@@ -78,6 +78,7 @@ def save_order(request):
         method_creation = data.get('method_creation')
         method_fill = data.get('method_fill')
         syomka = data.get('syomka')
+        size = data.get('size')
         requirements = data.get('requirements')
         item_check = data.get('item_check')
         adjustment_methods = data.get('adjustment_methods')
@@ -88,17 +89,60 @@ def save_order(request):
         pdowork_id = data.get('pdowork_id')
 
         pdowork = PdoWork.objects.filter(id=pdowork_id).first()
+        object = Object.objects.filter(pdowork=pdowork).first()
+        if object:
+            object.pdowork=pdowork
+            object.worker_ispolnitel=worker_ispolnitel
+            object.worker_leader=order_creator
+            object.isset_programwork=isset_programwork
+            object.save()
 
-        object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=isset_programwork,
+        else:
+            object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=isset_programwork,
                         worker_ispolnitel=worker_ispolnitel)
-        object.save()
+            object.save()
 
-        order = Order(object=object, info=info, method_creation=method_creation, method_fill=method_fill, syomka=syomka,
-                      requirements=requirements, item_check=item_check,
-                      list_of_materials=list_of_materials, adjustment_methods=adjustment_methods,
-                      type_of_sirie=type_of_sirie, order_creator=order_creator,order_receiver=order_receiver)
-        order.save()
+        order = Order.objects.filter(object=object).first()
 
+        if order:
+            order.object = object
+            order.info = info
+            order.size = size
+            order.method_creation = method_creation
+            order.method_fill = method_fill
+            order.syomka = syomka
+            order.requirements = requirements
+            order.item_check = item_check
+            order.list_of_materials = list_of_materials
+            order.adjustment_methods = adjustment_methods
+            order.type_of_sirie = type_of_sirie
+            order.order_creator = order_creator
+            order.save()
+        else:
+            order = Order(object=object, info=info, method_creation=method_creation, method_fill=method_fill,
+                          syomka=syomka,
+                          requirements=requirements, item_check=item_check,
+                          list_of_materials=list_of_materials, adjustment_methods=adjustment_methods,
+                          type_of_sirie=type_of_sirie, order_creator=order_creator, order_receiver=order_receiver,
+                          size=size)
+            order.save()
+
+        program_work = ProgramWork.objects.filter(object=object).first()
+
+        if isset_programwork == 'True':
+            if not program_work:
+                programm_work = ProgramWork(object=object, status=0)
+                programm_work.save()
+        elif isset_programwork == 'False':
+            if program_work:
+                program_work.delete()
+
+
+
+        history = History(object=object, status=29, comment="Ko'rsatma fayli saqlandi",
+                          user_id=order_creator)
+        # status=26 ishchi dastur o'zgarishlari saqlandi
+        history.save()
 
         return HttpResponse(1)
     else:
@@ -454,6 +498,8 @@ def checking_polevoy_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
 
     pdowork = Object.objects.filter(id=id).first()
+    cost = float(pdowork.pdowork.object_cost)
+
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=workerobject.object.id).first()
@@ -472,7 +518,7 @@ def checking_polevoy_works(request,id):
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
-               }
+               ,'cots': cost}
 
     return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
 
@@ -974,10 +1020,10 @@ def worker_new_works(request):
 def polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
     new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # yangi kelgan
-    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).all() # muhokama jarayonida
-    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).all() # qaytarilgan ishlar
-    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
-    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
+    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # muddati kam qolgan ishlar
+    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # tasdiqlangan ishlar
     rejects = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works,'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects,'count_works': new_work_counter(request)}
@@ -1042,13 +1088,14 @@ def polevoy_work_doing(request,id):
     objects = PdoWork.objects.filter(status_recive=1).all()
     objects_pdo = PdoWork.objects.filter(status_recive=0).all()
     sirie_type = Order.objects.filter(object=work.object.id).first()
-
+    cost = float(work.object.pdowork.object_cost)
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = PolevoyWorkReject.objects.filter(workerobject=work)
     programwork = ProgramWork.objects.filter(object=id).first()
+    poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=work).first()
 
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
-               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'count_works': new_work_counter(request)}
+               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'count_works': new_work_counter(request),'cost': cost,'poyasitelniy': poyasitelniy}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
 @login_required(login_url='/signin')
@@ -1372,7 +1419,6 @@ def store(request):
         b2 = data.get('b2')
         b_1 = data.get('b_1')
         b_2 = data.get('b_2')
-        b_3 = data.get('b_3')
         b3 = data.get('b3')
         b3_1 = data.get('b3_1')
         b4 = data.get('b4')
@@ -1460,13 +1506,19 @@ def store(request):
         b18_4 = data.get('b18_4')
         b18_5 = data.get('b18_5')
 
-        workerobject=WorkerObject.objects.filter(id=work_id).first()
+        status_id = data.get('status-id')
 
-        form1 = PoyasitelniyForm(workerobject=workerobject, b1=b1, b2=b2, b_1=b_1, b_2=b_2,b_3=b_3, b3=b3, b3_1=b3_1, b4=b4, b5=b5, b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
+
+        workerobject=WorkerObject.objects.filter(id=work_id).first()
+        if status_id == '1':
+            status = 1
+        else:
+            status = 0
+        form1 = PoyasitelniyForm(workerobject=workerobject, b1=b1, b2=b2, b_1=b_1, b_2=b_2,b_3='', b3=b3, b3_1=b3_1, b4=b4, b5=b5, b6=b6,b7=b7,b8_1_1=b8_1_1,b10=b10,b11=b11,b12=b12
                                  ,b13=b13,b14=b14,b15=b15,b16_a=b16_a,b16_b=b16_b,b19=b19,b19_1=b19_1,b19_2=b19_2,b20=b20,b21=b21,c_1=c_1,c_2=c_2,c_3=c_3,c_4=c_4,c_5=c_5,c_6=c_6
                                  ,c_7=c_7,c_8=c_8,c_9=c_9,c_10=c_10,c_11=c_11,c_12=c_12,c_13=c_13,c_14=c_14,c_15=c_15,c_16=c_16,c_17=c_17,c_18=c_18,c_19=c_19
                                  ,c_20=c_20,c_21=c_21,c_22=c_22,c_23=c_23,c_24=c_24,c_25=c_25,c_26=c_26,d_1=d_1,d_2=d_2,d_3=d_3,d_4=d_4,d_5=d_5,d_6=d_6,d_7=d_7
-                                 ,d_8=d_8,d_9=d_9,d_10=d_10,d_11=d_11,d_12=d_12,d_13=d_13)
+                                 ,d_8=d_8,d_9=d_9,d_10=d_10,d_11=d_11,d_12=d_12,d_13=d_13, status=status)
         form1.save()
 
         form2=PoyasitelniyFormTable1(poyasitelniyform=form1,b8_1=b8_1,b8_2=b8_2,b8_3=b8_3,b8_4=b8_4)
@@ -1497,12 +1549,16 @@ def edit_poyasitelniy(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
-
+        status_id = data.get('status-id')
+        if status_id == '1':
+            status = 1
+        else:
+            status = 0
+        
         b1 = data.get('b1')
         b2 = data.get('b2')
         b_1 = data.get('b_1')
         b_2 = data.get('b_2')
-        b_3 = data.get('b_3')
         b3 = data.get('b3')
         b3_1 = data.get('b3_1')
         b4 = data.get('b4')
@@ -1598,7 +1654,7 @@ def edit_poyasitelniy(request):
         form1.b2=b2
         form1.b_1=b_1
         form1.b_2=b_2
-        form1.b_3=b_3
+        form1.b_3=''
         form1.b3=b3
         form1.b3_1=b3_1
         form1.b4=b4
@@ -1658,15 +1714,30 @@ def edit_poyasitelniy(request):
         form1.d_11=d_11
         form1.d_12=d_12
         form1.d_13=d_13
+        form1.status = status
         form1.save()
 
-        form2=PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form1).first()
-        form2.poyasitelniyform=form1
-        form2.b8_1=b8_1
-        form2.b8_2=b8_2
-        form2.b8_3=b8_3
-        form2.b8_4=b8_4
-        form2.save()
+        form2 = PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form1)
+        form2.delete()
+        
+        for i in b8_1.split(','):
+            for j in b8_2.split(','):
+                for k in b8_3.split(','):
+                    for l in b8_4.split(','):
+                        form2_1 = PoyasitelniyFormTable1(poyasitelniyform=form1, b8_1=i, b8_2=j, b8_3=k, b8_4=l)
+
+            form2_1.save()
+
+
+        form3 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form1)
+        form3.delete()
+        for a in b9_1.split(','):
+            for b in b9_2.split(','):
+                for c in b9_3.split(','):
+                    for d in b9_4.split(','):
+                        form3_1 = PoyasitelniyFormTable2(poyasitelniyform=form1, b9_1=a, b9_2=b, b9_3=c, b9_4=d)
+                        form3_1.save()
+
 
         form3 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form1).first()
         form3.poyasitelniyform=form1
@@ -1718,6 +1789,7 @@ def save_files(request):
         jurnal =request.FILES.get('jurnal')
         vidimes =request.FILES.get('vidimes')
         list =request.FILES.get('list')
+        topo_plan =request.FILES.get('topo_plan')
 
         points = data.get('geometry_point')
         lines = data.get('geometry_line')
@@ -1766,6 +1838,11 @@ def save_files(request):
             object.abris_file = abris
         else:
             object.abris_file = object.abris_file
+
+        if topo_plan:
+            object.topo_plan = topo_plan
+        else:
+            object.topo_plan = object.topo_plan
 
         if kroki:
             object.kroki_file = kroki
@@ -1821,10 +1898,10 @@ def object_poyasitelniy_form(request,id):
     sirie_type = Order.objects.filter(object=work.object.id).first()
 
     form=PoyasitelniyForm.objects.filter(workerobject=work).first()
-    form1=PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form).first()
-    form2=PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).first()
-    form3=PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).first()
-    form4=PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).first()
+    form1=PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form).all()
+    form2=PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).all()
+    form3=PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).all()
+    form4=PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).all()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work, 'objects_pdo': objects_pdo,'sirie_type':sirie_type,'count': counter(),
                'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request),'aktkomeral':aktkomeral
@@ -1933,21 +2010,21 @@ def order_to_pdf(request):
         context += '<li>Наименование объекта ' + object.pdowork.object_name + '</li>';
         context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
         context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
-        context += '<li>Виды и объемы работ ' + object.pdowork.work_type + '</li>';
+        context += '<li>Виды работ ' + object.pdowork.work_type + '</li>';
         context += '<li>Сроки выполнения работ ' + object.pdowork.work_term + '</li>';
+        context += '<li>Oбъемы работ ' + order.size + '</li>';
         context += '<li>Исходные данные, система координат и высот, использование материалов работ прошлых лет ' + order.info + '</li>';
-        context += '<li>Метод создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек ' + order.method_creation + '</li>';
+        context += '<li>Методы создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек ' + order.method_creation + '</li>';
+        context += '<li>Программы уравнивания ' + order.adjustment_methods + '</li>';
         context += '<li>Метод создания геодезического и (или) съемочного обоснования, закрепление пунктов, точекМетод выполнения топографической съемки. Технические требования и технология выполнения работ ' + order.method_fill + '</li>';
         context += '<li>Съемка инженерно-подземных коммуникаций ' + order.syomka + '</li>';
         context += '<li>Особые требования ' + order.requirements + '</li>';
         context += '<li>Поверки геодезических инструментов ' + order.item_check + '</li>';
-        context += '<li>Методы и программы уравнивания ' + order.adjustment_methods + '</li>';
         context += '<li>Перечень предоставляемых материалов ' + order.list_of_materials + '</li>';
         context += '<li>Метод топографической съемки ' + order.type_of_sirie + '</li>';
         context += ' <li>Приложение: <ol>'
         context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
         context += '</ol></li>';
-
         context += '<p>Предписание составил: ' + order.order_creator + ' </p>';
         context += '<p>Предписание получил: ' + object.worker_ispolnitel + ' </p>';
         context += '''</ol>
@@ -2020,16 +2097,17 @@ def doing_program_work_file(request):
 
     <div style="padding: 100px">
 
-        <h2 style="text-align: center;">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h2>
+        <h3 style="text-align: center;">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h3>
         <br>
-        <p>По <span><input class="w-50 formact" name="a0" value="'''+str(form.a0)+'''" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
-        <h5 style="text-align: center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
+        <p>По объекту<span><input style="width: 90%" class="formact" name="a0" value="'''+str(form.a0)+'''" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
+        <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
         <p>
             Основанием для производства работ послужило техническое задание, выданное
-            <span><input class="w-50 m-b-5 formact" name="a1_1" value="'''+str(form.a1_1)+'''" type="text"></span>
+            <span><input style="width: 55%" class="m-b-5 formact" name="a1_1" value="'''+str(form.a1_1)+'''" type="text"></span>
             <br> Цель, назначение и объем проектируемых работ
-            <span><input class="w-75 m-b-5 formact" required name="a1_2" value="'''+str(form.a1_2)+'''" type="text"></span> Дополнительные требования к выполнению геодезических работ
-            <span><input class="w-75 m-b-5 formact" required name="a1_3" value="'''+str(form.a1_3)+'''" type="text"></span>
+          
+            <span><input style="width: 73%" class=" m-b-5 formact" required name="a1_2" value="'''+str(form.a1_2)+'''" type="text"></span>  <br><br> Дополнительные требования к выполнению геодезических работ
+            <span><input style="width: 64%" class=" m-b-5 formact" required name="a1_3" value="'''+str(form.a1_3)+'''" type="text"></span>
         </p>
         <div class="mb-3 row">
             <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary" style="text-align: center">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</p>
@@ -2699,8 +2777,8 @@ def doing_poyasitelniy_file(request):
                                             <div class="file-sidebar ">
                                                 <div class="pricing-plan border-0">
                                                     <div class="col-md-12">
-                                                        <h2 style="text-align: center">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h2>
-                                                        <p style="text-align: center">по топографо-геодезическим работам</p>
+                                                        <h4 style="text-align: center;margin-top:-40px">ПОЯСНИТЕЛЬНАЯ ЗАПИСКА</h4>
+
                                                         <br>
                                                         <div class="row">
                                                             <div class="mb-3 row">
@@ -2746,7 +2824,8 @@ def doing_poyasitelniy_file(request):
                                                                 <br>
                                                                 <br>
                                                             </div>
-                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">8</span> Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1</h5>
+                                                            8 Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1
+                                                            <br>
                                                             <p class="text-end">Таблица 1</p>
                                                             <div class="col-sm-12 m-t-10">
                                                                 <div class="card border-0">
@@ -2755,11 +2834,11 @@ def doing_poyasitelniy_file(request):
 
                                                                             <thead class="table-primary">
                                                                             <tr>
-                                                                                <th scope="col">№</th>
-                                                                                <th scope="col">Наименование работ</th>
-                                                                                <th scope="col">Измеритель</th>
-                                                                                <th scope="col">Объемы работ по проекту</th>
-                                                                                <th scope="col">Фактически выполнено</th>
+                                                                                <td style="text-align:center">№</td>
+                                                                                <td style="text-align:center">Наименование работ</td>
+                                                                                <td style="text-align:center">Измеритель</td>
+                                                                                <td style="text-align:center">Объемы работ по проекту</td>
+                                                                                <td style="text-align:center">Фактически выполнено</td>
 
                                                                             </tr>
                                                                             </thead>
@@ -2792,18 +2871,19 @@ def doing_poyasitelniy_file(request):
                                                                 8.1 Номенклатура планшетов '''+str(form.b8_1_1)+'''
                                                                 <br>
                                                             </div>
-                                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> Каталог координат и высот исходных пунктов и точек долговременного закрепления</h5>
+                                                            9 Каталог координат и высот исходных пунктов и точек долговременного закрепления
+                                                            <br>
                                                             <div class="col-sm-12 m-t-10">
                                                                 <div class="card border-0">
                                                                     <div class="table-responsive">
                                                                         <table class="table table-bordered" id="childTable9">
                                                                             <thead class="table-primary">
                                                                             <tr>
-                                                                                <th scope="col">№</th>
-                                                                                <th scope="col">Номер пункта и тип закрепления</th>
-                                                                                <th scope="col">Координаты x</th>
-                                                                                <th scope="col">Координаты y</th>
-                                                                                <th scope="col">Высота</th>
+                                                                                <td style="text-align:center">№</th>
+                                                                                <td style="text-align:center">Номер пункта и тип закрепления</td>
+                                                                                <td style="text-align:center">Координаты x</td>
+                                                                                <td style="text-align:center">Координаты y</td>
+                                                                                <td style="text-align:center">Высота</td>
 
                                                                             </tr>
                                                                             </thead>
@@ -2860,7 +2940,8 @@ def doing_poyasitelniy_file(request):
                                                                15. Нивелирование производилось нивелиром '''+str(form.b15)+'''
                                                                 <br>
                                                             </div>
-                                                            <h5><span class="badge rounded-pill badge-primary">16</span> Уравнивание съёмочного обоснования произведено:</h5>
+                                                            16 Уравнивание съёмочного обоснования произведено:
+                                                            <br>
                                                             <div class="mb-3 row">
                                                                     a) планового '''+str(form.b16_a)+'''
                                                                     <br>
@@ -2881,7 +2962,8 @@ def doing_poyasitelniy_file(request):
 
                                     <div class="setup-content" id="step-2">
                                         <div class="col-xs-12">
-                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">17</span> Техническая характеристика планового съемочного обоснования приводится в таблице 2.</h5>
+                                            17 Техническая характеристика планового съемочного обоснования приводится в таблице 2.
+                                            <br>
                                             <p class="text-end"> Таблица 2</p>
                                             <div class="col-sm-12 m-t-10">
                                                 <div class="card border-0">
@@ -2889,14 +2971,14 @@ def doing_poyasitelniy_file(request):
                                                         <table class="table table-bordered" id="childTableTen">
                                                             <thead class="table-primary">
                                                             <tr>
-                                                                <th scope="col">№</th>
-                                                                <th scope="col">Наименование хода</th>
-                                                                <th scope="col">Длина хода в км</th>
-                                                                <th scope="col">Число узлов</th>
-                                                                <th scope="col">Угловые невязки получен</th>
-                                                                <th scope="col">Угловые невязки допустим</th>
-                                                                <th scope="col">Линейные невязки абсолют</th>
-                                                                <th scope="col">Линейные невязки относит</th>
+                                                                <td style="text-align:center">№</td>
+                                                                <td style="text-align:center">Наименование хода</td>
+                                                                <td style="text-align:center">Длина хода в км</td>
+                                                                <td style="text-align:center">Число узлов</td>
+                                                                <td style="text-align:center">Угловые невязки получен</td>
+                                                                <td style="text-align:center">Угловые невязки допустим</d>
+                                                                <td style="text-align:center">Линейные невязки абсолют</td>
+                                                                <td style="text-align:center">Линейные невязки относит</td>
 
                                                             </tr>
                                                             </thead>
@@ -2931,19 +3013,20 @@ def doing_poyasitelniy_file(request):
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h5 class="text-center"><span class="badge rounded-pill badge-primary">18</span> Техническая характеристика высотного съемочного обоснования приводится в таблице 3.</h5>
+                                            18 Техническая характеристика высотного съемочного обоснования приводится в таблице 3.
+                                            <br>
                                             <div class="col-sm-12 m-t-10">
                                                 <div class="card border-0">
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered" id="childTableEleven">
                                                             <thead class="table-primary">
                                                             <tr>
-                                                                <th scope="col">№</th>
-                                                                <th scope='col'>Наименование хода</th>
-                                                                <th scope="col">Число станций км/хода</th>
-                                                                <th scope="col">Невязки в ходах в мм получен</th>
-                                                                <th scope="col">Невязки в ходах в мм допустим</th>
-                                                                <th scope="col">Примечание</th>
+                                                                <td style="text-align:center">№</td>
+                                                                <td style="text-align:center">Наименование хода</td>
+                                                                <td style="text-align:center">Число станций км/хода</td>
+                                                                <td style="text-align:center">Невязки в ходах в мм получен</td>
+                                                                <td style="text-align:center">Невязки в ходах в мм допустим</td>
+                                                                <td style="text-align:center">Примечание</td>
 
                                                             </tr>
                                                             </thead>
@@ -2989,7 +3072,8 @@ def doing_poyasitelniy_file(request):
                                                  <br>
                                                 <br>
                                             </div>
-                                            <h5 class="">21. По выявлению и съёмке подземных коммуникаций на объекте:</h5>
+                                            21. По выявлению и съёмке подземных коммуникаций на объекте:
+                                            <br>
                                             <div class="mb-3 row">
                                                 Работа выполнена исполнителем '''+str(object.object.worker_ispolnitel)+'''
                                                 <br>
@@ -3001,11 +3085,11 @@ def doing_poyasitelniy_file(request):
                                                         <table class="table table-bordered">
                                                             <thead class="table-primary">
                                                             <tr>
-                                                                <th scope="col">№</th>
-                                                                <th scope="col">Виды работ</th>
-                                                                <th scope="col">Ед.измерен</th>
-                                                                <th scope="col">Объём работ</th>
-                                                                <th scope="col">Категория</th>
+                                                                <td style="text-align:center">№</td>
+                                                                <td style="text-align:center">Виды работ</td>
+                                                                <td style="text-align:center">Ед.измерен</td>
+                                                                <td style="text-align:center">Объём работ</td>
+                                                                <td style="text-align:center">Категория</td>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -3161,11 +3245,7 @@ def doing_poyasitelniy_file(request):
                                                 <br>
                                                 <br>
                                             </div>
-                                            <div class="mb-3 row">
-                                                Контроль и приемка работ '''+str(form.d_13)+'''
-                                                <br>
-                                                <br>
-                                            </div>
+                                            
 
                                         </div>
                                     </div>
@@ -4707,64 +4787,45 @@ def show_pdowork(request,id):
     pdowork = PdoWork.objects.filter(id=id).first()
     cost = float(pdowork.object_cost)
 
+    object = Object.objects.filter(pdowork=pdowork).first()
+    order = Order.objects.filter(object=object).first()
+
     workers=Worker.objects.filter(status=0).filter(department=request.user.profile.department)
-    context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost}
+    context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost,'order':order,'object' :object}
     return render(request, 'leader/show_pdowork.html', context)
 
 @login_required(login_url='/signin')
 def edit_pdowork(request,id):
 
     pdowork = PdoWork.objects.filter(id=id).filter(status_recive=1).first()
+    cost = float(pdowork.object_cost)
     workers=Worker.objects.filter(status=0)
     order = Order.objects.filter(object__pdowork=pdowork).first()
     object=Object.objects.filter(pdowork=pdowork).first()
-    context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter()}
+    context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter(),'cost':cost}
     return render(request, 'leader/edit_pdowork.html', context)
 
 @login_required(login_url='/signin')
 def start(request):
     if request.method == 'POST':
-        info = request.POST.get('info')
-        method_creation = request.POST.get('method_creation')
-        method_fill = request.POST.get('method_fill')
-        syomka = request.POST.get('syomka')
-        requirements = request.POST.get('requirements')
-        item_check = request.POST.get('item_check')
-        list_of_materials = request.POST.get('list_of_materials')
-        adjustment_methods = request.POST.get('adjustment_methods')
-        type_of_sirie = request.POST.get('type_of_sirie')
-        order_creator = request.POST.get('order_creator')
-        pdowork = request.POST.get('pdowork')
-        size = request.POST.get('size')
-        is_programwork = request.POST.get('is_programwork')
-        worker_ispolnitel = request.POST.get('worker_ispolnitel')
+        data = request.POST
+        order_creator = data.get('order_creator')
+        pdowork_id = data.get('pdowork_id')
 
-        pdowork = PdoWork.objects.filter(id=pdowork).first()
+        pdowork = PdoWork.objects.filter(id=pdowork_id).first()
         pdowork.status_recive=1
         # status_recive = 1 is started work but not recived by worker
         pdowork.save()
 
-        object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=is_programwork,worker_ispolnitel = worker_ispolnitel)
-        object.save()
-
-        order = Order(object=object,info=info,method_creation=method_creation,method_fill=method_fill,syomka=syomka,requirements=requirements,item_check=item_check,
-                     list_of_materials=list_of_materials,size=size,adjustment_methods=adjustment_methods,type_of_sirie=type_of_sirie,order_creator=order_creator,order_receiver=worker_ispolnitel)
-        order.save()
-        print(is_programwork)
-
-        if is_programwork == 'True':
-            programm_work = ProgramWork(object=object, status=0)
-            programm_work.save()
+        object = Object.objects.filter(pdowork=pdowork).first()
 
         history = History(user_id=order_creator, status=1, object=object, comment="Yangi obekt ish jarayoniga yuborildi")
         # status=1 work started by leader
         history.save()
         # messages.error(request, "Ish boshlandi ichi qabul qilishini kuting !")
-        return HttpResponseRedirect('/pdoworks/')
-
+        return HttpResponse(1)
     else:
-        messages.error(request, "Bunday foydalanuvchi mavjud emas !")
-        return HttpResponseRedirect('/')
+        return HttpResponse(0)
 
 @login_required(login_url='/signin')
 def edit_pdowork_changes(request):
@@ -5394,6 +5455,13 @@ def confirm_print(request):
         id = data.get('work_id')
         worker = data.get('worker')
 
+        object = Object.objects.filter(id=id).first()
+
+        pdowork = PdoWork.objects.filter(id=object.pdowork).first()
+        pdowork.status = 1
+        pdowork.save()
+        
+
         report = Report.objects.filter(object=id).first()
         report.status = 5
         report.save()
@@ -5473,6 +5541,10 @@ def confirm_print2(request):
         worker = data.get('worker')
 
         object = Object.objects.filter(id=id).first()
+
+        pdowork = PdoWork.objects.filter(id=object.pdowork).first()
+        pdowork.status = 1
+        pdowork.save()
 
         workerobject = WorkerObject.objects.filter(object=object).first()
         workerobject.status = 5

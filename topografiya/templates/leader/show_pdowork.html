@@ -203,7 +203,8 @@
                                                              style="font-size: 20px;font-weight: 500;">Тизим ёрдамида
                                                         </div>
 
-                                                        <form action="{% url 'start' %}" method="post" enctype="multipart/form-data">
+
+                                                            <form action="{% url 'save_order' %}" method="post" enctype="multipart/form-data">
                                                             {% csrf_token %}
                                                             <div class="details-bookmark">
                                                             <div class="row" id="bookmarkData">
@@ -216,12 +217,12 @@
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
-                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True">
+                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
                                                                                     <label for="radio1"><span class="digits">Ҳа</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
-                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" checked="">
+                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
                                                                                     <label for="radio4">Йўқ</label>
                                                                                 </div>
 
@@ -236,10 +237,11 @@
                                                                                     жавобгар шахс<sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
-                                                                                <select required class="js-example-placeholder-multiple col-sm-12" id="worker_ispolnitel" name="worker_ispolnitel">
-                                                                                    <option value="">--- ---</option>
+{#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
+                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" id="worker_ispolnitel">
+                                                                                    <option value="">-- --</option>
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}"> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -312,7 +314,7 @@
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="size" id="size" required style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.size }}</textarea>
                                                                                 </div>
                                                                             </div>
 
@@ -324,83 +326,99 @@
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="info" id="info" required style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.info }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>9. </b>Метод создания геодезического и
+                                                                                    <b>9. </b>Методы создания геодезического и
                                                                                     (или) съемочного обоснования,
                                                                                     закрепление пунктов, точек</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea  name="method_creation" id="method_creation" style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.method_creation }}</textarea>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>10. </b>Метод
+                                                                                    <b>10. </b>Программы уравнивания</label>
+                                                                                <div class="col-sm-8">
+                                                                                    <textarea  name="adjustment_methods" id="adjustment_methods" style="height: 100px;"
+                                                                                              class="form-control">{{ order.adjustment_methods }}</textarea>
+                                                                                </div>
+                                                                            </div>
+
+
+
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-4 col-form-label">
+                                                                                    <b>11. </b>Метод
                                                                                     выполнения топографической съемки.
                                                                                     Технические требования и технология
                                                                                     выполнения работ</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="method_fill" id="method_fill"  style="height: 100px;"
-                                                                                              class="form-control"></textarea>
+                                                                                              class="form-control">{{ order.method_fill }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>11. </b>Съемка
+                                                                                    <b>12. </b>Съемка
                                                                                     инженерно-подземных
                                                                                     коммуникаций</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="syomka" id="syomka"  style="height: 100px;" class="form-control"></textarea>
+                                                                                    <textarea name="syomka" id="syomka"  style="height: 100px;" class="form-control">{{ order.syomka }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>12. </b>Особые
+                                                                                    <b>13. </b>Особые
                                                                                     требования</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="requirements" id="requirements"  style="height: 100px;" class="form-control"></textarea>
+                                                                                    <textarea name="requirements" id="requirements"  style="height: 100px;" class="form-control">{{ order.requirements }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>13.</b>Поверки геодезических инструментов <sup class="text-danger" style="font-size: 14px">*</sup>
+                                                                                    <b>14.</b>Поверки геодезических инструментов <sup class="text-danger">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="item_check" id="item_check" style="height: 100px;" required class="form-control"></textarea>
+                                                                                    <textarea name="item_check" id="item_check" style="height: 100px;"  class="form-control">{{ order.item_check }}</textarea>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="row mb-3">
-                                                                                <label class="col-sm-4 col-form-label">
-                                                                                    <b>14. </b>Методы
-                                                                                    и программы уравнивания</label>
-                                                                                <div class="col-sm-8">
-                                                                                    <textarea name="adjustment_methods" id="adjustment_methods"  class="form-control"></textarea>
-                                                                                </div>
-                                                                            </div>
+{#                                                                            <div class="row mb-3">#}
+{#                                                                                <label class="col-sm-4 col-form-label">#}
+{#                                                                                    <b>14. </b>Методы#}
+{#                                                                                    и программы уравнивания</label>#}
+{#                                                                                <div class="col-sm-8">#}
+{#                                                                                    <textarea name="adjustment_methods" id="adjustment_methods"  class="form-control">{{ order.adjustment_methods }}</textarea>#}
+{#                                                                                </div>#}
+{#                                                                            </div>#}
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>15. </b>Перечень
                                                                                     предоставляемых материалов</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <textarea name="list_of_materials" id="list_of_materials" style="height: 100px;"  class="form-control"></textarea>
+                                                                                    <textarea name="list_of_materials" id="list_of_materials" style="height: 100px;"  class="form-control">{{ order.list_of_materials }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>16. </b>Метод топографической съемки <sup class="text-danger" style="font-size: 14px">*</sup></label>
+                                                                                    <b>16. </b>Метод топографической съемки <sup class="text-danger">*</sup></label>
+{#                                                                                {{ order.type_of_sirie }}#}
                                                                                 <div class="col-sm-8">
                                                                                     <select name="type_of_sirie" id="type_of_sirie" required class="js-example-disabled-results col-sm-12">
                                                                                         <option value="">--- ---</option>
-                                                                                        <option value="0">БПЛА</option>
-                                                                                        <option value="1">GNSS</option>
-                                                                                        <option value="2">Тахеометрическая съемка</option>
+                                                                                        <option value="0" {% if order.type_of_sirie == '0' %}selected{% endif %}>БПЛА</option>
+                                                                                        <option value="1" {% if order.type_of_sirie == '1' %}selected{% endif %}>GNSS</option>
+                                                                                        <option value="2" {% if order.type_of_sirie == '2' %}selected{% endif %}>Тахеометрическая съемка</option>
                                                                                     </select>
                                                                                 </div>
+
                                                                             </div>
+
+
                                                                             <div class="floder_input">
                                                                                 <label><b>17. </b>Приложение:</label>
                                                                                 <div class="row">
@@ -436,8 +454,15 @@
                                                                             <input type="text" name="pdowork" id="pdowork_id" value="{{ pdowork.id }}" style="display: none">
 
                                                                             <hr>
+
                                                                             <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>
-                                                                            <button class="float-end btn btn-primary" id="save" type="submit"> <i class="fa fa-check"></i> Ишни бошлаш</button>
+{#                                                                            {% if order != 'None' %}#}
+                                                                                <button class="float-end btn btn-warning" id="save_order" type="button"> <i class="fa fa-check"></i> Сақлаш</button>
+{#                                                                            {% else %}#}
+                                                                            <br>
+                                                                            <hr>
+                                                                                <button class="float-end btn btn-primary" id="start" type="button"> <i class="fa fa-check"></i> Ишни бошлаш</button>
+{#                                                                            {% endif %}#}
 {#                                                                            <button class="btn btn-warning" type="button" id="save_order" > <i class="fa fa-check"></i> Сақлашш</button>#}
 
                                                                         </div>
@@ -473,13 +498,11 @@
                                                                             <button class="btn btn-primary sweet-1"
                                                                                     type="button"
                                                                                     onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-1']);"
-                                                                                    data-bs-original-title="" title="">
+                                                                                    data-bs-original-title="" >
                                                                                 Ишни бошлаш
                                                                             </button>
                                                                         </div>
-                                                                        <img class="bg-img"
-                                                                             src="{% static 'assets/images/dashboard/folder1.png' %}"
-                                                                             alt="">
+                                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder1.png' %}" alt="">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -503,49 +526,99 @@
 
 {#{% block scriptcontent %}#}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-{#    <script>#}
-{#    $("#save_order").click(function(event) {#}
-{#        var data = new FormData();#}
-{#        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);#}
-{#        data.append("isset_programwork", $('#isset_programwork').val());#}
-{#        data.append("info", $('#info').val());#}
-{#        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());#}
-{#        data.append("method_creation", $('#method_creation').val());#}
-{#        data.append("method_fill", $('#method_fill').val());#}
-{#        data.append("syomka", $('#syomka').val());#}
-{#        data.append("requirements", $('#requirements').val());#}
-{#        data.append("item_check", $('#item_check').val());#}
-{#        data.append("adjustment_methods", $('#adjustment_methods').val());#}
-{#        data.append("list_of_materials", $('#list_of_materials').val());#}
-{#        data.append("type_of_sirie", $('#type_of_sirie').val());#}
-{#        data.append("order_creator", $('#order_creator').val());#}
-{#        data.append("order_receiver", $('#order_receiver').val());#}
-{#        data.append("pdowork_id", $('#pdowork_id').val());#}
-{##}
-{#        event.preventDefault();#}
-{##}
-{#           $.ajax({#}
-{#            type: 'POST',#}
-{#            url: '{% url 'save_order' %}',#}
-{#            data: data,#}
-{#            cache: false,#}
-{#            contentType: false,#}
-{#            processData: false,#}
-{#            success: function (result){#}
-{#              location.replace(window.location.pathname);#}
-{#            },#}
-{##}
-{#            error: function(){#}
-{#              alert('Ajax da xatolik !! ');#}
-{#            }#}
-{#        });#}
-{##}
-{##}
-{##}
-{##}
-{##}
-{#        });#}
-{#</script>#}
+    <script>
+    $("#save_order").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("isset_programwork", $('#isset_programwork').val());
+        data.append("size", $('#size').val());
+        data.append("info", $('#info').val());
+        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());
+        data.append("method_creation", $('#method_creation').val());
+        data.append("method_fill", $('#method_fill').val());
+        data.append("syomka", $('#syomka').val());
+        data.append("requirements", $('#requirements').val());
+        data.append("item_check", $('#item_check').val());
+        data.append("adjustment_methods", $('#adjustment_methods').val());
+        data.append("list_of_materials", $('#list_of_materials').val());
+        data.append("type_of_sirie", $('#type_of_sirie').val());
+        data.append("order_creator", $('#order_creator').val());
+        data.append("order_receiver", $('#order_receiver').val());
+        data.append("pdowork_id", $('#pdowork_id').val());
+
+        event.preventDefault();
+
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'save_order' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+              location.replace(window.location.pathname);
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+
+
+
+
+
+        });
+</script>
+
+        <script>
+    $("#start").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("isset_programwork", $('#isset_programwork').val());
+        data.append("size", $('#size').val());
+        data.append("info", $('#info').val());
+        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());
+        data.append("method_creation", $('#method_creation').val());
+        data.append("method_fill", $('#method_fill').val());
+        data.append("syomka", $('#syomka').val());
+        data.append("requirements", $('#requirements').val());
+        data.append("item_check", $('#item_check').val());
+        data.append("adjustment_methods", $('#adjustment_methods').val());
+        data.append("list_of_materials", $('#list_of_materials').val());
+        data.append("type_of_sirie", $('#type_of_sirie').val());
+        data.append("order_creator", $('#order_creator').val());
+        data.append("order_receiver", $('#order_receiver').val());
+        data.append("pdowork_id", $('#pdowork_id').val());
+
+        event.preventDefault();
+        if($('#size').val() != 0 && $('#info').val() != 0 && $('#item_check').val() != 0 ){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'start' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+              location.replace('/pdoworks');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+        else{
+            alert("Majburiy maydonlarni to'ldiring");
+        }
+
+
+
+
+
+        });
+</script>
 
     <script type="text/javascript">
 

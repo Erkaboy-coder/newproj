@@ -578,7 +578,7 @@
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title"> Ҳисобат билан танишиш</h5>
+                                                            <h5 style="color: white;" class="modal-title"> Хисоботни юклаш ва текширувга юбориш</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
@@ -622,7 +622,7 @@
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center" >
 
                                                 <button class="btn btn-lg" style="width: 100%;background-color: #0a790a;color: whitesmoke" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalCenter"> <i class="fa fa-mail-reply"></i> Ҳисоботни текширувга юбориш
+                                                    data-bs-target="#exampleModalCenter"> <i class="fa fa-mail-reply"></i> Хисоботни юклаш ва текширувга юбориш
                                                 </button>
 
 {#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
@@ -634,7 +634,7 @@
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title">Ҳисоботни текширувга юбориш</h5>
+                                                            <h5 style="color: white;" class="modal-title">Хисоботни юклаш ва текширувга юбориш</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
@@ -648,7 +648,7 @@
                                                             <br>
                                                             <h5 class="m-b-20">Ҳисобот файли</h5>
                                                             <input class="form-control" id="reason_file" name="reason_file" type="file">
-                                                            <h5 class="m-t-20 m-b-20">Ҳисобот матни</h5>
+                                                            <h5 class="m-t-20 m-b-20">Қўшимча маълумот</h5>
                                                             <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
@@ -960,7 +960,7 @@
         data.append("report_file", $('#reason_file')[0].files[0]);
         event.preventDefault();
 
-        if($('#reason').val() != 0 ){
+        if($('#reason').val() != 0 && $('#reason_file')[0].files[0] != '' ){
            $.ajax({
             type: 'POST',
             url: '{% url 'report_send' %}',
