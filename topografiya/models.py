@@ -493,6 +493,8 @@ class PolevoyWorkReject(models.Model):
 class KameralWorkReject(models.Model):
     workerobject = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='komeralworkreject')
     file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/kameral_rejects', blank=True)
+    version = models.IntegerField(default=0)
+    rejected_file = models.TextField(blank=True)
     reason = models.TextField(blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
@@ -520,6 +522,7 @@ class AktKomeralForm(models.Model):
     # status = 2 bosa komeral nazoratdan qaytgan ish
     # status = 3 muddati kam qolgan
     # status = 4 tasdiqlanganlar
+    version = models.IntegerField(default=0)
     file = models.FileField("AKT file", upload_to='topografiya/static/files/akt-kameral', blank=True)
 
     a1 = models.TextField(blank=True)

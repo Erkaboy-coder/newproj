@@ -831,8 +831,10 @@ def checking_komeral_works(request,id):
     work = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
+    poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=workerobject).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order,'work':work, 'rejects':rejects, 'programwork': programwork}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order,
+               'poyasitelniy':poyasitelniy,'work':work, 'rejects':rejects, 'programwork': programwork}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
 
@@ -859,11 +861,11 @@ def rejected_komeral_works(request,id):
     order = Order.objects.filter(object=id).first()
 
     work = AktKomeralForm.objects.filter(object=id).first()
-
+    siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
     programwork = ProgramWork.objects.filter(object=id).first()
     
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'programwork': programwork}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'programwork': programwork,'siriefiles':siriefiles}
 
     return render(request, 'leader/komeral/rejected_komeral_works.html', context)
 
@@ -903,11 +905,16 @@ def sent_to_check_akt(request):
         work_id = data.get('work_id')
         worker = data.get('worker')
         array=data.get('array')
+        akt_komeral_file =request.FILES.get('akt_komeral_file')
+        print(akt_komeral_file)
 
         d={}
         object=Object.objects.filter(id=work_id).first()
         j=0
-        d = {'object': object, 'status': 4}
+        if akt_komeral_file != None:
+            d = {'object': object, 'status': 4,'file': akt_komeral_file}
+        else:
+            d = {'object': object, 'status': 4}
         for i in array.split(','):
             j=j+1
             d['a'+str(j)]=i
@@ -935,11 +942,13 @@ def deny_komeral(request):
 
         workerobject = AktKomeralForm.objects.filter(object=work_id).first()
         workerobject.status = 2
+        workerobject.version = workerobject.version+1
         workerobject.save()
 
         object_id = Object.objects.filter(id=work_id).first()
+        path = 'topografiya/static/files/akt-komeral/akt_komeral_'+str(object_id.id)+'_'+str(workerobject.version)+'v.pdf'
 
-        reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason)
+        reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason, version = workerobject.version, rejected_file=path)
         reject.save()
 
         history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
@@ -2740,22 +2749,21 @@ def doing_akt_komeral_file(request):
 </html>
                ''';
 
-        options = {
-            'page-size': 'A4',
-            'encoding': "UTF-8",
-            'margin-top': '0.2in',
-            'margin-right': '0.2in',
-            'margin-bottom': '0.2in',
-            'margin-left': '0.2in',
-            'orientation': 'portrait',
-            # landscape bu albomiy qiladi
-        }
-        # display = Display(visible=0, size=(500, 500)).start()
-        pdfkit.from_string(context, 'topografiya/static/files/akt-komeral/akt_komeral.pdf', options)
+        if not exists('topografiya/static/files/akt-komeral/akt-komeral_'+str(work.object.id)+'_'+str(work.version)+'v.pdf'):
+            options = {
+                'page-size': 'A4',
+                'encoding': "UTF-8",
+                'margin-top': '0.2in',
+                'margin-right': '0.2in',
+                'margin-bottom': '0.2in',
+                'margin-left': '0.2in',
+                'orientation': 'portrait',
+                # landscape bu albomiy qiladi
+            }
+            # display = Display(visible=0, size=(500, 500)).start()
+            pdfkit.from_string(context, 'topografiya/static/files/akt-komeral/akt_komeral_'+str(work.object.id)+'_'+str(work.version)+'v.pdf', options)
 
-        response = HttpResponse(data, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="akt_komeral.pdf"'
-        return response
+        return HttpResponse('akt-komeral/akt_komeral_' + str(work.object.id) + '_' + str(work.version) + 'v.pdf')
     else:
         return HttpResponse(0)
 

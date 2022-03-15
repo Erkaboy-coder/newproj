@@ -14,6 +14,9 @@
     .form-plan{
         border: 1px solid #e6edef;
     }
+    *{
+        font-size: 15px;
+    }
 </style>
 {% endblock stylecontent %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
@@ -22,7 +25,7 @@
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-10">
                             <h3>Майдон назоратини AKT</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
@@ -44,6 +47,12 @@
                             </ol>
                         </div>
 
+                        <div class="col-sm-2">
+                        {% if work.status == 0 %}
+                            <a href="{% url 'checking_komeral_works' id=workerobject.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
+                        {% endif %}
+                    </div>
+
                     </div>
                 </div>
             </div>
@@ -59,7 +68,7 @@
         <div class="col-sm-12">
 
 
- {% if work %}
+                                                {% if work %}
                                                                 <form action="#" method="POST">
                                                                 <div class="setup-content" id="step-1">
                                                                     <div class="col-xs-12">
@@ -71,20 +80,21 @@
                                                                                     <p class="text-end">
                                                                                         Приложение F обязательное
                                                                                     </p>
+{#                                                                                {% if work %}#}
+
+{#                                                                                    {% if work.status == 2 %}#}
+{#                                                                                    <div class="ribbon ribbon-left ribbon-danger"><i class="fa fa-close"></i> Отрицательный</div>#}
+{#                                                                                        {% else %}#}
+{#                                                                                            <div class="ribbon ribbon-left ribbon-success"><i class="fa fa-check"></i> Положительный</div>#}
+{#                                                                                        {% endif %}#}
+{#                                                                                    {% endif %}#}
 
                                                                                     <div class="row">
                                                                                         <div class="col-lg-8"></div>
 
                                                                                         <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                                                            <div class="text-end input-group date"
-                                                                                                 id="dt-minimum"
-                                                                                                 data-target-input="nearest">
-                                                                                                <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control datetimepicker-input digits"
-                                                                                                       type="text"
-                                                                                                       data-target="#dt-minimum">
-                                                                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker">
-                                                                                                    <i class="fa fa-calendar"> </i>
-                                                                                                </div>
+                                                                                            <div class="text-end ">
+                                                                                                <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control" type="text">
                                                                                             </div>
                                                                                         </div>
 
@@ -107,27 +117,16 @@
                                                                                         <p>составили настоящий акт в
                                                                                             том, что за период с</p>
 
-                                                                                        <div class="input-group date w-50"
-                                                                                             id="dt-disab-days"
-                                                                                             data-target-input="nearest">
-                                                                                            <input class="form-control datetimepicker-input digits"
-                                                                                                   type="text" id="a3" value="{{ work.a3 }}" name="a3"
-                                                                                                   data-target="#dt-disab-days">
-
-                                                                                            <div class="input-group-text"
-                                                                                                 data-target="#dt-disab-days"
-                                                                                                 data-toggle="datetimepicker">
-                                                                                                <i class="fa fa-calendar"></i>
-                                                                                            </div>
-                                                                                        </div>
-
+                                                                                        C &nbsp; <input type="date" id="a3" name="a3" value="{{ work.a3 }}" style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        по &nbsp;&nbsp; <input type="date" id="a72" name="a72" value="{{ work.a72 }}"  style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        <br>
                                                                                         <p>произведен контроль и приемка
                                                                                             топографических работ,
                                                                                             выполненных на объекте:</p>
-                                                                                        <input style="width: 50%" id="a4" value="{{ work.a4 }}" name="a4"
-                                                                                               class="form-control"
-                                                                                               type="text"
-                                                                                               placeholder="№ дог.">
+
+                                                                                        {{ workerobject.object.pdowork.object_name }} № дог. <input style="width: 20%;border-top:0;border-left: 0;border-right: 0" id="a4" name="a4"  type="text" value="{{ work.a4 }}">
+                                                                                        от {{ workerobject.object.pdowork.agreement_date }}
+                                                                                        <br>
                                                                                         <p>по заданию заказчика</p>
                                                                                         <input style="width: 50%" id="a5" value="{{ work.a5 }}" name="a5"
                                                                                                class="form-control"
@@ -549,7 +548,7 @@
                                                                                                             type="text"></span>
                                                                                                 </p>
                                                                                                 <p>контрольные</p>
-                                                                                                <textarea id="a27" name="a27" class="form-control w-50">{{ work.a27 }}</textarea>
+                                                                                                <textarea id="a27" value="{{ work.a27 }}" name="a27" class="form-control w-50">{{ work.a26 }}</textarea>
                                                                                             </div>
                                                                                         </div>
                                                                                         <p>Топографическая съемка,
@@ -689,6 +688,13 @@
                                                                                                 placeholder="указать среднее количество пикетов на 1 кв дц:,">{{ work.a31 }}</textarea>
 
 
+                                                                                         {% if workerobject.status != 4  %}
+                                                                                            {% if workerobject.status != 2 %}
+                                                                                        <button class="edit_akt btn btn-warning pull-left"
+                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                        </button>
+                                                                                            {% endif %}
+                                                                                            {% endif %}
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
                                                                                                 type="button">Keyingisi
@@ -758,6 +764,18 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
+                                                                                                         <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td style="text-align: center;">2</td>
+                                                                                                            <td style="text-align: center;">3</td>
+                                                                                                            <td style="text-align: center;">4</td>
+                                                                                                            <td style="text-align: center;">5</td>
+                                                                                                            <td style="text-align: center;">6</td>
+                                                                                                            <td style="text-align: center;">7</td>
+
+                                                                                                        </tr>
                                                                                                          <tr>
                                                                                                             <th scope="row">
                                                                                                                 1
@@ -1053,7 +1071,13 @@
 
                                                                                         <br><br>
                                                                                     </form>
-
+                                                                                     {% if workerobject.status != 4  %}
+                                                                                    {% if workerobject.status != 2 %}
+                                                                                    <button class="edit_akt btn btn-warning pull-left"
+                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                    </button>
+                                                                                        {% endif %}
+                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
                                                                                             type="button">Keyingisi <i
@@ -1244,6 +1268,13 @@
 
 
 
+                                                                                     {% if workerobject.status != 4  %}
+                                                {% if workerobject.status != 2 %}
+                                                                                         <button class="edit_akt btn btn-warning pull-left"
+                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                        </button>
+                                                                                        {% endif %}
+                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
@@ -1394,7 +1425,7 @@
                                                                                                       placeholder="">{{ work.a63 }}</textarea>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
@@ -1403,7 +1434,7 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -1412,8 +1443,13 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-
-
+                                                                                     {% if workerobject.status != 4  %}
+                                                {% if workerobject.status != 2 %}
+                                                                                    <button class="edit_akt btn btn-warning pull-left"
+                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                    </button>
+                                                    {% endif %}
+                                                    {% endif %}
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Keyingisi <i
                                                                                             class="fa fa-long-arrow-right"></i>
@@ -1568,7 +1604,7 @@
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -1577,15 +1613,13 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-{#                                                                                 {% if workerobject.status_geodezis_komeral != 4 %}#}
-{#                                                                                        {% if workerobject.status_geodezis_komeral != 1 %}#}
-{#                                                                                            {% if workerobject.status != 2 %}#}
-{#                                                                                                <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"#}
-{#                                                                                                        type="button">Yakunlash#}
-{#                                                                                                </button>#}
-{#                                                                                            {% endif %}#}
-{#                                                                                        {% endif %}#}
-{#                                                                                    {% endif %}#}
+                                                                                 {% if workerobject.status != 4  %}
+                                                                                {% if workerobject.status != 2 %}
+                                                                                    <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"
+                                                                                            type="button">Yakunlash
+                                                                                    </button>
+                                                                                    {% endif %}
+                                                                                    {% endif %}
 
 
 
@@ -1617,7 +1651,7 @@
                                                                 </div>
                                                                 </form>
                                                             {% else %}
-                                                                <form action="#" method="POST">
+                                                                 <form action="#" method="POST">
 
                                                                 <div class="setup-content" id="step-1">
                                                                     <div class="col-xs-12">
@@ -1634,15 +1668,8 @@
                                                                                         <div class="col-lg-8"></div>
 
                                                                                         <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                                                            <div class="text-end input-group date"
-                                                                                                 id="dt-minimum"
-                                                                                                 data-target-input="nearest">
-                                                                                                <input id="a1" name="a1" class="text-end form-control datetimepicker-input digits"
-                                                                                                       type="text"
-                                                                                                       data-target="#dt-minimum">
-                                                                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker">
-                                                                                                    <i class="fa fa-calendar"> </i>
-                                                                                                </div>
+                                                                                            <div class="text-end">
+                                                                                                <input id="a1" name="a1" class="text-end form-control" type="text"  value="{{ now|date:'d-m-Y' }}">
                                                                                             </div>
                                                                                         </div>
 
@@ -1663,32 +1690,23 @@
                                                                                                 rows="3"></textarea>
                                                                                         </div>
                                                                                         <p>составили настоящий акт в
-                                                                                            том, что за период с</p>
-
-                                                                                        <div class="input-group date w-50"
-                                                                                             id="dt-disab-days"
-                                                                                             data-target-input="nearest">
-                                                                                            <input class="form-control datetimepicker-input digits"
-                                                                                                   type="text" id="a3" name="a3"
-                                                                                                   data-target="#dt-disab-days">
-
-                                                                                            <div class="input-group-text"
-                                                                                                 data-target="#dt-disab-days"
-                                                                                                 data-toggle="datetimepicker">
-                                                                                                <i class="fa fa-calendar"></i>
-                                                                                            </div>
-                                                                                        </div>
-
+                                                                                            том, что за период
+                                                                                        </p>
+                                                                                           C &nbsp; <input type="date" id="a3" name="a3" style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        по &nbsp;&nbsp; <input type="date" id="a72" name="a72"  style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        <br>
                                                                                         <p>произведен контроль и приемка
                                                                                             топографических работ,
                                                                                             выполненных на объекте:</p>
-                                                                                        <input style="width: 50%" id="a4" name="a4" class="form-control" type="text" placeholder="№ дог." value="{{ workerobject.object.pdowork.object_number }}">
 
+                                                                                        {{ workerobject.object.pdowork.object_name }} № дог. <input style="width: 20%;border-top:0;border-left: 0;border-right: 0" id="a4" name="a4"  type="text" value="{{ workerobject.object.pdowork.object_number }}">
+                                                                                        от {{ workerobject.object.pdowork.agreement_date }}
+                                                                                        <br>
                                                                                         <p>по заданию заказчика</p>
                                                                                         <input style="width: 50%" id="a5" name="a5"
                                                                                                class="form-control"
                                                                                                type="text"
-                                                                                               placeholder="" v><br>
+                                                                                               value="{{ pdowork.pdowork.customer }}"><br>
                                                                                         <h5 class="text-center">виды и
                                                                                             объемы выполненных
                                                                                             работ: </h5>
@@ -1901,12 +1919,12 @@
                                                                                             работ, в
                                                                                             <span><input id="a22" name="a22"
                                                                                                     style="border:1px solid #e6edef;"
-                                                                                                    type="text"></span>
+                                                                                                    type="text" value="{{ poyasitelniy.b5 }}"></span>
                                                                                             системе
                                                                                             координат и в
                                                                                             <span><input id="a23" name="a23"
                                                                                                     style="border:1px solid #e6edef;"
-                                                                                                    type="text"></span>
+                                                                                                    type="text" value="{{ poyasitelniy.b6 }}"></span>
                                                                                             системе высот.</p>
                                                                                         <h6>Результаты полевого
                                                                                             контроля:</h6>
@@ -2260,7 +2278,11 @@
 
 
 
-
+                                                                                        {% if workerobject.status != 4 %}
+                                                                                            <button class="save_akt btn btn-warning pull-left"
+                                                                                                    type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                            </button>
+                                                                                            {% endif %}
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
                                                                                                 type="button">Keyingisi
@@ -2330,6 +2352,19 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td style="text-align: center;">2</td>
+                                                                                                            <td style="text-align: center;">3</td>
+                                                                                                            <td style="text-align: center;">4</td>
+                                                                                                            <td style="text-align: center;">5</td>
+                                                                                                            <td style="text-align: center;">6</td>
+                                                                                                            <td style="text-align: center;">7</td>
+
+                                                                                                        </tr>
+
                                                                                                         <tr>
                                                                                                             <th scope="row">
                                                                                                                 1
@@ -2627,7 +2662,11 @@
 
                                                                                         <br><br>
                                                                                     </form>
-
+                                                                                    {% if workerobject.status != 4 %}
+                                                                                    <button class="save_akt btn btn-warning pull-left"
+                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                    </button>
+                                                                                        {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
                                                                                             type="button">Keyingisi <i
@@ -2824,7 +2863,11 @@
                                                                                             </div>
                                                                                         </div>
 
-
+                                                                {% if workerobject.status != 4 %}
+                                                                                     <button class="save_akt btn btn-warning pull-left"
+                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                    </button>
+                                                                {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
@@ -2974,27 +3017,34 @@
                                                                                                       placeholder=""></textarea>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+
+                                                                                    <div class="mb-3 row" style='display:none'>
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" id="a64" name="a64"
+                                                                                            <input class="form-control" id="a64"   name="a64"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style='display:none'>
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" id="a65" name="a65"
+                                                                                            <input class="form-control" id="a65"  name="65"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
 
 
 
+
+                                                                                    {% if workerobject.status != 4 %}
+                                                                                    <button class="save_akt btn btn-warning pull-left"
+                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                    </button>
+                                                                                        {% endif %}
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
                                                                                             type="button">Keyingisi <i
                                                                                             class="fa fa-long-arrow-right"></i>
@@ -3142,13 +3192,13 @@
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" id="a70" name="a70"
+                                                                                            <input class="form-control" value="{{ user.profile.full_name }}" id="a70" name="a70"
                                                                                                    type="text"
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display: none">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -3157,15 +3207,11 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-{#                                                                               {% if workerobject.status_geodezis_komeral != 4 %}#}
-{#                                                                                        {% if workerobject.status_geodezis_komeral != 1 %}#}
-{#                                                                                            {% if workerobject.status != 2 %}#}
-{#                                                                                                <button class="edit_akt btn btn-primary nextBtn pull-right m-t-40"#}
-{#                                                                                                        type="button">Yakunlash#}
-{#                                                                                                </button>#}
-{#                                                                                            {% endif %}#}
-{#                                                                                        {% endif %}#}
-{#                                                                                    {% endif %}#}
+                                                                                {% if workerobject.status != 4 %}
+                                                                                    <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
+                                                                                            type="button">Yakunlash
+                                                                                    </button>
+                                                                                    {% endif %}
 
 
 
@@ -3182,7 +3228,6 @@
                                                                 </div>
 
                                                                 </form>
-
                                                             {% endif %}
         </div>
     </div>

@@ -110,8 +110,9 @@
                   <div class="row">
                       <div class="col-md-8">
                                 <ol>
-                                 <li>
+{#<li>#}
                                     {% for work in rejects %}
+                                            <li>
                                             <ul>
                                                <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
                                                 <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
@@ -120,8 +121,9 @@
                                                 {% endif %}
                                             </ul>
                                             <hr>
+                                        </li>
                                     {% endfor %}
-                                 </li>
+
                                 </ol>
 
                       </div>
@@ -4101,7 +4103,7 @@
             processData: false,
             success: function (result){
                  $('#doing_akt_polevoy_file').click();
-               location.replace('/leader_polevoy_works');
+                 location.replace('/leader_polevoy_works');
             },
 
             error: function(){
