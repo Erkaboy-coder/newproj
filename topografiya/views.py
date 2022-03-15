@@ -2607,40 +2607,20 @@ def doing_akt_komeral_file(request):
                                                 </div>
                                                 <br>
                                                 <p><span class="badge rounded-pill badge-primary">3.</span> Работы
-                                                    выполнены в <span><input style="border:1px solid #e6edef;"
-                                                                             type="text" id="a31" name="a31" value="'''+str(work.a31)+'''"></span> системе
-                                                    координат и в <input style="border:1px solid #e6edef;"
-                                                                             type="text" id="a32" name="a32" value="'''+str(work.a32)+'''"> системе высот.</p>
-                                                <br>
+                                                    выполнены в '''+str(work.a31)+'''  системе координат и в '''+str(work.a32)+''' системе высот.
+                                                                                                    <br>
                                                 <p>Результаты полевого контроля:</p>
                                                 <p><span class="badge rounded-pill badge-primary">4.</span> Исходными
                                                     пунктами для построения съемочного обоснования послужили:</p>
                                                 '''+str(work.a33)+'''
                                                 <br>
-                                                <p class="m-t-10">и грунтовые репера <span>
-                                                    <input
-                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a34" name="a34" value="'''+str(work.a34)+'''"></span>
-                                                    имеющие отметки нивелирования <span><input
-                                                            style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="'''+str(work.a35)+'''"></span> кл.
+                                                <p class="m-t-10">и грунтовые репера '''+str(work.a34)+''' имеющие отметки нивелирования  '''+str(work.a35)+''' кл.
                                                 </p>
                                                 <br>
                                                 <p>
                                                     <span class="badge rounded-pill badge-primary">5.</span>
-                                                    Длины ходов от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36" value="'''+str(work.a36)+'''"></span>
-                                                    до
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37" value="'''+str(work.a37)+'''"></span>
-                                                    км Абсолютные ошибки от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a38" name="a38" value="'''+str(work.a38)+'''"></span>
-                                                    до
-                                                    <span><input class="m-b-10" style="border:1px solid #e6edef;"
-                                                                 type="text" id="a39" name="a39" value="'''+str(work.a39)+'''"></span>
-                                                    м.Относительные ошибки от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="'''+str(work.a40)+'''"></span>
-                                                    до
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41" value="'''+str( work.a41)+'''"></span>.
-                                                    Система ходов уравнена
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a42" name="a42" value="'''+str(work.a42)+'''"></span>.
+                                                    Длины ходов от '''+str(work.a36)+''' до '''+str(work.a37)+''' км Абсолютные ошибки от '''+str(work.a38)+''' до
+                                                    '''+str(work.a39)+''' м.Относительные ошибки от '''+str(work.a40)+'''  до '''+str( work.a41)+'''. Система ходов уравнена '''+str(work.a42)+'''.
                                                 </p>
                                                 <br>
                                                 <form class="theme-form">
@@ -5598,19 +5578,20 @@ def confirm_print2(request):
 
         object = Object.objects.filter(id=id).first()
 
-        pdowork = PdoWork.objects.filter(id=object.pdowork).first()
+        pdowork = PdoWork.objects.filter(id=object.pdowork.id).first()
         pdowork.status = 1
         pdowork.save()
 
         workerobject = WorkerObject.objects.filter(object=object).first()
         workerobject.status = 5
+        workerobject.status_printer = 1
         workerobject.status_geodezis_komeral = 5
         workerobject.save()
 
         aktkomeral = AktKomeralForm.objects.filter(object=workerobject.object).first()
         aktkomeral.status = 5
         aktkomeral.save()
-        object = Object.objects.filter(id=workerobject.object).first()
+        object = Object.objects.filter(id=workerobject.object.id).first()
         object.worker_ogogd = worker
         object.save()
 
