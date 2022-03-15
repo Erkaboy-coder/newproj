@@ -166,3 +166,33 @@ function childrentableight() {
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addroweleven" onclick="childrentableight()"\n' + '/></td>\n' +'</td></tr>');
 }
+
+var l = 1;
+function childrenRow_pr() {
+    l++;
+    $('#childTable_pr1').find('tbody').append('<tr><th scope="row">' + l +
+        '</th>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addroweleven" onclick="childrenRow_pr()"\n' + '/></td>\n' +'</td></tr>');
+}
+
+var l = 1;
+function childrenRow_pr2() {
+    l++;
+    $('#childTable_pd2').find('tbody').append('<tr><th scope="row">' + l +
+        '</th>' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
+        'id="addroweleven" onclick="childrenRow_pr2()"\n' + '/></td>\n' +'</td></tr>');
+}
+

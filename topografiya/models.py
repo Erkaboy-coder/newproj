@@ -121,6 +121,7 @@ class Object(models.Model):
 class ProgramWork(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='programworkforobject')
     status = models.IntegerField(default=0)
+    version = models.IntegerField(default=0)
     # status  = 0 bu yangi kelib tushgan
     # status  = 1 bu tekshiruvga yuborilgan
     # status  = 2 bu qaytarilgan ish
@@ -136,6 +137,8 @@ class ProgramWorkReject(models.Model):
     programowork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programworkreject')
     file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/programfiles', blank=True)
     reason = models.TextField(blank=True)
+    version = models.IntegerField(default=0)
+    rejected_file = models.TextField(blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
         return self.programowork.object.pdowork.object_name
@@ -149,7 +152,7 @@ class ProgramWorkReject(models.Model):
 class ProgramWorkForm(models.Model):
     programwork = models.ForeignKey(ProgramWork, blank=True, on_delete=models.CASCADE, related_name='programwork')
     file = models.FileField("Pogramma ish fayli", upload_to='topografiya/static/files/programfiles', blank=True)
-
+    version = models.IntegerField(default=0)
     a0 = models.TextField(blank=True)
     a1_1 = models.TextField(blank=True)
     a1_2 = models.TextField(blank=True)
@@ -207,7 +210,6 @@ class ProgramWorkFormTable2(models.Model):
     a9_2_4 = models.TextField(blank=True)
     a9_2_5 = models.TextField(blank=True)
     a9_2_6 = models.TextField(blank=True)
-    a9_2_7 = models.TextField(blank=True)
 
     def __str__(self):
         return self.a9_2_1

@@ -49,11 +49,10 @@
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
                                                                         <h5>{{ object.pdowork.object_name}}</h5>
-                                                                        <div class="blog-bottom-content">
-                                                                            <div><b>Обект номи:</b> {{ object.object.pdowork.object_name}}</div>
-                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
-                                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
-                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                                       <div class="blog-bottom-content">
+                                                                            <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address }}</div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
@@ -87,10 +86,9 @@
                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">29</span> Январ 2022</div>
                                                                         <h5>{{ object.pdowork.object_name}}</h5>
                                                                         <div class="blog-bottom-content">
-                                                                            <div><b>Обект номи:</b> {{ object.object.pdowork.object_name}}</div>
-                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
-                                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
-                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                                            <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address }}</div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
@@ -125,12 +123,12 @@
 
                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
                                                         <div class="blog-bottom-content">
-                                                            <div><b>Обект номи:</b> {{ object.object.pdowork.object_name}}</div>
-                                                            <div><b>Келишув санаси:</b> {{ object.object.pdowork.agreement_date}}</div>
-                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                            <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer }}</div>
+                                                            <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address }}</div>
                                                             <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
 
-                                            <b  class="count" data-all="{% for work in rejecteds %}{% if work.workerobject.object.id == object.object.id %} {{ work.workerobject.object.id }},{% endif %}{% endfor %}"></b>
+                                            <b  class="count" data-all="{% for work in rejecteds %}{% if work.programowork.object.id == object.object.id %} {{ work.programowork.object.id }},{% endif %}{% endfor %}"></b>
 
                                                             </span></div>
                                                         </div>

@@ -28,15 +28,22 @@
               <div class="modal-body">
                   <div class="row">
                       <div class="col-md-12">
-                            <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
+                             <ol>
+{#<li>#}
+                                    {% for work in rejects %}
+                                            <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
 
-                            </ol>
+                                </ol>
                       </div>
                   </div>
               </div>
@@ -74,8 +81,8 @@
 
                                     {% if rejects.count > 0 %}
                                          &nbsp;
-                                        <span class="badge rounded-pill badge-warning">
-                                             <b class="text-dark">{{ rejects.count }}</b>
+                                        <span class="badge rounded-pill bg-white">
+                                             <b class="text-danger">{{ rejects.count }}</b>
                                          </span>
                                      {% endif %}
 
@@ -145,17 +152,24 @@
 {#                                                   </div>#}
 {#                                               </div>#}
 
-                                               <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
-                                               <p>По <span><input class="w-50 formact" name="a0" value="{{ form.a0 }}" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
-                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</h5>
-                                             <p>
-                                                   Основанием для производства работ послужило техническое задание, выданное
-                                                   <span><input class="w-50 m-b-5 formact"  name="a1_1" value="{{ form.a1_1 }}" type="text"></span>
+                                                <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
+                                               <p>По объекту <span><input style="width: 90%" class="formact" name="a0" value="{{ form.a0 }}" type="text" >
+                                                <p style="font-size: 12px;margin-top: -15px;margin-left: 150px"> (наименование объекта, его местоположение)</p>
+                                               </span>
+                                              </p>
+
+                                              <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
+                                               <p>
+                                                   Основанием для производства работ послужило техническое задание, выданное <sup class="text-danger" style="font-size: 15px">*</sup>
+                                                   <span><input style="width: 54%" class="m-b-5 formact" value="{{ form.a1_1 }}"  name="a1_1" type="text"></span>
                                                    <br>
-                                                   Цель, назначение и объем проектируемых работ<span><input class="m-b-5 formact" style="width: 70%" name="a1_2" value="{{ form.a1_2 }}" type="text"></span>
+                                                   Цель, назначение и объем проектируемых работ
+                                                   <span><input style="width: 73%" class="m-b-5 formact"  name="a1_2" value="{{ form.a1_2 }}" type="text"></span>
+                                                   <br><br>
                                                    Дополнительные требования к выполнению геодезических работ
-                                                   <span><input class="m-b-5 formact"  name="a1_3" value="{{ form.a1_3 }}" style="width: 55%" type="text"></span>
+                                                   <span><input class="m-b-5 formact" style="width: 63%"   name="a1_3" value="{{ form.a1_3 }}" type="text"></span>
                                                </p>
+
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
                                                    <div class="col-sm-9">
@@ -186,17 +200,17 @@
                                                        <textarea class="form-control" name="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a6 }}</textarea>
                                                    </div>
                                                </div>
-                                                <div class="mb-3 row">
-                                                   <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
-
+                                               <div class="col-md-12" >
+                                                   <p class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
                                                </div>
                                                <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
                                                <div class="col-sm-12">
                                                    <div class="card border-0">
                                                        <div class="table-responsive">
-                                                           <table class="table table-bordered"  id="childTable">
+                                                           <table class="table table-bordered"  id="childTable_pr1">
                                                                <thead class="bg-primary">
-                                                               <tr>
+                                                              <tr>
+                                                                   <th scope="col">N</th>
                                                                    <th scope="col">Наименование площадки, участка</th>
                                                                    <th scope="col">Метод съемки</th>
                                                                    <th scope="col">Масштаб съемки</th>
@@ -208,13 +222,14 @@
                                                                <tbody>
 
                                                                <tr>
+                                                                   <td><b>1</b></td>
                                                                    <td><input class="border-0 w-100" type="text" name="a7_1_1" value="{{ formtable1.a7_1_1 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" type="text" name="a7_1_2" value="{{ formtable1.a7_1_2 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" type="text" name="a7_1_3" value="{{ formtable1.a7_1_3 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" type="text" name="a7_1_4" value="{{ formtable1.a7_1_4 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" type="text" name="a7_1_5" value="{{ formtable1.a7_1_5 }}" placeholder=""></td>
                                                                    <td>
-                                                                       <i id="addrow2" onclick="childrenRow1()"
+                                                                       <i id="addrow2" onclick="childrenRow_pr()"
                                                                           class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
                                                                    </td>
                                                                </tr>
@@ -255,7 +270,7 @@
                                                        <textarea class="form-control" type="text" name="a8_1" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр.">{{ form.a8_1 }}</textarea>
                                                    </div>
                                                </div>
-                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</h5>
+                                              <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</label>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
                                                    <div class="col-sm-9">
@@ -267,12 +282,12 @@
                                                    <div class="card border-0">
                                                        <div class="table-responsive">
 
-                                                           <table class="table table-bordered" id="childTable4">
+                                                           <table class="table table-bordered" id="childTable_pd2">
                                                                <thead class="bg-primary">
                                                                <tr>
+                                                                   <th scope="col">N</th>
                                                                    <th scope="col">Наименование трассы, участка</th>
                                                                    <th scope="col">Масштаб плана трассы</th>
-                                                                   <th scope="col">Масштаб продольного профиля</th>
                                                                    <th scope="col">Масштаб продольного профиля горизонтальный</th>
                                                                    <th scope="col">Масштаб продольного профиля вертикальный</th>
                                                                    <th scope="col">Масштаб перехода горизонтальный</th>
@@ -282,15 +297,15 @@
                                                                </thead>
                                                                <tbody>
                                                                <tr>
+                                                                   <td><b>1</b></td>
                                                                    <td><input class="border-0 w-100" name="a9_2_1" value="{{ formtable2.a9_2_1 }}" type="text" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" name="a9_2_2" type="text" value="{{ formtable2.a9_2_2 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" name="a9_2_3" type="text" value="{{ formtable2.a9_2_3 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" name="a9_2_4" type="text" value="{{ formtable2.a9_2_4 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" name="a9_2_5" type="text" value="{{ formtable2.a9_2_5 }}" placeholder=""></td>
                                                                    <td><input class="border-0 w-100" name="a9_2_6" type="text" value="{{ formtable2.a9_2_6 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_7" type="text" value="{{ formtable2.a9_2_7 }}" placeholder=""></td>
                                                                    <td>
-                                                                        <i id="addrow4" onclick="childrenRow2()"
+                                                                        <i id="addrow4" onclick="childrenRow_pr2()"
                                                                            class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
                                                                    </td>
                                                                </tr>
@@ -319,7 +334,7 @@
                                                        <textarea class="form-control" type="text" name="a10" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ">{{ form.a10 }}</textarea>
                                                    </div>
                                                </div>
-                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</h5>
+                                              <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</label>
                                                <p>
                                                    К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии <span><sup style="color: red">*</sup></span>
                                                    <textarea style="height: 100px;" name="a11" class="form-control" placeholder="кто проводит, где, когда">{{ form.a11 }}</textarea>
@@ -330,18 +345,11 @@
                                                        <textarea class="form-control" name="a12" type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки">{{ form.a12 }}</textarea>
                                                    </div>
                                                </div>
-                                               <h5 class="text-center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
+                                              <label style="text-transform: lowercase;" class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</label>
 
                                               <div class="floder_input">
                                                    <div class="row">
-                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий </a></div>
-                                                       {% if files.file1 %}
-                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file1" id="file1" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file1 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
-                                                           {% else %}
-                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file1" id="file1" type="file"></div>
-                                                           {% endif %}
-
+                                                       <div class="col-lg-12 mt-3" style="font-size: 18px">1. <a href="/{{ form.programwork.object.pdowork.tz }}"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий </a></div>
 
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
                                                         {% if files.file2 %}

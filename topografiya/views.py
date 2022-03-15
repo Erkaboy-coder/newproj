@@ -52,7 +52,7 @@ def new_work_counter(request):
     count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
     count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.full_name).all().count()
 
-    count_works['all_works_worker'] = count_works['new_field_works']+count_works['rejected_polevoy_works_worker']
+    count_works['all_works_worker'] = count_works['new_field_works']
     count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
     return count_works
 
@@ -179,13 +179,13 @@ def program_work_form(request,id):
     object = ProgramWork.objects.filter(object=id).first()
     order = Order.objects.filter(object=object.object.id).first()
     workers = Worker.objects.filter(status=0)
-
+    pdowork = Object.objects.filter(id=id).first()
     form = ProgramWorkForm.objects.filter(programwork__object=id).first()
     formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
     files = ProgramWorkFiles.objects.filter(programworkform=form).first()
 
-    context = {'object': object, 'order': order, 'workers': workers,'count': counter(),'form':form, 'formtable1': formtable1, 'formtable2': formtable2,'files':files}
+    context = {'object': object, 'order': order, 'workers': workers,'count': counter(),'form':form,'pdowork':pdowork, 'formtable1': formtable1, 'formtable2': formtable2,'files':files}
     return render(request, 'leader/program_works/program_work_form.html', context)
 
 @login_required(login_url='/signin')
@@ -197,13 +197,13 @@ def program_work_form_edit(request,id):
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
     files = ProgramWorkFiles.objects.filter(programworkform=form).first()
     rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
-
+    pdowork = Object.objects.filter(id=id).first()
     order = Order.objects.filter(object=id).first()
     workers = Worker.objects.filter(status=0)
 
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
-               'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
+               'formtable1':formtable1,'formtable2':formtable2,'count': counter(),'pdowork':pdowork}
     return render(request, 'leader/program_works/program_work_form_edit.html', context)
 
 @login_required(login_url='/signin')
@@ -261,7 +261,6 @@ def program_work_save_edits(request,id):
         a9_2_4 = request.POST.get('a9_2_4')
         a9_2_5 = request.POST.get('a9_2_5')
         a9_2_6 = request.POST.get('a9_2_6')
-        a9_2_7 = request.POST.get('a9_2_7')
         # jadval_2
 
         a9_3 = request.POST.get('a9_3')
@@ -326,7 +325,6 @@ def program_work_save_edits(request,id):
         formtable2.a9_2_4=a9_2_4
         formtable2.a9_2_5=a9_2_5
         formtable2.a9_2_6=a9_2_6
-        formtable2.a9_2_7=a9_2_7
         formtable2.save()
 
         files = ProgramWorkFiles.objects.filter(programworkform=form).first()
@@ -414,7 +412,6 @@ def program_work_form_store(request):
         a9_2_4 = request.POST.get('a9_2_4')
         a9_2_5 = request.POST.get('a9_2_5')
         a9_2_6 = request.POST.get('a9_2_6')
-        a9_2_7 = request.POST.get('a9_2_7')
         # jadval_2
 
         a9_3 = request.POST.get('a9_3')
@@ -446,7 +443,7 @@ def program_work_form_store(request):
         programworkformtable1 = ProgramWorkFormTable1(programworkform=programworkform, a7_1_1=a7_1_1, a7_1_2=a7_1_2, a7_1_3=a7_1_3, a7_1_4=a7_1_4, a7_1_5=a7_1_5)
         programworkformtable1.save()
 
-        programworkformtable2 = ProgramWorkFormTable2(programworkform=programworkform, a9_2_1=a9_2_1, a9_2_2=a9_2_2, a9_2_3=a9_2_3, a9_2_4=a9_2_4, a9_2_5=a9_2_5, a9_2_6=a9_2_6, a9_2_7=a9_2_7)
+        programworkformtable2 = ProgramWorkFormTable2(programworkform=programworkform, a9_2_1=a9_2_1, a9_2_2=a9_2_2, a9_2_3=a9_2_3, a9_2_4=a9_2_4, a9_2_5=a9_2_5, a9_2_6=a9_2_6)
         programworkformtable2.save()
 
         programwork_file = ProgramWorkFiles(programworkform=programworkform,file1=file1,file2=file2,file3=file3,file4=file4,file5=file5,file6=file6,file7=file7)
@@ -462,13 +459,22 @@ def sent_to_check_programwork(request):
         data = request.POST
         object_id = data.get('object_id')
         worker = data.get('worker')
-        programwork = ProgramWork.objects.filter(object=object_id).first()
-        programwork.status = 1
-        programwork.save()
+        file = request.FILES.get('file')
+        object = Object.objects.filter(id=object_id).first()
+        if file != None:
+            work = ProgramWork.objects.filter(object=object_id).first()
+            work.status = 1
+            work.save()
+            programwork = ProgramWorkForm(programwork=work, file=file)
+            programwork.save()
+        else:
+            programwork = ProgramWork.objects.filter(object=object_id).first()
+            programwork.status = 1
+            programwork.save()
+
         # status  = 1 bu tekshiruvga yuborilgan
 
-
-        history = History(object=programwork.object, status=27, comment="Ishchi dasturi tekshiruvga yuborildi", user_id=worker)
+        history = History(object=object, status=27, comment="Ishchi dasturi tekshiruvga yuborildi", user_id=worker)
         history.save()
 
         return HttpResponse(1)
@@ -906,7 +912,6 @@ def sent_to_check_akt(request):
         worker = data.get('worker')
         array=data.get('array')
         akt_komeral_file =request.FILES.get('akt_komeral_file')
-        print(akt_komeral_file)
 
         d={}
         object=Object.objects.filter(id=work_id).first()
@@ -1134,10 +1139,11 @@ def polevoy_work_doing(request, id):
     rejects = PolevoyWorkReject.objects.filter(workerobject=work).all()
 
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
     poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=work).first()
 
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,'aktfile':aktfile,
-               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'count_works': new_work_counter(request),'cost': cost,'poyasitelniy': poyasitelniy}
+               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'programworkform':programworkform,'count_works': new_work_counter(request),'cost': cost,'poyasitelniy': poyasitelniy}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
 @login_required(login_url='/signin')
@@ -2106,8 +2112,8 @@ def doing_program_work_file(request):
     if request.method == 'POST':
         data = request.POST
         id = data.get('data-id')
-        programwork = ProgramWork.objects.filter(id=id).first()
-        form = ProgramWorkForm.objects.filter(programwork=programwork).first()
+        form = ProgramWorkForm.objects.filter(id=id).first()
+        # form = ProgramWorkForm.objects.filter(programwork=programwork.id).first()
         programworkfile = ProgramWorkFiles.objects.filter(programworkform=form).first()
         programworktable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
         programworktable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
@@ -2148,8 +2154,7 @@ def doing_program_work_file(request):
 
     <div style="padding: 100px">
 
-        <h3 style="text-align: center;">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h3>
-        <br>
+                                                   <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
         <p>По объекту<span><input style="width: 90%" class="formact" name="a0" value="'''+str(form.a0)+'''" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
         <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
         <p>
@@ -2161,37 +2166,37 @@ def doing_program_work_file(request):
             <span><input style="width: 64%" class=" m-b-5 formact" required name="a1_3" value="'''+str(form.a1_3)+'''" type="text"></span>
         </p>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary" style="text-align: center">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a2)+'''</p>
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</label>
             <div class="col-sm-9">
                 <input class="form-control" name="a3" value="'''+str(form.a3)+'''" type="text" placeholder="">
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a4)+'''</p>
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a5)+'''</p>
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a6)+'''</p>
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
+                                                   <p class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
         </div>
         <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
         <div class="col-sm-12">
@@ -2242,7 +2247,7 @@ def doing_program_work_file(request):
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a8)+'''</p>
             </div>
@@ -2253,14 +2258,14 @@ def doing_program_work_file(request):
                 <p>'''+str(form.a8_1)+'''</p>
             </div>
         </div>
-        <h5 style="text-align: center" class="text-center"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</h5>
+                                              <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</label>
         <div class="mb-3 row">
             <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a9_1)+'''</p>
             </div>
         </div>
-        <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
+                                               <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
         <div class="col-sm-12">
             <div class="card border-0">
                 <div class="table-responsive">
@@ -2270,7 +2275,6 @@ def doing_program_work_file(request):
                             <tr>
                                 <th scope="col">Наименование трассы, участка</th>
                                 <th scope="col">Масштаб плана трассы</th>
-                                <th scope="col">Масштаб продольного профиля</th>
                                 <th scope="col">Масштаб продольного профиля горизонтальный</th>
                                 <th scope="col">Масштаб продольного профиля вертикальный</th>
                                 <th scope="col">Масштаб перехода горизонтальный</th>
@@ -2285,7 +2289,6 @@ def doing_program_work_file(request):
                                 <td><input class="border-0 w-100" name="a9_2_4" type="text" value="'''+str(programworktable2.a9_2_4)+'''" placeholder=""></td>
                                 <td><input class="border-0 w-100" name="a9_2_5" type="text" value="'''+str(programworktable2.a9_2_5)+'''" placeholder=""></td>
                                 <td><input class="border-0 w-100" name="a9_2_6" type="text" value="'''+str(programworktable2.a9_2_6)+'''" placeholder=""></td>
-                                <td><input class="border-0 w-100" name="a9_2_7" type="text" value="'''+str(programworktable2.a9_2_7)+'''" placeholder=""></td>
                                
                             </tr>
 
@@ -2308,12 +2311,12 @@ def doing_program_work_file(request):
             </div>
         </div>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a10)+'''</p>
             </div>
         </div>
-        <h5 style="text-align: center" class="text-center"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</h5>
+                                              <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</label>
         <p>
             К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии
             <p>'''+str(form.a11)+'''</p>
@@ -2375,23 +2378,22 @@ def doing_program_work_file(request):
 
 </html>
                ''';
+        if not exists('topografiya/static/files/program-work/program-work_'+str(form.programwork.id)+'_'+str(form.programwork.version)+'v.pdf'):
 
-        options = {
-            'page-size': 'A4',
-            'encoding': "UTF-8",
-            'margin-top': '0.2in',
-            'margin-right': '0.2in',
-            'margin-bottom': '0.2in',
-            'margin-left': '0.2in',
-            'orientation': 'portrait',
-            # landscape bu albomiy qiladi
-        }
+            options = {
+                'page-size': 'A4',
+                'encoding': "UTF-8",
+                'margin-top': '0.2in',
+                'margin-right': '0.2in',
+                'margin-bottom': '0.2in',
+                'margin-left': '0.2in',
+                'orientation': 'portrait',
+                # landscape bu albomiy qiladi
+            }
         # display = Display(visible=0, size=(500, 500)).start()
-        pdfkit.from_string(context, 'topografiya/static/files/program-work/program_work_file.pdf', options)
+            pdfkit.from_string(context, 'topografiya/static/files/program-work/program-work_'+str(form.programwork.id)+'_'+str(form.programwork.version)+'v.pdf')
 
-        response = HttpResponse(data, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="program_work_file.pdf"'
-        return response
+        return HttpResponse('program-work/program-work_' + str(form.programwork.id) + '_' + str(form.programwork.version) + 'v.pdf')
     else:
         return HttpResponse(0)
 
@@ -4949,7 +4951,7 @@ def program_work_event(request, id):
 
     rejects = ProgramWorkReject.objects.filter(programowork=object.programwork).all()
 
-    context = {'object': object, 'order': order, 'workers': workers, 'formtable2':formtable2, 'formtable1': formtable1, 'count': counter(), 'rejects': rejects,'files': files}
+    context = {'form': object, 'order': order, 'workers': workers, 'formtable2':formtable2, 'formtable1': formtable1, 'count': counter(), 'rejects': rejects,'files': files}
     return render(request, 'geodezis/program_work_event.html', context)
 
 @login_required(login_url='/signin')
@@ -4984,13 +4986,14 @@ def reject_program_work(request):
         reason = data.get('reason')
         reject_file =request.FILES.get('reject_file')
 
-        object = ProgramWork.objects.filter(object=id).first()
+        object = ProgramWork.objects.filter(id=id).first()
         object.status = 2
+        object.version = object.version+1
         object.save()
 
         object_id = Object.objects.filter(id=object.object.id).first()
-
-        reject = ProgramWorkReject(programowork=object, file=reject_file, reason=reason)
+        path = 'topografiya/static/files/program-work/program-work_' + str(object.id) + '_' + str(object.version) + 'v.pdf'
+        reject = ProgramWorkReject(programowork=object, file=reject_file, reason=reason, version = object.version, rejected_file=path)
         reject.save()
 
         history = History(object=object_id, status=5, comment="Rad etildi", user_id=worker)
@@ -5104,7 +5107,6 @@ def program_work_form_re_sent(request,id):
         formtable2.a9_2_4=a9_2_4
         formtable2.a9_2_5=a9_2_5
         formtable2.a9_2_6=a9_2_6
-        formtable2.a9_2_7=a9_2_7
         formtable2.save()
 
         files = ProgramWorkFiles.objects.filter(programworkform=form).first()

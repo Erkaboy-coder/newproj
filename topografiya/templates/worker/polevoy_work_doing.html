@@ -91,7 +91,7 @@
                       {% if programwork %}
                             {% if programwork.status == 4 %}
                                <div class="col-md-12">
-                                  <a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" ><h6 class=""> <i class="fa fa-file-word-o"></i> Топографик-геодезик дастури файли билан танишиш</h6></a>
+                                  <a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" ><h6 class=""> <i class="fa fa-file-word-o"></i> Топографик-геодезик дастури файли билан танишиш</h6></a>
                               </div>
                               {% else %}
                                   <a href="#" ><h6 class="text-warning"> <i class="fa fa-file-word-o"></i>Топографик-геодезик дастури тайёрланмоқда</h6></a>
@@ -1115,7 +1115,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/program-work/program_work_file.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
