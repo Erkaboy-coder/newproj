@@ -471,6 +471,8 @@ class WorkerObject(models.Model):
     # status = 2 qaytarilgan
     # status = 3 muddati kam qolgan
     # status = 4 tasdiqlangan
+    status_printer = models.IntegerField(default=0)
+    status_repoert_printer = models.IntegerField(default=0)
     def __str__(self):
         return self.object.pdowork.object_name
 
@@ -507,6 +509,8 @@ class LeaderKomeralWorkReject(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='leaderkomeralworkreject')
     file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/programfiles', blank=True)
     reason = models.TextField(blank=True)
+    version = models.IntegerField(default=0)
+    rejected_file = models.TextField(blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
         return self.object.pdowork.object_name

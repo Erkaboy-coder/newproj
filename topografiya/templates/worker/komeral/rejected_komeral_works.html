@@ -118,14 +118,21 @@
                   <div class="row">
                       <div class="col-md-12">
                             <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
 
-                            </ol>
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
+
+                                </ol>
                       </div>
                   </div>
               </div>
@@ -137,7 +144,7 @@
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <h3>Выполнение работ</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
@@ -147,7 +154,7 @@
                             </ol>
                         </div>
 
-                         <div class="col-sm-6 text-end">
+                         <div class="col-sm-4 text-end">
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
@@ -325,7 +332,7 @@
                                                     <input class="form-control" name="file1_1" id="file1_1" type="file" value="{{ file.file1_1 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_1 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_1 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                   <div class="col-lg-6"><input class="form-control" name="file1_1" id="file1_1" type="file"></div>
@@ -339,7 +346,7 @@
                                                     <input class="form-control" name="file1_2" id="file1_2" type="file" value="{{ file.file1_2 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_2 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_2 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_2" id="file1_2" type="file"></div>
@@ -353,7 +360,7 @@
                                                     <input class="form-control" name="file1_3" id="file1_3" type="file" value="{{ file.file1_3 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_3 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_3 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_3" id="file1_3" type="file"></div>
@@ -367,7 +374,7 @@
                                                     <input class="form-control" name="file1_4" id="file1_4" type="file" value="{{ file.file1_4 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_4 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_4 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_4" id="file1_4" type="file"></div>
@@ -381,7 +388,7 @@
                                                     <input class="form-control" name="file1_5" id="file1_5" type="file" value="{{ file.file1_5 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_5 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_5 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_5" id="file1_5" type="file"></div>
@@ -395,7 +402,7 @@
                                                     <input class="form-control" name="file1_6" id="file1_6" type="file" value="{{ file.file1_6 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_6 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_6 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_6" id="file1_6" type="file"></div>
@@ -409,7 +416,7 @@
                                                     <input class="form-control" name="file1_7" id="file1_7" type="file" value="{{ file.file1_7 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_7 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_7 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_7" id="file1_7" type="file"></div>
@@ -423,7 +430,7 @@
                                                     <input class="form-control" name="file1_8" id="file1_8" type="file" value="{{ file.file1_8 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_8 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_8 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_8" id="file1_8"  type="file"></div>
@@ -437,7 +444,7 @@
                                                     <input class="form-control" name="file1_9" id="file1_9" type="file" value="{{ file.file1_9 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_9 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_9 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_9" id="file1_9" type="file"></div>
@@ -451,7 +458,7 @@
                                                     <input class="form-control" name="file1_10" id="file1_10" type="file" value="{{ file.file1_10 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_10 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_10 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_10" id="file1_10" type="file"></div>
@@ -465,7 +472,7 @@
                                                     <input class="form-control" name="file1_11" id="file1_11" type="file" value="{{ file.file1_11 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file1_11 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file1_11 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                  <div class="col-lg-6"><input class="form-control"  name="file1_11" id="file1_11" type="file"></div>
@@ -482,7 +489,7 @@
                                                     <input class="form-control" name="file2_1" id="file2_1" type="file" value="{{ file.file2_1 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_1 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_1 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                     <div class="col-lg-6"><input class="form-control" name="file2_1" id="file2_1" type="file"></div>
@@ -496,7 +503,7 @@
                                                     <input class="form-control" name="file2_1" id="file2_1" type="file" value="{{ file.file2_2 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_2 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_2 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                     <div class="col-lg-6"><input class="form-control" name="file2_2" id="file2_2" type="file"></div>
@@ -510,7 +517,7 @@
                                                     <input class="form-control" name="file2_3" id="file2_3" type="file" value="{{ file.file2_3 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_3 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_3 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                     <div class="col-lg-6"><input class="form-control" name="file2_3" id="file2_3" type="file"></div>
@@ -523,7 +530,7 @@
                                                     <input class="form-control" name="file2_4" id="file2_4" type="file" value="{{ file.file2_4 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_4 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_4 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                     <div class="col-lg-6"><input class="form-control" name="file2_4" id="file2_4" type="file"></div>
@@ -537,7 +544,7 @@
                                                     <input class="form-control" name="file2_5" id="file2_5" type="file" value="{{ file.file2_5 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_5 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_5 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                    <div class="col-lg-6"><input class="form-control" name="file2_5" id="file2_5" type="file"></div>
@@ -551,7 +558,7 @@
                                                     <input class="form-control" name="file2_6" id="file2_6" type="file" value="{{ file.file2_6 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_6 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_6 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                    <div class="col-lg-6"><input class="form-control" name="file2_6" id="file2_6" type="file"></div>
@@ -565,7 +572,7 @@
                                                     <input class="form-control" name="file2_7" id="file2_7" type="file" value="{{ file.file2_7 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file2_7 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file2_7 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                   <div class="col-lg-6"><input class="form-control" name="file2_7" id="file2_7" type="file"></div>
@@ -583,7 +590,7 @@
                                                     <input class="form-control" name="file3_1" id="file3_1" type="file" value="{{ file.file3_1 }}">
                                                 </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_1 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_1 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                     <input class="form-control" name="file3_1" id="file3_1" type="file">
@@ -596,7 +603,7 @@
                                             {% if file.file3_2 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_2" id="file3_2" type="file" value="{{ file.file3_2 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_2 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_2 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6">
@@ -614,7 +621,7 @@
                                                    <input class="form-control" name="file3_3" id="file3_3" type="file" value="{{ file.file3_3 }}">
                                                </div>
                                                 <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_3 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_3 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_3" id="file3_3" type="file"></div>
@@ -626,7 +633,7 @@
                                             {% if file.file3_4 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_4" id="file3_4" type="file" value="{{ file.file3_4 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_4 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_4 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_4" id="file3_4" type="file"></div>
@@ -638,7 +645,7 @@
                                             {% if file.file3_5 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_5" id="file3_5" type="file" value="{{ file.file3_5 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_5 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_5 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_5" id="file3_5" type="file"></div>
@@ -650,7 +657,7 @@
                                             {% if file.file3_6 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_6" id="file3_6" type="file" value="{{ file.file3_6 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_6 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_6 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_6" id="file3_6" type="file"></div>
@@ -661,7 +668,7 @@
                                             {% if file.file3_7 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_7" id="file3_7" type="file" value="{{ file.file3_7 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_7 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_7 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_7" id="file3_7" type="file"></div>
@@ -673,7 +680,7 @@
                                             {% if file.file3_8 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_8" id="file3_8" type="file" value="{{ file.file3_8 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_8 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_8 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_8" id="file3_8" type="file"></div>
@@ -685,7 +692,7 @@
                                             {% if file.file3_9 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_9" id="file3_9" type="file" value="{{ file.file3_9 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_9 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_9 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_9" id="file3_9" type="file"></div>
@@ -696,7 +703,7 @@
                                             {% if file.file3_10 %}
                                                <div class="col-lg-4"><input class="form-control" name="file3_10" id="file3_10" type="file" value="{{ file.file3_10 }}"></div>
                                                  <div class="col-lg-2">
-                                                    <a href="/{{ file.file3_9 }}" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                    <a href="/{{ file.file3_9 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
                                                 </div>
                                             {% else %}
                                                 <div class="col-lg-6"><input class="form-control" name="file3_10" id="file3_10" type="file"></div>
@@ -741,7 +748,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" value="{{ work.abris_file }}" abris-id="1"  id="abris" name="abris" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.abris_file }}" class="text-success">
+                                            <a href="/{{ work.abris_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -763,7 +770,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" kroki-id="1" value="{{ work.kroki_file }}"  id="kroki" name="kroki" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.kroki_file }}" class="text-success">
+                                            <a href="/{{ work.kroki_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -784,7 +791,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control"  jurnal-id="1"  id="jurnal" name="jurnal" value="{{ work.jurnal_file }}" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.jurnal_file }}" class="text-success">
+                                            <a href="/{{ work.jurnal_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -805,7 +812,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" vidimes-id="1"  id="vidimes" name="vidimes" value="{{ work.vidimes_file }}" type="file"></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.vidimes_file }}" class="text-success">
+                                            <a href="/{{ work.vidimes_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -827,7 +834,7 @@
                                     <div class="row">
                                         <div class="col-lg-8"><input class="form-control" list-id="1"  id="list" name="list" value="{{ work.list_agreement_file }}" type="file" ></div>
                                         <div class="col-lg-4">
-                                            <a href="/{{ work.list_agreement_file }}" class="text-success">
+                                            <a href="/{{ work.list_agreement_file }}" target="_blank" class="text-success">
                                                 <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
                                             </a>
                                         </div>
@@ -841,6 +848,30 @@
                     </div>
                 </div>
                 <div class="row">
+
+                   <div class="col-sm-12 col-md-6 col-lg-4" id="topo-plan-file">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">8</div>
+{#                                 с эксплуатирующими организация#}
+                                <h5>Топографический план<sup class="txt-danger">*</sup></h5>
+                                 {% if work.topo_plan %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" topo-id="1"  id="topo_plan" name="topo_plan" value="{{ work.topo_plan }}" type="file" ></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.topo_plan }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="topo_plan" topo-id="0" id="topo_plan" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="ribbon-wrapper card shadow">
                             <div class="card-body">
@@ -852,13 +883,38 @@
                     </div>
                 </div>
                 <div class="row">
+                   <div class="col-sm-12 col-md-6 col-lg-4" id="topo-plan-file">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">8</div>
+{#                                 с эксплуатирующими организация#}
+                                <h5>Топографический план<sup class="txt-danger">*</sup></h5>
+                                 {% if work.topo_plan %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" topo-id="1"  id="topo_plan" name="topo_plan" value="{{ work.topo_plan }}" type="file" ></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.topo_plan }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="topo_plan" topo-id="0" id="topo_plan" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">8</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
                                     <h5>Пояснительная записка<sup class="txt-danger">*</sup></h5>
-<button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
-
+{#<button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>#}
+                                    <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">
+                                        <button class="btn btn-outline-primary w-100">по топографо-геодезическим работам </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -867,7 +923,7 @@
                             <div class="ribbon-wrapper card shadow">
                                  <div class="ribbon ribbon-right ribbon-color_one"><i class="fa fa-check"></i></div>
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">10</div>
                                     <h5>АКТ дала назорат<sup class="txt-danger">*</sup></h5>
 
  <button class="btn btn-outline-primary w-100 m-t-10" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}"> Кўриш</button>
@@ -880,7 +936,7 @@
                             <div class="ribbon-wrapper card shadow">
                                  <div class="ribbon ribbon-right ribbon-color_one"><i class="fa fa-check"></i></div>
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">10</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">11</div>
                                     <h5>АКТ комерал назорати<sup class="txt-danger">*</sup></h5>
                                                 <button class="btn btn-outline-primary w-100 m-t-10" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}"> Кўриш</button>
 
@@ -959,7 +1015,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+                 window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
@@ -975,7 +1031,8 @@
 
     });
 </script>
-                        <script type="text/javascript">
+
+    <script type="text/javascript">
     $(document).on('click',"#doing_akt_komeral_file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
@@ -991,7 +1048,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt-komeral/akt_komeral.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}

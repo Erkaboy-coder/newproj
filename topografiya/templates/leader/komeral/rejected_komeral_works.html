@@ -438,6 +438,7 @@
                 </div>
             </div>
         {% csrf_token %}
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-12 col-md-12 box-col-12">
@@ -465,7 +466,7 @@
                                             <div class="file-bottom">
                                                 <h6>2. Абрис</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -473,7 +474,7 @@
                                             <div class="file-bottom">
                                                 <h6>3. Кроки</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -481,7 +482,7 @@
                                             <div class="file-bottom">
                                                 <h6>4. Эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -490,7 +491,7 @@
                                             <div class="file-bottom">
                                                 <h6>5. Ж эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -499,11 +500,11 @@
                                             <div class="file-bottom ">
                                                 <h6>6. Лист эксплуатирующими </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file   }}" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
 
-                                         <li class="file-box m-t-5">
+                                        <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
                                                 <h6>7. Предписание </h6>
@@ -512,8 +513,7 @@
                                             </div>
                                         </li>
 
-
-                                       {% if programwork %}
+                                        {% if programwork %}
                                             {% if programwork.status == 4 %}
                                             <li class="file-box m-t-5">
                                                 <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
@@ -536,17 +536,30 @@
                                             </div>
                                         </li>
 
-
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
                                                 <h6>10. АКТ дала назорати текшируви</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="{% url 'show_akt_polevoy_worker' id=workerobject.object.id %}" class="text-white">Кўриш</a></button>
+                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
 
+                                     {% if work.file %}
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>11. Akt komeral nazorati dalolatnomasi</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ work.file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+
                                     </ul>
+
+
+
 
 {#                                    <ul class="folder ">#}
 {#                                        <li class="folder-box m-t-5">#}
@@ -576,15 +589,14 @@
                                             <div class="tab-content" id="v-pills-tabContent">
                                                 <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
                                                      aria-labelledby="v-pills-home-tab">
-                                                    <form class="dropzone digits dz-clickable" id="singleFileUpload"
-                                                          action="">
-                                                        <div class="dz-message needsclick"><i
-                                                                style="color: #168eea;font-size: 60px;"
-                                                                data-feather="upload"></i>
-                                                            <h6>Файлларни шу йерга ташланг ёки юклаш учун босинг.</h6>
-                                                            <span class="note needsclick">Бу шунчаки демо тушириш зонаси. Танланган файллар аслида юкланмаган.</span>
-                                                        </div>
-                                                    </form>
+
+                                                            <div class="bg-primary" style="height: 80px;">
+                                                                <br>
+                                                                <input type="file" style="width: 80%;margin: auto" class="form-control p-1" id="akt_komeral_file" name="akt_komeral_file" >
+                                                            </div>
+
+                                                    <hr>
+                                                    <br>
                                                 </div>
 
                                                 <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel"
@@ -601,18 +613,16 @@
                                 <div class="col-xs-12">
                                     <div class="file-sidebar">
                                         <div class="pricing-plan">
+                                            <div class="col-xs-12">
+                                    <div class="file-sidebar">
+                                        <div class="pricing-plan">
                                             <div class="col-md-12">
                                                 <p class="text-end">ШНК 1.02.07-19 стр.</p>
                                                 <div class="row">
                                                     <div class="col-xl-8"></div>
                                                     <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                        <div class="text-end input-group date" id="dt-minimum"
-                                                             data-target-input="nearest">
-                                                            <input class=" text-end form-control datetimepicker-input digits"
-                                                                   type="text" id="a1" name="a1" value="{{ work.a1 }}" data-target="#dt-minimum">
-                                                            <div class="input-group-text" data-target="#dt-minimum"
-                                                                 data-toggle="datetimepicker"><i
-                                                                    class="fa fa-calendar"> </i></div>
+                                                        <div class="text-end ">
+                                                            <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control" type="date">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -626,7 +636,7 @@
                                                         <label class="col-sm-3 col-form-label" for="inputEmail3">По
                                                             объекту:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" id="a2" name="a2" value="{{ work.a2 }}" type="text"
+                                                            <input class="form-control" id="a2" value="{{ pdowork.pdowork.object_name }} {{ pdowork.pdowork.object_address }}" name="a2" type="text"
                                                                    placeholder="" >
                                                         </div>
                                                     </div>
@@ -685,7 +695,7 @@
                                                                     <td>Отыскивание исходных пунктов</td>
                                                                     <td>знак</td>
                                                                     <td><input class="border-0 w-100" type="text"
-                                                                               placeholder="" id="a7" name="a7" value="{{ work.a7 }}"></td>
+                                                                               placeholder="" id="a7" value="{{ work.a7 }}" name="a7"></td>
                                                                     <td><input class="border-0 w-100" type="text"
                                                                                placeholder="" id="a8" name="a8" value="{{ work.a8 }}"></td>
                                                                     <td><input class="border-0 w-100" type="text"
@@ -778,36 +788,37 @@
                                                 </div>
                                                 <p><span class="badge rounded-pill badge-primary">3</span> Работы
                                                     выполнены в <span><input style="border:1px solid #e6edef;"
-                                                                             type="text" id="a31" name="a31" value="{{ work.a31 }}"></span> системе
-                                                    координат и в и грунтовые репера системе высот.</p>
+                                                                             type="text" id="a31" name="a31" value="{{ poyasitelniy.b5 }}"></span> системе
+                                                    координат и в <input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a32" name="a32" value="{{ poyasitelniy.b6 }}"> системе высот.</p>
                                                 <p>Результаты полевого контроля:</p>
                                                 <p><span class="badge rounded-pill badge-primary">4</span> Исходными
                                                     пунктами для построения съемочного обоснования послужили:</p>
                                                 <textarea style="width: 50%" class="form-control" type="text"
-                                                          placeholder="..." id="a32" name="a32">{{ work.a32 }}</textarea>
+                                                          placeholder="..." id="a33" name="a33">{{ work.a33 }}</textarea>
                                                 <p class="m-t-10">и грунтовые репера <span>
                                                     <input
-                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a33" name="a33"></span>
+                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span>
                                                     имеющие отметки нивелирования <span><input
-                                                            style="border:1px solid #e6edef;" type="text" id="a34" name="a34" value="{{ work.a34 }}"></span> кл.
+                                                            style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="{{ work.a35 }}"></span> кл.
                                                 </p>
                                                 <p>
                                                     <span class="badge rounded-pill badge-primary">5</span>
                                                     Длины ходов от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a35" name="a35" value="{{ work.a35 }}"></span>
-                                                    до
                                                     <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36" value="{{ work.a36 }}"></span>
-                                                    км Абсолютные ошибки от
+                                                    до
                                                     <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37" value="{{ work.a37 }}"></span>
+                                                    км Абсолютные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a38" name="a38" value="{{ work.a38 }}"></span>
                                                     до
                                                     <span><input class="m-b-10" style="border:1px solid #e6edef;"
-                                                                 type="text" id="a38" name="a38" value="{{ work.a38 }}"></span>
+                                                                 type="text" id="a39" name="a39" value="{{ work.a39 }}"></span>
                                                     м.Относительные ошибки от
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a39" name="a39" value="{{ work.a39 }}"></span>
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="{{ work.a40 }}"></span>
                                                     до
-                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40" value="{{ work.a40 }}"></span>.
-                                                    Система ходов уравнена
                                                     <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41" value="{{ work.a41 }}"></span>.
+                                                    Система ходов уравнена
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a42" name="a42" value="{{ work.a42 }}"></span>.
                                                 </p>
                                                 <form class="theme-form">
                                                     <div class="mb-3 row">
@@ -815,8 +826,8 @@
                                                                 class="badge rounded-pill badge-primary">6</span>
                                                             Техническое нивелирование выполнено</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a42" name="a42"
-                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания">{{ work.a42 }}</textarea>
+                                                            <textarea class="form-control" type="text" id="a43" name="a43"
+                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания">{{ work.a43 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <p><span class="badge rounded-pill badge-primary">7</span> Состояние
@@ -824,43 +835,43 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">журналы:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a43" name="a43" value="{{ work.a43 }}"
+                                                            <input class="form-control" type="text" id="a44" name="a44" value="{{ work.a44 }}"
                                                                    placeholder="кто, когда проверил и принял, максимальные расхождения в полуприемах, отсчетах по рейке, измерениях линий">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">схемы:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a44" name="a44" value="{{ work.a44 }}"
+                                                            <input class="form-control" type="text" id="a45" name="a45" value="{{ work.a45 }}"
                                                                    placeholder="масштаб, назначение, качество каждой схемы">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">абрисы:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" placeholder="" id="a45" name="a45" value="{{ work.a45 }}">
+                                                            <input class="form-control" type="text" placeholder="" id="a46" name="a46" value="{{ work.a46 }}">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Акт сдачи пунктов на
                                                             наблюдение за сохранностью</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a46" name="a46" value="{{ work.a45 }}"
-                                                                   placeholder="когда, кому сданы – Ф.И.О.">
+                                                            <input class="form-control" type="text" id="a47" name="a47"
+                                                                   placeholder="когда, кому сданы – Ф.И.О." value="{{ work.a47 }}">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Каталог:</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a47" name="a47"
-                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами">{{ work.a47 }}</textarea>
+                                                            <textarea class="form-control" type="text" id="a48" name="a48"
+                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами">{{ work.a48 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Вычислительные
                                                             материалы</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a48" name="a48" value="{{ work.a48 }}"
+                                                            <input class="form-control" type="text" id="a49" name="a49" value="{{ work.a49 }}"
                                                                    placeholder="качество оформления">
                                                         </div>
                                                     </div>
@@ -868,8 +879,8 @@
                                                         <label class="col-sm-3 col-form-label">Пояснительная записка,
                                                             тех. отчет</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" value="{{ work.a49 }}"
-                                                                   placeholder="кто и что составил, качество" id="a49" name="a49">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="кто и что составил, качество" id="a50" value="{{ work.a50 }}" name="a50">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -877,20 +888,20 @@
                                                                 class="badge rounded-pill badge-primary">8</span> Работа
                                                             выполнена в границах</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a50" name="a50"
+                                                            <textarea class="form-control" type="text" id="a51" name="a51"
                                                                       placeholder="
                                                                       указать среднее количество пикетов на дм2, заполнение контуров, правильность
                                                                       применения условных знаков,
-                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">{{ work.a50 }}
-                                                            </textarea>
+                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">
+                                                            {{ work.a51 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Замечания
                                                             исправил</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number" value="{{ work.a51 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a51" name="a51">
+                                                            <input class="form-control" type="text" value="{{ work.a52 }}"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a52" name="a52">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -898,36 +909,30 @@
                                                             границах</label>
                                                         <div class="col-sm-9">
                                                             <textarea class="form-control" type="text"
-                                                                      placeholder="" id="a52" name="a52">{{ work.a52 }}</textarea>
+                                                                      placeholder="" id="a53" name="a53">{{ work.a53 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу сдал</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a53" name="a53" value="{{ work.a53 }}"
+                                                            <input class="form-control" type="text" id="a54" value="{{ workerobject.object.worker_ispolnitel }}" name="a54"
                                                                    placeholder="подпись, Ф.И.О., исполнителя">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу принял</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a54" name="a54" value="{{ work.a54 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                            <input class="form-control" type="text" id="a55" name="a55" value="{{ workerobject.object.worker_leader }}">
                                                         </div>
                                                     </div>
-                                                    <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Общая оценка качества
-                                                            выпускаемой продукции</label>
-                                                        <div class="col-sm-9">
-                                                            <textarea class="form-control" type="number"
-                                                                      placeholder="" id="a55" name="a55">{{ work.a55 }}</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <h5 class="text-center m-b-20 m-t-20"><span
-                                                            class="badge rounded-pill badge-primary">9</span>
+                                                    <label class="col-sm-12 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">9</span>
                                                         камерального контроля и приемки работ по съемке инженерных
                                                         сетей.
-                                                    </h5>
+                                                    </label>
+                                                    <br>
+                                                    <h4 style="text-align: center">Результаты камерального контроля ИПК:</h4>
+                                                    <br>
                                                     <p>
                                                         Топографическая съемка инженерных сетей проверена на
                                                         <span><input type="text" class="actform" id="a56" name="a56" value="{{ work.a56 }}"></span>
@@ -938,7 +943,7 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Замечание по экспликации колодцев и опор</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a58" name="a58" placeholder="">{{ work.a58 }}</textarea>
+                                                            <textarea class="form-control" type="text" id="a58" name="a58"  placeholder="">{{ work.a58 }}</textarea>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -956,7 +961,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
+                                                        <label class="col-sm-3 col-form-label">Оценка качества работ <sup class="text-danger">*</sup></label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
                                                         </div>
@@ -964,14 +969,14 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу сдал</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a62" name="a62" value="{{ work.a62 }}"
+                                                            <input class="form-control" type="text" id="a62" name="a62" value="{{ workerobject.object.worker_ispolnitel }}"
                                                                    placeholder="подпись, Ф.И.О., исполнителя">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу принял</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a63" name="a63" value="{{ work.a63 }}"
+                                                            <input class="form-control" type="text" id="a63" value="{{ workerobject.object.worker_leader }}" name="a63"
                                                                    placeholder="подпись, Ф.И.О., должность принявшего">
                                                         </div>
                                                     </div>
@@ -980,6 +985,13 @@
                                             <img class="bg-img" style="width: 20%;"
                                                  src="{% static 'assets/images/clock.jpg' %}"
                                                  alt="">
+                                        </div>
+                                    </div>
+                                </div>
+{#                                             <div class="card p-2 shadow-lg w-25 float-end">#}
+{#                                                    <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>#}
+{#                                             </div>#}
+
                                         </div>
                                     </div>
                                 </div>
@@ -995,18 +1007,16 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {% if work.status != 2 %}
-                                        <div class="row p-2 mb-2">
-                                             <div class="col-md-6 card p-2 shadow-lg">
-                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
-                                             </div>
-
-                                            <div class="col-md-6 card p-2 shadow-lg">
-                                                <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
-                                            </div>
-                                        </div>
-                                        {% endif %}
+{#                                        <div class="row p-2 mb-2">#}
+{#                                             <div class="col-md-6 card p-2 shadow-lg">#}
+{#                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>#}
+{#                                             </div>#}
+{##}
+{#                                                 <div class="col-md-6 card p-2 shadow-lg">#}
+{#                                                    <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="sent_to_check_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>#}
+{#                                                </div>#}
+{##}
+{#                                        </div>#}
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
@@ -1034,13 +1044,13 @@
                                                         <div class="modal-body">
                                                             <ul class="messages text text-center text-danger" id="error_show" style="display:none">
                                                                <div class="alert alert-danger">
-                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Хатолик сабаби киритинг !</b></li>
                                                                </div>
                                                            </ul>
                                                             <br>
-                                                            <h5 class="m-b-20">Хатолик аризаси</h5>
+                                                             <h5 class="m-b-20-">Хатолик иловаси </h5>
                                                             <input class="form-control" id="reason_file" name="reason_file" type="file">
-                                                            <h5 class="m-t-20 m-b-20">Хатолик аризаси</h5>
+                                                            <h5 class="m-t-20 m-b-20">Хатолик сабаби</h5>
                                                             <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
@@ -1064,6 +1074,38 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                            <script type="text/javascript">
+    $(document).on('click',"#doing_akt_polevoy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_polevoy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/'+result,'_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
                 <script type="text/javascript">
     $(document).on('click',"#doing_poyasitelniy_file",function(){
         var data = new FormData();

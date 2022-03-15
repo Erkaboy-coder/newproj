@@ -8,6 +8,9 @@
 {% block stylecontent %}
 
 {% endblock stylecontent %}
+            {% load l10n %}
+    {% load humanize %}
+
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
 
 <div class="loader-wrapper">
@@ -16,7 +19,7 @@
     </div>
 </div>
 
-  <div class="modal fade modal-bookmark " id="exampleModal"
+   <div class="modal fade modal-bookmark " id="exampleModal"
        tabindex="-1" aria-labelledby="exampleModalLabel"
        style="display: none;" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -26,9 +29,9 @@
                       Буюртма ҳақида маълумот</h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+             <div class="modal-body">
                   <div class="row">
-                      <div class="col-lg-6">
+                <div class="col-lg-6">
                           <div class="mb-2">
                               <b>Шартнома рақами<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
@@ -38,7 +41,7 @@
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект номи<sup style="color: red;">*</sup></b>
+                              <b>Объект номи<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
@@ -46,17 +49,18 @@
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект манзили<sup style="color: red;">*</sup></b>
+                              <b>Объект манзили<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
+
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>Бажариш муддати<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
@@ -64,8 +68,8 @@
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Нархи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
@@ -73,31 +77,18 @@
                           </div>
                       </div>
                   </div>
-                  <ul class="folder">
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                  </ul>
+                   <div class="row">
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                      </div>
+
+                  </div>
               </div>
           </div>
       </div>
@@ -114,18 +105,23 @@
                   </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+             <div class="modal-body">
                   <div class="row">
                       <div class="col-md-12">
                             <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
 
-                            </ol>
+                                </ol>
                       </div>
                   </div>
               </div>
@@ -157,7 +153,9 @@
 
                                 </button>
                             {% endif %}
-
+                            <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
+                                Буюртма ҳақида маълумот
+                            </button>
                         </div>
 
                     </div>
@@ -856,10 +854,33 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4" id="topo-plan-file">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">8</div>
+{#                                 с эксплуатирующими организация#}
+                                <h5>Топографический план<sup class="txt-danger">*</sup></h5>
+                                 {% if work.topo_plan %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" topo-id="1"  id="topo_plan" name="topo_plan" value="{{ work.topo_plan }}" type="file" ></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.topo_plan }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="topo_plan" topo-id="0" id="topo_plan" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">8</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
                                     <h5>Пояснительная записка<sup class="txt-danger">*</sup></h5>
                                     <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">
                                         <button class="btn btn-outline-primary w-100">Қайта тўлдириш</button>
@@ -871,7 +892,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">10</div>
                                     <h5>АКТ дала назорати<sup class="txt-danger">*</sup></h5>
                                     <a href="{% url "leader_akt_form_edit" id=work.object.id %}">
                                         <button class="btn btn-outline-primary w-100">Қайта тўлдириш</button>
@@ -884,7 +905,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">10</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">11</div>
                                     <h5>АКТ комерал назорати<sup class="txt-danger">*</sup></h5>
                                     <a href="{% url "leader_akt_komeral_form_edit" id=work.object.id %}">
                                         <button class="btn btn-outline-primary w-100">Қайта тўлдириш</button>
@@ -958,6 +979,7 @@
         data.append("kroki", $('#kroki')[0].files[0]);
         data.append("jurnal", $('#jurnal')[0].files[0]);
         data.append("vidimes", $('#vidimes')[0].files[0]);
+        data.append("topo_plan", $('#topo_plan')[0].files[0]);
         data.append("list", $('#list')[0].files[0]);
         data.append('geometry_point',json_str_point);
         data.append('geometry_line',json_str_line);
@@ -1043,6 +1065,7 @@
         data.append("abris", $('#abris')[0].files[0]);
         data.append("kroki", $('#kroki')[0].files[0]);
         data.append("jurnal", $('#jurnal')[0].files[0]);
+        data.append("topo_plan", $('#topo_plan')[0].files[0]);
         data.append("vidimes", $('#vidimes')[0].files[0]);
         data.append("list", $('#list')[0].files[0]);
         event.preventDefault();

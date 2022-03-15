@@ -8,6 +8,8 @@
 {% block stylecontent %}
 
 {% endblock stylecontent %}
+        {% load l10n %}
+    {% load humanize %}
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
 
 <div class="loader-wrapper">
@@ -26,9 +28,9 @@
                       Буюртма ҳақида маълумот</h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+             <div class="modal-body">
                   <div class="row">
-                      <div class="col-lg-6">
+                <div class="col-lg-6">
                           <div class="mb-2">
                               <b>Шартнома рақами<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
@@ -38,7 +40,7 @@
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект номи<sup style="color: red;">*</sup></b>
+                              <b>Объект номи<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
@@ -46,17 +48,18 @@
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект манзили<sup style="color: red;">*</sup></b>
+                              <b>Объект манзили<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
+
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>Бажариш муддати<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
@@ -64,8 +67,8 @@
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Нархи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
@@ -73,31 +76,18 @@
                           </div>
                       </div>
                   </div>
-                  <ul class="folder">
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                  </ul>
+                   <div class="row">
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                      </div>
+
+                  </div>
               </div>
           </div>
       </div>
@@ -118,14 +108,19 @@
                   <div class="row">
                       <div class="col-md-12">
                             <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
 
-                            </ol>
+                                </ol>
                       </div>
                   </div>
               </div>
@@ -138,7 +133,7 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Бош геодезис назоратидан қайтган иш</h3>
+                            <h3>Бош геодезис назорати</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
@@ -147,7 +142,7 @@
                             </ol>
                         </div>
 
-                         <div class="col-sm-6 text-end">
+                        <div class="col-sm-6 text-end">
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
@@ -157,7 +152,9 @@
 
                                 </button>
                             {% endif %}
-
+                            <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
+                                Буюртма ҳақида маълумот
+                            </button>
                         </div>
 
                     </div>

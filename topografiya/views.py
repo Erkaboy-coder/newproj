@@ -964,12 +964,12 @@ def show_komeral_checking_leader(request,id):
     objects = PdoWork.objects.filter(status_recive=1).all()
     objects_pdo = PdoWork.objects.filter(status_recive=0).all()
     sirie_type = Order.objects.filter(object=work.object.id).first()
-
+    pdowork = Object.objects.filter(id=id).first()
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=id)
     context = {'objects': objects, 'work': work, 'objects_pdo': objects_pdo,
                'sirie_type': sirie_type,
-               'file': sirie_files, 'count': counter(), 'rejects': rejects}
+               'file': sirie_files, 'count': counter(), 'rejects': rejects,'pdowork':pdowork}
 
     return render(request, 'leader/head_komeral/show_komeral_work.html', context)
 
@@ -979,11 +979,12 @@ def leader_rejected_komeral_works(request,id):
     objects = PdoWork.objects.filter(status_recive=1).all()
     objects_pdo = PdoWork.objects.filter(status_recive=0).all()
     sirie_type = Order.objects.filter(object=work.object.id).first()
+    pdowork = Object.objects.filter(id=id).first()
 
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=id)
     context = {'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
-               'file': sirie_files,'count': counter(),'rejects':rejects}
+               'file': sirie_files,'count': counter(),'rejects':rejects,'pdowork':pdowork}
     return render(request, 'leader/head_komeral/rejected_komeral_works.html', context)
 
 @login_required(login_url='/signin')

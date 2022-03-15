@@ -21,6 +21,9 @@
     }
 
 </style>
+
+    {% load l10n %}
+    {% load humanize %}
 {% endblock stylecontent %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
 
@@ -36,7 +39,7 @@
               </div>
               <div class="modal-body">
                   <div class="row">
-                      <div class="col-lg-6">
+                <div class="col-lg-6">
                           <div class="mb-2">
                               <b>Шартнома рақами<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
@@ -46,7 +49,7 @@
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект номи<sup style="color: red;">*</sup></b>
+                              <b>Объект номи<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
@@ -54,17 +57,18 @@
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект манзили<sup style="color: red;">*</sup></b>
+                              <b>Объект манзили<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
+
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>Бажариш муддати<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
@@ -72,8 +76,8 @@
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Нархи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
@@ -81,31 +85,18 @@
                           </div>
                       </div>
                   </div>
-                  <ul class="folder">
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                  </ul>
+                   <div class="row">
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                      </div>
+
+                  </div>
               </div>
           </div>
       </div>
@@ -122,18 +113,23 @@
                   </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+             <div class="modal-body">
                   <div class="row">
                       <div class="col-md-12">
                             <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
 
-                            </ol>
+                                </ol>
                       </div>
                   </div>
               </div>
@@ -455,7 +451,7 @@
                                             <br>
                                         </div>
                                     </div>
-                                    <ul class="files ">
+                                      <ul class="files ">
                                         <li class="file-box ">
                                             <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
                                             <div class="file-bottom">
@@ -508,12 +504,21 @@
                                             </div>
                                         </li>
 
-                                        <li class="file-box m-t-5">
+                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
                                                 <h6>7. Предписание </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                            </div>
+                                        </li>
+
+                                         <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                           <div class="file-bottom ">
+                                                <h6>8. Топографический план </h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">Кўриш</a></button>
                                             </div>
                                         </li>
 
@@ -547,6 +552,14 @@
                                                 <p>Ознакомиться с файлом отправки</p>
                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
 
+                                            </div>
+                                        </li>
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>11. АКТ комерал назорат далолатномаси</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
 
@@ -710,7 +723,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');;
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
@@ -742,7 +755,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt-komeral/akt_komeral.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');;
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}

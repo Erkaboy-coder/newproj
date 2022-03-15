@@ -28,7 +28,7 @@
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-10">
                             <h3>Майдон назоратини текшириш</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
@@ -37,6 +37,11 @@
                                 <li class="breadcrumb-item" ><a href="{% url 'leader_akt_komeral_form_edit' id=workerobject.object.id %}">АКТ комерал назорати далолатномаси</a></li>
                             </ol>
                         </div>
+                         <div class="col-sm-2">
+
+                        <a href="{% url 'leader_rejected_komeral_works' id=workerobject.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
+
+                    </div>
 
                     </div>
                 </div>
@@ -53,23 +58,15 @@
                         <div class="card">
                             <div class="card-body ">
                                 <div class="col-xs-12">
-                                    <div class="file-sidebar">
-                                        <div class="pricing-plan">
-                                            <div class="col-xs-12">
-                                    <div class="file-sidebar">
+                                     <div class="file-sidebar">
                                         <div class="pricing-plan">
                                             <div class="col-md-12">
                                                 <p class="text-end">ШНК 1.02.07-19 стр.</p>
                                                 <div class="row">
                                                     <div class="col-xl-8"></div>
                                                     <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                        <div class="text-end input-group date" id="dt-minimum"
-                                                             data-target-input="nearest">
-                                                            <input class=" text-end form-control datetimepicker-input digits"
-                                                                   type="text" id="a1" name="a1" value="{{ work.a1 }}" data-target="#dt-minimum">
-                                                            <div class="input-group-text" data-target="#dt-minimum"
-                                                                 data-toggle="datetimepicker"><i
-                                                                    class="fa fa-calendar"> </i></div>
+                                                        <div class="text-end ">
+                                                            <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control" type="date">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -83,7 +80,7 @@
                                                         <label class="col-sm-3 col-form-label" for="inputEmail3">По
                                                             объекту:</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" id="a2" value="{{ work.a2 }}" name="a2" type="text"
+                                                            <input class="form-control" id="a2" value="{{ pdowork.pdowork.object_name }} {{ pdowork.pdowork.object_address }}" name="a2" type="text"
                                                                    placeholder="" >
                                                         </div>
                                                     </div>
@@ -132,8 +129,7 @@
                                                                     <th scope="col">№</th>
                                                                     <th scope="col">Наименование виды работ</th>
                                                                     <th scope="col">Ед.измерения</th>
-                                                                    <th scope="col">Объем работ <br>по заданию</th>
-                                                                    <th scope="col">Объем работ <br> факти-ческий</th>
+                                                                    <th colspan="2" scope="col">Объем работ / факт</th>
                                                                     <th scope="col">Категория работ</th>
                                                                 </tr>
                                                                 </thead>
@@ -236,9 +232,9 @@
                                                 </div>
                                                 <p><span class="badge rounded-pill badge-primary">3</span> Работы
                                                     выполнены в <span><input style="border:1px solid #e6edef;"
-                                                                             type="text" id="a31" name="a31" value="{{ work.a31 }}"></span> системе
+                                                                             type="text" id="a31" name="a31" value="{{ poyasitelniy.b5 }}"></span> системе
                                                     координат и в <input style="border:1px solid #e6edef;"
-                                                                             type="text" id="a32" name="a32" value="{{ work.a32 }}"> системе высот.</p>
+                                                                             type="text" id="a32" name="a32" value="{{ poyasitelniy.b6 }}"> системе высот.</p>
                                                 <p>Результаты полевого контроля:</p>
                                                 <p><span class="badge rounded-pill badge-primary">4</span> Исходными
                                                     пунктами для построения съемочного обоснования послужили:</p>
@@ -333,7 +329,8 @@
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label"><span
-                                                                class="badge rounded-pill badge-primary">8</span> Замечания по оформлению планшетов</label>
+                                                                class="badge rounded-pill badge-primary">8</span> Работа
+                                                            выполнена в границах</label>
                                                         <div class="col-sm-9">
                                                             <textarea class="form-control" type="text" id="a51" name="a51"
                                                                       placeholder="
@@ -362,22 +359,21 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу сдал</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a54" value="{{ work.a54 }}" name="a54"
+                                                            <input class="form-control" type="text" id="a54" value="{{ workerobject.object.worker_ispolnitel }}" name="a54"
                                                                    placeholder="подпись, Ф.И.О., исполнителя">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу принял</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a55" name="a55" value="{{ work.a55 }}"
-                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                            <input class="form-control" type="text" id="a55" name="a55" value="{{ workerobject.object.worker_leader }}">
                                                         </div>
                                                     </div>
-                                                    <h5 class="text-center m-b-20 m-t-20"><span
-                                                            class="badge rounded-pill badge-primary">9</span>
+                                                    <label class="col-sm-12 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">9</span>
                                                         камерального контроля и приемки работ по съемке инженерных
                                                         сетей.
-                                                    </h5>
+                                                    </label>
                                                     <br>
                                                     <h4 style="text-align: center">Результаты камерального контроля ИПК:</h4>
                                                     <br>
@@ -409,7 +405,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
-                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
+                                                        <label class="col-sm-3 col-form-label">Оценка качества работ <sup class="text-danger">*</sup></label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
                                                         </div>
@@ -417,14 +413,14 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу сдал</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a62" name="a62" value="{{ work.a62 }}"
+                                                            <input class="form-control" type="text" id="a62" name="a62" value="{{ workerobject.object.worker_ispolnitel }}"
                                                                    placeholder="подпись, Ф.И.О., исполнителя">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Работу принял</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="text" id="a63" value="{{ work.a63 }}" name="a63"
+                                                            <input class="form-control" type="text" id="a63" value="{{ workerobject.object.worker_leader }}" name="a63"
                                                                    placeholder="подпись, Ф.И.О., должность принявшего">
                                                         </div>
                                                     </div>
@@ -433,13 +429,6 @@
                                             <img class="bg-img" style="width: 20%;"
                                                  src="{% static 'assets/images/clock.jpg' %}"
                                                  alt="">
-                                        </div>
-                                    </div>
-                                </div>
-{#                                             <div class="card p-2 shadow-lg w-25 float-end">#}
-{#                                                    <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>#}
-{#                                             </div>#}
-
                                         </div>
                                     </div>
                                 </div>
