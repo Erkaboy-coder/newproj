@@ -829,20 +829,20 @@
 
                                                                             <tbody>
                                                                             {% if form1 %}
-                                                                            {% for form in form1 %}
-                                                                            <tr>
+                                                                            {% for form2 in form1 %}
+                                                                            <tr obj-id="{{ form2.id }}">
                                                                                 <td scope="row">1</td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_1" type="text" value="{{ form.b8_1 }}" name="b8_1" id="b8_1" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_1" data-column="b8_1" type="text" value="{{ form2.b8_1 }}" name="b8_1" id="b8_1" placeholder="">
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_2" type="text" value="{{ form.b8_2 }}" name="b8_2" id="b8_2" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_2" data-column="b8_2" type="text" value="{{ form2.b8_2 }}" name="b8_2" id="b8_2" placeholder="">
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_3" type="text" value="{{ form.b8_3 }}" name="b8_3" id="b8_3" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_3" data-column="b8_3" type="text" value="{{ form2.b8_3 }}" name="b8_3" id="b8_3" placeholder="">
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_4" type="text" value="{{ form.b8_4 }}" name="b8_4" id="b8_4" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_4" data-column="b8_4" type="text" value="{{ form2.b8_4 }}" name="b8_4" id="b8_4" placeholder="">
                                                                                 </td>
                                                                                 <td><i id="addrow8" onclick="childrentabl6()"  class="fa fa-plus-circle f-20 txt-primary"></i></td>
                                                                             </tr>
@@ -1535,8 +1535,25 @@
 
     <script type="text/javascript">
     $(document).on('click',".edit_poyasitelniy",function(){
+
+        var list0 = [];
+        var list = {};
+        $('#childTable8 > tbody > tr').each(function(i,tr){
+        list = {};
+        list['id'] = $(tr).attr('obj-id');
+        $(tr).find('input').each(function(i,input){
+            list[$(input).attr('data-column')]=$(input).val();
+
+        });
+        list0.push(list);
+        console.log(list);
+        });
+         console.log(list0);
+
+
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("table1", JSON.stringify(list0));
 
         data.append("work_id", $('#work_id').val());
         data.append("worker", $('#worker').val());
@@ -1698,7 +1715,7 @@
                processData: false,
 
                success: function (result){
-                   location.replace(window.location.pathname);
+{#                   location.replace(window.location.pathname);#}
                },
 
                error: function(){

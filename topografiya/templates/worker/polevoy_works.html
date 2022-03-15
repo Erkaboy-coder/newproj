@@ -128,13 +128,11 @@
                                                         <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
                                                         <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
 
-                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b><span style="color: #168eea;font-size:30px;">
-
-
+                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
+                                                                <span style="color: #168eea;font-size:30px;">
                                         <b  class="count" data-all="{% for work in rejects %}{% if work.workerobject.object.id == object.object.id %} {{ work.workerobject.id }},{% endif %}{% endfor %}"></b>
-
-                                                            </span></div>
-                                                        </div>
+                                                                </span>
+                                                            </div>
                                                         <hr>
                                                         <div class="detail-footer">
                                                             <a href="{% url 'polevoy_work_doing' id=object.object.id %}">

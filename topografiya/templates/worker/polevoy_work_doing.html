@@ -118,15 +118,22 @@
               <div class="modal-body">
                   <div class="row">
                       <div class="col-md-12">
-                            <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
 
-                            </ol>
+                            <ol>
+                                 <li>
+                                    {% for work in rejects %}
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                    {% endfor %}
+                                 </li>
+                                </ol>
+
                       </div>
                   </div>
               </div>
@@ -925,6 +932,39 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+    $(document).on('click',".doing_akt_polevoy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_polevoy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+{#            console.log('Fayl yaratildi')#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
     <script>
      if($('#vidimes').attr('vidimes-id') == '1'
      && $('#list').attr('list-id') == '1' && $('#jurnal').attr('jurnal-id') == '1' && $('#kroki').attr('kroki-id') == '1'

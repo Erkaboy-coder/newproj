@@ -19,7 +19,7 @@ from django.core.serializers import serialize
 from django.core import serializers
 
 from django.core import serializers
-
+from datetime import datetime
 # Create your views here.
 
 def counter():
@@ -29,7 +29,9 @@ def counter():
 
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
     count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
+
     count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
+
     count['new_komeral_works_leader'] = AktKomeralForm.objects.filter(status=0).all().count()
 
     count['geodezis_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=1).all().count()
@@ -48,6 +50,9 @@ def new_work_counter(request):
     count_works = {}
     count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
     count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
+    count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.full_name).all().count()
+
+    count_works['all_works_worker'] = count_works['new_field_works']+count_works['rejected_polevoy_works_worker']
     count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
     return count_works
 
@@ -493,17 +498,20 @@ def leader_polevoy_works(request):
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds}
     return render(request, 'leader/polevoy/polevoy_works.html', context)
 
+from datetime import datetime
 @login_required(login_url='/signin')
 def checking_polevoy_works(request,id):
     workerobject = WorkerObject.objects.filter(object=id).first()
 
     pdowork = Object.objects.filter(id=id).first()
     cost = float(pdowork.pdowork.object_cost)
-
+    now = datetime.date(datetime.now())
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=workerobject.object.id).first()
+
     work = AktPolevoyForm.objects.filter(object=id).first()
+
     work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
     work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
     work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
@@ -513,12 +521,14 @@ def checking_polevoy_works(request,id):
     work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
     work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
 
+    poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=workerobject).first()
+
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
     
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
-               ,'cots': cost}
+               ,'cots': cost,'now':now, 'poyasitelniy':poyasitelniy}
 
     return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
 
@@ -708,17 +718,30 @@ def send_to_kameral(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
-
+        akt_file =request.FILES.get('akt_file')
+        print(akt_file)
         workerobject = WorkerObject.objects.filter(object=work_id).first()
-        workerobject.status = 4
-        workerobject.save()
 
-        kameral = AktKomeralForm(object=workerobject.object)
-        kameral.save()
+        if akt_file != None:
+            akt = AktPolevoyForm(object=workerobject.object, file=akt_file)
+            akt.save()
+            
+            workerobject = WorkerObject.objects.filter(object=work_id).first()
+            workerobject.status = 4
+            workerobject.save()
 
+            history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",
+                              user_id=worker)
+            history.save()
+        else:
+            workerobject = WorkerObject.objects.filter(object=work_id).first()
+            workerobject.status = 4
+            workerobject.save()
 
-        history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=worker)
-        history.save()
+            kameral = AktKomeralForm(object=workerobject.object)
+            kameral.save()
+            history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=worker)
+            history.save()
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -754,7 +777,14 @@ def deny_polevoy(request):
 
         object_id = Object.objects.filter(id=work_id).first()
 
-        reject = PolevoyWorkReject(workerobject=workerobject, file=reason_file, reason=reason)
+        work = AktPolevoyForm.objects.filter(object=object_id).first()
+        work.version=work.version+1
+        work.save()
+
+        path = 'topografiya/static/files/akt_polevoy/akt-polevoy_'+str(object_id.id)+'_'+str(work.version)+'v.pdf'
+
+
+        reject = PolevoyWorkReject(workerobject=workerobject, file=reason_file, reason=reason,version = work.version, rejected_file=path)
         reject.save()
 
         history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
@@ -1083,18 +1113,20 @@ def send_to_check_komeral(request):
         return HttpResponse(0)
 
 @login_required(login_url='/signin')
-def polevoy_work_doing(request,id):
+def polevoy_work_doing(request, id):
     work = WorkerObject.objects.filter(object=id).first()
+    aktfile = AktPolevoyForm.objects.filter(status=2).filter(object=work.object).all()
     objects = PdoWork.objects.filter(status_recive=1).all()
     objects_pdo = PdoWork.objects.filter(status_recive=0).all()
     sirie_type = Order.objects.filter(object=work.object.id).first()
     cost = float(work.object.pdowork.object_cost)
-    sirie_files = SirieFiles.objects.filter(workerobject=work).first()
-    rejects = PolevoyWorkReject.objects.filter(workerobject=work)
+    sirie_files = SirieFiles.objects.filter(workerobject=work.id).first()
+    rejects = PolevoyWorkReject.objects.filter(workerobject=work).all()
+
     programwork = ProgramWork.objects.filter(object=id).first()
     poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=work).first()
 
-    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
+    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,'aktfile':aktfile,
                'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,'count_works': new_work_counter(request),'cost': cost,'poyasitelniy': poyasitelniy}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
@@ -1543,6 +1575,7 @@ def store(request):
     else:
         return HttpResponse(0)
 
+import json
 @login_required(login_url='/signin')
 def edit_poyasitelniy(request):
     if request.method == 'POST':
@@ -1550,6 +1583,14 @@ def edit_poyasitelniy(request):
         work_id = data.get('work_id')
         worker = data.get('worker')
         status_id = data.get('status-id')
+        table1 = data.get('table1')
+
+        print(table1)
+        for i in json.loads(table1):
+            print(i['b8_1'])
+
+
+
         if status_id == '1':
             status = 1
         else:
@@ -3280,6 +3321,8 @@ def doing_poyasitelniy_file(request):
     else:
         return HttpResponse(0)
 
+from os.path import exists
+
 @login_required(login_url='/signin')
 def doing_akt_polevoy_file(request):
     if request.method == 'POST':
@@ -3293,6 +3336,7 @@ def doing_akt_polevoy_file(request):
         order = Order.objects.filter(object=id).first()
 
         work = AktPolevoyForm.objects.filter(object=id).first()
+
         work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
         work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
         work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
@@ -3311,6 +3355,14 @@ def doing_akt_polevoy_file(request):
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+    *{
+    font-size:25px;
+    }
+    table{
+    border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  }
         li {
             padding: 5px;
         }
@@ -3357,16 +3409,9 @@ def doing_akt_polevoy_file(request):
                                                                                     <div class="row" style="float: right">
                                                                                         <div class="col-lg-8"></div>
 
-                                                                                        <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                                                            <div class="text-end input-group date"
-                                                                                                 id="dt-minimum"
-                                                                                                 data-target-input="nearest">
-                                                                                                <input id="a1" name="a1" value="'''+str(work.a1)+'''" class="text-end form-control datetimepicker-input digits"
-                                                                                                       type="text"
-                                                                                                       data-target="#dt-minimum">
-                                                                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker">
-                                                                                                    <i class="fa fa-calendar"> </i>
-                                                                                                </div>
+                                                                                       <div class="col-xl-4 col-sm-5 col-lg-5">
+                                                                                            <div class="text-end ">
+                                                                                                <input id="a1" name="a1" value="'''+str(work.a1)+'''" class="text-end form-control" type="text">
                                                                                             </div>
                                                                                         </div>
 
@@ -3374,7 +3419,6 @@ def doing_akt_polevoy_file(request):
 
                                                                                     <h3 class="text-center" style="text-align: center">АКТ</h3>
                                                                                     <div class="col-md-12">
-                                                                                        <br>
                                                                                         <h5 class="text-center" style="text-align: center">1. Полевого
                                                                                             контроля и приемки
                                                                                             топографических
@@ -3383,27 +3427,16 @@ def doing_akt_polevoy_file(request):
                                                                                         <p>составили настоящий акт в
                                                                                             том, что за период с</p>
 
-                                                                                        <div class="input-group date w-50"
-                                                                                             id="dt-disab-days"
-                                                                                             data-target-input="nearest">
-                                                                                            <input class="form-control datetimepicker-input digits"
-                                                                                                   type="text" id="a3" value="'''+str(work.a3)+'''" name="a3"
-                                                                                                   data-target="#dt-disab-days">
-
-                                                                                            <div class="input-group-text"
-                                                                                                 data-target="#dt-disab-days"
-                                                                                                 data-toggle="datetimepicker">
-                                                                                                <i class="fa fa-calendar"></i>
-                                                                                            </div>
-                                                                                        </div>
-
+                                                                                        C &nbsp; <input type="date" id="a3" name="a3" value="'''+str(work.a3)+'''" style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        по &nbsp;&nbsp; <input type="date" id="a72" name="a72" value="'''+str(work.a72)+'''"  style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        <br>
                                                                                         <p>произведен контроль и приемка
                                                                                             топографических работ,
                                                                                             выполненных на объекте:</p>
-                                                                                        <input style="width: 50%" id="a4" value="'''+str(work.a4)+'''" name="a4"
-                                                                                               class="form-control"
-                                                                                               type="text"
-                                                                                               placeholder="№ дог.">
+
+                                                                                        '''+str(workerobject.object.pdowork.object_name)+''' № дог. <input style="width: 20%;border-top:0;border-left: 0;border-right: 0" id="a4" name="a4"  type="text" value="'''+str(work.a4)+'''">
+                                                                                        от '''+str(workerobject.object.pdowork.agreement_date)+'''
+                                                                                        <br>
                                                                                         <p>по заданию заказчика</p>
                                                                                         <input style="width: 50%" id="a5" value="'''+str(work.a5)+'''" name="a5"
                                                                                                class="form-control"
@@ -3635,51 +3668,47 @@ def doing_akt_polevoy_file(request):
                                                                                             теодолитные хода
                                                                                         </p>
 
-                                                                                        <div class="col-sm-12 m-t-5">
-                                                                                            <div class="card border-0">
-                                                                                                <div class="table-responsive">
-                                                                                                    <table class="table table-bordered"
-                                                                                                           id="childTable">
-                                                                                                        <thead class="table-primary">
+                                                                                            <div>
+                                                                                                    <table cellspacing="0" cellpadding="0" >
+                                                                                                
                                                                                                         <tr>
                                                                                                             <th scope="col">
                                                                                                                 №
                                                                                                             </th>
-                                                                                                            <th scope="col">
+                                                                                                            <th style="width:20px">
                                                                                                                 Наименование
                                                                                                                 хода
                                                                                                             </th>
-                                                                                                            <th scope="col">
+                                                                                                            <th style="width:5%">
                                                                                                                 Длина
                                                                                                                 хода
                                                                                                             </th>
-                                                                                                            <th scope="col">
+                                                                                                            <th >
                                                                                                                 К-во
                                                                                                                 углов
                                                                                                             </th>
                                                                                                             <th colspan="2"
-                                                                                                                scope="col">
+                                                                                                                >
                                                                                                                 Угл
                                                                                                                 невязки:получ,допуст
                                                                                                             </th>
-                                                                                                            <th colspan="2"
-                                                                                                                scope="col">
+                                                                                                            <th colspan="2">
                                                                                                                 Лин.невязки:абсол,относит
                                                                                                             </th>
                                                                                                             
                                                                                                         </tr>
-                                                                                                        </thead>
+        
                                                                                                         <tbody>
                                                                                                         <tr>
                                                                                                             <th scope="row">
                                                                                                                 1
                                                                                                             </th>
-                                                                                                            <td><input id="a1_1" name="a1_1"
+                                                                                                            <td style="width:5%"><input id="a1_1" name="a1_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text" value="'''+str(work_table1.a1_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a1_2" name="a1_2"
+                                                                                                            <td style="width:5%"><input id="a1_2" name="a1_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text" value="'''+str(work_table1.a1_2)+'''"
                                                                                                                     placeholder="">
@@ -3713,7 +3742,8 @@ def doing_akt_polevoy_file(request):
                                                                                                         </tr>
                                                                                                         </tbody>
                                                                                                     </table>
-                                                                                                </div>
+                                                                                                    </div>
+                                                                                                
                                                                                                 <p>
                                                                                                     выполненные
                                                                                                     <span><input  id="a24" name="a24" value="'''+str(work.a24)+'''"
@@ -3721,7 +3751,7 @@ def doing_akt_polevoy_file(request):
                                                                                                             type="text"></span>
                                                                                                 </p>
                                                                                                 <p>контрольные</p> '''+str(work.a25)+'''
-                                                                                            </div>
+                                                                                        
                                                                                         </div>
                                                                                         <p><span
                                                                                                 class="badge rounded-pill badge-primary">б)</span>
@@ -4001,6 +4031,20 @@ def doing_akt_polevoy_file(request):
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
+                                                                                                         
+                                                                                                         <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td style="text-align: center;">2</td>
+                                                                                                            <td style="text-align: center;">3</td>
+                                                                                                            <td style="text-align: center;">4</td>
+                                                                                                            <td style="text-align: center;">5</td>
+                                                                                                            <td style="text-align: center;">6</td>
+                                                                                                            <td style="text-align: center;">7</td>
+
+                                                                                                        </tr>
+                                                                                                        
                                                                                                          <tr>
                                                                                                             <th scope="row">
                                                                                                                 1
@@ -4572,7 +4616,7 @@ def doing_akt_polevoy_file(request):
                                                                                             условных знаков: '''+str(work.a63)+'''
 
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style='display:none'>
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
@@ -4581,7 +4625,7 @@ def doing_akt_polevoy_file(request):
                                                                                                    >
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style='display:none'>
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -4719,9 +4763,9 @@ def doing_akt_polevoy_file(request):
 
                                                                                     <div class="mb-3 row">
                                                                                         Замечания '''+str(work.a69)+'''
-
+                                                                                    <br>
                                                                                     </div>
-
+                                                                                
                                                                                     <div class="mb-3 row">
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
@@ -4729,10 +4773,11 @@ def doing_akt_polevoy_file(request):
                                                                                             <input class="form-control" id="a70" name="a70" value="'''+str(work.a70)+'''"
                                                                                                    type="text"
                                                                                                    >
+                                                                                                   <br>
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -4761,24 +4806,26 @@ def doing_akt_polevoy_file(request):
 
 </html>
                ''';
+        if not exists('topografiya/static/files/akt_polevoy/akt-polevoy_'+str(work.object.id)+'_'+str(work.version)+'v.pdf'):
+            options = {
+                'page-size': 'A4',
+                'encoding': "UTF-8",
+                'margin-top': '0.2in',
+                'margin-right': '0.2in',
+                'margin-bottom': '0.2in',
+                'margin-left': '0.2in',
+                'orientation': 'portrait',
+                # landscape bu albomiy qiladi
+            }
+            # display = Display(visible=0, size=(500, 500)).start()
+            pdfkit.from_string(context, 'topografiya/static/files/akt_polevoy/akt-polevoy_'+str(work.object.id)+'_'+str(work.version)+'v.pdf', options)
 
-        options = {
-            'page-size': 'A4',
-            'encoding': "UTF-8",
-            'margin-top': '0.2in',
-            'margin-right': '0.2in',
-            'margin-bottom': '0.2in',
-            'margin-left': '0.2in',
-            'orientation': 'portrait',
-            # landscape bu albomiy qiladi
-        }
-        # display = Display(visible=0, size=(500, 500)).start()
-        pdfkit.from_string(context, 'topografiya/static/files/akt_polevoy/akt-polevoy.pdf', options)
-
-        response = HttpResponse(data, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="akt-polevoy.pdf"'
-        return response
+            # response = HttpResponse(data, content_type='application/pdf')
+            # response['Content-Disposition'] = 'attachment; filename="akt-polevoy.pdf"'
+            # return response
+        return HttpResponse('akt_polevoy/akt-polevoy_' + str(work.object.id) + '_' + str(work.version) + 'v.pdf')
     else:
+
         return HttpResponse(0)
 
 

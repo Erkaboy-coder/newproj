@@ -235,6 +235,8 @@ class ProgramWorkFiles(models.Model):
 class AktPolevoyForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktpolevoyobject')
     status = models.IntegerField(default=0)
+    version = models.IntegerField(default=0)
+    file = models.FileField("AKT polevoy file", upload_to='topografiya/static/files/akt-polevoy', blank=True)
 
     a1 = models.TextField(blank=True)
     a2 = models.TextField(blank=True)
@@ -307,6 +309,7 @@ class AktPolevoyForm(models.Model):
     a69 = models.TextField(blank=True)
     a70 = models.TextField(blank=True)
     a71 = models.TextField(blank=True)
+    a72 = models.TextField(blank=True)
 
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
@@ -477,7 +480,9 @@ class WorkerObject(models.Model):
 class PolevoyWorkReject(models.Model):
     workerobject = models.ForeignKey(WorkerObject, blank=True, on_delete=models.CASCADE, related_name='polevoymworkreject')
     file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/polevoy_rejects', blank=True)
+    rejected_file = models.TextField(blank=True)
     reason = models.TextField(blank=True)
+    version = models.IntegerField(default=0)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
         return self.workerobject.object.pdowork.object_name
@@ -515,6 +520,7 @@ class AktKomeralForm(models.Model):
     # status = 2 bosa komeral nazoratdan qaytgan ish
     # status = 3 muddati kam qolgan
     # status = 4 tasdiqlanganlar
+    file = models.FileField("AKT file", upload_to='topografiya/static/files/akt-kameral', blank=True)
 
     a1 = models.TextField(blank=True)
     a2 = models.TextField(blank=True)

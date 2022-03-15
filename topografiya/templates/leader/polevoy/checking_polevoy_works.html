@@ -18,7 +18,7 @@
     }
 </style>
 {% endblock stylecontent %}
-        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
+
 
   <div class="modal fade modal-bookmark " id="exampleModal"
        tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -108,17 +108,24 @@
               </div>
               <div class="modal-body">
                   <div class="row">
-                      <div class="col-md-12">
-                            <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li>{{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
+                      <div class="col-md-8">
+                                <ol>
+                                 <li>
+                                    {% for work in rejects %}
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                    {% endfor %}
+                                 </li>
+                                </ol>
 
-                            </ol>
                       </div>
+
                   </div>
               </div>
           </div>
@@ -522,6 +529,18 @@
                                             </div>
                                         </li>
 
+                                    {% if work.file %}
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>11. Akt dalolatnomasi</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ work.file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+
+
 
 
                                     </ul>
@@ -552,12 +571,12 @@
                                             <div class="tab-content" id="v-pills-tabContent">
                                                 <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
                                                      aria-labelledby="v-pills-home-tab">
-                                                    <form id="singleFileUpload" action="">
-                                                        <div class="dz-message needsclick">
-                                                            <br>
-                                                            <input type="file" class="form-control" id="polevoy_file" name="polevoy_file">
-                                                        </div>
-                                                    </form>
+
+                                                            <div class="bg-primary" style="height: 80px;">
+                                                                <br>
+                                                                <input type="file" style="width: 80%;margin: auto" class="form-control p-1" id="akt_file" name="akt_file" >
+                                                            </div>
+
                                                     <hr>
                                                     <br>
                                                 </div>
@@ -580,20 +599,21 @@
                                                                                     <p class="text-end">
                                                                                         Приложение F обязательное
                                                                                     </p>
+{#                                                                                {% if work %}#}
+
+{#                                                                                    {% if work.status == 2 %}#}
+{#                                                                                    <div class="ribbon ribbon-left ribbon-danger"><i class="fa fa-close"></i> Отрицательный</div>#}
+{#                                                                                        {% else %}#}
+{#                                                                                            <div class="ribbon ribbon-left ribbon-success"><i class="fa fa-check"></i> Положительный</div>#}
+{#                                                                                        {% endif %}#}
+{#                                                                                    {% endif %}#}
 
                                                                                     <div class="row">
                                                                                         <div class="col-lg-8"></div>
 
                                                                                         <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                                                            <div class="text-end input-group date"
-                                                                                                 id="dt-minimum"
-                                                                                                 data-target-input="nearest">
-                                                                                                <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control datetimepicker-input digits"
-                                                                                                       type="text"
-                                                                                                       data-target="#dt-minimum">
-                                                                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker">
-                                                                                                    <i class="fa fa-calendar"> </i>
-                                                                                                </div>
+                                                                                            <div class="text-end ">
+                                                                                                <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control" type="text">
                                                                                             </div>
                                                                                         </div>
 
@@ -601,6 +621,7 @@
 
                                                                                     <h3 class="text-center">АКТ</h3>
                                                                                     <div class="col-md-12">
+                                                                                        <br>
                                                                                         <h5 class="text-center">Полевого
                                                                                             контроля и приемки
                                                                                             топографических
@@ -615,27 +636,16 @@
                                                                                         <p>составили настоящий акт в
                                                                                             том, что за период с</p>
 
-                                                                                        <div class="input-group date w-50"
-                                                                                             id="dt-disab-days"
-                                                                                             data-target-input="nearest">
-                                                                                            <input class="form-control datetimepicker-input digits"
-                                                                                                   type="text" id="a3" value="{{ work.a3 }}" name="a3"
-                                                                                                   data-target="#dt-disab-days">
-
-                                                                                            <div class="input-group-text"
-                                                                                                 data-target="#dt-disab-days"
-                                                                                                 data-toggle="datetimepicker">
-                                                                                                <i class="fa fa-calendar"></i>
-                                                                                            </div>
-                                                                                        </div>
-
+                                                                                        C &nbsp; <input type="date" id="a3" name="a3" value="{{ work.a3 }}" style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        по &nbsp;&nbsp; <input type="date" id="a72" name="a72" value="{{ work.a72 }}"  style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        <br>
                                                                                         <p>произведен контроль и приемка
                                                                                             топографических работ,
                                                                                             выполненных на объекте:</p>
-                                                                                        <input style="width: 50%" id="a4" value="{{ work.a4 }}" name="a4"
-                                                                                               class="form-control"
-                                                                                               type="text"
-                                                                                               placeholder="№ дог.">
+
+                                                                                        {{ workerobject.object.pdowork.object_name }} № дог. <input style="width: 20%;border-top:0;border-left: 0;border-right: 0" id="a4" name="a4"  type="text" value="{{ work.a4 }}">
+                                                                                        от {{ workerobject.object.pdowork.agreement_date }}
+                                                                                        <br>
                                                                                         <p>по заданию заказчика</p>
                                                                                         <input style="width: 50%" id="a5" value="{{ work.a5 }}" name="a5"
                                                                                                class="form-control"
@@ -1273,6 +1283,18 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
+                                                                                                         <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td style="text-align: center;">2</td>
+                                                                                                            <td style="text-align: center;">3</td>
+                                                                                                            <td style="text-align: center;">4</td>
+                                                                                                            <td style="text-align: center;">5</td>
+                                                                                                            <td style="text-align: center;">6</td>
+                                                                                                            <td style="text-align: center;">7</td>
+
+                                                                                                        </tr>
                                                                                                          <tr>
                                                                                                             <th scope="row">
                                                                                                                 1
@@ -1922,7 +1944,7 @@
                                                                                                       placeholder="">{{ work.a63 }}</textarea>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
@@ -1931,7 +1953,7 @@
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -2101,7 +2123,7 @@
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display:none;">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -2165,15 +2187,8 @@
                                                                                         <div class="col-lg-8"></div>
 
                                                                                         <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                                                            <div class="text-end input-group date"
-                                                                                                 id="dt-minimum"
-                                                                                                 data-target-input="nearest">
-                                                                                                <input id="a1" name="a1" class="text-end form-control datetimepicker-input digits"
-                                                                                                       type="text"
-                                                                                                       data-target="#dt-minimum">
-                                                                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker">
-                                                                                                    <i class="fa fa-calendar"> </i>
-                                                                                                </div>
+                                                                                            <div class="text-end">
+                                                                                                <input id="a1" name="a1" class="text-end form-control" type="text"  value="{{ now|date:'d-m-Y' }}">
                                                                                             </div>
                                                                                         </div>
 
@@ -2194,32 +2209,23 @@
                                                                                                 rows="3"></textarea>
                                                                                         </div>
                                                                                         <p>составили настоящий акт в
-                                                                                            том, что за период с</p>
-
-                                                                                        <div class="input-group date w-50"
-                                                                                             id="dt-disab-days"
-                                                                                             data-target-input="nearest">
-                                                                                            <input class="form-control datetimepicker-input digits"
-                                                                                                   type="text" id="a3" name="a3"
-                                                                                                   data-target="#dt-disab-days">
-
-                                                                                            <div class="input-group-text"
-                                                                                                 data-target="#dt-disab-days"
-                                                                                                 data-toggle="datetimepicker">
-                                                                                                <i class="fa fa-calendar"></i>
-                                                                                            </div>
-                                                                                        </div>
-
+                                                                                            том, что за период
+                                                                                        </p>
+                                                                                           C &nbsp; <input type="date" id="a3" name="a3" style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        по &nbsp;&nbsp; <input type="date" id="a72" name="a72"  style="border-top:0;border-right: 0;border-left: 0">
+                                                                                        <br>
                                                                                         <p>произведен контроль и приемка
                                                                                             топографических работ,
                                                                                             выполненных на объекте:</p>
-                                                                                        <input style="width: 50%" id="a4" name="a4" class="form-control" type="text" placeholder="№ дог." value="{{ workerobject.object.pdowork.object_number }}">
 
+                                                                                        {{ workerobject.object.pdowork.object_name }} № дог. <input style="width: 20%;border-top:0;border-left: 0;border-right: 0" id="a4" name="a4"  type="text" value="{{ workerobject.object.pdowork.object_number }}">
+                                                                                        от {{ workerobject.object.pdowork.agreement_date }}
+                                                                                        <br>
                                                                                         <p>по заданию заказчика</p>
                                                                                         <input style="width: 50%" id="a5" name="a5"
                                                                                                class="form-control"
                                                                                                type="text"
-                                                                                               placeholder="" v><br>
+                                                                                               value="{{ pdowork.pdowork.customer }}"><br>
                                                                                         <h5 class="text-center">виды и
                                                                                             объемы выполненных
                                                                                             работ: </h5>
@@ -2432,12 +2438,12 @@
                                                                                             работ, в
                                                                                             <span><input id="a22" name="a22"
                                                                                                     style="border:1px solid #e6edef;"
-                                                                                                    type="text"></span>
+                                                                                                    type="text" value="{{ poyasitelniy.b5 }}"></span>
                                                                                             системе
                                                                                             координат и в
                                                                                             <span><input id="a23" name="a23"
                                                                                                     style="border:1px solid #e6edef;"
-                                                                                                    type="text"></span>
+                                                                                                    type="text" value="{{ poyasitelniy.b6 }}"></span>
                                                                                             системе высот.</p>
                                                                                         <h6>Результаты полевого
                                                                                             контроля:</h6>
@@ -2865,6 +2871,19 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
+                                                                                                        <tr>
+                                                                                                            <th scope="row">
+                                                                                                                1
+                                                                                                            </th>
+                                                                                                            <td style="text-align: center;">2</td>
+                                                                                                            <td style="text-align: center;">3</td>
+                                                                                                            <td style="text-align: center;">4</td>
+                                                                                                            <td style="text-align: center;">5</td>
+                                                                                                            <td style="text-align: center;">6</td>
+                                                                                                            <td style="text-align: center;">7</td>
+
+                                                                                                        </tr>
+
                                                                                                         <tr>
                                                                                                             <th scope="row">
                                                                                                                 1
@@ -3517,24 +3536,27 @@
                                                                                                       placeholder=""></textarea>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+
+                                                                                    <div class="mb-3 row" style='display:none'>
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" id="a64" name="a64"
+                                                                                            <input class="form-control" id="a64"   name="a64"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style='display:none'>
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" id="a65" name="a65"
+                                                                                            <input class="form-control" id="a65"  name="65"
                                                                                                    type="text"
-                                                                                                   placeholder="должность,роспись,фамилия и.о.">
+                                                                                                   >
                                                                                         </div>
                                                                                     </div>
+
+
 
 
                                                                                     {% if workerobject.status != 4 %}
@@ -3689,13 +3711,13 @@
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" id="a70" name="a70"
+                                                                                            <input class="form-control" value="{{ user.profile.full_name }}" id="a70" name="a70"
                                                                                                    type="text"
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
                                                                                     </div>
 
-                                                                                    <div class="mb-3 row">
+                                                                                    <div class="mb-3 row" style="display: none">
                                                                                         <label class="col-sm-3 col-form-label">С
                                                                                             актом ознакомлен(ы)</label>
                                                                                         <div class="col-sm-9">
@@ -3786,17 +3808,17 @@
                                                         <div class="modal-body">
                                                             <ul class="messages text text-center text-danger" id="error_show" style="display:none">
                                                                <div class="alert alert-danger">
-                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Хатолик сабаби киритинг  !</b></li>
                                                                </div>
                                                            </ul>
                                                             <br>
-                                                            <h5 class="m-b-20-">Хатолик аризаси</h5>
+                                                            <h5 class="m-b-20-">Хатолик иловаси </h5>
                                                             <input class="form-control" id="reason_file" name="reason_file" type="file">
-                                                            <h5 class="m-t-20 m-b-20">Хатолик аризаси</h5>
+                                                            <h5 class="m-t-20 m-b-20">Хатолик сабаби <sup class="text-danger">*</sup></h5>
                                                             <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button  class="btn btn-outline-danger" id="deny_polevoy" type="button">Юбориш</button>
+                                                            <button  class="btn btn-outline-danger" id="deny_polevoy"  type="button">Юбориш</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3813,17 +3835,23 @@
 
             </div>
         </div>
+    
+    <button akt-object-id="{{ work.object.id }}" id="doing_akt_polevoy_file" style="display:none;"></button>
 
+<scritp src="{% static 'file_upload/custom-file-input.js' %}"></scritp>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 <script>
     $(".save_akt").click(function(event) {
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
+
         var array = [];
-        for(var i=1;i<72;i++){
+        for(var i=1;i<73;i++){
                 array.push($('#a'+i).val());
         }
         data.append("array", array);
@@ -3912,7 +3940,7 @@
         data.append("work_id", $('#work_id').val());
 
         var array = [];
-          for(var i=1;i<72;i++){
+          for(var i=1;i<73;i++){
                 array.push($('#a'+i).val());
         }
         data.append("array", array);
@@ -4000,10 +4028,30 @@
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
+        data.append("akt_file", $('#akt_file')[0].files[0]);
         var form = "{{ work.pk }}";
         event.preventDefault();
+        if($('#akt_file')[0].files[0] != undefined){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'send_to_kameral' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+{#            location.replace(window.location.pathname);#}
+               location.replace('/leader_polevoy_works');
+            },
 
-        if(form){
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+
+        else{
+            if(form){
            $.ajax({
             type: 'POST',
             url: '{% url 'send_to_kameral' %}',
@@ -4021,7 +4069,8 @@
         });
         }
         else{
-          alert("Maydonni to'ldiring");
+          alert("Maydonni to'ldirib bo'lganingizdan keyin saqlash tugmasini bosganingizga ishonch hosil qiling iltimos!");
+        }
         }
 
 
@@ -4031,15 +4080,18 @@
 
     <script>
     $("#deny_polevoy").click(function(event) {
+
+
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
         data.append("reason", $('#reason').val());
         data.append("reason_file", $('#reason_file')[0].files[0]);
+        var form = "{{ work.pk }}";
         event.preventDefault();
-
-        if($('#reason').val() != 0 ){
+        if(form){
+        if($('#reason').val() != 0){
            $.ajax({
             type: 'POST',
             url: '{% url 'deny_polevoy' %}',
@@ -4048,6 +4100,7 @@
             contentType: false,
             processData: false,
             success: function (result){
+                 $('#doing_akt_polevoy_file').click();
                location.replace('/leader_polevoy_works');
             },
 
@@ -4059,11 +4112,50 @@
         else{
           $('#error_show').css('display','block');
         }
+        }
+        else{
+        alert("АКТ fayl maydonlarini to'ldirib saqlashni bosing!");
+        }
 
 
 
         });
 </script>
+
+    <script type="text/javascript">
+    $(document).on('click',"#doing_akt_polevoy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_polevoy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+{#                 window.open('/static/files/'+result,'_blank');#}
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            console.log('Fayl yaratildi')
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
 
 <script type="text/javascript">
     $(document).on('click',".file",function(){
@@ -4213,7 +4305,10 @@
     });
     </script>
 
+    <script>
+    document.getElementById('a72').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
 
+    </script>
 
 {% endblock %}
 
