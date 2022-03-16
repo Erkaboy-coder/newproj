@@ -718,6 +718,7 @@
 
 
                         {% else %}
+
                         <div class="card">
                             <div class="card-body">
                                 <form action="#" method="POST">
@@ -824,14 +825,15 @@
                                                                                 <th scope="col">Объемы работ по проекту</th>
                                                                                 <th scope="col">Фактически выполнено</th>
                                                                                 <th scope="col"></th>
+                                                                                <th scope="col"></th>
                                                                             </tr>
                                                                             </thead>
 
                                                                             <tbody>
                                                                             {% if form1 %}
                                                                             {% for form2 in form1 %}
-                                                                            <tr obj-id="{{ form2.id }}">
-                                                                                <td scope="row">1</td>
+                                                                            <tr data-obj = {{ form2.id }} del=0>
+                                                                                <td scope="row">#</td>
                                                                                 <td>
                                                                                     <input class="border-0 w-100 b8_1" data-column="b8_1" type="text" value="{{ form2.b8_1 }}" name="b8_1" id="b8_1" placeholder="">
                                                                                 </td>
@@ -845,24 +847,26 @@
                                                                                     <input class="border-0 w-100 b8_4" data-column="b8_4" type="text" value="{{ form2.b8_4 }}" name="b8_4" id="b8_4" placeholder="">
                                                                                 </td>
                                                                                 <td><i id="addrow8" onclick="childrentabl6()"  class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                                <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                             </tr>
                                                                             {% endfor %}
                                                                                 {% else %}
-                                                                                <tr>
-                                                                                <td scope="row">1</td>
+                                                                                <tr data-obj = '-1' >
+                                                                                <td scope="row">#</td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_1" type="text" value="{{ form.b8_1 }}" name="b8_1" id="b8_1" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_1" type="text" data-column="b8_1" name="b8_1" id="b8_1" placeholder="">
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_2" type="text" value="{{ form.b8_2 }}" name="b8_2" id="b8_2" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_2" type="text" data-column="b8_2" name="b8_2" id="b8_2" placeholder="">
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_3" type="text" value="{{ form.b8_3 }}" name="b8_3" id="b8_3" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_3" type="text" data-column="b8_3"  name="b8_3" id="b8_3" placeholder="">
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input class="border-0 w-100 b8_4" type="text" value="{{ form.b8_4 }}" name="b8_4" id="b8_4" placeholder="">
+                                                                                    <input class="border-0 w-100 b8_4" type="text" data-column="b8_4"  name="b8_4" id="b8_4" placeholder="">
                                                                                 </td>
                                                                                 <td><i id="addrow8" onclick="childrentabl6()"  class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                                <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                             </tr>
                                                                                 {% endif %}
                                                                             </tbody>
@@ -890,48 +894,50 @@
                                                                                 <th scope="col">Координаты y</th>
                                                                                 <th scope="col">Высота z</th>
                                                                                 <th scope="col"></th>
+                                                                                <th scope="col"></th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                             {% if form2 %}
-                                                                                {% for form in form2 %}
-                                                                                    <tr>
+                                                                                {% for form2_1 in form2 %}
+                                                                                    <tr data-obj = {{ form2_1.id }} del=0>
                                                                                         <td scope="row">#</td>
                                                                                         <td>
-                                                                                            <input class="border-0 w-100 b9_1" type="number" value="{{ form.b9_1 }}" name="b9_1" id="b9_1">
+                                                                                            <input class="border-0 w-100 b9_1" type="number" data-column="b9_1" value="{{ form2_1.b9_1 }}" name="b9_1" id="b9_1">
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input class="border-0 w-100 b9_2" type="number" value="{{ form.b9_2 }}" name="b9_2" id="b9_2">
+                                                                                            <input class="border-0 w-100 b9_2" type="number" data-column="b9_2" value="{{ form2_1.b9_2 }}" name="b9_2" id="b9_2">
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input class="border-0 w-100 b9_3" type="number" value="{{ form.b9_3 }}" name="b9_3" id="b9_3">
+                                                                                            <input class="border-0 w-100 b9_3" type="number" data-column="b9_3" value="{{ form2_1.b9_3 }}" name="b9_3" id="b9_3">
                                                                                         </td>
-
                                                                                         <td>
-                                                                                            <input class="border-0 w-100 b9_4" type="number" value="{{ form.b9_4 }}" name="b9_4" id="b9_4">
+                                                                                            <input class="border-0 w-100 b9_4" type="number" data-column="b9_4" value="{{ form2_1.b9_4 }}" name="b9_4" id="b9_4">
                                                                                         </td>
                                                                                         <td><i id="addrow9" onclick="childrentabl7()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                     </tr>
                                                                                 {% endfor %}
                                                                                  {% else %}
 
-                                                                                     <tr>
+                                                                                     <tr data-obj = '-1'>
                                                                                             <td scope="row">#</td>
                                                                                             <td>
-                                                                                                <input class="border-0 w-100 b9_1" type="number" value="{{ form.b9_1 }}" name="b9_1" id="b9_1">
+                                                                                                <input class="border-0 w-100 b9_1" data-column="b9_1" type="number" name="b9_1" id="b9_1">
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="border-0 w-100 b9_2" type="number" value="{{ form.b9_2 }}" name="b9_2" id="b9_2">
+                                                                                                <input class="border-0 w-100 b9_2" data-column="b9_2" type="number" name="b9_2" id="b9_2">
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="border-0 w-100 b9_3" type="number" value="{{ form.b9_3 }}" name="b9_3" id="b9_3">
+                                                                                                <input class="border-0 w-100 b9_3" data-column="b9_3" type="number" name="b9_3" id="b9_3">
                                                                                             </td>
 
                                                                                             <td>
-                                                                                                <input class="border-0 w-100 b9_4" type="number" value="{{ form.b9_4 }}" name="b9_4" id="b9_4">
+                                                                                                <input class="border-0 w-100 b9_4" data-column="b9_4" type="number" name="b9_4" id="b9_4">
                                                                                             </td>
                                                                                             <td><i id="addrow9" onclick="childrentabl7()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
-                                                                                        </tr>
+                                                                                            <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                     </tr>
 
 
                                                                             {% endif %}
@@ -1033,35 +1039,69 @@
                                                                 <th scope="col">Линейные невязки абсолют</th>
                                                                 <th scope="col">Линейные невязки относит</th>
                                                                 <th scope="col"></th>
+                                                                <th scope="col"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td scope="row">1</td>
+                                                            {% if form3 %}
+                                                                {% for form3_1 in form3 %}
+                                                            <tr data-obj = {{ form3_1.id }} del=0>
+                                                                <td scope="row">#</td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" value="{{ form3.b17_1 }}" name="b17_1" id="b17_1" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_1" value="{{ form3_1.b17_1 }}" name="b17_1" id="b17_1" placeholder="">
                                                                 </td>
                                                                 <td>
 
-                                                                    <input class="border-0 w-100" type="text" name="b17_2" id="b17_2" value="{{ form3.b17_2 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_2" name="b17_2" id="b17_2" value="{{ form3_1.b17_2 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b17_2" id="b17_3" value="{{ form3.b17_3 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_3" name="b17_2" id="b17_3" value="{{ form3_1.b17_3 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b17_4" id="b17_4" value="{{ form3.b17_4 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_4" name="b17_4" id="b17_4" value="{{ form3_1.b17_4 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b17_5" id="b17_5" value="{{ form3.b17_5 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_5" name="b17_5" id="b17_5" value="{{ form3_1.b17_5 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b17_6" id="b17_6" value="{{ form3.b17_6 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_6" name="b17_6" id="b17_6" value="{{ form3_1.b17_6 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b17_7" id="b17_7" value="{{ form3.b17_7 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" data-column="b17_7" name="b17_7" id="b17_7" value="{{ form3_1.b17_7 }}" placeholder="">
                                                                 </td>
                                                                 <td><i id="addrowten" onclick="childrentablseven()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                             </tr>
+                                                              {% endfor %}
+                                                            {% else %}
+                                                                <tr data-obj = '-1'>
+                                                                <td scope="row">#</td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text"  name="b17_1" id="b17_1" placeholder="">
+                                                                </td>
+                                                                <td>
+
+                                                                    <input class="border-0 w-100" type="text" name="b17_2" id="b17_2" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_2" id="b17_3" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_4" id="b17_4"  placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_5" id="b17_5" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_6" id="b17_6" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b17_7" id="b17_7" placeholder="">
+                                                                </td>
+                                                                <td><i id="addrowten" onclick="childrentablseven()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                            </tr>
+                                                                {% endif %}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -1081,28 +1121,56 @@
                                                                 <th scope="col">Невязки в ходах в мм допустим</th>
                                                                 <th scope="col">Примечание</th>
                                                                 <th scope="col"></th>
+                                                                <th scope="col"></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr>
-                                                                <td scope="row">1</td>
+                                                             {% if form4 %}
+                                                                 {% for form4_1 in form4 %}
+                                                            <tr data-obj = {{ form4_1.id }} del=0>
+                                                                <td scope="row">#</td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b18_1" id="b18_1" value="{{ form4.b18_1 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" name="b18_1" id="b18_1" data-column="b18_1" value="{{ form4_1.b18_1 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="border-0 w-100" type="text" name="b18_2" id="b18_2" value="{{ form4.b18_2 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" name="b18_2" id="b18_2" data-column="b18_2" value="{{ form4_1.b18_2 }}" placeholder="">
                                                                 </td>
                                                                 <td>
-                                                                        <input class="border-0 w-100" type="text" name="b18_3" id="b18_3" value="{{ form4.b18_3 }}" placeholder="">
+                                                                        <input class="border-0 w-100" type="text" name="b18_3" id="b18_3" data-column="b18_3" value="{{ form4_1.b18_3 }}" placeholder="">
                                                                 </td>
                                                                 <td>
 
-                                                                    <input class="border-0 w-100" type="text" name="b18_4" id="b18_4" value="{{ form4.b18_4 }}" placeholder="">
+                                                                    <input class="border-0 w-100" type="text" name="b18_4" id="b18_4" data-column="b18_4" value="{{ form4_1.b18_4 }}" placeholder="">
 
                                                                 </td>
-                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" placeholder="" value="{{ form4.b18_5 }}"></td>
+                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" data-column="b18_5" placeholder="" value="{{ form4_1.b18_5 }}"></td>
                                                                 <td><i id="addroweleven" onclick="childrentableight()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
                                                             </tr>
+                                                                  {% endfor %}
+                                                             {% else %}
+                                                                 <tr data-obj = '-1'>
+                                                                <td scope="row">#</td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_1" id="b18_1" data-column="b18_1" placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="border-0 w-100" type="text" name="b18_2" id="b18_2" data-column="b18_2"  placeholder="">
+                                                                </td>
+                                                                <td>
+                                                                        <input class="border-0 w-100" type="text" name="b18_3" id="b18_3" data-column="b18_3"  placeholder="">
+                                                                </td>
+                                                                <td>
+
+                                                                    <input class="border-0 w-100" type="text" name="b18_4" id="b18_4" data-column="b18_4" placeholder="">
+
+                                                                </td>
+                                                                <td><input class="border-0 w-100" type="text" name="b18_5" id="b18_5" data-column="b18_5" placeholder="" ></td>
+                                                                <td><i id="addroweleven" onclick="childrentableight()" class="fa fa-plus-circle f-20 txt-primary"></i></td>
+                                                                 <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                            </tr>
+                                                                 {% endif %}
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -1534,26 +1602,82 @@
 </script>
 
     <script type="text/javascript">
+    function check_un(a){
+        return a==undefined?-1:a
+    }
+
+     $(document).on('click',".del-row",function(){
+{#     console.log($(this).parent().parent().parent().find('tr').length);#}
+{#        if($(this).parent().parent().parent().find('tr').length >2)#}
+        $(this).parent().parent().attr('del',1).hide();
+     });
+
+
     $(document).on('click',".edit_poyasitelniy",function(){
 
         var list0 = [];
         var list = {};
         $('#childTable8 > tbody > tr').each(function(i,tr){
         list = {};
-        list['id'] = $(tr).attr('obj-id');
+        list['id']=check_un($(tr).attr('data-obj'));
+        list['del']=check_un($(tr).attr('del'));
+
         $(tr).find('input').each(function(i,input){
             list[$(input).attr('data-column')]=$(input).val();
-
         });
         list0.push(list);
-        console.log(list);
         });
-         console.log(list0);
+
+
+
+        var list_table2 = [];
+        var list_table2_1 = {};
+        $('#childTable9 > tbody > tr').each(function(i,tr){
+        list_table2_1 = {};
+        list_table2_1['id']=check_un($(tr).attr('data-obj'));
+        list_table2_1['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list_table2_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table2.push(list_table2_1);
+        });
+
+
+
+
+        var list_table3 = [];
+        var list_table3_1 = {};
+        $('#childTableTen > tbody > tr').each(function(i,tr){
+        list_table3_1 = {};
+        list_table3_1['id']=check_un($(tr).attr('data-obj'));
+        list_table3_1['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list_table3_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table3.push(list_table3_1);
+        });
+
+        var list_table4 = [];
+        var list_table4_1 = {};
+        $('#childTableEleven > tbody > tr').each(function(i,tr){
+        list_table4_1 = {};
+        list_table4_1['id']=check_un($(tr).attr('data-obj'));
+        list_table4_1['del']=check_un($(tr).attr('del'));
+        $(tr).find('input').each(function(i,input){
+            list_table4_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table4.push(list_table4_1);
+        });
 
 
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("table1", JSON.stringify(list0));
+        data.append("table2", JSON.stringify(list_table2));
+        data.append("table3", JSON.stringify(list_table3));
+        data.append("table4", JSON.stringify(list_table4));
 
         data.append("work_id", $('#work_id').val());
         data.append("worker", $('#worker').val());
@@ -1627,65 +1751,6 @@
 
 
 
-        var array1 = [];
-        $(".b8_1").each(function() {
-            array1.push($(this).val());
-            });
-        data.append("b8_1", array1);
-
-{#        var array1 = [];#}
-{#          for(var i=1;i<5;i++){#}
-{#                array1.push($('.b8_'+i).val());#}
-{#        }#}
-{#        data.append("array1", array1);#}
-{#        alert(array1);#}
-
-
-        var array2 = [];
-        $(".b8_2").each(function() {
-            array2.push($(this).val());
-            });
-        data.append("b8_2", array2);
-
-        var array3 = [];
-        $(".b8_3").each(function() {
-            array3.push($(this).val());
-            });
-        data.append("b8_3", array3);
-
-        var array4 = [];
-        $(".b8_4").each(function() {
-            array4.push($(this).val());
-            });
-        data.append("b8_4", array4);
-
-{#        array9_1#}
-        var array9_1 = [];
-        $(".b9_1").each(function() {
-            array9_1.push($(this).val());
-            });
-        data.append("b9_1", array9_1);
-
-        var array9_2 = [];
-        $(".b9_2").each(function() {
-            array9_2.push($(this).val());
-            });
-        data.append("b9_2", array9_2);
-
-        var array9_3 = [];
-        $(".b9_3").each(function() {
-            array9_3.push($(this).val());
-            });
-        data.append("b9_3", array9_3);
-
-        var array9_4 = [];
-        $(".b9_4").each(function() {
-            array9_4.push($(this).val());
-            });
-        data.append("b9_4", array9_4);
-{#        array9_2#}
-
-
         data.append("b17_1", $('#b17_1').val());
         data.append("b17_2", $('#b17_2').val());
         data.append("b17_3", $('#b17_3').val());
@@ -1715,7 +1780,7 @@
                processData: false,
 
                success: function (result){
-{#                   location.replace(window.location.pathname);#}
+                   location.replace(window.location.pathname);
                },
 
                error: function(){

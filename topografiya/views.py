@@ -17,7 +17,7 @@ from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.serializers import serialize
 from django.core import serializers
-
+import json
 from django.core import serializers
 from datetime import datetime
 # Create your views here.
@@ -515,17 +515,18 @@ def checking_polevoy_works(request,id):
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     order = Order.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=workerobject.object.id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
     work = AktPolevoyForm.objects.filter(object=id).first()
 
-    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
-    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
-    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
-    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
-    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
-    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
-    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
-    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work)
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work)
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work)
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work)
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work)
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work)
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work)
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work)
 
     poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=workerobject).first()
 
@@ -534,7 +535,7 @@ def checking_polevoy_works(request,id):
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
-               ,'cots': cost,'now':now, 'poyasitelniy':poyasitelniy}
+               ,'cots': cost,'now':now, 'poyasitelniy':poyasitelniy,'programworkform':programworkform}
 
     return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
 
@@ -544,82 +545,51 @@ def save_akt_polevoy(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
-        array=data.get('array')
-        array1=data.get('array1')
-        array2=data.get('array2')
-        array3=data.get('array3')
-        array4=data.get('array4')
-        array5=data.get('array5')
-        array6=data.get('array6')
-        array7=data.get('array7')
-        array8=data.get('array8')
+        array = data.get('array')
+                
+        table1=data.get('table1')
+        table2=data.get('table2')
+        table3=data.get('table3')
+        table4=data.get('table4')
+        table5=data.get('table5')
+        table6=data.get('table6')
+        table7=data.get('table7')
+        table8=data.get('table8')
+
+        
 
         d={}
         object=Object.objects.filter(id=work_id).first()
         j=0
-        j1=0
-        j2=0
-        j3=0
-        j4=0
-        j5=0
-        j6=0
-        j7=0
-        j8=0
-
+        
         d = {'object': object}
         for i in array.split(','):
             j=j+1
             d['a'+str(j)]=i
         k=AktPolevoyForm.objects.create(**d)
 
-        b = {'aktpolovoy': k}
-        for i in array1.split(','):
-            j1 = j1 + 1
-            b['a1_' + str(j1)] = i
 
-        e = {'aktpolovoy': k}
-        for i in array2.split(','):
-            j2 = j2 + 1
-            e['a2_' + str(j2)] = i
 
-        f = {'aktpolovoy': k}
-        for i in array3.split(','):
-            j3 = j3 + 1
-            f['a3_' + str(j3)] = i
+        for i in json.loads(table1):
+            if str(i['id']) == '-1' and int(i['del']) != 1:
+                form1 = AktPolovoyTable1(aktpolovoy=k.id, a1_1=i['a1_1'], a1_2=i['a1_2'], a1_3=i['a1_3'],
+                                                 a1_4=i['a1_4'],a1_5=i['a1_5'],a1_6=i['a1_6'],a1_7=i['a1_7'])
+                form1.save()
+            elif int(i['del']) == 1:
+                AktPolovoyTable1.objects.filter(pk=i['id']).delete()
+            else:
+                obj = AktPolovoyTable1.objects.filter(pk=i['id']).first()
+                if obj:
+                    obj.a1_1 = i['a1_1']
+                    obj.a1_2 = i['a1_2']
+                    obj.a1_3 = i['a1_3']
+                    obj.a1_4 = i['a1_4']
+                    obj.a1_5 = i['a1_5']
+                    obj.a1_6 = i['a1_6']
+                    obj.a1_7 = i['a1_7']
 
-        g = {'aktpolovoy': k}
-        for i in array4.split(','):
-            j4 = j4 + 1
-            g['a4_' + str(j4)] = i
+                    obj.save()
 
-        h = {'aktpolovoy': k}
-        for i in array5.split(','):
-            j5 = j5 + 1
-            h['a5_' + str(j5)] = i
-
-        p = {'aktpolovoy': k}
-        for i in array6.split(','):
-            j6 = j6 + 1
-            p['a6_' + str(j6)] = i
-
-        m = {'aktpolovoy': k}
-        for i in array7.split(','):
-            j7 = j7 + 1
-            m['a7_' + str(j7)] = i
-
-        o = {'aktpolovoy': k}
-        for i in array8.split(','):
-            j8 = j8 + 1
-            o['a8_' + str(j8)] = i
-
-        AktPolovoyTable1.objects.create(**b)
-        AktPolovoyTable2.objects.create(**e)
-        AktPolovoyTable3.objects.create(**f)
-        AktPolovoyTable4.objects.create(**g)
-        AktPolovoyTable5.objects.create(**h)
-        AktPolovoyTable6.objects.create(**p)
-        AktPolovoyTable7.objects.create(**m)
-        AktPolovoyTable8.objects.create(**o)
 
 
         history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=worker)
@@ -643,6 +613,14 @@ def edit_akt_polevoy(request):
         array6=data.get('array6')
         array7=data.get('array7')
         array8=data.get('array8')
+        table1=data.get('table1')
+        table2=data.get('table2')
+        table3=data.get('table3')
+        table4=data.get('table4')
+        table5=data.get('table5')
+        table6=data.get('table6')
+        table7=data.get('table7')
+        table8=data.get('table8')
 
         d={}
         object=Object.objects.filter(id=work_id).first()
@@ -662,54 +640,26 @@ def edit_akt_polevoy(request):
             d['a'+str(j)]=i
         k = AktPolevoyForm.objects.filter(object=object).update(**d)
         form = AktPolevoyForm.objects.filter(object=work_id).first()
-        b = {'aktpolovoy': form}
-        for i in array1.split(','):
-            j1 = j1 + 1
-            b['a1_' + str(j1)] = i
 
-        e = {'aktpolovoy': form}
-        for i in array2.split(','):
-            j2 = j2 + 1
-            e['a2_' + str(j2)] = i
+        for i in json.loads(table1):
+            if str(i['id']) == '-1' and int(i['del']) != 1:
+                form1 = AktPolovoyTable1(aktpolovoy=form, a1_1=i['a1_1'], a1_2=i['a1_2'], a1_3=i['a1_3'],
+                                                 a1_4=i['a1_4'],a1_5=i['a1_5'],a1_6=i['a1_6'],a1_7=i['a1_7'])
+                form1.save()
+            elif int(i['del']) == 1:
+                AktPolovoyTable1.objects.filter(pk=i['id']).delete()
+            else:
+                obj = AktPolovoyTable1.objects.filter(pk=i['id']).first()
+                if obj:
+                    obj.a1_1 = i['a1_1']
+                    obj.a1_2 = i['a1_2']
+                    obj.a1_3 = i['a1_3']
+                    obj.a1_4 = i['a1_4']
+                    obj.a1_5 = i['a1_5']
+                    obj.a1_6 = i['a1_6']
+                    obj.a1_7 = i['a1_7']
 
-        f = {'aktpolovoy': form}
-        for i in array3.split(','):
-            j3 = j3 + 1
-            f['a3_' + str(j3)] = i
-
-        g = {'aktpolovoy': form}
-        for i in array4.split(','):
-            j4 = j4 + 1
-            g['a4_' + str(j4)] = i
-
-        h = {'aktpolovoy': form}
-        for i in array5.split(','):
-            j5 = j5 + 1
-            h['a5_' + str(j5)] = i
-
-        p = {'aktpolovoy': form}
-        for i in array6.split(','):
-            j6 = j6 + 1
-            p['a6_' + str(j6)] = i
-
-        m = {'aktpolovoy': form}
-        for i in array7.split(','):
-            j7 = j7 + 1
-            m['a7_' + str(j7)] = i
-
-        o = {'aktpolovoy': form}
-        for i in array8.split(','):
-            j8 = j8 + 1
-            o['a8_' + str(j8)] = i
-
-        AktPolovoyTable1.objects.filter(aktpolovoy_id=form.pk).update(**b)
-        AktPolovoyTable2.objects.filter(aktpolovoy_id=form.pk).update(**e)
-        AktPolovoyTable3.objects.filter(aktpolovoy_id=form.pk).update(**f)
-        AktPolovoyTable4.objects.filter(aktpolovoy_id=form.pk).update(**g)
-        AktPolovoyTable5.objects.filter(aktpolovoy_id=form.pk).update(**h)
-        AktPolovoyTable6.objects.filter(aktpolovoy_id=form.pk).update(**p)
-        AktPolovoyTable7.objects.filter(aktpolovoy_id=form.pk).update(**m)
-        AktPolovoyTable8.objects.filter(aktpolovoy_id=form.pk).update(**o)
+                    obj.save()
 
 
         history = History(object=object, status=12, comment="Dala nazoratida akt o'zgartirildi",user_id=worker)
@@ -1591,7 +1541,7 @@ def store(request):
     else:
         return HttpResponse(0)
 
-import json
+
 @login_required(login_url='/signin')
 def edit_poyasitelniy(request):
     if request.method == 'POST':
@@ -1600,12 +1550,9 @@ def edit_poyasitelniy(request):
         worker = data.get('worker')
         status_id = data.get('status-id')
         table1 = data.get('table1')
-
-        print(table1)
-        for i in json.loads(table1):
-            print(i['b8_1'])
-
-
+        table2 = data.get('table2')
+        table3 = data.get('table3')
+        table4 = data.get('table4')
 
         if status_id == '1':
             status = 1
@@ -1679,29 +1626,6 @@ def edit_poyasitelniy(request):
         d_12 = data.get('d_12')
         d_13 = data.get('d_13')
 
-        b8_1 = data.get('b8_1')
-        b8_2 = data.get('b8_2')
-        b8_3 = data.get('b8_3')
-        b8_4 = data.get('b8_4')
-
-        b9_1 = data.get('b9_1')
-        b9_2 = data.get('b9_2')
-        b9_3 = data.get('b9_3')
-        b9_4 = data.get('b9_4')
-
-        b17_1 = data.get('b17_1')
-        b17_2 = data.get('b17_2')
-        b17_3 = data.get('b17_3')
-        b17_4 = data.get('b17_4')
-        b17_5 = data.get('b17_5')
-        b17_6 = data.get('b17_6')
-        b17_7 = data.get('b17_7')
-
-        b18_1 = data.get('b18_1')
-        b18_2 = data.get('b18_2')
-        b18_3 = data.get('b18_3')
-        b18_4 = data.get('b18_4')
-        b18_5 = data.get('b18_5')
 
         workerobject=WorkerObject.objects.filter(id=work_id).first()
 
@@ -1774,55 +1698,73 @@ def edit_poyasitelniy(request):
         form1.status = status
         form1.save()
 
-        form2 = PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form1)
-        form2.delete()
-        
-        for i in b8_1.split(','):
-            for j in b8_2.split(','):
-                for k in b8_3.split(','):
-                    for l in b8_4.split(','):
-                        form2_1 = PoyasitelniyFormTable1(poyasitelniyform=form1, b8_1=i, b8_2=j, b8_3=k, b8_4=l)
+        for i in json.loads(table1):
+            if str(i['id']) == '-1' and int(i['del']) != 1:
+                form2_1 = PoyasitelniyFormTable1(poyasitelniyform=form1, b8_1=i['b8_1'], b8_2=i['b8_2'], b8_3=i['b8_3'], b8_4=i['b8_4'])
+                form2_1.save()
+            elif int(i['del']) == 1:
+                PoyasitelniyFormTable1.objects.filter(pk=i['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable1.objects.filter(pk=i['id']).first()
+                if obj:
+                    obj.b8_1=i['b8_1']
+                    obj.b8_2=i['b8_2']
+                    obj.b8_3=i['b8_3']
+                    obj.b8_4=i['b8_4']
+                    obj.save()
 
-            form2_1.save()
+        for j in json.loads(table2):
+            if str(j['id']) == '-1' and int(j['del']) != 1:
+                form3_1 = PoyasitelniyFormTable2(poyasitelniyform=form1, b9_1=j['b9_1'], b9_2=j['b9_2'], b9_3=j['b9_3'], b9_4=j['b9_4'])
+                form3_1.save()
+            elif int(j['del']) == 1:
+                PoyasitelniyFormTable2.objects.filter(pk=j['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable2.objects.filter(pk=j['id']).first()
+                if obj:
+                    obj.b9_1=j['b9_1']
+                    obj.b9_2=j['b9_2']
+                    obj.b9_3=j['b9_3']
+                    obj.b9_4=j['b9_4']
+                    obj.save()
 
 
-        form3 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form1)
-        form3.delete()
-        for a in b9_1.split(','):
-            for b in b9_2.split(','):
-                for c in b9_3.split(','):
-                    for d in b9_4.split(','):
-                        form3_1 = PoyasitelniyFormTable2(poyasitelniyform=form1, b9_1=a, b9_2=b, b9_3=c, b9_4=d)
-                        form3_1.save()
+        for k in json.loads(table3):
+            if str(k['id']) == '-1' and int(k['del']) != 1:
+                form4_1 = PoyasitelniyFormTable3(poyasitelniyform=form1, b17_1=k['b17_1'], b17_2=k['b17_2'], b17_3=k['b17_3'], b17_4=k['b17_4'], b17_5=k['b17_5']
+                                             , b17_6=k['b17_7'], b17_7=k['b17_7'])
+                form4_1.save()
+            elif int(k['del']) == 1:
+                PoyasitelniyFormTable3.objects.filter(pk=k['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable3.objects.filter(pk=k['id']).first()
+                if obj:
+                    obj.b17_1=k['b17_1']
+                    obj.b17_2=k['b17_2']
+                    obj.b17_3=k['b17_3']
+                    obj.b17_4=k['b17_4']
+                    obj.b17_5=k['b17_5']
+                    obj.b17_6=k['b17_6']
+                    obj.b17_7=k['b17_7']
+                    obj.save()
+                    
+                    
+        for l in json.loads(table4):
+            if str(l['id']) == '-1' and int(l['del']) != 1:
+                form5_1 = PoyasitelniyFormTable4(poyasitelniyform=form1, b18_1=l['b18_1'], b18_2=l['b18_2'], b18_3=l['b18_3'], b18_4=l['b18_4'], b18_5=l['b18_5'])
+                form5_1.save()
+            elif int(l['del']) == 1:
+                PoyasitelniyFormTable4.objects.filter(pk=l['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable4.objects.filter(pk=l['id']).first()
+                if obj:
+                    obj.b18_1=l['b18_1']
+                    obj.b18_2=l['b18_1']
+                    obj.b18_3=l['b18_1']
+                    obj.b18_4=l['b18_1']
+                    obj.b18_5=l['b18_1']
+                    obj.save()
 
-
-        form3 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form1).first()
-        form3.poyasitelniyform=form1
-        form3.b9_1=b9_1
-        form3.b9_2=b9_2
-        form3.b9_3=b9_3
-        form3.b9_4=b9_4
-        form3.save()
-
-        form4 = PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form1).first()
-        form4.poyasitelniyform = form1
-        form4.b17_1=b17_1
-        form4.b17_2=b17_2
-        form4.b17_3=b17_3
-        form4.b17_4=b17_4
-        form4.b17_5=b17_5
-        form4.b17_6=b17_6
-        form4.b17_7=b17_7
-        form4.save()
-
-        form5 = PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form1).first()
-        form5.poyasitelniyform = form1
-        form5.b18_1=b18_1
-        form5.b18_2=b18_2
-        form5.b18_3=b18_3
-        form5.b18_4=b18_4
-        form5.b18_5=b18_5
-        form5.save()
 
         object_id = Object.objects.filter(id=workerobject.object.id).first()
 
@@ -2131,6 +2073,11 @@ def doing_program_work_file(request):
     <meta charset="UTF-8">
     <title>Title</title>
      <style>
+      table{
+        border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+          }
         li {
             padding: 5px;
         }
@@ -2154,7 +2101,7 @@ def doing_program_work_file(request):
 
     <div style="padding: 100px">
 
-                                                   <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
+                                                   <h4 class="text-center" style="text-align:center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
         <p>По объекту<span><input style="width: 90%" class="formact" name="a0" value="'''+str(form.a0)+'''" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
         <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
         <p>
@@ -2322,12 +2269,12 @@ def doing_program_work_file(request):
             <p>'''+str(form.a11)+'''</p>
         </p>
         <div class="mb-3 row">
-            <p style="text-align: center" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</p>
+                                                   <label style="text-transform: lowercase;" class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</label>
             <div class="col-sm-9">
                 <p>'''+str(form.a12)+'''</p>
             </div>
         </div>
-        <h5 style="text-align: center"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</h5>
+    <label style="text-transform: lowercase;" class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</label>
 
         <div class="floder_input">
             <div class="row">''';
@@ -2360,7 +2307,7 @@ def doing_program_work_file(request):
             context += '''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file7)+'''"><i class="fa fa-file-pdf-o"></i>Схема линейных сооружений </a><br>''';
         else:
             context +='';
-        context+='''<h5 class="m-t-15">Примечание. <i>Допускается совмещение прилагаемых схем и картограмм.</i></h5>
+        context+='''
             </div>
         </div>
 
@@ -2383,10 +2330,10 @@ def doing_program_work_file(request):
             options = {
                 'page-size': 'A4',
                 'encoding': "UTF-8",
-                'margin-top': '0.2in',
-                'margin-right': '0.2in',
-                'margin-bottom': '0.2in',
-                'margin-left': '0.2in',
+                # 'margin-top': '0.2in',
+                # 'margin-right': '0.2in',
+                # 'margin-bottom': '0.2in',
+                # 'margin-left': '0.2in',
                 'orientation': 'portrait',
                 # landscape bu albomiy qiladi
             }
@@ -2412,6 +2359,11 @@ def doing_akt_komeral_file(request):
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+     table{
+        border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+          }
         li {
             padding: 5px;
         }
@@ -2736,10 +2688,10 @@ def doing_akt_komeral_file(request):
             options = {
                 'page-size': 'A4',
                 'encoding': "UTF-8",
-                'margin-top': '0.2in',
-                'margin-right': '0.2in',
-                'margin-bottom': '0.2in',
-                'margin-left': '0.2in',
+                # 'margin-top': '0.2in',
+                # 'margin-right': '0.2in',
+                # 'margin-bottom': '0.2in',
+                # 'margin-left': '0.2in',
                 'orientation': 'portrait',
                 # landscape bu albomiy qiladi
             }
@@ -2756,13 +2708,11 @@ def doing_poyasitelniy_file(request):
         data = request.POST
         id = data.get('object-id')
         object=WorkerObject.objects.filter(object=id).first()
-        print(object)
         form = PoyasitelniyForm.objects.filter(workerobject=object.id).first()
-        print(form)
-        form1 = PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form).first()
-        form2 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).first()
-        form3 = PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).first()
-        form4 = PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).first()
+        form1 = PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form).all()
+        form2 = PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).all()
+        form3 = PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).all()
+        form4 = PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).all()
 
         context = '''
         <!DOCTYPE html>
@@ -2772,11 +2722,18 @@ def doing_poyasitelniy_file(request):
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+     table{
+        border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+          }
         li {
             padding: 5px;
         }
         th,tr,table,td{
-            border: 1px solid black
+            border: 1px solid black;
+            text-align:center;
+            padding:2px;
         }
         input{
                 border: 0px solid;
@@ -2858,7 +2815,7 @@ def doing_poyasitelniy_file(request):
                                                             </div>
                                                             8 Виды и объемы выполненных топографо-геодезических работ приводятся в табл. 1
                                                             <br>
-                                                            <p class="text-end">Таблица 1</p>
+                                                            <p class="text-end" style='float:right'>Таблица 1</p>
                                                             <div class="col-sm-12 m-t-10">
                                                                 <div class="card border-0">
                                                                     <div class="table-responsive">
@@ -2875,23 +2832,28 @@ def doing_poyasitelniy_file(request):
                                                                             </tr>
                                                                             </thead>
 
-                                                                            <tbody>
-                                                                            <tr>
-                                                                                <td scope="row">1</td>
-                                                                                <td>
-                                                                                   '''+str(form1.b8_1)+'''
-                                                                                </td>
-                                                                                <td>
-                                                                                    '''+str(form1.b8_2)+'''
-                                                                                </td>
-                                                                                <td>
-                                                                                    '''+str(form1.b8_3)+'''
-                                                                                </td>
-                                                                                <td>
-                                                                                   '''+str(form1.b8_4)+'''
-                                                                                </td>
-                                                                            </tr>
-                                                                            </tbody>
+                                                                            <tbody>''';
+        for form1_1 in form1:
+            context += '''
+                                                                                 <tr>
+                                                                                     <td scope="row">#</td>
+                                                                                     <td>
+                                                                                        ''' + str(form1_1.b8_1) + '''
+                                                                                     </td>
+                                                                                     <td>
+                                                                                         ''' + str(form1_1.b8_2) + '''
+                                                                                     </td>
+                                                                                     <td>
+                                                                                         ''' + str(form1_1.b8_3) + '''
+                                                                                     </td>
+                                                                                     <td>
+                                                                                        ''' + str(form1_1.b8_4) + '''
+                                                                                     </td>
+                                                                                 </tr>''';
+
+
+        context+='''
+                                                                </tbody>
 
                                                                         </table>
                                                                     </div>
@@ -2903,7 +2865,7 @@ def doing_poyasitelniy_file(request):
                                                                 8.1 Номенклатура планшетов '''+str(form.b8_1_1)+'''
                                                                 <br>
                                                             </div>
-                                                            9 Каталог координат и высот исходных пунктов и точек долговременного закрепления
+                                                            9. Каталог координат и высот исходных пунктов и точек долговременного закрепления
                                                             <br>
                                                             <div class="col-sm-12 m-t-10">
                                                                 <div class="card border-0">
@@ -2919,23 +2881,26 @@ def doing_poyasitelniy_file(request):
 
                                                                             </tr>
                                                                             </thead>
-                                                                            <tbody>
+                                                                            <tbody>''';
+        for form2_1 in form2:
+            context += '''
                                                                             <tr>
                                                                                 <td scope="row">1</td>
                                                                                 <td>
-                                                                                    '''+str(form2.b9_1)+'''
+                                                                                    '''+str(form2_1.b9_1)+'''
                                                                                 </td>
                                                                                 <td>
-                                                                                     '''+str(form2.b9_2)+'''
+                                                                                     '''+str(form2_1.b9_2)+'''
                                                                                 </td>
                                                                                 <td>
-                                                                                     '''+str(form2.b9_3)+'''
+                                                                                     '''+str(form2_1.b9_3)+'''
                                                                                 </td>
 
                                                                                 <td>
-                                                                                    '''+str(form2.b9_4)+'''
+                                                                                    '''+str(form2_1.b9_4)+'''
                                                                                 </td>
-                                                                            </tr>
+                                                                            </tr>''';
+        context+='''
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
@@ -2994,9 +2959,9 @@ def doing_poyasitelniy_file(request):
 
                                     <div class="setup-content" id="step-2">
                                         <div class="col-xs-12">
-                                            17 Техническая характеристика планового съемочного обоснования приводится в таблице 2.
+                                            17. Техническая характеристика планового съемочного обоснования приводится в таблице 2.
                                             <br>
-                                            <p class="text-end"> Таблица 2</p>
+                                            <p class="text-end" style='float:right'> Таблица 2</p>
                                             <div class="col-sm-12 m-t-10">
                                                 <div class="card border-0">
                                                     <div class="table-responsive">
@@ -3014,32 +2979,36 @@ def doing_poyasitelniy_file(request):
 
                                                             </tr>
                                                             </thead>
-                                                            <tbody>
+                                                            <tbody>''';
+        for form3_1 in form3:
+            context += '''
+                                                            
                                                             <tr>
-                                                                <td scope="row">1</td>
+                                                                <td scope="row">#</td>
                                                                 <td>
-                                                                     '''+str(form3.b17_1)+'''
+                                                                     '''+str(form3_1.b17_1)+'''
                                                                 </td>
                                                                 <td>
 
-                                                                   '''+str(form3.b17_2)+'''
+                                                                   '''+str(form3_1.b17_2)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form3.b17_3)+'''
+                                                                    '''+str(form3_1.b17_3)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form3.b17_4)+'''
+                                                                    '''+str(form3_1.b17_4)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form3.b17_5)+'''
+                                                                    '''+str(form3_1.b17_5)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form3.b17_6)+'''
+                                                                    '''+str(form3_1.b17_6)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form3.b17_7)+'''
+                                                                    '''+str(form3_1.b17_7)+'''
                                                                 </td>
-                                                            </tr>
+                                                            </tr>''';
+        context +='''
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -3062,23 +3031,26 @@ def doing_poyasitelniy_file(request):
 
                                                             </tr>
                                                             </thead>
-                                                            <tbody>
+                                                            <tbody>''';
+        for form4_1 in form4:
+            context += '''
                                                             <tr>
-                                                                <td scope="row">1</td>
+                                                                <td scope="row">#</td>
                                                                 <td>
-                                                                   '''+str(form4.b18_1)+'''
+                                                                   '''+str(form4_1.b18_1)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form4.b18_2)+'''
+                                                                    '''+str(form4_1.b18_2)+'''
                                                                 </td>
                                                                 <td>
-                                                                        '''+str(form4.b18_3)+'''
+                                                                        '''+str(form4_1.b18_3)+'''
                                                                 </td>
                                                                 <td>
-                                                                    '''+str(form4.b18_4)+'''
+                                                                    '''+str(form4_1.b18_4)+'''
                                                                 </td>
-                                                                <td>'''+str(form4.b18_5)+'''</td>
-                                                            </tr>
+                                                                <td>'''+str(form4_1.b18_5)+'''</td>
+                                                            </tr>''';
+        context+='''
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -3296,10 +3268,10 @@ def doing_poyasitelniy_file(request):
         options = {
             'page-size': 'A4',
             'encoding': "UTF-8",
-            'margin-top': '0.2in',
-            'margin-right': '0.2in',
-            'margin-bottom': '0.2in',
-            'margin-left': '0.2in',
+            # 'margin-top': '0.78in',
+            # 'margin-right': '0.6in',
+            # 'margin-bottom': '0.78in',
+            # 'margin-left': '1.18in',
             'orientation': 'portrait',
             # landscape bu albomiy qiladi
         }
@@ -4801,10 +4773,10 @@ def doing_akt_polevoy_file(request):
             options = {
                 'page-size': 'A4',
                 'encoding': "UTF-8",
-                'margin-top': '0.2in',
-                'margin-right': '0.2in',
-                'margin-bottom': '0.2in',
-                'margin-left': '0.2in',
+                # 'margin-top': '0.2in',
+                # 'margin-right': '0.2in',
+                # 'margin-bottom': '0.2in',
+                # 'margin-left': '0.2in',
                 'orientation': 'portrait',
                 # landscape bu albomiy qiladi
             }
