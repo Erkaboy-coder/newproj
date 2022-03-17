@@ -1066,42 +1066,43 @@
                                                                                                                 Примеч
                                                                                                             </th>
                                                                                                             <th scope=""></th>
+                                                                                                            <th scope=""></th>
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                        <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
+                                                                                                        {% if work_table2 %}
+                                                                                {% for work_table1_2 in work_table2 %}
+                                                                                    <tr data-obj = {{ work_table1_2.id }} del=0>
+                                                                                                           <td scope="row">#</td>
                                                                                                             <td><input  id="a2_1" name="a2_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder=""value="{{ work_table2.a2_1 }}">
+                                                                                                                    type="text" data-column="a2_1"
+                                                                                                                    placeholder=""value="{{ work_table1_2.a2_1 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a2_2" name="a2_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_2 }}">
+                                                                                                                    type="text" data-column="a2_2"
+                                                                                                                    placeholder="" value="{{ work_table1_2.a2_2 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a2_3" name="a2_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_3 }}">
+                                                                                                                    type="text" data-column="a2_3"
+                                                                                                                    placeholder="" value="{{ work_table1_2.a2_3 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a2_4" name="a2_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_4 }}">
+                                                                                                                    type="text" data-column="a2_4"
+                                                                                                                    placeholder="" value="{{ work_table1_2.a2_4 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a2_5" name="a2_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_5 }}">
+                                                                                                                    type="text" data-column="a2_5"
+                                                                                                                    placeholder="" value="{{ work_table1_2.a2_5 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a2_6" name="a2_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table2.a2_6 }}">
+                                                                                                                    type="text" data-column="a2_6"
+                                                                                                                    placeholder="" value="{{ work_table1_2.a2_6 }}">
                                                                                                             </td>
 
                                                                                                             <td>
@@ -1110,7 +1111,55 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
                                                                                                         </tr>
+                                                                                {% endfor %}
+                                                                                 {% else %}
+                                                                                                            <tr data-obj = '-1'>
+                                                                                                           <td scope="row">#</td>
+                                                                                                            <td><input  id="a2_1" name="a2_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_1"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_2" name="a2_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_2"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_3" name="a2_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_3"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_4" name="a2_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_4"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_5" name="a2_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_5"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_6" name="a2_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_6"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+
+                                                                                                            <td>
+                                                                                                                <i id="addrow1"
+                                                                                                                   onclick="childrenTable()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
+                                                                                                        </tr>
+                                                                                        {% endif %}
+
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -1182,59 +1231,59 @@
                                                                                                                 в проц.
                                                                                                             </th>
                                                                                                             <th scope="col"></th>
+                                                                                                            <th scope="col"></th>
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                         <tr>
-                                                                                                            <td class="table-primary"
-                                                                                                                scope="row">
-                                                                                                                1
-                                                                                                            </td>
+                                                                                                          {% if work_table3 %}
+                                                                                {% for work_table1_3 in work_table3 %}
+                                                                                    <tr data-obj = {{ work_table1_3.id }} del=0>
+                                                                                                            <td scope="row">#</td>
                                                                                                             <td><input id="a3_1" name="a3_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_1 }}">
+                                                                                                                    type="text" data-column="a3_1"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_1 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_2" name="a3_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_2 }}">
+                                                                                                                    type="text" data-column="a3_2"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_2 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_3" name="a3_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_3 }}">
+                                                                                                                    type="text" data-column="a3_3"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_3 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_4" name="a3_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_4 }}">
+                                                                                                                    type="text" data-column="a3_4"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_4 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_5" name="a3_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_5 }}">
+                                                                                                                    type="text" data-column="a3_5"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_5 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_6" name="a3_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_6 }}">
+                                                                                                                    type="text" data-column="a3_6"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_6 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_7" name="a3_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_7 }}">
+                                                                                                                    type="text" data-column="a3_7"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_7 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_8" name="a3_8"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_8 }}">
+                                                                                                                    type="text" data-column="a3_8"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_8 }}">
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <input id="a3_9" name="a3_9"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table3.a3_9 }}">
+                                                                                                                    type="text" data-column="a3_9"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_9 }}">
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <i id="addrow2"
@@ -1242,7 +1291,68 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                     <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                         </tr>
+                                                                                                              {% endfor %}
+                                                                                 {% else %}
+                                                                                                               <tr data-obj = '-1'>
+                                                                                                               <td scope="row">#</td>
+                                                                                                           <td><input id="a3_1" name="a3_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_1"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_2" name="a3_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_2"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_3" name="a3_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_3"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_4" name="a3_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_4"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_5" name="a3_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_5"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_6" name="a3_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_6"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_7" name="a3_7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_7"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_8" name="a3_8"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_8"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <input id="a3_9" name="a3_9"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_9"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow2"
+                                                                                                                   onclick="childrentable()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                     <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
+                                                                                                        </tr>
+                                                                                                              {% endif %}
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -1333,54 +1443,56 @@
                                                                                                             <th scope="col">
                                                                                                                 Примечание
                                                                                                             </th>
-                                                                                                            <th scope="col"></th>
+
+
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                         <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
-                                                                                                            <td style="text-align: center;">2</td>
-                                                                                                            <td style="text-align: center;">3</td>
-                                                                                                            <td style="text-align: center;">4</td>
-                                                                                                            <td style="text-align: center;">5</td>
-                                                                                                            <td style="text-align: center;">6</td>
-                                                                                                            <td style="text-align: center;">7</td>
-
-                                                                                                        </tr>
-                                                                                                         <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
+{#                                                                                                         <tr>#}
+{#                                                                                                            <td scope="row">#}
+{#                                                                                                                ##}
+{#                                                                                                            </td>#}
+{#                                                                                                            <td style="text-align: center;">2</td>#}
+{#                                                                                                            <td style="text-align: center;">3</td>#}
+{#                                                                                                            <td style="text-align: center;">4</td>#}
+{#                                                                                                            <td style="text-align: center;">5</td>#}
+{#                                                                                                            <td style="text-align: center;">6</td>#}
+{#                                                                                                            <td style="text-align: center;">7</td>#}
+{#                                                                                                            <td ></td>#}
+{##}
+{#                                                                                                        </tr>#}
+                                                                                                        {% if work_table4 %}
+                                                                                {% for work_table1_4 in work_table4 %}
+                                                                                    <tr data-obj = {{ work_table1_4.id }} del=0>
+                                                                                                            <td scope="row">#</td>
                                                                                                             <td><input id="a4_1" name="a4_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table4.a4_1 }}">
+                                                                                                                    type="text" data-column="a4_1"
+                                                                                                                    placeholder="" value="{{ work_table1_4.a4_1 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a4_2" name="a4_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="{{ work_table4.a4_2 }}">
+                                                                                                                    type="text" data-column="a4_2"
+                                                                                                                    placeholder="" value="{{ work_table1_4.a4_2 }}">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_3" name="a4_3" value="{{ work_table4.a4_3 }}"
+                                                                                                            <td><input id="a4_3" name="a4_3" value="{{ work_table1_4.a4_3 }}"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a4_3"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_4" name="a4_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table4.a4_4 }}"
+                                                                                                                    class="border-0 w-100" data-column="a4_4"
+                                                                                                                    type="text" value="{{ work_table1_4.a4_4 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_5" name="a4_5"
-                                                                                                                    class="border-0 w-100" value="{{ work_table4.a4_5 }}"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" value="{{ work_table1_4.a4_5 }}"
+                                                                                                                    type="text" data-column="a4_5"
                                                                                                                     placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_6" name="a4_6" value="{{ work_table4.a4_6 }}"
+                                                                                                            <td><input id="a4_6" name="a4_6" value="{{ work_table1_4.a4_6 }}"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a4_6"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td>
@@ -1389,7 +1501,52 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                         </tr>
+                                                                                                             {% endfor %}
+                                                                                 {% else %}
+                                                                                                            <tr data-obj = '-1'>
+                                                                                                            <td scope="row">#</td>
+                                                                                                            <td><input id="a4_1" name="a4_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_1"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_2" name="a4_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_2"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_3" name="a4_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_3"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_4" name="a4_4"
+                                                                                                                    class="border-0 w-100" data-column="a4_4"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_5" name="a4_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_5"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_6" name="a4_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_6"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow3"
+                                                                                                                   onclick="childrentabl1()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                                        </tr>
+                                                                                                            {% endif %}
+
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -1512,41 +1669,42 @@
                                                                                                                 Примечание
                                                                                                             </th>
                                                                                                             <th scope="col"></th>
+                                                                                                            <th scope="col"></th>
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                        <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
+                                                                                                          {% if work_table5 %}
+                                                                                {% for work_table1_5 in work_table5 %}
+                                                                                    <tr data-obj = {{ work_table1_5.id }} del=0>
+                                                                                    <td scope="row">#</td>
                                                                                                             <td><input id="a5_1" name="a5_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_1 }}"
+                                                                                                                    class="border-0 w-100" data-column="a5_1"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_1 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_2" name="a5_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_2 }}"
+                                                                                                                    class="border-0 w-100" data-column="a5_2"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_2 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_3" name="a5_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_3 }}"
+                                                                                                                    class="border-0 w-100" data-column="a5_3"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_3 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_4" name="a5_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_4 }}"
+                                                                                                                    class="border-0 w-100" data-column="a5_4"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_4 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_5" name="a5_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_5 }}"
+                                                                                                                    class="border-0 w-100" data-column="a5_5"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_5 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_6" name="a5_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table5.a5_6 }}"
+                                                                                                                    class="border-0 w-100" data-column="a5_6"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_6 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td>
@@ -1555,7 +1713,51 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                    <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                         </tr>
+                                                                                                              {% endfor %}
+                                                                                 {% else %}
+                                                                                                              <tr data-obj = '-1'>
+                                                                                                              <td scope="row">#</td>
+                                                                                                            <td><input id="a5_1" name="a5_1"
+                                                                                                                    class="border-0 w-100" data-column="a5_1"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_1 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_2" name="a5_2"
+                                                                                                                    class="border-0 w-100" data-column="a5_2"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_2 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_3" name="a5_3"
+                                                                                                                    class="border-0 w-100" data-column="a5_3"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_3 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_4" name="a5_4"
+                                                                                                                    class="border-0 w-100" data-column="a5_4"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_4 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_5" name="a5_5"
+                                                                                                                    class="border-0 w-100" data-column="a5_5"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_5 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a5_6" name="a5_6"
+                                                                                                                    class="border-0 w-100" data-column="a5_6"
+                                                                                                                    type="text" value="{{ work_table1_5.a5_6 }}"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow4"
+                                                                                                                   onclick="childrentabl2()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                    <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                                        </tr>
+                                                                                                              {% endif %}
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -1750,56 +1952,58 @@
                                                                                                                 проц.
                                                                                                             </th>
                                                                                                             <th scope="col"></th>
+                                                                                                            <th scope="col"></th>
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                        <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
-                                                                                                            <td><input id="a6_1" name="a6_1"
+                                                                                                         {% if work_table6 %}
+                                                                                {% for work_table1_6 in work_table6 %}
+                                                                                    <tr data-obj = {{ work_table1_6.id }} del=0>
+                                                                                        <td scope="row">#</td>
+
+                                                                                                            <td><input id="a6_1" name="a6_1" data-column="a6_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_1 }}"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_1 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_2" name="a6_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_2 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_2"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_2 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_3" name="a6_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_3 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_3"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_3 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_4" name="a6_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_4 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_4"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_4 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_5" name="a6_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_5 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_5"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_5 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_6" name="a6_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_6 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_6"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_6 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_7" name="a6_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_7 }}"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" value="{{ work_table1_6.a6_7 }}"
+                                                                                                                    placeholder="" data-column="a6_7" >
                                                                                                             </td>
                                                                                                             <td><input id="a6_8" name="a6_8"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_8 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_8"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_8 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_9" name="a6_9"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="{{ work_table6.a6_9 }}"
+                                                                                                                    class="border-0 w-100" data-column="a6_9"
+                                                                                                                    type="text" value="{{ work_table1_6.a6_9 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td>
@@ -1808,7 +2012,69 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                                            <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
                                                                                                         </tr>
+                                                                                                             {% endfor %}
+                                                                                 {% else %}
+                                                                        <tr data-obj = '-1'>
+                                                                                          <td scope="row">#</td>
+
+                                                                                                            <td><input id="a6_1" name="a6_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_1"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_2" name="a6_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_2"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_3" name="a6_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_3"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_4" name="a6_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_4"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_5" name="a6_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_5"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_6" name="a6_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_6"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_7" name="a6_7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_7"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_8" name="a6_8"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_8"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a6_9" name="a6_9"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a6_9"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow5"
+                                                                                                                   onclick="childrentable3()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                                            <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
+                                                                                                        </tr>
+                                                                                                           {% endif %}
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -1907,36 +2173,37 @@
                                                                                                             Между какими контурами и инженерными сооружениями произведены промеры
                                                                                                         </th>
                                                                                                         <th scope="col"></th>
+                                                                                                        <th scope="col"></th>
                                                                                                     </tr>
                                                                                                     </thead>
                                                                                                     <tbody>
-                                                                                                    <tr>
-                                                                                                        <th scope="row">
-                                                                                                            1
-                                                                                                        </th>
-                                                                                                        <td><input id="a7_1" name="a7_1" value="{{ work_table7.a7_1 }}"
+                                                                                                   {% if work_table7 %}
+                                                                                {% for work_table1_7 in work_table7 %}
+                                                                                    <tr data-obj = {{ work_table1_7.id }} del=0>
+                                                                                        <td scope="row">#</td>
+                                                                                                        <td><input id="a7_1" name="a7_1" data-column="a7_1" value="{{ work_table1_7.a7_1 }}"
                                                                                                                 class="border-0 w-100"
                                                                                                                 type="text"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_2" name="a7_2"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_2 }}"
+                                                                                                                class="border-0 w-100" data-column="a7_2"
+                                                                                                                type="text" value="{{ work_table1_7.a7_2 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_3" name="a7_3"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_3 }}"
+                                                                                                                class="border-0 w-100" data-column="a7_3"
+                                                                                                                type="text" value="{{ work_table1_7.a7_3 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_4" name="a7_4"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_4 }}"
+                                                                                                                class="border-0 w-100" data-column="a7_4"
+                                                                                                                type="text" value="{{ work_table1_7.a7_4 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_5" name="a7_5"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table7.a7_5 }}"
+                                                                                                                class="border-0 w-100" data-column="a7_5"
+                                                                                                                type="text" value="{{ work_table1_7.a7_5 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td>
@@ -1945,7 +2212,46 @@
                                                                                                                class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                aria-hidden="true"></i>
                                                                                                         </td>
+                                                                                     <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                     </tr>
+                                                                                                        {% endfor %}
+                                                                                 {% else %}
+                                                                                                        <tr data-obj = '-1'>
+                                                                                        <td scope="row">#</td>
+                                                                                                        <td><input id="a7_1" name="a7_1"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" data-column="a7_1"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_2" name="a7_2"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" data-column="a7_2"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_3" name="a7_3"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" data-column="a7_3"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_4" name="a7_4"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" data-column="a7_4"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a7_5" name="a7_5"
+                                                                                                                class="border-0 w-100"
+                                                                                                                type="text" data-column="a7_5"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <i id="addrow6"
+                                                                                                               onclick="childrentabl4()"
+                                                                                                               class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                               aria-hidden="true"></i>
+                                                                                                        </td>
+                                                                                     <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                                    </tr>
+                                                                                                       {% endif %}
                                                                                                     </tbody>
                                                                                                 </table>
                                                                                             </div>
@@ -2083,31 +2389,32 @@
                                                                                                             контрольного замера
                                                                                                         </th>
                                                                                                         <th scope="col"></th>
+                                                                                                        <th scope="col"></th>
                                                                                                     </tr>
                                                                                                     </thead>
                                                                                                     <tbody>
-                                                                                                    <tr>
-                                                                                                        <th scope="row">
-                                                                                                            1
-                                                                                                        </th>
+                                                                                                    {% if work_table8 %}
+                                                                                {% for work_table1_8 in work_table8 %}
+                                                                                    <tr data-obj = {{ work_table1_8.id }} del=0>
+                                                                                        <td scope="row">#</td>
                                                                                                         <td><input id="a8_1" name="a8_1"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_1 }}"
+                                                                                                                class="border-0 w-100" data-column="a8_1"
+                                                                                                                type="text" value="{{ work_table1_8.a8_1 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_2" name="a8_2"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_2 }}"
+                                                                                                                class="border-0 w-100" data-column="a8_2"
+                                                                                                                type="text" value="{{ work_table1_8.a8_2 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_3" name="a8_3"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_3 }}"
+                                                                                                                class="border-0 w-100" data-column="a8_3"
+                                                                                                                type="text" value="{{ work_table1_8.a8_3 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_4" name="a8_4"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="{{ work_table8.a8_4 }}"
+                                                                                                                class="border-0 w-100" data-column="a8_4"
+                                                                                                                type="text" value="{{ work_table1_8.a8_4 }}"
                                                                                                                 placeholder="">
                                                                                                         </td>
 
@@ -2117,7 +2424,42 @@
                                                                                                                class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                aria-hidden="true"></i>
                                                                                                         </td>
+                                                                                    <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                     </tr>
+                                                                                                        {% endfor %}
+                                                                                                        {% else %}
+                                                                                                        <tr data-obj = '-1'>
+                                                                                        <td scope="row">#</td>
+                                                                                                        <td><input id="a8_1" name="a8_1"
+                                                                                                                class="border-0 w-100" data-column="a8_1"
+                                                                                                                type="text"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a8_2" name="a8_2"
+                                                                                                                class="border-0 w-100" data-column="a8_2"
+                                                                                                                type="text"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a8_3" name="a8_3"
+                                                                                                                class="border-0 w-100" data-column="a8_3"
+                                                                                                                type="text"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+                                                                                                        <td><input id="a8_4" name="a8_4"
+                                                                                                                class="border-0 w-100" data-column="a8_4"
+                                                                                                                type="text"
+                                                                                                                placeholder="">
+                                                                                                        </td>
+
+                                                                                                        <td>
+                                                                                                            <i id="addrow7"
+                                                                                                               onclick="childrentabl5()"
+                                                                                                               class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                               aria-hidden="true"></i>
+                                                                                                        </td>
+                                                                                    <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                                    </tr>
+                                                                                                        {% endif %}
                                                                                                     </tbody>
                                                                                                 </table>
                                                                                             </div>
@@ -2552,20 +2894,19 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                         {% if work_table1 %}
-                                                                 {% for form1_1 in work_table1 %}
-                                                            <tr data-obj = {{ form1_1.id }} del=0>
-                                                                                                            <td scope="row">#</td>
-                                                                                                                1
-                                                                                                            </th>
-                                                                                                            <td><input id="a1_1" data-column="a1_1" name="a1_1"
+
+                                                                                                       {% if work_table1 %}
+                                                                                {% for work_table1_1 in work_table1 %}
+                                                                                    <tr data-obj = {{ work_table1_1.id }} del=0>
+                                                                                                           <td scope="row">#</td>
+                                                                                                            <td><input id="a1_1" name="a1_1" data-column="a1_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a1_1"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_2" name="a1_2" data-column="a1_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a1_2"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_3" name="a1_3"
@@ -2574,23 +2915,23 @@
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_4" name="a1_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" data-column="a1_4"
+                                                                                                                    class="border-0 w-100" data-column="a1_4"
+                                                                                                                    type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_5" name="a1_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" data-column="a1_5"
+                                                                                                                    class="border-0 w-100" data-column="a1_5"
+                                                                                                                    type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_6" name="a1_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" data-column="a1_6"
+                                                                                                                    class="border-0 w-100" data-column="a1_6"
+                                                                                                                    type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_7" name="a1_7"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" data-column="a1_7"
+                                                                                                                    class="border-0 w-100" data-column="a1_7"
+                                                                                                                    type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td>
@@ -2601,45 +2942,43 @@
                                                                                                             </td>
                                                                                                              <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                         </tr>
-                                                                                                              {% endfor %}
-                                                                                                        {% else %}
-                                                                                                    <tr data-obj = '-1'>
+                                                                                {% endfor %}
+                                                                                 {% else %}
+                                                                                              <tr data-obj = '-1'>
                                                                                                             <td scope="row">#</td>
-                                                                                                                1
-                                                                                                            </th>
-                                                                                                            <td><input id="a1_1" name="a1_1"
+                                                                                                            <td><input id="a1_1" name="a1_1" data-column="a1_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_1 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_2" name="a1_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a1_2"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_2 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_3" name="a1_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a1_3"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_3 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_4" name="a1_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a1_4"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_4 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_5" name="a1_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a1_5"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_5 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_6" name="a1_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a1_6"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_6 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_7" name="a1_7"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a1_7"
+                                                                                                                    type="text" value="{{ work_table1_1.a1_7 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td>
@@ -2652,8 +2991,7 @@
                                                                                                         </tr>
 
                                                                                                              {% endif %}
-
-                                                                                                             </tbody>
+                                                                                                        </tbody>
                                                                                                     </table>
                                                                                                 </div>
                                                                                                 <p>
@@ -2710,38 +3048,38 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                        <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
+                                                                                                        {% if work_table2 %}
+                                                                                {% for work_table1_2 in work_table2 %}
+                                                                                    <tr data-obj = {{ work_table1_2.id }} del=0>
+                                                                                                           <td scope="row">#</td>
                                                                                                             <td><input  id="a2_1" name="a2_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a2_1"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a2_2" name="a2_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a2_2"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a2_3" name="a2_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" data-column="a2_3"
+                                                                                                                    placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a2_4" name="a2_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a2_4"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a2_5" name="a2_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a2_5"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a2_6" name="a2_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a2_6"
                                                                                                                     placeholder="" >
                                                                                                             </td>
 
@@ -2751,7 +3089,55 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
                                                                                                         </tr>
+                                                                                {% endfor %}
+                                                                                 {% else %}
+                                                                                                            <tr data-obj = '-1'>
+                                                                                                           <td scope="row">#</td>
+                                                                                                            <td><input  id="a2_1" name="a2_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_1"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_2" name="a2_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_2"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_3" name="a2_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_3"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_4" name="a2_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_4"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_5" name="a2_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_5"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a2_6" name="a2_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a2_6"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+
+                                                                                                            <td>
+                                                                                                                <i id="addrow1"
+                                                                                                                   onclick="childrenTable()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
+                                                                                                        </tr>
+                                                                                        {% endif %}
+
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -2826,55 +3212,112 @@
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
-                                                                                                        <tr>
-                                                                                                            <td class="table-primary"
-                                                                                                                scope="row">
-                                                                                                                1
-                                                                                                            </td>
+                                                                                                          {% if work_table3 %}
+                                                                                {% for work_table1_3 in work_table3 %}
+                                                                                    <tr data-obj = {{ work_table1_3.id }} del=0>
+                                                                                                            <td scope="row">#</td>
                                                                                                             <td><input id="a3_1" name="a3_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" data-column="a3_1"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_1 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_2" name="a3_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" data-column="a3_2"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_2 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_3" name="a3_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" data-column="a3_3"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_3 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a3_4" name="a3_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a3_4"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_4 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_5" name="a3_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_5"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_5 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_6" name="a3_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_6"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_6 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_7" name="a3_7"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_7"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_7 }}">
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_8" name="a3_8"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_8"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_8 }}">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <input id="a3_9" name="a3_9"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_9"
+                                                                                                                    placeholder="" value="{{ work_table1_3.a3_9 }}">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow2"
+                                                                                                                   onclick="childrentable()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                     <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                                        </tr>
+                                                                                                              {% endfor %}
+                                                                                 {% else %}
+                                                                                                               <tr data-obj = '-1'>
+                                                                                                               <td scope="row">#</td>
+                                                                                                           <td><input id="a3_1" name="a3_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_1"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_2" name="a3_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_2"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_3" name="a3_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_3"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a3_4" name="a3_4"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a3_4"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a3_5" name="a3_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a3_5"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a3_6" name="a3_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a3_6"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a3_7" name="a3_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a3_7"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td><input id="a3_8" name="a3_8"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a3_8"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <input id="a3_9" name="a3_9"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a3_9"
                                                                                                                     placeholder="" >
                                                                                                             </td>
                                                                                                             <td>
@@ -2883,7 +3326,10 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                     <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+
                                                                                                         </tr>
+                                                                                                              {% endif %}
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -2978,52 +3424,52 @@
                                                                                                             <th scope="col"></th>
                                                                                                         </tr>
                                                                                                         </thead>
-                                                                                                        <tbody>
-                                                                                                        <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
-                                                                                                            <td style="text-align: center;">2</td>
-                                                                                                            <td style="text-align: center;">3</td>
-                                                                                                            <td style="text-align: center;">4</td>
-                                                                                                            <td style="text-align: center;">5</td>
-                                                                                                            <td style="text-align: center;">6</td>
-                                                                                                            <td style="text-align: center;">7</td>
-
-                                                                                                        </tr>
-
-                                                                                                        <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
+                                                                                                         <tbody>
+{#                                                                                                         <tr>#}
+{#                                                                                                            <td scope="row">#}
+{#                                                                                                                ##}
+{#                                                                                                            </td>#}
+{#                                                                                                            <td style="text-align: center;">2</td>#}
+{#                                                                                                            <td style="text-align: center;">3</td>#}
+{#                                                                                                            <td style="text-align: center;">4</td>#}
+{#                                                                                                            <td style="text-align: center;">5</td>#}
+{#                                                                                                            <td style="text-align: center;">6</td>#}
+{#                                                                                                            <td style="text-align: center;">7</td>#}
+{#                                                                                                            <td ></td>#}
+{##}
+{#                                                                                                        </tr>#}
+                                                                                                        {% if work_table4 %}
+                                                                                {% for work_table1_4 in work_table4 %}
+                                                                                    <tr data-obj = {{ work_table1_4.id }} del=0>
+                                                                                                            <td scope="row">#</td>
                                                                                                             <td><input id="a4_1" name="a4_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" data-column="a4_1"
+                                                                                                                    placeholder="" value="{{ work_table1_4.a4_1 }}">
                                                                                                             </td>
                                                                                                             <td><input id="a4_2" name="a4_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                                    type="text" data-column="a4_2"
+                                                                                                                    placeholder="" value="{{ work_table1_4.a4_2 }}">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_3" name="a4_3"
+                                                                                                            <td><input id="a4_3" name="a4_3" value="{{ work_table1_4.a4_3 }}"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a4_3"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_4" name="a4_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" data-column="a4_4"
+                                                                                                                    type="text" value="{{ work_table1_4.a4_4 }}"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_5" name="a4_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    class="border-0 w-100" value="{{ work_table1_4.a4_5 }}"
+                                                                                                                    type="text" data-column="a4_5"
                                                                                                                     placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_6" name="a4_6"
+                                                                                                            <td><input id="a4_6" name="a4_6" value="{{ work_table1_4.a4_6 }}"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text"
+                                                                                                                    type="text" data-column="a4_6"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td>
@@ -3032,7 +3478,52 @@
                                                                                                                    class="fa fa-plus-circle f-20 txt-primary"
                                                                                                                    aria-hidden="true"></i>
                                                                                                             </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                                                         </tr>
+                                                                                                             {% endfor %}
+                                                                                 {% else %}
+                                                                                                            <tr data-obj = '-1'>
+                                                                                                            <td scope="row">#</td>
+                                                                                                            <td><input id="a4_1" name="a4_1"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_1"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_2" name="a4_2"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_2"
+                                                                                                                    placeholder="" >
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_3" name="a4_3"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_3"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_4" name="a4_4"
+                                                                                                                    class="border-0 w-100" data-column="a4_4"
+                                                                                                                    type="text"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_5" name="a4_5"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_5"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td><input id="a4_6" name="a4_6"
+                                                                                                                    class="border-0 w-100"
+                                                                                                                    type="text" data-column="a4_6"
+                                                                                                                    placeholder="">
+                                                                                                            </td>
+                                                                                                            <td>
+                                                                                                                <i id="addrow3"
+                                                                                                                   onclick="childrentabl1()"
+                                                                                                                   class="fa fa-plus-circle f-20 txt-primary"
+                                                                                                                   aria-hidden="true"></i>
+                                                                                                            </td>
+                                                                                        <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                                                                        </tr>
+                                                                                                            {% endif %}
+
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -3156,6 +3647,7 @@
                                                                                                                 Примечание
                                                                                                             </th>
                                                                                                             <th scope="col"></th>
+
                                                                                                         </tr>
                                                                                                         </thead>
                                                                                                         <tbody>
@@ -4023,6 +4515,9 @@
 
 
 
+
+
+
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
@@ -4032,6 +4527,10 @@
         data.append("table2", JSON.stringify(list_table2));
         data.append("table3", JSON.stringify(list_table3));
         data.append("table4", JSON.stringify(list_table4));
+        data.append("table5", JSON.stringify(list_table5));
+        data.append("table6", JSON.stringify(list_table6));
+        data.append("table7", JSON.stringify(list_table7));
+        data.append("table8", JSON.stringify(list_table8));
 
         var array = [];
         for(var i=1;i<73;i++){
@@ -4095,15 +4594,112 @@
         list0.push(list);
         });
 
+
+        var list_table2 = [];
+        var list_table2_1 = {};
+        $('#childTable1 > tbody > tr').each(function(i,tr){
+        list_table2_1 = {};
+        list_table2_1['id']=check_un($(tr).attr('data-obj'));
+        list_table2_1['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list_table2_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table2.push(list_table2_1);
+        });
+
+
+        var list_table3 = [];
+        var list_table3_1 = {};
+        $('#childTable2 > tbody > tr').each(function(i,tr){
+        list_table3_1 = {};
+        list_table3_1['id']=check_un($(tr).attr('data-obj'));
+        list_table3_1['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list_table3_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table3.push(list_table3_1);
+        });
+
+
+         var list_table4 = [];
+        var list_table4_1 = {};
+        $('#childTable3 > tbody > tr').each(function(i,tr){
+        list_table4_1 = {};
+        list_table4_1['id']=check_un($(tr).attr('data-obj'));
+        list_table4_1['del']=check_un($(tr).attr('del'));
+        $(tr).find('input').each(function(i,input){
+            list_table4_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table4.push(list_table4_1);
+        });
+
+        var list_table5 = [];
+        var list_table5_1 = {};
+        $('#childTable4 > tbody > tr').each(function(i,tr){
+        list_table5_1 = {};
+        list_table5_1['id']=check_un($(tr).attr('data-obj'));
+        list_table5_1['del']=check_un($(tr).attr('del'));
+        $(tr).find('input').each(function(i,input){
+            list_table5_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table5.push(list_table5_1);
+        });
+
+        var list_table6 = [];
+        var list_table6_1 = {};
+        $('#childTable5 > tbody > tr').each(function(i,tr){
+        list_table6_1 = {};
+        list_table6_1['id']=check_un($(tr).attr('data-obj'));
+        list_table6_1['del']=check_un($(tr).attr('del'));
+        $(tr).find('input').each(function(i,input){
+            list_table6_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table6.push(list_table6_1);
+        });
+
+
+        var list_table7 = [];
+        var list_table7_1 = {};
+        $('#childTable6 > tbody > tr').each(function(i,tr){
+        list_table7_1 = {};
+        list_table7_1['id']=check_un($(tr).attr('data-obj'));
+        list_table7_1['del']=check_un($(tr).attr('del'));
+        $(tr).find('input').each(function(i,input){
+            list_table7_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table7.push(list_table7_1);
+        });
+
+
+        var list_table8 = [];
+        var list_table8_1 = {};
+        $('#childTable7 > tbody > tr').each(function(i,tr){
+        list_table8_1 = {};
+        list_table8_1['id']=check_un($(tr).attr('data-obj'));
+        list_table8_1['del']=check_un($(tr).attr('del'));
+        $(tr).find('input').each(function(i,input){
+            list_table8_1[$(input).attr('data-column')]=$(input).val();
+        });
+        list_table8.push(list_table8_1);
+        });
+
+
+
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
 
         data.append("table1", JSON.stringify(list0));
-{#        data.append("table2", JSON.stringify(list_table2));#}
-{#        data.append("table3", JSON.stringify(list_table3));#}
-{#        data.append("table4", JSON.stringify(list_table4));#}
+        data.append("table2", JSON.stringify(list_table2));
+        data.append("table3", JSON.stringify(list_table3));
+        data.append("table4", JSON.stringify(list_table4));
+        data.append("table5", JSON.stringify(list_table5));
+        data.append("table6", JSON.stringify(list_table6));
+        data.append("table7", JSON.stringify(list_table7));
+        data.append("table8", JSON.stringify(list_table8));
 
         var array = [];
           for(var i=1;i<73;i++){
@@ -4113,23 +4709,9 @@
 
 
 
-        var array1 = [];
-        for(var j=1;j<8;j++){
-                array1.push($('#a1_'+j).val());
-        }
-        data.append("array1", array1);
 
-        var array2 = [];
-        for(var k=1;k<7;k++){
-                array2.push($('#a2_'+k).val());
-        }
-        data.append("array2", array2);
 
-        var array3 = [];
-        for(var l=1;l<10;l++){
-                array3.push($('#a3_'+l).val());
-        }
-        data.append("array3", array3);
+
 
         var array4 = [];
         for(var m=1;m<7;m++){

@@ -605,16 +605,10 @@ def edit_akt_polevoy(request):
         work_id = data.get('work_id')
         worker = data.get('worker')
         array=data.get('array')
-        array1=data.get('array1')
-        array2=data.get('array2')
-        array3=data.get('array3')
-        array4=data.get('array4')
-        array5=data.get('array5')
-        array6=data.get('array6')
-        array7=data.get('array7')
-        array8=data.get('array8')
+
         table1=data.get('table1')
         table2=data.get('table2')
+
         table3=data.get('table3')
         table4=data.get('table4')
         table5=data.get('table5')
@@ -625,14 +619,6 @@ def edit_akt_polevoy(request):
         d={}
         object=Object.objects.filter(id=work_id).first()
         j=0
-        j1=0
-        j2=0
-        j3=0
-        j4=0
-        j5=0
-        j6=0
-        j7=0
-        j8=0
 
         d = {'object': object}
         for i in array.split(','):
@@ -658,6 +644,145 @@ def edit_akt_polevoy(request):
                     obj.a1_5 = i['a1_5']
                     obj.a1_6 = i['a1_6']
                     obj.a1_7 = i['a1_7']
+
+                    obj.save()
+
+        for j in json.loads(table2):
+            if str(j['id']) == '-1' and int(j['del']) != 1:
+                form2 = AktPolovoyTable2(aktpolovoy=form, a2_1=j['a2_1'], a2_2=j['a2_2'], a2_3=j['a2_3'],
+                                                 a2_4=j['a2_4'],a2_5=j['a2_5'],a2_6=j['a2_6'])
+                form2.save()
+            elif int(j['del']) == 1:
+                AktPolovoyTable2.objects.filter(pk=j['id']).delete()
+            else:
+                obj = AktPolovoyTable2.objects.filter(pk=j['id']).first()
+                if obj:
+                    obj.a2_1 = j['a2_1']
+                    obj.a2_2 = j['a2_2']
+                    obj.a2_3 = j['a2_3']
+                    obj.a2_4 = j['a2_4']
+                    obj.a2_5 = j['a2_5']
+                    obj.a2_6 = j['a2_6']
+
+                    obj.save()
+
+        
+        for k in json.loads(table3):
+            if str(k['id']) == '-1' and int(k['del']) != 1:
+                form3 = AktPolovoyTable3(aktpolovoy=form, a3_1=k['a3_1'], a3_2=k['a3_1'], a3_3=k['a3_3'],
+                                                 a3_4=k['a3_4'],a3_5=k['a3_5'],a3_6=k['a3_6'],a3_7=k['a3_8'],a3_8=k['a3_8'],a3_9=k['a3_9'])
+                form3.save()
+            elif int(k['del']) == 1:
+                AktPolovoyTable3.objects.filter(pk=k['id']).delete()
+            else:
+                obj = AktPolovoyTable3.objects.filter(pk=k['id']).first()
+                if obj:
+                    obj.a3_1 = k['a3_1']
+                    obj.a3_2 = k['a3_2']
+                    obj.a3_3 = k['a3_3']
+                    obj.a3_4 = k['a3_4']
+                    obj.a3_5 = k['a3_5']
+                    obj.a3_6 = k['a3_6']
+                    obj.a3_7 = k['a3_7']
+                    obj.a3_8 = k['a3_8']
+                    obj.a3_9 = k['a3_9']
+
+                    obj.save()
+
+
+        for l in json.loads(table4):
+
+            if str(l['id']) == '-1' and int(l['del']) != 1:
+                form4 = AktPolovoyTable4(aktpolovoy=form, a4_1=l['a4_1'], a4_2=l['a4_2'], a4_3=l['a4_3'], a4_4=l['a4_4'], a4_5=l['a4_5'], a4_6=l['a4_6'])
+                form4.save()
+            elif int(l['del']) == 1:
+                AktPolovoyTable4.objects.filter(pk=l['id']).delete()
+            else:
+                obj = AktPolovoyTable4.objects.filter(pk=l['id']).first()
+                if obj:
+                    obj.a4_1 = l['a4_1']
+                    obj.a4_2 = l['a4_2']
+                    obj.a4_3 = l['a4_3']
+                    obj.a4_4 = l['a4_4']
+                    obj.a4_5 = l['a4_5']
+                    obj.a4_6 = l['a4_6']
+                    obj.save()
+                    
+        
+        for m in json.loads(table5):
+
+            if str(m['id']) == '-1' and int(m['del']) != 1:
+                form4 = AktPolovoyTable5(aktpolovoy=form, a5_1=m['a5_1'], a5_2=m['a5_2'], a5_3=m['a5_3'], a5_4=m['a5_4'], a5_5=m['a5_5'], a5_6=m['a5_6'])
+                form4.save()
+            elif int(m['del']) == 1:
+                AktPolovoyTable5.objects.filter(pk=m['id']).delete()
+            else:
+                obj = AktPolovoyTable5.objects.filter(pk=m['id']).first()
+                if obj:
+                    obj.a5_1 = m['a5_1']
+                    obj.a5_2 = m['a5_2']
+                    obj.a5_3 = m['a5_3']
+                    obj.a5_4 = m['a5_4']
+                    obj.a5_5 = m['a5_5']
+                    obj.a5_6 = m['a5_6']
+                    obj.save()
+
+        for n in json.loads(table6):
+
+            if str(n['id']) == '-1' and int(n['del']) != 1:
+                form5 = AktPolovoyTable6(aktpolovoy=form, a6_1=n['a6_1'], a6_2=n['a6_2'], a6_3=n['a6_3'], a6_4=n['a6_4'], a6_5=n['a6_5'], a6_6=n['a6_6'],
+                    a6_7=n['a6_7'], a6_8=n['a6_8'], a6_9=n['a6_9'])
+                form5.save()
+            elif int(l['del']) == 1:
+                AktPolovoyTable6.objects.filter(pk=n['id']).delete()
+            else:
+                obj = AktPolovoyTable6.objects.filter(pk=n['id']).first()
+                if obj:
+                    obj.a6_1 = n['a6_1']
+                    obj.a6_2 = n['a6_2']
+                    obj.a6_3 = n['a6_3']
+                    obj.a6_4 = n['a6_4']
+                    obj.a6_5 = n['a6_5']
+                    obj.a6_6 = n['a6_6']
+                    obj.a6_7 = n['a6_7']
+                    obj.a6_8 = n['a6_8']
+                    obj.a6_9 = n['a6_9']
+                    obj.save()
+
+
+        for o in json.loads(table7):
+
+            if str(o['id']) == '-1' and int(o['del']) != 1:
+                form6 = AktPolovoyTable7(aktpolovoy=form, a7_1=o['a7_1'], a7_2=o['a7_2'], a7_3=o['a7_3'], a7_4=o['a7_4'], a7_5=o['a7_5'])
+                form6.save()
+            elif int(o['del']) == 1:
+                AktPolovoyTable7.objects.filter(pk=o['id']).delete()
+            else:
+                obj = AktPolovoyTable7.objects.filter(pk=o['id']).first()
+                if obj:
+                    obj.a7_1 = o['a7_1']
+                    obj.a7_2 = o['a7_2']
+                    obj.a7_3 = o['a7_3']
+                    obj.a7_4 = o['a7_4']
+                    obj.a7_5 = o['a7_5']
+
+                    obj.save()
+
+
+        for p in json.loads(table8):
+
+            if str(p['id']) == '-1' and int(p['del']) != 1:
+                form7 = AktPolovoyTable8(aktpolovoy=form, a8_1=p['a8_1'], a8_2=p['a8_2'], a8_3=p['a8_3'],a8_4=p['a8_4'])
+                form7.save()
+            elif int(p['del']) == 1:
+                AktPolovoyTable8.objects.filter(pk=p['id']).delete()
+            else:
+                obj = AktPolovoyTable8.objects.filter(pk=p['id']).first()
+                if obj:
+                    obj.a8_1 = p['a8_1']
+                    obj.a8_2 = p['a8_2']
+                    obj.a8_3 = p['a8_3']
+                    obj.a8_4 = p['a8_4']
 
                     obj.save()
 
@@ -1954,14 +2079,14 @@ def show_akt_polevoy_worker(request,id):
     order = Order.objects.filter(object=id).first()
     worker = Worker.objects.filter()
     work = AktPolevoyForm.objects.filter(object=id).first()
-    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
-    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
-    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
-    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
-    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
-    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
-    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
-    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work)
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work)
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work)
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work)
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work)
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work)
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work)
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work)
 
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
 
@@ -2359,6 +2484,9 @@ def doing_akt_komeral_file(request):
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+    *{
+    
+    }
      table{
         border-collapse: collapse;
           border-spacing: 0;
@@ -3661,48 +3789,51 @@ def doing_akt_polevoy_file(request):
                                                                                                             
                                                                                                         </tr>
         
-                                                                                                        <tbody>
+                                                                                                        <tbody>''';
+        for form1_1 in work_table1:
+            context += '''
                                                                                                         <tr>
                                                                                                             <th scope="row">
-                                                                                                                1
+                                                                                                                #
                                                                                                             </th>
                                                                                                             <td style="width:5%"><input id="a1_1" name="a1_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_1)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td style="width:5%"><input id="a1_2" name="a1_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_2)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_2)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_3" name="a1_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_3)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_3)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_4" name="a1_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_4)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_5" name="a1_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_5)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_5)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_6" name="a1_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_6)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_6)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a1_7" name="a1_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table1.a1_7)+'''"
+                                                                                                                    type="text" value="'''+str(form1_1.a1_7)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                            
-                                                                                                        </tr>
+                                                                                                        </tr>''';
+        context+='''
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                     </div>
@@ -3758,44 +3889,47 @@ def doing_akt_polevoy_file(request):
                                                                                                             
                                                                                                         </tr>
                                                                                                         </thead>
-                                                                                                        <tbody>
+                                                                                                        <tbody>''';
+        for form1_2 in work_table2:
+            context += '''
                                                                                                         <tr>
                                                                                                             <th scope="row">
-                                                                                                                1
+                                                                                                                #
                                                                                                             </th>
                                                                                                             <td><input  id="a2_1" name="a2_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    value="'''+str(work_table2.a2_1)+'''">
+                                                                                                                    value="'''+str(form1_2.a2_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_2" name="a2_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table2.a2_2)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_2.a2_2)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_3" name="a2_3"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table2.a2_3)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_2.a2_3)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_4" name="a2_4"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table2.a2_4)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_2.a2_4)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_5" name="a2_5"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table2.a2_5)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_2.a2_5)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a2_6" name="a2_6"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table2.a2_6)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_2.a2_6)+'''">
                                                                                                             </td>
 
                                                                                                             
-                                                                                                        </tr>
+                                                                                                        </tr>''';
+        context+='''
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -3868,60 +4002,63 @@ def doing_akt_polevoy_file(request):
                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
-                                                                                                        <tbody>
+                                                                                                        <tbody>''';
+        for form1_3 in work_table3:
+            context += '''
                                                                                                          <tr>
                                                                                                             <td class="table-primary"
                                                                                                                 scope="row">
-                                                                                                                1
+                                                                                                                #
                                                                                                             </td>
                                                                                                             <td><input id="a3_1" name="a3_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_1)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_2" name="a3_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_2)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_2)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_3" name="a3_3"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_3)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_3)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_4" name="a3_4"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_4)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_4)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_5" name="a3_5"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_5)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_5)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_6" name="a3_6"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_6)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_6)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_7" name="a3_7"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_7)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_7)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a3_8" name="a3_8"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_8)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_8)+'''">
                                                                                                             </td>
                                                                                                             <td>
                                                                                                                 <input id="a3_9" name="a3_9"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table3.a3_9)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_3.a3_9)+'''">
                                                                                                             </td>
                                                                                                             
-                                                                                                        </tr>
+                                                                                                        </tr>''';
+        context +='''
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -3993,57 +4130,49 @@ def doing_akt_polevoy_file(request):
                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
-                                                                                                        <tbody>
+                                                                                                        <tbody>''';
+        for form1_4 in work_table4:
+            context += '''
                                                                                                          
-                                                                                                         <tr>
-                                                                                                            <th scope="row">
-                                                                                                                1
-                                                                                                            </th>
-                                                                                                            <td style="text-align: center;">2</td>
-                                                                                                            <td style="text-align: center;">3</td>
-                                                                                                            <td style="text-align: center;">4</td>
-                                                                                                            <td style="text-align: center;">5</td>
-                                                                                                            <td style="text-align: center;">6</td>
-                                                                                                            <td style="text-align: center;">7</td>
 
-                                                                                                        </tr>
                                                                                                         
                                                                                                          <tr>
                                                                                                             <th scope="row">
-                                                                                                                1
+                                                                                                                #
                                                                                                             </th>
                                                                                                             <td><input id="a4_1" name="a4_1"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table4.a4_1)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_4.a4_1)+'''">
                                                                                                             </td>
                                                                                                             <td><input id="a4_2" name="a4_2"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
-                                                                                                                    placeholder="" value="'''+str(work_table4.a4_2)+'''">
+                                                                                                                    placeholder="" value="'''+str(form1_4.a4_2)+'''">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_3" name="a4_3" value="'''+str(work_table4.a4_3)+'''"
+                                                                                                            <td><input id="a4_3" name="a4_3" value="'''+str(form1_4.a4_3)+'''"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_4" name="a4_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table4.a4_4)+'''"
+                                                                                                                    type="text" value="'''+str(form1_4.a4_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a4_5" name="a4_5"
-                                                                                                                    class="border-0 w-100" value="'''+str(work_table4.a4_5)+'''"
+                                                                                                                    class="border-0 w-100" value="'''+str(form1_4.a4_5)+'''"
                                                                                                                     type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_6" name="a4_6" value="'''+str(work_table4.a4_6)+'''"
+                                                                                                            <td><input id="a4_6" name="a4_6" value="'''+str(form1_4.a4_6)+'''"
                                                                                                                     class="border-0 w-100"
                                                                                                                     type="text"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             
-                                                                                                        </tr>
+                                                                                                        </tr>''';
+        context+='''
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -4163,43 +4292,46 @@ def doing_akt_polevoy_file(request):
                                                                                                             
                                                                                                         </tr>
                                                                                                         </thead>
-                                                                                                        <tbody>
+                                                                                                        <tbody>''';
+        for form1_5 in work_table5:
+            context += '''
                                                                                                         <tr>
                                                                                                             <th scope="row">
-                                                                                                                1
+                                                                                                                #
                                                                                                             </th>
                                                                                                             <td><input id="a5_1" name="a5_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table5.a5_1)+'''"
+                                                                                                                    type="text" value="'''+str(form1_5.a5_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_2" name="a5_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table5.a5_2)+'''"
+                                                                                                                    type="text" value="'''+str(form1_5.a5_2)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_3" name="a5_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table5.a5_3)+'''"
+                                                                                                                    type="text" value="'''+str(form1_5.a5_3)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_4" name="a5_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table5.a5_4)+'''"
+                                                                                                                    type="text" value="'''+str(form1_5.a5_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_5" name="a5_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table5.a5_5)+'''"
+                                                                                                                    type="text" value="'''+str(form1_5.a5_5)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a5_6" name="a5_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table5.a5_6)+'''"
+                                                                                                                    type="text" value="'''+str(form1_5.a5_6)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             
-                                                                                                        </tr>
+                                                                                                        </tr>''';
+        context+='''
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -4373,58 +4505,62 @@ def doing_akt_polevoy_file(request):
                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
-                                                                                                        <tbody>
+                                                                                                        <tbody>''';
+
+        for form1_6 in work_table6:
+            context += '''
                                                                                                         <tr>
                                                                                                             <th scope="row">
-                                                                                                                1
+                                                                                                                #
                                                                                                             </th>
                                                                                                             <td><input id="a6_1" name="a6_1"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_1)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_1)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_2" name="a6_2"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_2)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_2)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_3" name="a6_3"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_3)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_3)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_4" name="a6_4"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_4)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_4)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_5" name="a6_5"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_5)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_5)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_6" name="a6_6"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_6)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_6)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_7" name="a6_7"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_7)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_7)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_8" name="a6_8"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_8)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_8)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             <td><input id="a6_9" name="a6_9"
                                                                                                                     class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(work_table6.a6_9)+'''"
+                                                                                                                    type="text" value="'''+str(form1_6.a6_9)+'''"
                                                                                                                     placeholder="">
                                                                                                             </td>
                                                                                                             
-                                                                                                        </tr>
+                                                                                                        </tr>''';
+        context+='''
                                                                                                         </tbody>
                                                                                                     </table>
                                                                                                 </div>
@@ -4501,34 +4637,36 @@ def doing_akt_polevoy_file(request):
                                                                                                         
                                                                                                     </tr>
                                                                                                     </thead>
-                                                                                                    <tbody>
+                                                                                                    <tbody>''';
+        for form1_7 in work_table7:
+            context += '''
                                                                                                     <tr>
                                                                                                         <th scope="row">
-                                                                                                            1
+                                                                                                            #
                                                                                                         </th>
-                                                                                                        <td><input id="a7_1" name="a7_1" value="'''+str(work_table7.a7_1)+'''"
+                                                                                                        <td><input id="a7_1" name="a7_1" value="'''+str(form1_7.a7_1)+'''"
                                                                                                                 class="border-0 w-100"
                                                                                                                 type="text"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_2" name="a7_2"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table7.a7_2)+'''"
+                                                                                                                type="text" value="'''+str(form1_7.a7_2)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_3" name="a7_3"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table7.a7_3)+'''"
+                                                                                                                type="text" value="'''+str(form1_7.a7_3)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_4" name="a7_4"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table7.a7_4)+'''"
+                                                                                                                type="text" value="'''+str(form1_7.a7_4)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a7_5" name="a7_5"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table7.a7_5)+'''"
+                                                                                                                type="text" value="'''+str(form1_7.a7_5)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         
@@ -4656,34 +4794,37 @@ def doing_akt_polevoy_file(request):
                                                                                                         
                                                                                                     </tr>
                                                                                                     </thead>
-                                                                                                    <tbody>
+                                                                                                    <tbody>''';
+        for form1_8 in work_table8:
+            context += '''
                                                                                                     <tr>
                                                                                                         <th scope="row">
                                                                                                             1
                                                                                                         </th>
                                                                                                         <td><input id="a8_1" name="a8_1"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table8.a8_1)+'''"
+                                                                                                                type="text" value="'''+str(form1_8.a8_1)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_2" name="a8_2"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table8.a8_2)+'''"
+                                                                                                                type="text" value="'''+str(form1_8.a8_2)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_3" name="a8_3"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table8.a8_3)+'''"
+                                                                                                                type="text" value="'''+str(form1_8.a8_3)+'''"
                                                                                                                 placeholder="">
                                                                                                         </td>
                                                                                                         <td><input id="a8_4" name="a8_4"
                                                                                                                 class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(work_table8.a8_4)+'''"
+                                                                                                                type="text" value="'''+str(form1_8.a8_4)+'''"
                                                                                                              >
                                                                                                         </td>
 
                                                                                                         
-                                                                                                    </tr>
+                                                                                                    </tr>''';
+        context+='''
                                                                                                     </tbody>
                                                                                                 </table>
                                                                                             </div>
@@ -4828,6 +4969,7 @@ def start(request):
         pdowork.save()
 
         object = Object.objects.filter(pdowork=pdowork).first()
+        print(object)
 
         history = History(user_id=order_creator, status=1, object=object, comment="Yangi obekt ish jarayoniga yuborildi")
         # status=1 work started by leader

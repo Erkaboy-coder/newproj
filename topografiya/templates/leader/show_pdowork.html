@@ -461,9 +461,11 @@
 {#                                                                            {% else %}#}
                                                                             <br>
                                                                             <hr>
+                                                                        {% if pdowork.status_recive == 1 %}
                                                                                 <button class="float-end btn btn-primary" id="start" type="button"> <i class="fa fa-check"></i> Ишни бошлаш</button>
 {#                                                                            {% endif %}#}
 {#                                                                            <button class="btn btn-warning" type="button" id="save_order" > <i class="fa fa-check"></i> Сақлашш</button>#}
+                                                                        {% endif %}
 
                                                                         </div>
                                                                     </div>

@@ -431,7 +431,6 @@ class AktPolovoyTable7(models.Model):
     a7_3 = models.TextField(blank=True)
     a7_4 = models.TextField(blank=True)
     a7_5 = models.TextField(blank=True)
-    a7_6 = models.TextField(blank=True)
 
     def __str__(self):
         return self.a7_1
