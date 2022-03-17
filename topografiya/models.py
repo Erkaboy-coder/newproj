@@ -219,7 +219,7 @@ class ProgramWorkFormTable2(models.Model):
 
 class ProgramWorkFiles(models.Model):
     programworkform = models.ForeignKey(ProgramWorkForm, blank=True, on_delete=models.CASCADE, related_name='programworkfiles')
-    file1 = models.FileField("Fayli 1", upload_to='topografiya/static/files/programfiles', blank=True)
+
     file2 = models.FileField("Fayli 2", upload_to='topografiya/static/files/programfiles', blank=True)
     file3 = models.FileField("Fayli 3", upload_to='topografiya/static/files/programfiles', blank=True)
     file4 = models.FileField("Fayli 4", upload_to='topografiya/static/files/programfiles', blank=True)

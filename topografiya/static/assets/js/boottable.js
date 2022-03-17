@@ -185,11 +185,11 @@ function childrenRow_pr() {
     l++;
     $('#childTable_pr1').find('tbody').append('<tr><td scope="row">#' +
         '</td>' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100"  data-column="a7_1_1" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100"  data-column="a7_1_2" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100"  data-column="a7_1_3" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100"  data-column="a7_1_4" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100"  data-column="a7_1_5" type="text"\n' + 'placeholder=""></td>\n' +
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
         'id="addroweleven" onclick="childrenRow_pr()"\n' + '/></td>\n' +
         '<td><i class="fa fa-close f-20 txt-danger del-row"></i></td></tr>');
@@ -198,15 +198,16 @@ function childrenRow_pr() {
 var l = 1;
 function childrenRow_pr2() {
     l++;
-    $('#childTable_pd2').find('tbody').append('<tr><th scope="row">' + l +
-        '</th>' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
-        '<td><input class="border-0 w-100" type="text"\n' + 'placeholder=""></td>\n' +
+    $('#childTable_pd2').find('tbody').append('<tr><td scope="row">#' +
+        '</td>' +
+        '<td><input class="border-0 w-100" data-column="a9_2_1" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" data-column="a9_2_2" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" data-column="a9_2_3" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" data-column="a9_2_4" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" data-column="a9_2_5" type="text"\n' + 'placeholder=""></td>\n' +
+        '<td><input class="border-0 w-100" data-column="a9_2_6" type="text"\n' + 'placeholder=""></td>\n' +
         '<td \n' + 'class="fa fa-plus-circle f-20 txt-primary"\n' +
-        'id="addroweleven" onclick="childrenRow_pr2()"\n' + '/></td>\n' +'</td></tr>');
+        'id="addroweleven" onclick="childrenRow_pr2()"\n' + '/></td>\n' +
+         '<td><i class="fa fa-close f-20 txt-danger del-row"></i></td></tr>');
 }
 

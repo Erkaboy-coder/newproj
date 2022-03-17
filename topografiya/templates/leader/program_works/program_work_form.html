@@ -163,19 +163,38 @@
 
                                                                <tbody>
 
-                                                               <tr>
-                                                                   <td><b>1</b></td>
-                                                                   <td><input class="border-0 w-100" id="a7_1_1" type="text" name="a7_1_1" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a7_1_2" type="text" name="a7_1_2" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a7_1_3" type="text" name="a7_1_3" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a7_1_4" type="text" name="a7_1_4" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a7_1_5" type="text" name="a7_1_5" placeholder=""></td>
+                                                               {% if formtable1 %}
+                                                                   {% for work_table1_1 in formtable1 %}
+                                                                       <tr data-obj = {{ work_table1_1.id }} del=0>
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_1" name="a7_1_1" data-column="a7_1_1" value="{{ work_table1_1.a7_1_1 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_2" name="a7_1_2" data-column="a7_1_2" value="{{ work_table1_1.a7_1_2 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_3" name="a7_1_3" data-column="a7_1_3" value="{{ work_table1_1.a7_1_3 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_4" name="a7_1_4" data-column="a7_1_4" value="{{ work_table1_1.a7_1_4 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_5" name="a7_1_5" data-column="a7_1_5" value="{{ work_table1_1.a7_1_5 }}" placeholder=""></td>
                                                                    <td>
                                                                        <i id="addrow2" onclick="childrenRow_pr()"
                                                                           class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
                                                                    </td>
-                                                               </tr>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                              </tr>
+                                                                                {% endfor %}
+                                                               {% else %}
+                                                                   <tr data-obj = '-1'>
 
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_1" name="a7_1_1" data-column="a7_1_1" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_2" name="a7_1_2" data-column="a7_1_2" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_3" name="a7_1_3" data-column="a7_1_3" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_4" name="a7_1_4" data-column="a7_1_4" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_5" name="a7_1_5" data-column="a7_1_5" placeholder=""></td>
+                                                                   <td>
+                                                                       <i id="addrow2" onclick="childrenRow_pr()"
+                                                                          class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                   </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                   {% endif %}
                                                                </tbody>
                                                            </table>
 
@@ -240,19 +259,39 @@
                                                                </thead>
 
                                                                <tbody>
-                                                               <tr>
-                                                                   <td><b>1</b></td>
-                                                                   <td><input class="border-0 w-100" id="a9_2_1" name="a9_2_1" type="text" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a9_2_2" name="a9_2_2" type="text" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a9_2_3" name="a9_2_3" type="text" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a9_2_4" name="a9_2_4" type="text" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a9_2_5" name="a9_2_5" type="text" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" id="a9_2_6" name="a9_2_6" type="text" placeholder=""></td>
+                                                               {% if formtable2 %}
+                                                                                {% for formtable1_2 in formtable2 %}
+                                                                                    <tr data-obj = {{ formtable1_2.id }} del=0>
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_1" data-column="a9_2_1" id="a9_2_1" value="{{ formtable1_2.a9_2_1 }}" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_2" data-column="a9_2_2" id="a9_2_2" type="text" value="{{ formtable1_2.a9_2_2 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_3" data-column="a9_2_3" id="a9_2_3" type="text" value="{{ formtable1_2.a9_2_3 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_4" data-column="a9_2_4" id="a9_2_4" type="text" value="{{ formtable1_2.a9_2_4 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_5" data-column="a9_2_5" id="a9_2_5" type="text" value="{{ formtable1_2.a9_2_5 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_6" data-column="a9_2_6" id="a9_2_6" type="text" value="{{ formtable1_2.a9_2_6 }}" placeholder=""></td>
                                                                    <td>
                                                                         <i id="addrow4" onclick="childrenRow_pr2()"
                                                                            class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
                                                                    </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                </tr>
+                                                                   {% endfor %}
+                                                               {% else %}
+                                                                    <tr data-obj = '-1'>
+                                                                       <td>#</td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_1" id="a9_2_1" type="text" data-column="a9_2_1"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_2" id="a9_2_2" type="text" data-column="a9_2_2"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_3" id="a9_2_3" type="text" data-column="a9_2_3"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_4" id="a9_2_4" type="text" data-column="a9_2_4"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_5" id="a9_2_5" type="text" data-column="a9_2_5"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_6" id="a9_2_6" type="text" data-column="a9_2_6"></td>
+                                                                       <td>
+                                                                            <i id="addrow4" onclick="childrenRow_pr2()"
+                                                                               class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                       </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                    {% endif %}
 
                                                                </tbody>
                                                            </table>
@@ -334,7 +373,7 @@
                                               <div class="m-b-20 m-t-20 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="program_work_creator" type="text" value="{{ object.worker_leader }}">
+                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ pdowork.worker_leader }}">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
@@ -345,13 +384,14 @@
                                                    </div>
                                                </div>
                                                <hr>
-                                              <input type="text" value="{{ object.object.id }}" name="object_id" style="display:none;">
+                                              <input type="text" value="{{ object.object.id }}" id="object_id" name="object_id" style="display:none;">
+                                              <input type="text" value="{{ object.id }}" id="proramwork_id" name="proramwork_id" style="display:none;">
 {#                                               <button type="button" id="sent_to_check_programwork" class="float-end btn btn-primary ">Текширувга юбориш</button>#}
-                                               <button type="submit" id="program_work_form_store" class="float-left btn btn-outline-warning m-r-5"> Сақлаш</button>
+                                               <button type="button" id="program_work_form_store" class="float-left btn btn-outline-warning m-r-5"> Сақлаш</button>
                                                      </form>
                                               {% else %}
 
-                                              <form method="post" action="{% url 'program_work_save_edits' id=object.object.id %}" enctype="multipart/form-data" >
+                                              <form enctype="multipart/form-data" >
                                         {% csrf_token %}
 
 {#                                               <div class="mb-3 row">#}
@@ -368,7 +408,7 @@
 {#                                               </div>#}
 
                                                <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
-                                               <p>По объекту <span><input style="width: 90%" class="formact" name="a0" value="{{ form.a0 }}" type="text" >
+                                               <p>По объекту <span><input style="width: 90%" class="formact" name="a0" id="a0" value="{{ form.a0 }}" type="text" >
                                                 <p style="font-size: 12px;margin-top: -15px;margin-left: 150px"> (наименование объекта, его местоположение)</p>
                                                </span>
                                               </p>
@@ -376,43 +416,43 @@
                                               <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
                                                <p>
                                                    Основанием для производства работ послужило техническое задание, выданное <sup class="text-danger" style="font-size: 15px">*</sup>
-                                                   <span><input style="width: 54%" class="m-b-5 formact" value="{{ form.a1_1 }}"  name="a1_1" type="text"></span>
+                                                   <span><input style="width: 54%" class="m-b-5 formact" value="{{ form.a1_1 }}"  name="a1_1" id="a1_1" type="text"></span>
                                                    <br>
                                                    Цель, назначение и объем проектируемых работ
-                                                   <span><input style="width: 73%" class="m-b-5 formact"  name="a1_2" value="{{ form.a1_2 }}" type="text"></span>
+                                                   <span><input style="width: 73%" class="m-b-5 formact"  name="a1_2" value="{{ form.a1_2 }}" id="a1_2" type="text"></span>
                                                    <br><br>
                                                    Дополнительные требования к выполнению геодезических работ
-                                                   <span><input class="m-b-5 formact" style="width: 63%"   name="a1_3" value="{{ form.a1_3 }}" type="text"></span>
+                                                   <span><input class="m-b-5 formact" style="width: 63%"   name="a1_3" id="1_3" value="{{ form.a1_3 }}" type="text"></span>
                                                </p>
 
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a2" placeholder="указываются физико-географические условия местности">{{ form.a2 }}</textarea>
+                                                       <textarea class="form-control" type="text" id="a2" name="a2" placeholder="указываются физико-географические условия местности">{{ form.a2 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="a3" value="{{ form.a3 }}" type="text" placeholder="">
+                                                       <input class="form-control" name="a3" id="a3" value="{{ form.a3 }}" type="text" placeholder="">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" name="a4" type="text" placeholder="производится описание существующей геодезической сети, ее класс, разряд, система координат и высот, исходные пункты для ">{{ form.a4 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" name="a4" id="a4" type="text" placeholder="производится описание существующей геодезической сети, ее класс, разряд, система координат и высот, исходные пункты для ">{{ form.a4 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a5" placeholder="обоснование видов и классов (разрядов) проектируемой опорной геодезической сети и схемы ее построения с расчетом точности ">{{ form.a5 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a5" id="a5" placeholder="обоснование видов и классов (разрядов) проектируемой опорной геодезической сети и схемы ее построения с расчетом точности ">{{ form.a5 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" name="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a6 }}</textarea>
+                                                       <textarea class="form-control" name="a6" id="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a6 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="col-md-12" >
@@ -432,23 +472,43 @@
                                                                    <th scope="col">Высота сечения рельефа, м</th>
                                                                    <th scope="col">Объем</th>
                                                                    <th scope="col"></th>
+                                                                   <th scope="col"></th>
                                                                </tr>
                                                                </thead>
                                                                <tbody>
 
-                                                               <tr>
-                                                                   <td><b>1</b></td>
-                                                                   <td><input class="border-0 w-100" type="text" name="a7_1_1" value="{{ formtable1.a7_1_1 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" type="text" name="a7_1_2" value="{{ formtable1.a7_1_2 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" type="text" name="a7_1_3" value="{{ formtable1.a7_1_3 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" type="text" name="a7_1_4" value="{{ formtable1.a7_1_4 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" type="text" name="a7_1_5" value="{{ formtable1.a7_1_5 }}" placeholder=""></td>
+                                                               {% if formtable1 %}
+                                                                   {% for work_table1_1 in formtable1 %}
+                                                                       <tr data-obj = {{ work_table1_1.id }} del=0>
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_1" name="a7_1_1" data-column="a7_1_1" value="{{ work_table1_1.a7_1_1 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_2" name="a7_1_2" data-column="a7_1_2" value="{{ work_table1_1.a7_1_2 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_3" name="a7_1_3" data-column="a7_1_3" value="{{ work_table1_1.a7_1_3 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_4" name="a7_1_4" data-column="a7_1_4" value="{{ work_table1_1.a7_1_4 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_5" name="a7_1_5" data-column="a7_1_5" value="{{ work_table1_1.a7_1_5 }}" placeholder=""></td>
                                                                    <td>
                                                                        <i id="addrow2" onclick="childrenRow_pr()"
                                                                           class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
                                                                    </td>
-                                                               </tr>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                              </tr>
+                                                                                {% endfor %}
+                                                               {% else %}
+                                                                   <tr data-obj = '-1'>
 
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_1" name="a7_1_1" data-column="a7_1_1" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_2" name="a7_1_2" data-column="a7_1_2" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_3" name="a7_1_3" data-column="a7_1_3" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_4" name="a7_1_4" data-column="a7_1_4" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_5" name="a7_1_5" data-column="a7_1_5" placeholder=""></td>
+                                                                   <td>
+                                                                       <i id="addrow2" onclick="childrenRow_pr()"
+                                                                          class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                   </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                   {% endif %}
                                                                </tbody>
                                                            </table>
 
@@ -458,38 +518,38 @@
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.2</span> При горизонтальной и высотной съемках застроенных территорий</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" name="a7_2" type="text" placeholder="указывается необходимость обмеров по контуру зданий, сооружений, их координирование">{{ form.a7_2 }}</textarea>
+                                                       <textarea class="form-control" name="a7_2" id="a7_2" type="text" placeholder="указывается необходимость обмеров по контуру зданий, сооружений, их координирование">{{ form.a7_2 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.3</span> Привязка инженерно-геологических выработок, геофизических и др. точек</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" name="a7_3" type="text" placeholder="требования к разбивке и планово-высотной привязке инженерно-геологических выработок и других точек">{{ form.a7_3 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" name="a7_3" id="a7_3" type="text" placeholder="требования к разбивке и планово-высотной привязке инженерно-геологических выработок и других точек">{{ form.a7_3 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.4</span> Составление топографических планов</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a7_4" placeholder="масштаб, номенклатура, система координат и высот">{{ form.a7_4 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a7_4" id="a7_4" placeholder="масштаб, номенклатура, система координат и высот">{{ form.a7_4 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" name="a8" type="text" placeholder="указывается метод съемки: по выходам подземных коммуникаций, с помощью трубокабелеискателя, шурфованием, их эскизирование и координирование; согласование схем подземных коммуникаций с технологическими службами ">{{ form.a8 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" name="a8" id="a8" type="text" placeholder="указывается метод съемки: по выходам подземных коммуникаций, с помощью трубокабелеискателя, шурфованием, их эскизирование и координирование; согласование схем подземных коммуникаций с технологическими службами ">{{ form.a8 }}</textarea>
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Составление планов подземных коммуникаций</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a8_1" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр.">{{ form.a8_1 }}</textarea>
+                                                       <textarea class="form-control" type="text" name="a8_1" id="a8_1" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр.">{{ form.a8_1 }}</textarea>
                                                    </div>
                                                </div>
                                               <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</label>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
                                                    <div class="col-sm-9">
-                                                       <textarea style="height: 100px;" class="form-control" type="text" name="a9_1" placeholder="указывается планово-высотная привязка трасс, их закрепление в натуре, схемы привязок, абрис, сдача заказчику по акту закрепленных трасс">{{ form.a9_1 }}</textarea>
+                                                       <textarea style="height: 100px;" class="form-control" type="text" id="a9_1" name="a9_1" placeholder="указывается планово-высотная привязка трасс, их закрепление в натуре, схемы привязок, абрис, сдача заказчику по акту закрепленных трасс">{{ form.a9_1 }}</textarea>
                                                    </div>
                                                </div>
                                                <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
@@ -508,22 +568,43 @@
                                                                    <th scope="col">Масштаб перехода горизонтальный</th>
                                                                    <th scope="col">Масштаб перехода вертикальный</th>
                                                                    <th scope="col"></th>
+                                                                   <th scope="col"></th>
                                                                </tr>
                                                                </thead>
                                                                <tbody>
-                                                               <tr>
-                                                                   <td><b>1</b></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_1" value="{{ formtable2.a9_2_1 }}" type="text" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_2" type="text" value="{{ formtable2.a9_2_2 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_3" type="text" value="{{ formtable2.a9_2_3 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_4" type="text" value="{{ formtable2.a9_2_4 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_5" type="text" value="{{ formtable2.a9_2_5 }}" placeholder=""></td>
-                                                                   <td><input class="border-0 w-100" name="a9_2_6" type="text" value="{{ formtable2.a9_2_6 }}" placeholder=""></td>
+                                                               {% if formtable2 %}
+                                                                                {% for formtable1_2 in formtable2 %}
+                                                                                    <tr data-obj = {{ formtable1_2.id }} del=0>
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_1" data-column="a9_2_1" id="a9_2_1" value="{{ formtable1_2.a9_2_1 }}" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_2" data-column="a9_2_2" id="a9_2_2" type="text" value="{{ formtable1_2.a9_2_2 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_3" data-column="a9_2_3" id="a9_2_3" type="text" value="{{ formtable1_2.a9_2_3 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_4" data-column="a9_2_4" id="a9_2_4" type="text" value="{{ formtable1_2.a9_2_4 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_5" data-column="a9_2_5" id="a9_2_5" type="text" value="{{ formtable1_2.a9_2_5 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_6" data-column="a9_2_6" id="a9_2_6" type="text" value="{{ formtable1_2.a9_2_6 }}" placeholder=""></td>
                                                                    <td>
                                                                         <i id="addrow4" onclick="childrenRow_pr2()"
                                                                            class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
                                                                    </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
                                                                </tr>
+                                                                   {% endfor %}
+                                                               {% else %}
+                                                                    <tr data-obj = '-1'>
+                                                                       <td>#</td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_1" id="a9_2_1" type="text" data-column="a9_2_1"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_2" id="a9_2_2" type="text" data-column="a9_2_2"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_3" id="a9_2_3" type="text" data-column="a9_2_3"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_4" id="a9_2_4" type="text" data-column="a9_2_4"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_5" id="a9_2_5" type="text" data-column="a9_2_5"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_6" id="a9_2_6" type="text" data-column="a9_2_6"></td>
+                                                                       <td>
+                                                                            <i id="addrow4" onclick="childrenRow_pr2()"
+                                                                               class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                       </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                    {% endif %}
 
                                                                </tbody>
                                                            </table>
@@ -534,43 +615,45 @@
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Ведомости:</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="a9_3" type="text" value="{{ form.a9_3 }}" placeholder="наименование">
+                                                       <input class="form-control" name="a9_3" id="a9_3" type="text" value="{{ form.a9_3 }}" placeholder="наименование">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Прочие материалы:</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="a9_4" type="text" value="{{ form.a9_4 }}" placeholder="наименование">
+                                                       <input class="form-control" name="a9_4" id="a9_4" type="text" value="{{ form.a9_4 }}" placeholder="наименование">
                                                    </div>
                                                </div>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" type="text" name="a10" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ">{{ form.a10 }}</textarea>
+                                                       <textarea class="form-control" id="a10" type="text" name="a10" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ">{{ form.a10 }}</textarea>
                                                    </div>
                                                </div>
                                               <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</label>
                                                <p>
                                                    К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии <span><sup style="color: red">*</sup></span>
-                                                   <textarea style="height: 100px;" name="a11" class="form-control" placeholder="кто проводит, где, когда">{{ form.a11 }}</textarea>
+                                                   <textarea style="height: 100px;" name="a11"  id="a11" class="form-control" placeholder="кто проводит, где, когда">{{ form.a11 }}</textarea>
                                                </p>
                                                <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</label>
                                                    <div class="col-sm-9">
-                                                       <textarea class="form-control" name="a12" type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки">{{ form.a12 }}</textarea>
+                                                       <textarea class="form-control" name="a12" id="a12"  type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки">{{ form.a12 }}</textarea>
                                                    </div>
                                                </div>
                                               <label style="text-transform: lowercase;" class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</label>
 
                                                     <div class="floder_input">
                                                    <div class="row">
-                                                       <div class="col-lg-12 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
+                                                      <div class="col-lg-9 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
+
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ pdowork.pdowork.tz }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
 
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
 
                                                        {% if files.file2 %}
                                                            <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
-                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}"  target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
                                                            {% else %}
                                                              <div class="col-lg-6 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
                                                            {% endif %}
@@ -580,7 +663,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
                                                         {% if files.file3 %}
                                                         <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}"  target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
                                                            {% else %}
                                                              <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
                                                            {% endif %}
@@ -589,7 +672,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
                                                         {% if files.file4 %}
                                                         <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}"  target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
                                                            {% else %}
                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
                                                            {% endif %}
@@ -599,7 +682,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
                                                        {% if files.file5 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}"  target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
                                                            {% else %}
                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
                                                            {% endif %}
@@ -609,7 +692,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
                                                         {% if files.file6 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
                                                            {% else %}
                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
                                                            {% endif %}
@@ -619,7 +702,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
                                                         {% if files.file7 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}"  target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
                                                            {% else %}
                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
                                                            {% endif %}
@@ -630,7 +713,7 @@
                                               <div class="m-b-20 m-t-20 row">
                                                    <label class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="program_work_creator" type="text" value="{{ form.program_work_creator }}">
+                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ form.program_work_creator }}">
                                                    </div>
                                                </div>
 
@@ -642,10 +725,11 @@
                                                    </div>
                                                </div>
                                                <hr>
-                                              <input type="text" value="{{ object.object.id }}" name="object_id" id="object_id" style="display:none;">
-                                              <input type="text" value="{{ form.program_work_creator }}" name="worker" id="worker" style="display:none;">
+                                              <input type="text" value="{{ object.object.id }}" id="object_id" name="object_id" style="display:none;">
+                                              <input type="text" value="{{ object.id }}" id="proramwork_id" name="proramwork_id" style="display:none;">
+
                                                <button type="button" id="sent_to_check_programwork" class="float-end btn btn-primary ">Текширувга юбориш</button>
-                                               <button type="submit" class="float-left btn btn-outline-warning m-r-5"> Сақлаш</button>
+                                               <button type="button" id="program_work_save_edits" class="float-left btn btn-outline-warning m-r-5"> Сақлаш</button>
 
                                           </form>
                                           {% endif %}
@@ -1058,20 +1142,188 @@
         });
 </script>
 
-        <script>
-    $("#deny_polevoy").click(function(event) {
+    <script>
+       function check_un(a){
+        return a==undefined?-1:a
+    }
+
+     $(document).on('click',".del-row",function(){
+{#     console.log($(this).parent().parent().parent().find('tr').length);#}
+{#        if($(this).parent().parent().parent().find('tr').length >2)#}
+        $(this).parent().parent().attr('del',1).hide();
+     });
+
+    $("#program_work_save_edits").click(function(event) {
+
+        var list0 = [];
+        var list = {};
+        $('#childTable_pr1 > tbody > tr').each(function(i,tr){
+        list = {};
+        list['id']=check_un($(tr).attr('data-obj'));
+        list['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list[$(input).attr('data-column')]=$(input).val();
+        });
+            list0.push(list);
+        });
+
+        var list_table2 = [];
+        var list_table2_1 = {};
+        $('#childTable_pd2 > tbody > tr').each(function(i,tr){
+        list_table2_1 = {};
+        list_table2_1['id']=check_un($(tr).attr('data-obj'));
+        list_table2_1['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list_table2_1[$(input).attr('data-column')]=$(input).val();
+        });
+            list_table2.push(list_table2_1);
+        });
+
 
 
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
-        data.append("work_id", $('#work_id').val());
-        data.append("reason", $('#reason').val());
-        data.append("reason_file", $('#reason_file')[0].files[0]);
-        var form = "{{ work.pk }}";
+        data.append("program_work_creator", $('#program_work_creator').val());
+        data.append("proramwork_id", $('#proramwork_id').val());
+        data.append("object_id", $('#object_id').val());
+
+        data.append("table1", JSON.stringify(list0));
+        data.append("table2", JSON.stringify(list_table2));
+
+        data.append("a0", $('#a0').val());
+        data.append("a1_1", $('#a1_1').val());
+        data.append("a1_2", $('#a1_2').val());
+        data.append("a1_3", $('#a1_3').val());
+
+        data.append("a2", $('#a2').val());
+        data.append("a3", $('#a3').val());
+        data.append("a4", $('#a4').val());
+        data.append("a5", $('#a5').val());
+        data.append("a6", $('#a6').val());
+
+        data.append("a7_2", $('#a7_2').val());
+        data.append("a7_3", $('#a7_3').val());
+        data.append("a7_4", $('#a7_4').val());
+
+        data.append("a8", $('#a8').val());
+        data.append("a8_1", $('#a8_1').val());
+        data.append("a9_1", $('#a9_1').val());
+        data.append("a9_3", $('#a9_3').val());
+        data.append("a9_4", $('#a9_4').val());
+
+        data.append("a10", $('#a10').val());
+        data.append("a11", $('#a11').val());
+        data.append("a12", $('#a12').val());
+
+        data.append("file2", $('#file2')[0].files[0]);
+        data.append("file3", $('#file3')[0].files[0]);
+        data.append("file4", $('#file4')[0].files[0]);
+        data.append("file5", $('#file5')[0].files[0]);
+
         event.preventDefault();
-        if(form){
-        if($('#reason').val() != 0){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'program_work_save_edits' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+                location.replace(window.location.pathname);
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+
+
+        });
+</script>
+
+        <script>
+               function check_un(a){
+        return a==undefined?-1:a
+    }
+
+     $(document).on('click',".del-row",function(){
+{#     console.log($(this).parent().parent().parent().find('tr').length);#}
+{#        if($(this).parent().parent().parent().find('tr').length >2)#}
+        $(this).parent().parent().attr('del',1).hide();
+     });
+
+    $("#program_work_form_store").click(function(event) {
+        var list0 = [];
+        var list = {};
+        $('#childTable_pr1 > tbody > tr').each(function(i,tr){
+        list = {};
+        list['id']=check_un($(tr).attr('data-obj'));
+        list['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list[$(input).attr('data-column')]=$(input).val();
+        });
+            list0.push(list);
+        });
+
+        var list_table2 = [];
+        var list_table2_1 = {};
+        $('#childTable_pd2 > tbody > tr').each(function(i,tr){
+        list_table2_1 = {};
+        list_table2_1['id']=check_un($(tr).attr('data-obj'));
+        list_table2_1['del']=check_un($(tr).attr('del'));
+
+        $(tr).find('input').each(function(i,input){
+            list_table2_1[$(input).attr('data-column')]=$(input).val();
+        });
+            list_table2.push(list_table2_1);
+        });
+
+
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("program_work_creator", $('#program_work_creator').val());
+        data.append("proramwork_id", $('#proramwork_id').val());
+        data.append("object", $('#object_id').val());
+
+        data.append("table1", JSON.stringify(list0));
+        data.append("table2", JSON.stringify(list_table2));
+
+        data.append("a0", $('#a0').val());
+        data.append("a1_1", $('#a1_1').val());
+        data.append("a1_2", $('#a1_2').val());
+        data.append("a1_3", $('#a1_3').val());
+
+        data.append("a2", $('#a2').val());
+        data.append("a3", $('#a3').val());
+        data.append("a4", $('#a4').val());
+        data.append("a5", $('#a5').val());
+        data.append("a6", $('#a6').val());
+
+        data.append("a7_2", $('#a7_2').val());
+        data.append("a7_3", $('#a7_3').val());
+        data.append("a7_4", $('#a7_4').val());
+
+        data.append("a8", $('#a8').val());
+        data.append("a8_1", $('#a8_1').val());
+        data.append("a9_1", $('#a9_1').val());
+        data.append("a9_3", $('#a9_3').val());
+        data.append("a9_4", $('#a9_4').val());
+
+        data.append("a10", $('#a10').val());
+        data.append("a11", $('#a11').val());
+        data.append("a12", $('#a12').val());
+
+        data.append("file2", $('#file2')[0].files[0]);
+        data.append("file3", $('#file3')[0].files[0]);
+        data.append("file4", $('#file4')[0].files[0]);
+        data.append("file5", $('#file5')[0].files[0]);
+
+        event.preventDefault();
            $.ajax({
             type: 'POST',
             url: '{% url 'program_work_form_store' %}',
@@ -1080,23 +1332,13 @@
             contentType: false,
             processData: false,
             success: function (result){
-                 $('#doing_akt_polevoy_file').click();
-                 location.replace('/leader_polevoy_works');
+                location.replace(window.location.pathname);
             },
 
             error: function(){
               alert('Ajax da xatolik !! ');
             }
         });
-        }
-        else{
-          $('#error_show').css('display','block');
-        }
-        }
-        else{
-        alert("АКТ fayl maydonlarini to'ldirib saqlashni bosing!");
-        }
-
 
 
         });
