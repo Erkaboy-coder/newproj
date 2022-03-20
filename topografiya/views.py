@@ -28,7 +28,10 @@ def counter():
     # count['new_works_worker'] = PdoWork.objects.filter(status_recive=1).all().count()
 
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
+
     count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
+    count['rejected_program_works_leader'] = ProgramWork.objects.filter(status=2).all().count()
+    count['all_works_to_check_leader'] = count['new_program_works_leader'] + count['rejected_program_works_leader']
 
     count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
 
@@ -49,10 +52,14 @@ def counter():
 def new_work_counter(request):
     count_works = {}
     count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
+
     count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
+    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
+    count_works['all_works_worker'] = count_works['new_field_works']+count_works['rejected_field_works']
+
     count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.full_name).all().count()
 
-    count_works['all_works_worker'] = count_works['new_field_works']
+
     count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
     return count_works
 
@@ -210,9 +217,10 @@ def program_work_form_edit(request,id):
 def program_work_form_re_sent_to_check(request,id):
 
     object = Object.objects.filter(id=id).first()
+    object1 = ProgramWork.objects.filter(object=id).first()
     form = ProgramWorkForm.objects.filter(programwork__object=id).first()
-    formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
-    formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
+    formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form)
+    formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form)
     files = ProgramWorkFiles.objects.filter(programworkform=form).first()
     rejects = ProgramWorkReject.objects.filter(programowork=form.programwork).all()
 
@@ -221,7 +229,7 @@ def program_work_form_re_sent_to_check(request,id):
 
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
-               'formtable1':formtable1,'formtable2':formtable2,'count': counter()}
+               'formtable1':formtable1,'formtable2':formtable2,'count': counter(),'object1': object1}
     return render(request, 'leader/program_works/program_work_form_re_sent_to_check.html', context)
 
 @login_required(login_url='/signin')
@@ -1309,9 +1317,9 @@ def save_sirie_files(request):
 
         object = WorkerObject.objects.filter(id=id).first()
 
-        workerobject = SirieFiles(workerobject=object, file1_1=file1_1,file1_2=file1_2,file1_3=file1_3,file1_4=file1_4,file1_5=file1_5,file1_6=file1_6,file1_7=file1_7,
-        file1_8=file1_8,file1_9=file1_9,file1_10=file1_10,file1_11=file1_11,file2_1=file2_1,file2_2=file2_2,file2_3=file2_3,file2_4=file2_4,file2_5=file2_5,
-        file2_6=file2_6,file2_7=file2_7,file3_1=file3_1,file3_2=file3_2,file3_3=file3_3,file3_4=file3_4,file3_5=file3_5,file3_6=file3_6,file3_7=file3_7,file3_8=file3_8,
+        workerobject = SirieFiles(workerobject=object, file1_1=file1_1, file1_2=file1_2, file1_3=file1_3,file1_4=file1_4,file1_5=file1_5,file1_6=file1_6,file1_7=file1_7,
+        file1_8=file1_8, file1_9=file1_9, file1_10=file1_10, file1_11=file1_11, file2_1=file2_1, file2_2=file2_2,file2_3=file2_3,file2_4=file2_4,file2_5=file2_5,
+        file2_6=file2_6, file2_7=file2_7, file3_1=file3_1, file3_2=file3_2, file3_3=file3_3, file3_4=file3_4,file3_5=file3_5,file3_6=file3_6,file3_7=file3_7,file3_8=file3_8,
         file3_9=file3_9, file3_10=file3_10)
         workerobject.save()
 
@@ -1330,7 +1338,6 @@ def save_sirie_files(request):
                 return redirect('polevoy_work_doing', id=object_id.id)
         else:
             return redirect('polevoy_work_doing', id=object_id.id)
-        
 
     else:
         return HttpResponseRedirect('/')
@@ -2210,6 +2217,7 @@ def doing_program_work_file(request):
         id = data.get('data-id')
         form = ProgramWorkForm.objects.filter(id=id).first()
         # form = ProgramWorkForm.objects.filter(programwork=programwork.id).first()
+
         programworkfile = ProgramWorkFiles.objects.filter(programworkform=form).first()
         programworktable1 = ProgramWorkFormTable1.objects.filter(programworkform=form)
         programworktable2 = ProgramWorkFormTable2.objects.filter(programworkform=form)
@@ -2256,15 +2264,11 @@ def doing_program_work_file(request):
     <div style="padding: 100px">
 
                                                    <h4 class="text-center" style="text-align:center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
-        <p>По объекту<span><input style="width: 90%" class="formact" name="a0" value="'''+str(form.a0)+'''" required type="text" placeholder="наименование объекта, его местоположение"></span> </p>
+        <p>По объекту '''+str(form.a0)+'''</p>
         <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
         <p>
-            Основанием для производства работ послужило техническое задание, выданное
-            <span><input style="width: 55%" class="m-b-5 formact" name="a1_1" value="'''+str(form.a1_1)+'''" type="text"></span>
-            <br> Цель, назначение и объем проектируемых работ
-          
-            <span><input style="width: 73%" class=" m-b-5 formact" required name="a1_2" value="'''+str(form.a1_2)+'''" type="text"></span>  <br><br> Дополнительные требования к выполнению геодезических работ
-            <span><input style="width: 64%" class=" m-b-5 formact" required name="a1_3" value="'''+str(form.a1_3)+'''" type="text"></span>
+            Основанием для производства работ послужило техническое задание,
+             выданное '''+str(form.a1_1)+''' '''+str(form.a1_2)+'''  Дополнительные требования к выполнению геодезических работ '''+str(form.a1_3)+'''
         </p>
         <div class="mb-3 row">
                                                    <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
@@ -2440,10 +2444,6 @@ def doing_program_work_file(request):
         <div class="floder_input">
             <div class="row">''';
 
-        if programworkfile.file1:
-            context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file1)+'''"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий </a><br>''';
-        else:
-            context +='';
         if programworkfile.file2:
             context +='''<a href="http://0.0.0.0:1515/'''+str(programworkfile.file2)+'''"><i class="fa fa-file-pdf-o"></i>Схема топографо-геодезической изученности района (участка) работ </a><br>''';
         else:
@@ -5156,54 +5156,36 @@ def reject_program_work(request):
         return HttpResponse(0)
 
 @login_required(login_url='/signin')
-def program_work_form_re_sent(request,id):
+def program_work_form_re_sent(request):
     if request.method == 'POST':
-        a0 = request.POST.get('a0')
-        a1_1 = request.POST.get('a1_1')
-        a1_2 = request.POST.get('a1_2')
-        a1_3 = request.POST.get('a1_3')
+        data = request.POST
 
-        a2 = request.POST.get('a2')
-        a3 = request.POST.get('a3')
-        a4 = request.POST.get('a4')
-        a5 = request.POST.get('a5')
-        a6 = request.POST.get('a6')
+        a0 = data.get('a0')
+        a1_1 = data.get('a1_1')
+        a1_2 = data.get('a1_2')
+        a1_3 = data.get('a1_3')
 
+        a2 = data.get('a2')
+        a3 = data.get('a3')
+        a4 = data.get('a4')
+        a5 = data.get('a5')
+        a6 = data.get('a6')
 
-        # jadval_1
-        a7_1_1 = request.POST.get('a7_1_1')
-        a7_1_2 = request.POST.get('a7_1_2')
-        a7_1_3 = request.POST.get('a7_1_3')
-        a7_1_4 = request.POST.get('a7_1_4')
-        a7_1_5 = request.POST.get('a7_1_5')
-        # jadval_1
+        a7_2 = data.get('a7_2')
+        a7_3 = data.get('a7_3')
+        a7_4 = data.get('a7_4')
 
-        a7_2 = request.POST.get('a7_2')
-        a7_3 = request.POST.get('a7_3')
-        a7_4 = request.POST.get('a7_4')
+        a8 = data.get('a8')
+        a8_1 = data.get('a8_1')
+        a9_1 = data.get('a9_1')
 
-        a8 = request.POST.get('a8')
-        a8_1 = request.POST.get('a8_1')
-        a9_1 = request.POST.get('a9_1')
+        a9_3 = data.get('a9_3')
+        a9_4 = data.get('a9_4')
 
-        # jadval_2
-        a9_2_1 = request.POST.get('a9_2_1')
-        a9_2_2 = request.POST.get('a9_2_2')
-        a9_2_3 = request.POST.get('a9_2_3')
-        a9_2_4 = request.POST.get('a9_2_4')
-        a9_2_5 = request.POST.get('a9_2_5')
-        a9_2_6 = request.POST.get('a9_2_6')
-        a9_2_7 = request.POST.get('a9_2_7')
-        # jadval_2
-
-        a9_3 = request.POST.get('a9_3')
-        a9_4 = request.POST.get('a9_4')
-
-        a10 = request.POST.get('a10')
-        a11 = request.POST.get('a11')
-        a12 = request.POST.get('a12')
-
-        file1 = request.FILES.get('file1')
+        a10 = data.get('a10')
+        a11 = data.get('a11')
+        a12 = data.get('a12')
+        # files
         file2 = request.FILES.get('file2')
         file3 = request.FILES.get('file3')
         file4 = request.FILES.get('file4')
@@ -5211,61 +5193,81 @@ def program_work_form_re_sent(request,id):
         file6 = request.FILES.get('file6')
         file7 = request.FILES.get('file7')
 
-        program_work_creator = request.POST.get('program_work_creator')
+        table1 = data.get('table1')
+        table2 = data.get('table2')
 
-        object = Object.objects.filter(id=id).first()
-        programwork=ProgramWork.objects.filter(object=id).first()
+        program_work_creator = data.get('program_work_creator')
+        object_id = data.get('object_id')
+        proramwork_id = data.get('proramwork_id')
+
+        object = Object.objects.filter(id=object_id).first()
+
+        programwork = ProgramWork.objects.filter(id=proramwork_id).first()
 
         form = ProgramWorkForm.objects.filter(programwork=programwork).first()
-
-        form.programwork=programwork
-        form.a0=a0
-        form.a1_1=a1_1
+        form.programwork = programwork
+        form.a0 = a0
+        form.a1_1 = a1_1
         form.a1_2 = a1_2
         form.a1_3 = a1_3
         form.a2 = a2
         form.a3 = a3
         form.a4 = a4
         form.a5 = a5
-        form.a6=a6
-        form.a7_2=a7_2
-        form.a7_3=a7_3
-        form.a7_4=a7_4
-        form.a8=a8
-        form.a8_1=a8_1
-        form.a9_1=a9_1
-        form.a9_3=a9_3
-        form.a9_4=a9_4
-        form.a10=a10
-        form.a11=a11
-        form.a12=a12
-        form.program_work_creator=program_work_creator
+        form.a6 = a6
+        form.a7_2 = a7_2
+        form.a7_3 = a7_3
+        form.a7_4 = a7_4
+        form.a8 = a8
+        form.a8_1 = a8_1
+        form.a9_1 = a9_1
+        form.a9_3 = a9_3
+        form.a9_4 = a9_4
+        form.a10 = a10
+        form.a11 = a11
+        form.a12 = a12
+        form.version = form.version + 1
+        form.program_work_creator = program_work_creator
         form.save()
 
-        formtable1 = ProgramWorkFormTable1.objects.filter(programworkform=form).first()
-        formtable1.programworkform=form
-        formtable1.a7_1_1=a7_1_1
-        formtable1.a7_1_2=a7_1_2
-        formtable1.a7_1_3=a7_1_3
-        formtable1.a7_1_4=a7_1_4
-        formtable1.a7_1_5=a7_1_5
-        formtable1.save()
+        for i in json.loads(table1):
+            if str(i['id']) == '-1' and int(i['del']) != 1:
+                form1 = ProgramWorkFormTable1(programworkform=form, a7_1_1=i['a7_1_1'], a7_1_2=i['a7_1_2'],
+                                              a7_1_3=i['a7_1_3'],
+                                              a7_1_4=i['a7_1_4'], a7_1_5=i['a7_1_5'])
+                form1.save()
+            elif int(i['del']) == 1:
+                ProgramWorkFormTable1.objects.filter(pk=i['id']).delete()
+            else:
+                obj = ProgramWorkFormTable1.objects.filter(pk=i['id']).first()
+                if obj:
+                    obj.a7_1_1 = i['a7_1_1']
+                    obj.a7_1_2 = i['a7_1_2']
+                    obj.a7_1_3 = i['a7_1_3']
+                    obj.a7_1_4 = i['a7_1_4']
+                    obj.a7_1_5 = i['a7_1_5']
+                    obj.save()
 
-        formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form).first()
-        formtable2.programworkform=form
-        formtable2.a9_2_1=a9_2_1
-        formtable2.a9_2_2=a9_2_2
-        formtable2.a9_2_3=a9_2_3
-        formtable2.a9_2_4=a9_2_4
-        formtable2.a9_2_5=a9_2_5
-        formtable2.a9_2_6=a9_2_6
-        formtable2.save()
+        for j in json.loads(table2):
+            if str(j['id']) == '-1' and int(j['del']) != 1:
+                form2 = ProgramWorkFormTable2(programworkform=form, a9_2_1=j['a9_2_1'], a9_2_2=j['a9_2_2'],
+                                              a9_2_3=j['a9_2_3'], a9_2_4=j['a9_2_4'], a9_2_5=j['a9_2_5'],
+                                              a9_2_6=j['a9_2_6'])
+                form2.save()
+            elif int(j['del']) == 1:
+                ProgramWorkFormTable2.objects.filter(pk=j['id']).delete()
+            else:
+                obj = ProgramWorkFormTable2.objects.filter(pk=j['id']).first()
+                if obj:
+                    obj.a9_2_1 = j['a9_2_1']
+                    obj.a9_2_2 = j['a9_2_2']
+                    obj.a9_2_3 = j['a9_2_3']
+                    obj.a9_2_4 = j['a9_2_4']
+                    obj.a9_2_5 = j['a9_2_5']
+                    obj.a9_2_6 = j['a9_2_6']
+                    obj.save()
 
         files = ProgramWorkFiles.objects.filter(programworkform=form).first()
-        if file1:
-            files.file1 = file1
-        else:
-            files.file1 = files.file1
 
         if file2:
             files.file2 = file2
@@ -5293,22 +5295,26 @@ def program_work_form_re_sent(request,id):
             files.file6 = files.file6
 
         if file7:
-            files.file6 = file7
+            files.file7 = file7
         else:
             files.file7 = files.file7
 
         files.save()
 
-        programwork = ProgramWork.objects.filter(object=id).first()
-        programwork.status = 1
-        programwork.save()
-        # status  = 1 bu tekshiruvga yuborilgan
-        history = History(object=object, status=6, comment="Topografik geodezik ish tekshiruvga qayta yuborildi", user_id = program_work_creator)
-        # status=6 bu qayta tekshiruvga yuborildi
+        programwork1 = ProgramWork.objects.filter(object=object).first()
+        programwork1.status = 1
+        programwork1.save()
+
+        history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi",
+                          user_id=program_work_creator)
+        # status=26 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
-        # messages.success(request, "Ish tekshiruvga yuborildi !")
-        return HttpResponseRedirect('/program_works_leader')
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+
 
 @login_required(login_url='/signin')
 def geodesiz_komeral_works(request):

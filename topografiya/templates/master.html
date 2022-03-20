@@ -183,13 +183,15 @@
                                 <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Ишлар</span></a>
                                     <ul class="nav-submenu menu-content">
                                         <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
-                                        <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури
-                                            {% if count.new_program_works_leader != 0 %}
-                                                <span class="badge rounded-pill badge-danger">
-                                                     {{ count.new_program_works_leader }}
-                                                </span>
-                                              {% endif %}
-                                        </a></li>
+                                        <li>
+                                            <a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури
+                                                {% if count.new_program_works_leader != 0 or count.rejected_program_works_leader != 0 %}
+                                                    <span class="badge rounded-pill badge-danger">
+                                                         {{ count.rejected_program_works_leader }}
+                                                    </span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
                                         <li><a href="{% url 'leader_polevoy_works' %}">Дала назорати
                                              {% if count.new_polevoy_works_leader != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
