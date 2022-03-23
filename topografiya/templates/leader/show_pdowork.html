@@ -234,14 +234,16 @@
                                                                         <div class="col-lg-6">
                                                                             <div class="mb-4">
                                                                                 <h5>Мазкур ишни бажариш учун маъсул
-                                                                                    жавобгар шахс<sup
+                                                                                    жавобгар шахс <sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
+
 {#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
                                                                                 <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" id="worker_ispolnitel">
-                                                                                    <option value="">-- --</option>
+                                                                                    <option value="">--  --</option>
+
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.id }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.pk }}" worker-name="{{ worker.full_name }}" {% if worker.id == object.worker_ispolnitel.id %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -257,7 +259,7 @@
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" type="text" id="fio" name="fio" value="{{ pdowork.customer_info }}">
+                                                                                    <input class="form-control fio" type="text" id="fio" name="fio" value="{{ object.worker_ispolnitel }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -441,13 +443,15 @@
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
                                                                                     <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
+                                                                                    <input class="form-control" name="worker_leader" readonly id="worker_leader" type="text" value="{{ user.profile.pk }}" style="display: none">
                                                                                 </div>
                                                                             </div>
 
                                                                              <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание получил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" type="text" >
+                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" value="{{ object.worker_ispolnitel }}" type="text" >
+{#                                                                                    <input class="form-control fio" readonly name="worker_ispolnitel" id="worker_ispolnitel"  type="text" >#}
                                                                                 </div>
                                                                             </div>
 
@@ -535,7 +539,6 @@
         data.append("isset_programwork", $('#isset_programwork').val());
         data.append("size", $('#size').val());
         data.append("info", $('#info').val());
-        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());
         data.append("method_creation", $('#method_creation').val());
         data.append("method_fill", $('#method_fill').val());
         data.append("syomka", $('#syomka').val());
@@ -544,10 +547,13 @@
         data.append("adjustment_methods", $('#adjustment_methods').val());
         data.append("list_of_materials", $('#list_of_materials').val());
         data.append("type_of_sirie", $('#type_of_sirie').val());
-        data.append("order_creator", $('#order_creator').val());
-        data.append("order_receiver", $('#order_receiver').val());
-        data.append("pdowork_id", $('#pdowork_id').val());
 
+
+        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());
+        data.append("worker_leader", $('#worker_leader').val());
+
+        data.append("pdowork_id", $('#pdowork_id').val());
+        if($('#worker_ispolnitel').val() != ''){
         event.preventDefault();
 
            $.ajax({
@@ -565,6 +571,10 @@
               alert('Ajax da xatolik !! ');
             }
         });
+        }
+        else{
+        alert('Мазкур ишни бажариш учун маъсул жавобгар шахсни танланг');
+        }
 
 
 
@@ -580,7 +590,7 @@
         data.append("isset_programwork", $('#isset_programwork').val());
         data.append("size", $('#size').val());
         data.append("info", $('#info').val());
-        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());
+
         data.append("method_creation", $('#method_creation').val());
         data.append("method_fill", $('#method_fill').val());
         data.append("syomka", $('#syomka').val());
@@ -589,8 +599,10 @@
         data.append("adjustment_methods", $('#adjustment_methods').val());
         data.append("list_of_materials", $('#list_of_materials').val());
         data.append("type_of_sirie", $('#type_of_sirie').val());
-        data.append("order_creator", $('#order_creator').val());
-        data.append("order_receiver", $('#order_receiver').val());
+
+        data.append("worker_ispolnitel", $('#worker_ispolnitel').val());
+        data.append("worker_leader", $('#worker_leader').val());
+
         data.append("pdowork_id", $('#pdowork_id').val());
 
         event.preventDefault();
@@ -646,11 +658,11 @@
 
     <script>
         $(document).ready(function(){
-            var bla = $('#worker_ispolnitel').val();
-            $('.fio').val(bla);
+{#            var bla = $('#worker_ispolnitel').val();#}
+{#            $('.fio').val(bla);#}
 
             $("#worker_ispolnitel").change(function(){
-                var worker = $(this).children("option:selected").val();
+                var worker = $(this).children("option:selected").attr('worker-name');
                 $('.fio').val(worker);
             });
         });

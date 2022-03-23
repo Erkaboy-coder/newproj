@@ -99,7 +99,6 @@ def save_order(request):
         data = request.POST
         isset_programwork = data.get('isset_programwork')
         info = data.get('info')
-        worker_ispolnitel = data.get('worker_ispolnitel')
         method_creation = data.get('method_creation')
         method_fill = data.get('method_fill')
         syomka = data.get('syomka')
@@ -109,25 +108,30 @@ def save_order(request):
         adjustment_methods = data.get('adjustment_methods')
         list_of_materials = data.get('list_of_materials')
         type_of_sirie = data.get('type_of_sirie')
-        order_creator = data.get('order_creator')
-        order_receiver = data.get('order_receiver')
+
+        worker_ispolnitel = data.get('worker_ispolnitel')
+        worker_leader = data.get('worker_leader')
+
         pdowork_id = data.get('pdowork_id')
 
         pdowork = PdoWork.objects.filter(id=pdowork_id).first()
-        pdowork.status_start=1
+        pdowork.status_start = 1
         pdowork.save()
+        
+        user_worker_leader = Worker.objects.filter(pk=worker_leader).first()
+        user_worker_ispolnitel = Worker.objects.filter(pk=worker_ispolnitel).first()
 
         object = Object.objects.filter(pdowork=pdowork).first()
         if object:
             object.pdowork=pdowork
-            object.worker_ispolnitel=worker_ispolnitel
-            object.worker_leader=order_creator
+            object.worker_ispolnitel=user_worker_ispolnitel
+            object.worker_leader=user_worker_leader
             object.isset_programwork=isset_programwork
             object.save()
 
         else:
-            object = Object(pdowork=pdowork, worker_leader=order_creator, isset_programwork=isset_programwork,
-                        worker_ispolnitel=worker_ispolnitel)
+            object = Object(pdowork=pdowork, worker_leader=user_worker_leader, isset_programwork=isset_programwork,
+                        worker_ispolnitel=user_worker_ispolnitel)
             object.save()
 
         order = Order.objects.filter(object=object).first()
@@ -144,14 +148,15 @@ def save_order(request):
             order.list_of_materials = list_of_materials
             order.adjustment_methods = adjustment_methods
             order.type_of_sirie = type_of_sirie
-            order.order_creator = order_creator
+            order.order_creator = user_worker_leader
+            order.order_receiver = user_worker_ispolnitel
             order.save()
         else:
             order = Order(object=object, info=info, method_creation=method_creation, method_fill=method_fill,
                           syomka=syomka,
                           requirements=requirements, item_check=item_check,
                           list_of_materials=list_of_materials, adjustment_methods=adjustment_methods,
-                          type_of_sirie=type_of_sirie, order_creator=order_creator, order_receiver=order_receiver,
+                          type_of_sirie=type_of_sirie, order_creator=user_worker_leader, order_receiver=user_worker_ispolnitel,
                           size=size)
             order.save()
 
@@ -168,7 +173,7 @@ def save_order(request):
 
 
         history = History(object=object, status=29, comment="Ko'rsatma fayli saqlandi",
-                          user_id=order_creator)
+                          user_id=user_worker_leader)
         # status=26 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
@@ -5133,7 +5138,7 @@ def show_pdowork(request,id):
     object = Object.objects.filter(pdowork=pdowork).first()
     order = Order.objects.filter(object=object).first()
 
-    workers=Worker.objects.filter(status=0).filter(department=request.user.profile.department)
+    workers=Worker.objects.filter(status=0).filter(department=request.user.profile.department).filter(branch=request.user.profile.branch)
     context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost,'order':order,'object' :object}
     return render(request, 'leader/show_pdowork.html', context)
 
@@ -5152,7 +5157,7 @@ def edit_pdowork(request,id):
 def start(request):
     if request.method == 'POST':
         data = request.POST
-        order_creator = data.get('order_creator')
+        order_creator = data.get('worker_leader')
         pdowork_id = data.get('pdowork_id')
 
         pdowork = PdoWork.objects.filter(id=pdowork_id).first()
@@ -5161,9 +5166,8 @@ def start(request):
         pdowork.save()
 
         object = Object.objects.filter(pdowork=pdowork).first()
-        print(object)
 
-        history = History(user_id=order_creator, status=1, object=object, comment="Yangi obekt ish jarayoniga yuborildi")
+        history = History(user_id=object.worker_leader, status=1, object=object, comment="Yangi obekt ish jarayoniga yuborildi")
         # status=1 work started by leader
         history.save()
         # messages.error(request, "Ish boshlandi ichi qabul qilishini kuting !")
@@ -5183,8 +5187,12 @@ def edit_pdowork_changes(request):
         list_of_materials = request.POST.get('list_of_materials')
         adjustment_methods = request.POST.get('adjustment_methods')
         type_of_sirie = request.POST.get('type_of_sirie')
-        order_creator = request.POST.get('order_creator')
+
         worker_ispolnitel = request.POST.get('worker_ispolnitel')
+        worker_leader = request.POST.get('worker_leader')
+
+        user_worker_leader = Worker.objects.filter(pk=worker_leader).first()
+        user_worker_ispolnitel = Worker.objects.filter(pk=worker_ispolnitel).first()
 
         pdowork = request.POST.get('pdowork')
         worker_id = request.POST.get('worker_id')
@@ -5192,9 +5200,9 @@ def edit_pdowork_changes(request):
         is_programwork = request.POST.get('is_programwork')
         object = Object.objects.filter(id=object_id).first()
         object.pdowork=object.pdowork
-        object.worker_leader = worker_id
+        object.worker_leader = user_worker_leader
         object.isset_programwork = is_programwork
-        object.worker_ispolnitel = worker_ispolnitel
+        object.worker_ispolnitel = user_worker_ispolnitel
         object.save()
 
         order=Order.objects.filter(object=object).first()
@@ -5209,7 +5217,7 @@ def edit_pdowork_changes(request):
         order.list_of_materials=list_of_materials
         order.adjustment_methods=adjustment_methods
         order.type_of_sirie=type_of_sirie
-        order.order_creator=order_creator
+        order.order_creator=user_worker_leader
         order.save()
 
         program_work = ProgramWork.objects.filter(object=object_id).first()
@@ -5221,7 +5229,8 @@ def edit_pdowork_changes(request):
             if program_work:
                 program_work.delete()
 
-        history = History(user_id=worker_id, status=7, object=object)
+        print(user_worker_leader)
+        history = History(user_id=user_worker_leader, status=7, object=object,comment="Ko'rsatma fayli o'zgartirildi",)
         # status=7 work updated
         history.save()
         # messages.error(request, "Ish boshlandi ichi qabul qilishini kuting !")

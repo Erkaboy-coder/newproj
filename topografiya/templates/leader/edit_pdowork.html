@@ -235,7 +235,7 @@
                                                                                 <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" id="worker_ispolnitel">
 {#                                                                                    <option value="{{ object.worker_ispolnitel }}" selected>{{ object.worker_ispolnitel }}</option>#}
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.pk }}" worker-name="{{ worker.full_name }}" {% if worker.id == object.worker_ispolnitel.id %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -251,7 +251,7 @@
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" type="text" id="fio" name="fio" value="{{ pdowork.customer_info }}">
+                                                                                    <input class="form-control fio" type="text" id="fio" name="fio" value="{{ object.worker_ispolnitel }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -430,13 +430,13 @@
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
                                                                                     <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
-                                                                                </div>
-                                                                            </div>
+                                                                                    <input class="form-control" name="worker_leader" readonly id="worker_leader" type="text" value="{{ user.profile.pk }}" style="display: none">
+                                                                                </div>                                                                            </div>
 
                                                                              <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание получил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" type="text" >
+                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" value="{{ object.worker_ispolnitel }}" type="text" >
                                                                                 </div>
                                                                             </div>
 
@@ -522,11 +522,11 @@
     </script>
         <script>
         $(document).ready(function(){
-            var bla = $('#worker_ispolnitel').val();
-            $('.fio').val(bla);
+{#            var bla = $('#worker_ispolnitel').val();#}
+{#            $('.fio').val(bla);#}
 
             $("#worker_ispolnitel").change(function(){
-                var worker = $(this).children("option:selected").val();
+                var worker = $(this).children("option:selected").attr('worker-name');
                 $('.fio').val(worker);
             });
         });

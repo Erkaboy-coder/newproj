@@ -67,7 +67,7 @@ class Worker(BaseModel):
         verbose_name = "Worker"
         verbose_name_plural = "Workers"
     def __str__(self):
-        return self.user.username
+        return self.full_name
 
 
 class PdoWork(models.Model):
@@ -103,7 +103,11 @@ class PdoWork(models.Model):
 
 class Object(models.Model):
     pdowork = models.ForeignKey(PdoWork, blank=True, on_delete=models.CASCADE, related_name='pdoworkobject')
-    worker = models.ForeignKey(Worker, blank=True, on_delete=models.CASCADE, related_name='worker')
+    worker_leader = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='workerleader')
+    worker_ispolnitel = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='workerispolnitel')
+    worker_geodezis = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='worker_geodezis')
+    worker_printer = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='worker_printer')
+    worker_reporter = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='worker_reporter')
     isset_programwork = models.BooleanField(default=False)
 
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -811,8 +815,8 @@ class Order(models.Model):
     adjustment_methods= models.TextField(blank=True)
     list_of_materials = models.TextField(blank=True)
 
-    order_creator = models.TextField(blank=True)
-    order_receiver = models.TextField(blank=True)
+    order_creator = models.ForeignKey(Worker, blank=True, on_delete=models.CASCADE,null=True,related_name='orderworkerleader')
+    order_receiver = models.ForeignKey(Worker, blank=True, on_delete=models.CASCADE,null=True, related_name='orderworkerispolnitel')
 
     type_order = (
         ('0', 'БПЛА'),
@@ -917,7 +921,7 @@ class History(models.Model):
     # status = 28 AKT komeral nazorat saqlandi
     # status = 29 Ko'rsatma fayli saqlandi
 
-    user_id = models.CharField(verbose_name='user', max_length=250,blank=True)
+    user_id = models.ForeignKey(Worker, blank=True, on_delete=models.CASCADE, related_name='userhistory')
     file = models.FileField("Tarix fayli", upload_to='topografiya/static/files/history', blank=True)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     comment = models.TextField(blank=True)
