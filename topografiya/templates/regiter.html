@@ -62,12 +62,22 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="form-group">
                   <label>Електрон почта манзили</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
                     <input class="form-control" type="email" required="" id="email" name="email" placeholder="uzgashliti@gmail.com">
                   </div>
                 </div>
+
+              <div class="form-group">
+                  <label>Лавозим</label>
+                  <div class="input-group"><span class="input-group-text"><i class="fa fa-user"></i></span>
+                    <input class="form-control" type="text" required="" id="position" name="position" placeholder="Лавозимингизни киритинг">
+                  </div>
+                </div>
+
+
 
               <div class="form-group">
                   <label>Бўлим</label>
@@ -80,6 +90,19 @@
                      </select>
                   </div>
                 </div>
+
+              <div class="form-group">
+                  <label>Филиал</label>
+                  <div class="input-group"><span class="input-group-text"><i class="fa fa-chain-broken"></i></span>
+                     <select required class="form-control" id="branch" name="branch">
+                         <option value="">--- Филиални танланг ---</option>
+                         {% for branch in branches %}
+                             <option value="{{ branch.id }}"> {{ branch.name }} </option>
+                         {% endfor %}
+                     </select>
+                  </div>
+                </div>
+
 
 
 
@@ -135,6 +158,8 @@
         data.append("contact", $('#contact').val());
         data.append("email", $('#email').val());
         data.append("department", $('#department').val());
+        data.append("branch", $('#branch').val());
+        data.append("position", $('#position').val());
         data.append("password", $('#password').val());
         data.append("re_password", $('#re_password').val());
         var password = $('#password').val();

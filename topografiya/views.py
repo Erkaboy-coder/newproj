@@ -41,9 +41,14 @@ def counter():
     count['leader_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=2).all().count()
 
     count['reports_oogd'] = Report.objects.filter(status=0).all().count()
+    count['reports_rejected_oogd'] = Report.objects.filter(status=2).all().count()
+    count['reports_confirmed_oogd'] = Report.objects.filter(status=4).all().count()
+
+    count['reports_all_oogd'] = count['reports_oogd']+count['reports_rejected_oogd']+count['reports_confirmed_oogd']
+
     count['new_geodezis_reports'] = Report.objects.filter(status=1).all().count()
 
-    count['new_ogogd_printer_works'] = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__isset_programwork=False).all().count()
+    count['new_ogogd_printer_works'] = WorkerObject.objects.filter(status_geodezis_komeral=4).all().count()
 
 
     return count
@@ -54,7 +59,7 @@ def new_work_counter(request):
     count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
 
     count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
-    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
+    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
     count_works['all_works_worker'] = count_works['new_field_works']+count_works['rejected_field_works']
 
     count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.full_name).all().count()
@@ -70,8 +75,16 @@ def index(request):
 
     works = PdoWork.objects.filter(status=0).all()
     work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.full_name).all()
+    geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).all()
+    geodezis_new_works_program = ProgramWork.objects.filter(status=1).all()
+    new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
+    rejected_ogogd_printer_works = Report.objects.filter(status=2).all()
 
-    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works,'work_new_works' :work_new_works}
+    geodezis_report_checking = Report.objects.filter(status=1).all()
+
+    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works, 'work_new_works' : work_new_works,
+               'geodezis_new_works_akt': geodezis_new_works_akt, 'geodezis_new_works_program':geodezis_new_works_program,
+               'new_ogogd_printer_works': new_ogogd_printer_works,'geodezis_report_checking': geodezis_report_checking,'rejected_ogogd_printer_works':rejected_ogogd_printer_works}
     return render(request, 'index.html', context)
 
 @login_required(login_url='/signin')
@@ -101,6 +114,9 @@ def save_order(request):
         pdowork_id = data.get('pdowork_id')
 
         pdowork = PdoWork.objects.filter(id=pdowork_id).first()
+        pdowork.status_start=1
+        pdowork.save()
+
         object = Object.objects.filter(pdowork=pdowork).first()
         if object:
             object.pdowork=pdowork
@@ -593,7 +609,6 @@ def save_akt_polevoy(request):
         table7=data.get('table7')
         table8=data.get('table8')
 
-        
 
         d={}
         object=Object.objects.filter(id=work_id).first()
@@ -603,14 +618,12 @@ def save_akt_polevoy(request):
         for i in array.split(','):
             j=j+1
             d['a'+str(j)]=i
-        k=AktPolevoyForm.objects.create(**d)
-
-
+        form=AktPolevoyForm.objects.create(**d)
 
         for i in json.loads(table1):
             if str(i['id']) == '-1' and int(i['del']) != 1:
-                form1 = AktPolovoyTable1(aktpolovoy=k.id, a1_1=i['a1_1'], a1_2=i['a1_2'], a1_3=i['a1_3'],
-                                                 a1_4=i['a1_4'],a1_5=i['a1_5'],a1_6=i['a1_6'],a1_7=i['a1_7'])
+                form1 = AktPolovoyTable1(aktpolovoy=form, a1_1=i['a1_1'], a1_2=i['a1_2'], a1_3=i['a1_3'],
+                                         a1_4=i['a1_4'], a1_5=i['a1_5'], a1_6=i['a1_6'], a1_7=i['a1_7'])
                 form1.save()
             elif int(i['del']) == 1:
                 AktPolovoyTable1.objects.filter(pk=i['id']).delete()
@@ -627,6 +640,145 @@ def save_akt_polevoy(request):
 
                     obj.save()
 
+        for j in json.loads(table2):
+            if str(j['id']) == '-1' and int(j['del']) != 1:
+                form2 = AktPolovoyTable2(aktpolovoy=form, a2_1=j['a2_1'], a2_2=j['a2_2'], a2_3=j['a2_3'],
+                                         a2_4=j['a2_4'], a2_5=j['a2_5'], a2_6=j['a2_6'])
+                form2.save()
+            elif int(j['del']) == 1:
+                AktPolovoyTable2.objects.filter(pk=j['id']).delete()
+            else:
+                obj = AktPolovoyTable2.objects.filter(pk=j['id']).first()
+                if obj:
+                    obj.a2_1 = j['a2_1']
+                    obj.a2_2 = j['a2_2']
+                    obj.a2_3 = j['a2_3']
+                    obj.a2_4 = j['a2_4']
+                    obj.a2_5 = j['a2_5']
+                    obj.a2_6 = j['a2_6']
+
+                    obj.save()
+
+        for k in json.loads(table3):
+            if str(k['id']) == '-1' and int(k['del']) != 1:
+                form3 = AktPolovoyTable3(aktpolovoy=form, a3_1=k['a3_1'], a3_2=k['a3_1'], a3_3=k['a3_3'],
+                                         a3_4=k['a3_4'], a3_5=k['a3_5'], a3_6=k['a3_6'], a3_7=k['a3_8'], a3_8=k['a3_8'],
+                                         a3_9=k['a3_9'])
+                form3.save()
+            elif int(k['del']) == 1:
+                AktPolovoyTable3.objects.filter(pk=k['id']).delete()
+            else:
+                obj = AktPolovoyTable3.objects.filter(pk=k['id']).first()
+                if obj:
+                    obj.a3_1 = k['a3_1']
+                    obj.a3_2 = k['a3_2']
+                    obj.a3_3 = k['a3_3']
+                    obj.a3_4 = k['a3_4']
+                    obj.a3_5 = k['a3_5']
+                    obj.a3_6 = k['a3_6']
+                    obj.a3_7 = k['a3_7']
+                    obj.a3_8 = k['a3_8']
+                    obj.a3_9 = k['a3_9']
+
+                    obj.save()
+
+        for l in json.loads(table4):
+
+            if str(l['id']) == '-1' and int(l['del']) != 1:
+                form4 = AktPolovoyTable4(aktpolovoy=form, a4_1=l['a4_1'], a4_2=l['a4_2'], a4_3=l['a4_3'],
+                                         a4_4=l['a4_4'], a4_5=l['a4_5'], a4_6=l['a4_6'])
+                form4.save()
+            elif int(l['del']) == 1:
+                AktPolovoyTable4.objects.filter(pk=l['id']).delete()
+            else:
+                obj = AktPolovoyTable4.objects.filter(pk=l['id']).first()
+                if obj:
+                    obj.a4_1 = l['a4_1']
+                    obj.a4_2 = l['a4_2']
+                    obj.a4_3 = l['a4_3']
+                    obj.a4_4 = l['a4_4']
+                    obj.a4_5 = l['a4_5']
+                    obj.a4_6 = l['a4_6']
+                    obj.save()
+
+        for m in json.loads(table5):
+
+            if str(m['id']) == '-1' and int(m['del']) != 1:
+                form4 = AktPolovoyTable5(aktpolovoy=form, a5_1=m['a5_1'], a5_2=m['a5_2'], a5_3=m['a5_3'],
+                                         a5_4=m['a5_4'], a5_5=m['a5_5'], a5_6=m['a5_6'])
+                form4.save()
+            elif int(m['del']) == 1:
+                AktPolovoyTable5.objects.filter(pk=m['id']).delete()
+            else:
+                obj = AktPolovoyTable5.objects.filter(pk=m['id']).first()
+                if obj:
+                    obj.a5_1 = m['a5_1']
+                    obj.a5_2 = m['a5_2']
+                    obj.a5_3 = m['a5_3']
+                    obj.a5_4 = m['a5_4']
+                    obj.a5_5 = m['a5_5']
+                    obj.a5_6 = m['a5_6']
+                    obj.save()
+
+        for n in json.loads(table6):
+
+            if str(n['id']) == '-1' and int(n['del']) != 1:
+                form5 = AktPolovoyTable6(aktpolovoy=form, a6_1=n['a6_1'], a6_2=n['a6_2'], a6_3=n['a6_3'],
+                                         a6_4=n['a6_4'], a6_5=n['a6_5'], a6_6=n['a6_6'],
+                                         a6_7=n['a6_7'], a6_8=n['a6_8'], a6_9=n['a6_9'])
+                form5.save()
+            elif int(l['del']) == 1:
+                AktPolovoyTable6.objects.filter(pk=n['id']).delete()
+            else:
+                obj = AktPolovoyTable6.objects.filter(pk=n['id']).first()
+                if obj:
+                    obj.a6_1 = n['a6_1']
+                    obj.a6_2 = n['a6_2']
+                    obj.a6_3 = n['a6_3']
+                    obj.a6_4 = n['a6_4']
+                    obj.a6_5 = n['a6_5']
+                    obj.a6_6 = n['a6_6']
+                    obj.a6_7 = n['a6_7']
+                    obj.a6_8 = n['a6_8']
+                    obj.a6_9 = n['a6_9']
+                    obj.save()
+
+        for o in json.loads(table7):
+
+            if str(o['id']) == '-1' and int(o['del']) != 1:
+                form6 = AktPolovoyTable7(aktpolovoy=form, a7_1=o['a7_1'], a7_2=o['a7_2'], a7_3=o['a7_3'],
+                                         a7_4=o['a7_4'], a7_5=o['a7_5'])
+                form6.save()
+            elif int(o['del']) == 1:
+                AktPolovoyTable7.objects.filter(pk=o['id']).delete()
+            else:
+                obj = AktPolovoyTable7.objects.filter(pk=o['id']).first()
+                if obj:
+                    obj.a7_1 = o['a7_1']
+                    obj.a7_2 = o['a7_2']
+                    obj.a7_3 = o['a7_3']
+                    obj.a7_4 = o['a7_4']
+                    obj.a7_5 = o['a7_5']
+
+                    obj.save()
+
+        for p in json.loads(table8):
+
+            if str(p['id']) == '-1' and int(p['del']) != 1:
+                form7 = AktPolovoyTable8(aktpolovoy=form, a8_1=p['a8_1'], a8_2=p['a8_2'], a8_3=p['a8_3'],
+                                         a8_4=p['a8_4'])
+                form7.save()
+            elif int(p['del']) == 1:
+                AktPolovoyTable8.objects.filter(pk=p['id']).delete()
+            else:
+                obj = AktPolovoyTable8.objects.filter(pk=p['id']).first()
+                if obj:
+                    obj.a8_1 = p['a8_1']
+                    obj.a8_2 = p['a8_2']
+                    obj.a8_3 = p['a8_3']
+                    obj.a8_4 = p['a8_4']
+
+                    obj.save()
 
 
         history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=worker)
@@ -965,9 +1117,11 @@ def show_komeral_work(request,id):
 
     work = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,'programwork':programwork}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'programworkform':programworkform, 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,'programwork':programwork}
 
     return render(request, 'leader/komeral/show_komeral_work.html', context)
 
@@ -1084,9 +1238,12 @@ def show_komeral_checking_leader(request,id):
     pdowork = Object.objects.filter(id=id).first()
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=id)
+    programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     context = {'objects': objects, 'work': work, 'objects_pdo': objects_pdo,
                'sirie_type': sirie_type,
-               'file': sirie_files, 'count': counter(), 'rejects': rejects,'pdowork':pdowork}
+               'file': sirie_files, 'count': counter(), 'rejects': rejects,'pdowork':pdowork,'programworkform':programworkform,'programwork':programwork}
 
     return render(request, 'leader/head_komeral/show_komeral_work.html', context)
 
@@ -1112,14 +1269,14 @@ def leader_akt_form_edit(request,id):
     order = Order.objects.filter(object=id).first()
 
     work = AktPolevoyForm.objects.filter(object=id).first()
-    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
-    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
-    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
-    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
-    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
-    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
-    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
-    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+    work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work)
+    work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work)
+    work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work)
+    work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work)
+    work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work)
+    work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work)
+    work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work)
+    work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work)
 
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
 
@@ -2216,6 +2373,7 @@ def doing_program_work_file(request):
         data = request.POST
         id = data.get('data-id')
         form = ProgramWorkForm.objects.filter(id=id).first()
+
         # form = ProgramWorkForm.objects.filter(programwork=programwork.id).first()
 
         programworkfile = ProgramWorkFiles.objects.filter(programworkform=form).first()
@@ -2473,9 +2631,7 @@ def doing_program_work_file(request):
         </div>
 
         <div class="m-b-20 m-t-20 row">
-            <label class="col-sm-3 col-form-label">Программу составил</label>
-            <div class="col-sm-9">
-                <input class="form-control" name="program_work_creator" type="text" value="'''+str(form.program_work_creator)+'''">
+            Программу составил '''+str(form.program_work_creator)+'''
             </div>
         </div>
 
@@ -3464,14 +3620,14 @@ def doing_akt_polevoy_file(request):
 
         work = AktPolevoyForm.objects.filter(object=id).first()
 
-        work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work).first()
-        work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work).first()
-        work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work).first()
-        work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work).first()
-        work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work).first()
-        work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work).first()
-        work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work).first()
-        work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work).first()
+        work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work)
+        work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work)
+        work_table3 = AktPolovoyTable3.objects.filter(aktpolovoy=work)
+        work_table4 = AktPolovoyTable4.objects.filter(aktpolovoy=work)
+        work_table5 = AktPolovoyTable5.objects.filter(aktpolovoy=work)
+        work_table6 = AktPolovoyTable6.objects.filter(aktpolovoy=work)
+        work_table7 = AktPolovoyTable7.objects.filter(aktpolovoy=work)
+        work_table8 = AktPolovoyTable8.objects.filter(aktpolovoy=work)
 
 
         context = '''
@@ -5343,10 +5499,11 @@ def show_geodesiz_kameral_work(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'programwork':programwork}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'programwork':programwork,'programworkform':programworkform}
 
     return render(request, 'geodezis/head_komeral/checking_komeral_works.html', context)
 
@@ -5388,9 +5545,11 @@ def geodezis_rejected_komeral_works(request,id):
 
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work, 'rejects': rejects, 'sirie_type': sirie_type,
-               'siriefiles': sirie_files,'aktkomeral': aktkomeral, 'programwork': programwork}
+               'siriefiles': sirie_files,'aktkomeral': aktkomeral, 'programwork': programwork,'programworkform':programworkform}
 
     return render(request, 'geodezis/head_komeral/rejected_komeral_works.html', context)
 
@@ -5432,10 +5591,12 @@ def geodeziz_show_komeral_work(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork}
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work':work, 'rejects':rejects,'sirie_type':sirie_type,
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork, 'programworkform': programworkform}
 
     return render(request, 'geodezis/head_komeral/show_komeral_work.html', context)
 
@@ -5465,11 +5626,13 @@ def geodezis_report_checking(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).last()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork,'programworkform': programworkform}
 
     return render(request, 'geodezis/report/report_checking.html', context)
 
@@ -5489,8 +5652,10 @@ def show_report_geodezis(request,id):
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork,'programworkform': programworkform}
 
     return render(request, 'geodezis/report/show_report.html', context)
 
@@ -5565,11 +5730,13 @@ def report_doing(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
-    reports = Report.objects.filter(object=id).all()
+    report = Report.objects.filter(object=id).first()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
-               'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork,'reports':reports}
+               'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork,'report':report,'programworkform':programworkform}
 
     return render(request, 'oogd_reporter/report/report_doing.html', context)
 
@@ -5613,12 +5780,13 @@ def show_report(request,id):
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
-    reports = Report.objects.filter(object=id).all()
-    print(reports)
+    report = Report.objects.filter(object=id).first()
+
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work':work, 'rejects':rejects, 'sirie_type':sirie_type,
-               'siriefiles': sirie_files, 'aktkomeral':aktkomeral, 'reports': reports, 'programwork': programwork}
+               'siriefiles': sirie_files, 'aktkomeral':aktkomeral, 'report': report, 'programwork': programwork,'programworkform': programworkform}
 
     return render(request, 'oogd_reporter/report/show_report.html', context)
 
@@ -5635,12 +5803,14 @@ def sent_to_print(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
                'rejects': rejects, 'sirie_type': sirie_type,
-               'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'programwork':programwork}
+               'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'programwork':programwork,'programworkform':programworkform}
 
     return render(request, 'oogd_reporter/report/sent_to_print.html', context)
 
@@ -5653,27 +5823,11 @@ def confirm_print(request):
 
         object = Object.objects.filter(id=id).first()
 
-        pdowork = PdoWork.objects.filter(id=object.pdowork).first()
-        pdowork.status = 1
-        pdowork.save()
-        
-
-        report = Report.objects.filter(object=id).first()
-        report.status = 5
-        report.save()
+        report = Report.objects.filter(object=object).first()
 
         workerobject = WorkerObject.objects.filter(object=report.object).first()
-        workerobject.status = 5
-        workerobject.status_geodezis_komeral = 5
+        workerobject.status_repoert_printer = 1
         workerobject.save()
-
-        aktkomeral = AktKomeralForm.objects.filter(object=report.object).first()
-        aktkomeral.status = 5
-        aktkomeral.save()
-
-        programwork = ProgramWork.objects.filter(object=report.object).first()
-        programwork.status=5
-        programwork.save()
 
         history = History(object=report.object, status=24, comment="Obektni pechatga yuborish", user_id=worker)
         history.save()
@@ -5706,6 +5860,7 @@ def open_to_print(request,id):
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
     rejects_reports = ReportReject.objects.filter(object=workerobject.object).all()
     rejects_programworks = ProgramWorkReject.objects.filter(programowork=programwork).all()
@@ -5717,15 +5872,15 @@ def open_to_print(request,id):
         rejects_akt_komeral_works.count()) + int(rejects_akt_polevoy_works.count()) + int(
         rejects_akt_komeral_leader_works.count())
 
-    report = Report.objects.filter(object=id).all()
+    report = Report.objects.filter(object=id).first()
 
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
                'rejects_reports': rejects_reports,
                'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
                'rejects_akt_komeral_works': rejects_akt_komeral_works,
                'rejects_akt_komeral_leader_works': rejects_akt_komeral_leader_works,
-               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'reports': report,
-               'sum': sum, 'programwork': programwork}
+               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,
+               'sum': sum, 'programwork': programwork,'programworkform': programworkform}
 
     return render(request, 'oogd_printer/show.html', context)
 
@@ -5737,10 +5892,22 @@ def confirm_print2(request):
         worker = data.get('worker')
 
         object = Object.objects.filter(id=id).first()
-
+        # status_printer
+        # status_repoert_printer
         pdowork = PdoWork.objects.filter(id=object.pdowork.id).first()
         pdowork.status = 1
         pdowork.save()
+
+        report = Report.objects.filter(object=object).first()
+        if report:
+            report.status = 5
+            report.save()
+
+        programwork = ProgramWork.objects.filter(object=report.object).first()
+        if programwork:
+            programwork.status = 5
+            programwork.save()
+
 
         workerobject = WorkerObject.objects.filter(object=object).first()
         workerobject.status = 5
@@ -5751,6 +5918,7 @@ def confirm_print2(request):
         aktkomeral = AktKomeralForm.objects.filter(object=workerobject.object).first()
         aktkomeral.status = 5
         aktkomeral.save()
+
         object = Object.objects.filter(id=workerobject.object.id).first()
         object.worker_ogogd = worker
         object.save()
@@ -5832,6 +6000,7 @@ def show_all_works(request,id):
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
 
     programwork = ProgramWork.objects.filter(object=id).first()
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
     rejects_reports = ReportReject.objects.filter(object=workerobject.object).all()
     rejects_programworks = ProgramWorkReject.objects.filter(programowork=programwork).all()
@@ -5847,7 +6016,7 @@ def show_all_works(request,id):
     context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work': work, 'rejects_reports':rejects_reports,
                'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
                'rejects_akt_komeral_works': rejects_akt_komeral_works,'rejects_akt_komeral_leader_works':rejects_akt_komeral_leader_works,
-               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'reports': report,'sum':sum,'programwork':programwork}
+               'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'reports': report,'sum':sum,'programwork':programwork,'programworkform':programworkform}
 
     return render(request, 'show.html', context)
 
@@ -5884,7 +6053,9 @@ def register(request):
     objects = Object.objects.all()
     workerobjects = WorkerObject.objects.all()
     departments = Department.objects.all()
-    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments}
+    branches = Branch.objects.all()
+
+    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments,'branches': branches}
 
     return render(request,'regiter.html', content)
 
@@ -5892,9 +6063,12 @@ def sign_up(request):
     if request.method == 'POST':
         fio = request.POST.get('fio')
         email = request.POST.get('email')
+        position = request.POST.get('position')
         contact = request.POST.get('contact')
         password = request.POST.get('password')
         department = request.POST.get('department')
+        branch = request.POST.get('branch')
+
         depart = Department.objects.filter(id=department).first()
         if User.objects.filter(username=email).first():
             messages.error(request, "Bu foydalanuvchi avval ro'yhatdan o'tgan!")
@@ -5902,7 +6076,7 @@ def sign_up(request):
 
         else:
             user = User.objects.create_user(username=email, email=email, password=password)
-            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,department=depart,email=email,branch_id=1)
+            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch,position=position,department=depart,email=email,branch_id=1)
             worker.save()
             messages.success(request, "Siz ro'yhatdan o'tdingiz tasdiqlashini kuting!")
             return HttpResponseRedirect('/signin')

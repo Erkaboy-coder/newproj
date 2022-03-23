@@ -123,8 +123,8 @@
                                     <li>
                                         <ul>
                                            <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
-                                             {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                             {% if work.rejected_file %}
+                                                    <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси <b>{{ work.version }}</b></a></li>
                                                 {% endif %}
                                             <hr>
                                         </ul>
@@ -594,7 +594,7 @@
                                                 <div class="file-bottom ">
                                                     <h6>8. Топографик-геодезик дастури </h6>
                                                     <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> Кўриш</a></button>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -634,11 +634,48 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>11 АКТ комерал назорат далолатномаси</h6>
+                                                <h6>11. АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}" class="text-white"> Кўриш</a></button>
                                             </div>
                                         </li>
+
+                                        {% if report.file %}
+
+                                            <li class="file-box m-t-5">
+                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                <div class="file-bottom ">
+                                                    <h6>12. Хисобот билан танишиш</h6>
+                                                    <p>Ознакомиться с файлом отправки</p>
+                                                    <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalCenter1">Кўриш</button>
+                                                </div>
+                                            </li>
+
+                                        {% endif %}
+
+                                        <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenter1" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary">
+                                                            <h5 style="color: white;" class="modal-title"> Ҳисобат билан танишиш</h5>
+                                                            <div type="button" data-bs-dismiss="modal"
+                                                                 aria-label="Close">x
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ol style="font-size: 18px">
+                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
+                                                                    {% if report.reason %}
+                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
+                                                                    {% endif %}
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
 
                                     </ul>
@@ -663,12 +700,29 @@
                                     <br>
                                     <div class="row p-r-40">
 
+                                        {% if programwork %}
+                                            {% if workerobject.status_repoert_printer == 1 %}
+                                            <div class="col-md-12 card p-2 shadow-lg">
+                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
+                                                   Топографик материалларни чоп етиш
+                                                </button>
+                                            </div>
+                                            {% else %}
+                                                <div class="col-md-12 card p-2 shadow-lg">
+                                                <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ workerobject.object.id }}"  style="width: 100%"> <i class="fa fa-print"></i>
+                                                   Топографик материалларни чоп етиш учун тасдиқлашни кутинг
+                                                </button>
+                                            </div>
+                                            {% endif %}
+                                        {% else %}
 
                                             <div class="col-md-12 card p-2 shadow-lg">
                                                 <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
                                                    Топографик материалларни чоп етиш
                                                 </button>
                                             </div>
+
+                                        {% endif %}
 
                                     <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
                                     <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
@@ -726,6 +780,39 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/'+result,'_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
         <script type="text/javascript">
     $(document).on('click',".file",function(){
         var data = new FormData();

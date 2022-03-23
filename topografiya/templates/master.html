@@ -133,7 +133,7 @@
 
                      <li class="onhover-dropdown">
                             <div class="media align-items-center notification-box">
-                                <img class="img-40 rounded-circle m-r-5" src="{% static 'assets/images/user/16.png' %}" alt="#">
+                                <img class="img-40 rounded-circle m-r-5" src="{% static 'assets/images/user/user.png' %}" alt="#">
                                 <div class="media-body" style="line-height: 1.2">
                                    <div class="user_name">{{ user.profile.full_name }}</div>
                                     <div class="user_local">{{ user.profile.position }}</div>
@@ -243,7 +243,7 @@
                                     <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
 {#                                    <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>#}
                                     <li><a href="{% url 'polevoy_works' %}">Жорий ишлар
-                                        {% if count_works.new_field_works != 0 %}
+                                        {% if count_works.all_works_worker != 0 %}
                                             <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count_works.all_works_worker }}
                                                 </span>
@@ -304,6 +304,7 @@
                                  <br>
                             {% endif %}
 {#                            bu geodezis profili#}
+
 {#                                                bu oogd printer#}
                         {% if user.profile.status == '3' %}
                             <li class="dropdown">
@@ -331,9 +332,9 @@
 
                                     <li>
                                         <a href="{% url 'oogd_reports' %}">Ҳисобот
-                                            {% if count.reports_oogd != 0 %}
+                                            {% if count.reports_all_oogd != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
-                                                    {{ count.reports_oogd }}
+                                                    {{ count.reports_all_oogd }}
                                                 </span>
                                             {% endif %}
                                         </a>

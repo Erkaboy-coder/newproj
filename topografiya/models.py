@@ -83,6 +83,7 @@ class PdoWork(models.Model):
     customer_info = models.CharField(verbose_name='Customer info', max_length=250, blank=True)
     status = models.IntegerField(default=0, blank=True)
     status_recive = models.IntegerField(default=0, blank=True)
+    status_start = models.IntegerField(default=0, blank=True)
     # status_recive=0 yangi qabul qilingan ishlar
     # status_recive=1 bu ish qabul qilmagan ishlar
     # status_recive=2 ishchi qabul qilgan ishlar
@@ -102,11 +103,7 @@ class PdoWork(models.Model):
 
 class Object(models.Model):
     pdowork = models.ForeignKey(PdoWork, blank=True, on_delete=models.CASCADE, related_name='pdoworkobject')
-    worker_leader = models.CharField(verbose_name='Worker leader', max_length=250,blank=True,)
-    worker_ispolnitel = models.CharField(verbose_name='Worker ispolnitel', max_length=250,blank=True,)
-    worker_geodezis = models.CharField(verbose_name='Worker geodezis', max_length=250,blank=True,)
-    worker_ogogd = models.CharField(verbose_name='Worker ogogd', max_length=250,blank=True,)
-    # status_report_work = models.IntegerField(default=0)
+    worker = models.ForeignKey(Worker, blank=True, on_delete=models.CASCADE, related_name='worker')
     isset_programwork = models.BooleanField(default=False)
 
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)

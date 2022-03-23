@@ -22,6 +22,8 @@
 
 </style>
 {% endblock stylecontent %}
+           {% load l10n %}
+    {% load humanize %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
 {% csrf_token %}
   <div class="modal fade modal-bookmark " id="exampleModal"
@@ -34,9 +36,9 @@
                       Буюртма ҳақида маълумот</h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+             <div class="modal-body">
                   <div class="row">
-                      <div class="col-lg-6">
+                <div class="col-lg-6">
                           <div class="mb-2">
                               <b>Шартнома рақами<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
@@ -46,7 +48,7 @@
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект номи<sup style="color: red;">*</sup></b>
+                              <b>Объект номи<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
@@ -54,17 +56,18 @@
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Обект манзили<sup style="color: red;">*</sup></b>
+                              <b>Объект манзили<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
+
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>Бажариш муддати<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
@@ -72,8 +75,8 @@
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Нархи<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
                               <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
@@ -81,31 +84,18 @@
                           </div>
                       </div>
                   </div>
-                  <ul class="folder">
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class="">
-                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                      <li class="folder-box">
-                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
-                              <div class="media-body ">
-                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
-                              </div>
-                          </div>
-                      </li>
-                  </ul>
+                   <div class="row">
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                      </div>
+
+                  </div>
               </div>
           </div>
       </div>
@@ -126,14 +116,19 @@
                   <div class="row">
                       <div class="col-md-12">
                             <ol>
-                                {% for work in rejects %}
-                                    <hr>
-                                       <li><a href="/{{ work.file }}"> Қайтариш сабаби аризаси</a></li>
-                                       <li><b>Хатолик сабаби:</b> {{ work.reason }}</li>
-                                    <hr>
-                                {% endfor %}
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
 
-                            </ol>
+                                </ol>
                       </div>
                   </div>
               </div>
@@ -162,15 +157,13 @@
             </div>
             <div class="modal-body">
 
-                            <div class="modal-body">
-
                        <div class="row text-end">
                     {% if order.type_of_sirie == '0' %}
                         {% if siriefiles.file1_1 %}
                                 <div class="col-lg-6 m-b-10">
                                     <div class="m-b-10">
                                         <div>Разрешение на залет от МО РУз</div>
-                                        <a href="/{{ siriefiles.file1_1 }}"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                        <a href="/{{ siriefiles.file1_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                                     </div>
                                 </div>
                         {% endif %}
@@ -178,7 +171,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Схема планирования залета БПЛА<sup style="color: red;">*</sup></div>
-                            <a  href="/{{ siriefiles.file1_2 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a  href="/{{ siriefiles.file1_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -186,7 +179,7 @@
                     <div class="col-lg-6 m-b-10">
                           <div class="m-b-10">
                             <div>Схема выполненных залетов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_3 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -194,7 +187,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class='m-b-10'>
                             <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_4 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -202,7 +195,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Схема расположение опознаков и исходные пункты<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_5 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -210,7 +203,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Каталог координат исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_6 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -218,7 +211,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -226,7 +219,7 @@
                     <div class="col-lg-6 m-b-10">
                          <div class="m-b-10">
                             <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_8 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -234,7 +227,7 @@
                     <div class="col-lg-6 m-b-10">
                          <div class="m-b-10">
                             <div>Отчёт обработки ортофотоплана<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_9 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -242,7 +235,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Измерения, скаченные с прибора(БПЛА)<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_10 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -250,7 +243,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Фото. опознаков<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_11 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_11 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                         </div>
                     </div>
                             {% endif %}
@@ -261,7 +254,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог координат исходных пунктов</div>
-                                <a href="/{{ siriefiles.file2_1 }}"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                             </div>
                         </div>
                             {% endif %}
@@ -269,7 +262,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог кооодинат долговременных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file2_2 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a  href="/{{ siriefiles.file2_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                             </div>
                         </div>
                             {% endif %}
@@ -277,7 +270,7 @@
                         <div class="col-lg-6 m-b-10">
                               <div class="m-b-10">
                                 <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_3 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                             </div>
                         </div>
                             {% endif %}
@@ -285,7 +278,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class='m-b-10'>
                                 <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_4 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                             </div>
                         </div>
                             {% endif %}
@@ -293,7 +286,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_5 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
                             </div>
                         </div>
                             {% endif %}
@@ -401,8 +394,6 @@
 
                 </div>
             </div>
-
-            </div>
         </div>
     </div>
 </div>
@@ -429,8 +420,8 @@
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
                                     Рад этилишлар сони
-                                     <span class="badge rounded-pill badge-warning">
-                                        <b class="text-white">{{ rejects.count }}</b>
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
 
                                 </button>
@@ -455,8 +446,8 @@
                                     <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича ҳисоботни текшириш</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
-                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
-                                                    height="500" style="border:0;width: 97%;" allowfullscreen="" loading="lazy"></iframe>
+                                            <div id="map"></div>
+                                            <br>
                                         </div>
                                     </div>
                                     <ul class="files ">
@@ -519,52 +510,62 @@
                                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                           <div class="file-bottom ">
+                                                <h6>8. Топографический план </h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+
                                         {% if programwork %}
                                             {% if programwork.status == 4 %}
                                             <li class="file-box m-t-5">
                                                 <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                                 <div class="file-bottom ">
-                                                    <h6>8. Топографик-геодезик дастури </h6>
+                                                    <h6>9. Топографик-геодезик дастури </h6>
                                                     <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> Кўриш</a></button>
                                                 </div>
                                             </li>
                                         {% endif %}
                                     {% endif %}
 
-                                       <li class="file-box m-t-5">
-                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                            <div class="file-bottom ">
-                                                <h6>9. Пояснительная записка</h6>
-                                                <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
-                                            </div>
-                                        </li>
-
-
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ дала назорати текшируви далолатномаси</h6>
+                                                <h6>10. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>11. АКТ комерал назорат далолатномаси</h6>
+                                                <h6>11. АКТ дала назорати текшируви</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>12. Хисобот билан танишиш</h6>
+                                                <h6>12. АКТ комерал назорат далолатномаси</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                            </div>
+                                        </li>
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>13. Хисобот билан танишиш</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModalCenter">Кўриш</button>
@@ -615,10 +616,12 @@
                                                                  aria-label="Close">x
                                                             </div>
                                                         </div>
-                                                        <div class="modal-body">
+                                                         <div class="modal-body">
                                                             <ol style="font-size: 18px">
-                                                                <li class="p-2"><a href="/{{ report.file }}"> <i class="fa fa-file-pdf-o"></i> Ҳисобат файли билан танишиш</a></li>
-                                                                <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
+                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
+                                                                    {% if report.reason %}
+                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ reports.reason }}</li>
+                                                                    {% endif %}
                                                             </ol>
                                                         </div>
                                                     </div>
@@ -639,7 +642,40 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script type="text/javascript">
+           <script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                                window.open('/static/files/'+result,'_blank');
+
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+<script type="text/javascript">
     $(document).on('click',".file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
@@ -671,24 +707,24 @@
 
     });
 </script>
-
-<script type="text/javascript">
-    $(document).on('click',"#doing_program_work_file",function(){
+                        <script type="text/javascript">
+    $(document).on('click',"#doing_akt_polevoy_file",function(){
         var data = new FormData();
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
-        data.append("data-id", $(this).attr('programwork-id'));
-        {#alert($(this).attr('data-id'));#}
+         data.append("object-id", $(this).attr('akt-object-id'));
+
         event.preventDefault()
         $.ajax({
             type: 'POST',
-            url: '{% url 'doing_program_work_file' %}',
+            url: '{% url 'doing_akt_polevoy_file' %}',
             data: data,
             cache: false,
             contentType: false,
             processData: false,
 
             success: function (result){
-                window.open('/static/files/program_work_file.pdf','_blank');
+                                window.open('/static/files/'+result,'_blank');
+
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
@@ -704,6 +740,124 @@
 
     });
 </script>
+                        <script type="text/javascript">
+    $(document).on('click',"#doing_akt_komeral_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("data-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_komeral_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                                window.open('/static/files/'+result,'_blank');
+
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+    <script type="text/javascript">
+    $(document).on('click',"#doing_poyasitelniy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_poyasitelniy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/poyasitelniy/poyasitelniy.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+        <script>
+    $(document).ready(function(){
+    var data = new FormData();
+    data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+    data.append('id',{{ pdowork.id }});
+
+        $.ajax({
+            url: '/obj_data',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'post',
+            success: function (result) {
+                    json_point=JSON.parse(result.data1);
+                    console.log(json_point.features);
+                    if (json_point.features[0].geometry!=null){
+                        json_point.features[0].geometry.coordinates.forEach(function(corr,i){
+                             var point={type:'Point',coordinates:corr};
+                            L.geoJson(point,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                            });
+                        });
+                    }
+
+                    json_line=JSON.parse(result.data2);
+                    if (json_line.features[0].geometry!=null){
+                    json_line.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polyline={type:'LineString',coordinates:corr};
+                    L.geoJson(polyline,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+
+
+                    json_polygon=JSON.parse(result.data3);
+                    if (json_polygon.features[0].geometry!=null){
+                    json_polygon.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polygon={type:'Polygon',coordinates:corr};
+                    L.geoJson(polygon,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+            },
+            error: function(){
+              console.log('xatolik')
+            }
+
+    });
+    });
+    </script>
+
+
 <script>
     $("#save_akt").click(function(event) {
         var data = new FormData();

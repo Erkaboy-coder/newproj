@@ -241,7 +241,7 @@
                                                                                 <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" id="worker_ispolnitel">
                                                                                     <option value="">-- --</option>
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.id }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -461,7 +461,7 @@
 {#                                                                            {% else %}#}
                                                                             <br>
                                                                             <hr>
-                                                                        {% if pdowork.status_recive == 1 %}
+                                                                        {% if pdowork.status_start == 1 %}
                                                                                 <button class="float-end btn btn-primary" id="start" type="button"> <i class="fa fa-check"></i> Ишни бошлаш</button>
 {#                                                                            {% endif %}#}
 {#                                                                            <button class="btn btn-warning" type="button" id="save_order" > <i class="fa fa-check"></i> Сақлашш</button>#}

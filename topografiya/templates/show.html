@@ -123,8 +123,8 @@
                                     <li>
                                         <ul>
                                            <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
-                                             {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                             {% if work.rejected_file %}
+                                                    <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси <b>{{ work.version }}</b></a></li>
                                                 {% endif %}
                                             <hr>
                                         </ul>
@@ -587,19 +587,6 @@
                                             </div>
                                         </li>
 
-                                        {% if programwork %}
-                                            {% if programwork.status == 5 %}
-                                            <li class="file-box m-t-5">
-                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
-                                                <div class="file-bottom ">
-                                                    <h6>8. Топографик-геодезик дастури </h6>
-                                                    <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> Кўриш</a></button>
-                                                </div>
-                                            </li>
-                                        {% endif %}
-                                    {% endif %}
-
                                     <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i>
                                             </div>
@@ -620,10 +607,23 @@
                                             </div>
                                         </li>
 
+                                    {% if programwork %}
+                                            {% if programwork.status == 5 %}
+                                            <li class="file-box m-t-5">
+                                                <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                                <div class="file-bottom ">
+                                                    <h6>10. Топографик-геодезик дастури </h6>
+                                                    <p>Ознакомиться с файлом отправки</p>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> Кўриш</a></button>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10. АКТ дала назорати текшируви</h6>
+                                                <h6>11. АКТ дала назорати текшируви</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
 
@@ -632,7 +632,7 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>11 АКТ комерал назорат далолатномаси</h6>
+                                                <h6>12. АКТ комерал назорат далолатномаси</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}" class="text-white"> Кўриш</a></button>
                                             </div>
@@ -642,7 +642,7 @@
                                             <li class="file-box m-t-5">
                                                 <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                                 <div class="file-bottom ">
-                                                    <h6>12. Хисобот билан танишиш</h6>
+                                                    <h6>13. Хисобот билан танишиш</h6>
                                                     <p>Ознакомиться с файлом отправки</p>
                                                     <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModalCenter1">Кўриш</button>

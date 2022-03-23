@@ -74,7 +74,7 @@
                                                                                     <td>{{ work.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
-    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+{#                                                                                    <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
                                                                           </tr>
 
 
@@ -152,6 +152,359 @@
 
                             {% endfor %}
                                 {% endif %}
+
+                                    {% if user.profile.status == '2' %}
+                                {% for work in geodezis_new_works_akt %}
+                                <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
+                                <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+
+
+                                <div class="fc-day-event one" id="one">
+
+                                            <span class="count"></span>
+                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <div class="table-responsive">
+
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="bg-primary">
+                                                                        <tr class="text-white text-center">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Буюрмачи</th>
+                                                                            <th scope="col">Объект номи</th>
+                                                                            <th scope="col">Иш тури</th>
+                                                                            <th scope="col">Бажариш муддати</th>
+{#                                                                            <th scope="col">Холати</th>#}
+{#                                                                            <th scope="col">Tanishish</th>#}
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.object.pdowork.customer_info}}</td>
+                                                                                    <td>{{ work.object.pdowork.object_name}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_type}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term}} kun</td>
+{#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                            {% endfor %}
+
+                                          {% for work in geodezis_new_works_program %}
+                                <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
+                                <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+
+
+                                <div class="fc-day-event one" id="one">
+
+                                            <span class="count"></span>
+                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <div class="table-responsive">
+
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="bg-primary">
+                                                                        <tr class="text-white text-center">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Буюрмачи</th>
+                                                                            <th scope="col">Объект номи</th>
+                                                                            <th scope="col">Иш тури</th>
+                                                                            <th scope="col">Бажариш муддати</th>
+{#                                                                            <th scope="col">Холати</th>#}
+{#                                                                            <th scope="col">Tanishish</th>#}
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.object.pdowork.customer_info}}</td>
+                                                                                    <td>{{ work.object.pdowork.object_name}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_type}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term}} kun</td>
+{#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                            {% endfor %}
+
+                                            {% for work in geodezis_report_checking %}
+                                        {{ work.id }}
+                                        <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+
+
+                                <div class="fc-day-event one" id="one">
+                                    <span class="count"></span>
+                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <div class="table-responsive">
+
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="bg-primary">
+                                                                        <tr class="text-white text-center">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Буюрмачи</th>
+                                                                            <th scope="col">Объект номи</th>
+                                                                            <th scope="col">Иш тури</th>
+                                                                            <th scope="col">Бажариш муддати</th>
+{#                                                                            <th scope="col">Холати</th>#}
+{#                                                                            <th scope="col">Tanishish</th>#}
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.object.pdowork.customer_info}}</td>
+                                                                                    <td>{{ work.object.pdowork.object_name}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_type}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term}} kun</td>
+{#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
+
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                            {% endfor %}
+                                {% endif %}
+
+                                {% if user.profile.status == '3' %}
+                                    {% for work in new_ogogd_printer_works %}
+
+                                        <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+
+
+                                <div class="fc-day-event one" id="one">
+                                    <span class="count"></span>
+                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <div class="table-responsive">
+
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="bg-primary">
+                                                                        <tr class="text-white text-center">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Буюрмачи</th>
+                                                                            <th scope="col">Объект номи</th>
+                                                                            <th scope="col">Иш тури</th>
+                                                                            <th scope="col">Бажариш муддати</th>
+{#                                                                            <th scope="col">Холати</th>#}
+{#                                                                            <th scope="col">Tanishish</th>#}
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.object.pdowork.customer_info}}</td>
+                                                                                    <td>{{ work.object.pdowork.object_name}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_type}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term}} kun</td>
+{#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
+
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                            {% endfor %}
+                                {% endif %}
+
+                                {% if user.profile.status == '4' %}
+                                    {% for work in geodezis_report_checking %}
+
+                                        <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+
+
+                                <div class="fc-day-event one" id="one">
+                                    <span class="count"></span>
+                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <div class="table-responsive">
+
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="bg-primary">
+                                                                        <tr class="text-white text-center">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Буюрмачи</th>
+                                                                            <th scope="col">Объект номи</th>
+                                                                            <th scope="col">Иш тури</th>
+                                                                            <th scope="col">Бажариш муддати</th>
+{#                                                                            <th scope="col">Холати</th>#}
+{#                                                                            <th scope="col">Tanishish</th>#}
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.object.pdowork.customer_info}}</td>
+                                                                                    <td>{{ work.object.pdowork.object_name}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_type}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term}} kun</td>
+{#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
+
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                            {% endfor %}
+
+                                    {% for work in rejected_ogogd_printer_works %}
+
+                                        <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+
+
+                                <div class="fc-day-event one" id="one">
+                                    <span class="count"></span>
+                                            <div class="modal fade bd-example-modal-lg" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>
+                                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <div class="table-responsive">
+
+                                                                    <table class="table table-bordered">
+                                                                        <thead class="bg-primary">
+                                                                        <tr class="text-white text-center">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">Буюрмачи</th>
+                                                                            <th scope="col">Объект номи</th>
+                                                                            <th scope="col">Иш тури</th>
+                                                                            <th scope="col">Бажариш муддати</th>
+{#                                                                            <th scope="col">Холати</th>#}
+{#                                                                            <th scope="col">Tanishish</th>#}
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                          <tr class="text-center">
+                                                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                                                    <td>{{ work.object.pdowork.customer_info}}</td>
+                                                                                    <td>{{ work.object.pdowork.object_name}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_type}}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term}} kun</td>
+{#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
+
+    {#                                                                                <td class="text-center"><a href="{% url 'show_pdowork' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
+                                                                          </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                            {% endfor %}
+                                {% endif %}
+
 
 
 

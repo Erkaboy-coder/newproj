@@ -407,7 +407,12 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Оценка качества работ <sup class="text-danger">*</sup></label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
+                                                            <select class="col-sm-12"  name="a61" id="a61">
+                                                                <option value="">--- ---</option>
+                                                                <option value="отлично" {% if work.a61 == 'отлично' %}selected{% endif  %}>отлично</option>
+                                                                <option value="хорошо" {% if work.a61 == 'хорошо' %}selected{% endif  %}>хорошо</option>
+                                                                <option value="удовлетворительно" {% if work.a61 == 'удовлетворительно' %}selected{% endif  %}>удовлетворительно</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">

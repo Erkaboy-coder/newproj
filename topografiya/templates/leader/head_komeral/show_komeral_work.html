@@ -854,10 +854,49 @@
                 </div>
 
                 <div class="row">
+                  <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">8</div>
+{#                                 с эксплуатирующими организация#}
+                                <h5>Топографический план<sup class="txt-danger">*</sup></h5>
+                                 {% if work.list_agreement_file %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" topo_id="1"  id="topo_plan" name="topo_plan" value="{{ work.topo_plan }}" type="file" ></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.topo_plan }}" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="topo_plan" topo_id="0" id="topo_plan" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                     {% if programwork %}
+                         {% if programwork.status == 4 %}
+
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">8</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
+                                    <h5>Топографик-геодезик дастури<sup class="txt-danger">*</sup></h5>
+                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_program_work_file" programwork-id="{{ programworkform.id }}">Кўриш</a></button>
+
+                                </div>
+                            </div>
+                        </div>
+                     {% endif %}
+                                    {% endif %}
+
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="ribbon-wrapper card shadow">
+                                <div class="card-body">
+                                    <div class="ribbon ribbon-clip ribbon-primary">10</div>
                                     <h5>Пояснительная записка<sup class="txt-danger">*</sup></h5>
                                     <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ work.object.id }}">Кўриш</a></button>
 
@@ -868,7 +907,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">11</div>
                                     <h5>АКТ дала назорати<sup class="txt-danger">*</sup></h5>
                                      <button class="btn btn-outline-primary w-100 m-t-10" id="doing_akt_polevoy_file" akt-object-id="{{ work.object.id }}"> Кўриш</button>
 
@@ -880,7 +919,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="ribbon-wrapper card shadow">
                                 <div class="card-body">
-                                    <div class="ribbon ribbon-clip ribbon-primary">10</div>
+                                    <div class="ribbon ribbon-clip ribbon-primary">12</div>
                                     <h5>АКТ комерал назорати<sup class="txt-danger">*</sup></h5>
                                     <button class="btn btn-outline-primary w-100 m-t-10" id="doing_akt_komeral_file" akt-object-id="{{ work.object.id }}"> Кўриш</button>
 
@@ -954,7 +993,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/program-work/program_work_file.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
@@ -986,7 +1025,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
@@ -1018,7 +1057,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt-komeral/akt_komeral.pdf','_blank');
+                window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
