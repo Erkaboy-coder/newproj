@@ -459,6 +459,7 @@
                                                    <label class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
                                                        <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ form.program_work_creator }}">
+                                                       <input class="form-control" name="worker" id="worker" type="text" value="{{ user.profile.pk }}" style="display:none;">
                                                    </div>
                                                </div>
 
@@ -846,6 +847,7 @@
         data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
         data.append("worker", $('#worker').val());
         data.append("program_work_creator", $('#program_work_creator').val());
+        data.append("worker", $('#worker').val());
         data.append("proramwork_id", $('#proramwork_id').val());
         data.append("object_id", $('#object_id').val());
 

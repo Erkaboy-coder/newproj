@@ -185,9 +185,9 @@
                                         <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>
                                         <li>
                                             <a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури
-                                                {% if count.new_program_works_leader != 0 or count.rejected_program_works_leader != 0 %}
+                                                {% if count.all_works_to_check_leader != 0 %}
                                                     <span class="badge rounded-pill badge-danger">
-                                                         {{ count.rejected_program_works_leader }}
+                                                         {{ count.all_works_to_check_leader }}
                                                     </span>
                                                 {% endif %}
                                             </a>

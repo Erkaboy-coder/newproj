@@ -117,6 +117,7 @@
              <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
+
                         <div class="col-sm-6">
                             <h3>Обйект ҳақида маълумот</h3>
                             <ol class="breadcrumb">
@@ -133,6 +134,7 @@
                                 Буюртма ҳақида маълумот
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -429,7 +431,7 @@
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
+                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.pk }}">
                                                                                     <input class="form-control" name="worker_leader" readonly id="worker_leader" type="text" value="{{ user.profile.pk }}" style="display: none">
                                                                                 </div>                                                                            </div>
 
@@ -442,7 +444,7 @@
 
 
                                                                             <input type="text" name="pdowork" value="{{ pdowork.id }}" style="display: none">
-                                                                            <input type="text" name="worker_id" value="{{ user.profile.full_name }}" style="display: none">
+                                                                            <input type="text" name="worker_id" value="{{ user.profile.pk }}" style="display: none">
                                                                             <input type="text" name="object_id" value="{{ object.id }}" style="display: none">
 
                                                                             <hr>

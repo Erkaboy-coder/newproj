@@ -713,7 +713,7 @@
                                               <div class="m-b-20 m-t-20 row">
                                                    <label class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ form.program_work_creator }}">
+                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ pdowork.worker_leader.full_name }}">
                                                    </div>
                                                </div>
 
@@ -727,6 +727,7 @@
                                                <hr>
                                               <input type="text" value="{{ object.object.id }}" id="object_id" name="object_id" style="display:none;">
                                               <input type="text" value="{{ object.id }}" id="proramwork_id" name="proramwork_id" style="display:none;">
+                                              <input type="text" value="{{ user.profile.pk }}" id="worker" name="worker" style="display:none;">
 
                                                <button type="button" id="sent_to_check_programwork" class="float-end btn btn-primary ">Текширувга юбориш</button>
                                                <button type="button" id="program_work_save_edits" class="float-left btn btn-outline-warning m-r-5"> Сақлаш</button>
@@ -847,9 +848,10 @@
                                                                                 </h5>
 {#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
                                                                                 <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" id="worker_ispolnitel">
-                                                                                    <option value="">-- --</option>
+                                                                                    <option value="">--  --</option>
+
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == pdowork.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.pk }}" worker-name="{{ worker.full_name }}" {% if worker.id == pdowork.worker_ispolnitel.id %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -865,7 +867,7 @@
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" type="text" id="fio" name="fio" value="{{ pdowork.pdowork.customer_info }}">
+                                                                                    <input class="form-control fio" type="text" id="fio" name="fio" value="{{ pdowork.worker_ispolnitel }}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
@@ -1048,14 +1050,14 @@
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
+                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ pdowork.worker_leader }}">
                                                                                 </div>
                                                                             </div>
 
                                                                              <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание получил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control fio" readonly name="order_receiver" id="order_receiver" type="text" >
+                                                                                    <input class="form-control fio" readonly name="order_receiver" value="{{ pdowork.worker_ispolnitel }}" id="order_receiver" type="text" >
                                                                                 </div>
                                                                             </div>
 
@@ -1348,11 +1350,11 @@
 
     <script>
         $(document).ready(function(){
-            var bla = $('#worker_ispolnitel').val();
-            $('.fio').val(bla);
+{#            var bla = $('#worker_ispolnitel').val();#}
+{#            $('.fio').val(bla);#}
 
             $("#worker_ispolnitel").change(function(){
-                var worker = $(this).children("option:selected").val();
+                var worker = $(this).children("option:selected").attr('worker-name');
                 $('.fio').val(worker);
             });
         });

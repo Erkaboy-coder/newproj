@@ -56,16 +56,16 @@ def counter():
 
 def new_work_counter(request):
     count_works = {}
-    count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all().count()
+    count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).all().count()
 
-    count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.full_name).filter(status=0).all().count()
-    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
+    count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.pk).filter(status=0).all().count()
+    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).all().count()
     count_works['all_works_worker'] = count_works['new_field_works']+count_works['rejected_field_works']
 
-    count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.full_name).all().count()
+    count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.pk).all().count()
 
 
-    count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all().count()
+    count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).all().count()
     return count_works
 
 @login_required(login_url='/signin')
@@ -74,7 +74,7 @@ def index(request):
     worker = Worker.objects.all()
 
     works = PdoWork.objects.filter(status=0).all()
-    work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.full_name).all()
+    work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.pk).all()
     geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).all()
     geodezis_new_works_program = ProgramWork.objects.filter(status=1).all()
     new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
@@ -89,7 +89,7 @@ def index(request):
 
 @login_required(login_url='/signin')
 def pdoworks(request):
-    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2))
+    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type='Topografik suratga olish').filter()
     context = {'pdoworks': pdoworks,'count': counter()}
     return render(request, 'leader/pdo_works.html', context)
 
@@ -517,6 +517,8 @@ def sent_to_check_programwork(request):
         data = request.POST
         object_id = data.get('object_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
+
         file = request.FILES.get('file')
         object = Object.objects.filter(id=object_id).first()
         if file != None:
@@ -532,7 +534,7 @@ def sent_to_check_programwork(request):
 
         # status  = 1 bu tekshiruvga yuborilgan
 
-        history = History(object=object, status=27, comment="Ishchi dasturi tekshiruvga yuborildi", user_id=worker)
+        history = History(object=object, status=27, comment="Ishchi dasturi tekshiruvga yuborildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -553,10 +555,10 @@ def history_program_work(request):
 def leader_polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
     # new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).all() # yangi kelgan
-    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).all() # dala nazorati muhokama jarayonida
-    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).all() # qaytarilgan ishlar
-    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).all() # muddati kam qolgan ishlar
-    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).all() # tasdiqlangan ishlar
+    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).filter(object__worker_leader=request.user.profile.pk).all() # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=2).all() # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=3).all() # muddati kam qolgan ishlar
+    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=4).all() # tasdiqlangan ishlar
     rejecteds = PolevoyWorkReject.objects.all()
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds}
@@ -603,6 +605,7 @@ def save_akt_polevoy(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         array = data.get('array')
                 
         table1=data.get('table1')
@@ -786,7 +789,7 @@ def save_akt_polevoy(request):
                     obj.save()
 
 
-        history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=worker)
+        history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -798,6 +801,7 @@ def edit_akt_polevoy(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         array=data.get('array')
 
         table1=data.get('table1')
@@ -981,7 +985,7 @@ def edit_akt_polevoy(request):
                     obj.save()
 
 
-        history = History(object=object, status=12, comment="Dala nazoratida akt o'zgartirildi",user_id=worker)
+        history = History(object=object, status=12, comment="Dala nazoratida akt o'zgartirildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -993,6 +997,7 @@ def send_to_kameral(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         akt_file =request.FILES.get('akt_file')
         print(akt_file)
         workerobject = WorkerObject.objects.filter(object=work_id).first()
@@ -1015,7 +1020,7 @@ def send_to_kameral(request):
 
             kameral = AktKomeralForm(object=workerobject.object)
             kameral.save()
-            history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=worker)
+            history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=user)
             history.save()
         return HttpResponse(1)
     else:
@@ -1043,6 +1048,7 @@ def deny_polevoy(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         reason_file =request.FILES.get('reason_file')
 
@@ -1062,7 +1068,7 @@ def deny_polevoy(request):
         reject = PolevoyWorkReject(workerobject=workerobject, file=reason_file, reason=reason,version = work.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
+        history = History(object=object_id, status=15, comment="Rad etildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -1072,11 +1078,11 @@ def deny_polevoy(request):
 @login_required(login_url='/signin')
 def leader_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
-    new_ones = AktKomeralForm.objects.filter(status=0).all()  # komeral nazoratiga kelgan ishlar
-    checking_ones = AktKomeralForm.objects.filter(status=1).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
-    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
-    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
+    new_ones = AktKomeralForm.objects.filter(status=0).filter(object__worker_leader=request.user.profile.pk).all()  # komeral nazoratiga kelgan ishlar
+    checking_ones = AktKomeralForm.objects.filter(status=1).filter(object__worker_leader=request.user.profile.pk).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).filter(object__worker_leader=request.user.profile.pk).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).filter(object__worker_leader=request.user.profile.pk).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).filter(object__worker_leader=request.user.profile.pk).all()  # tasdiqlangan ishlar
     rejecteds = KameralWorkReject.objects.all()
 
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
@@ -1152,6 +1158,7 @@ def save_akt_komeral(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         array=data.get('array')
 
         d={}
@@ -1169,7 +1176,7 @@ def save_akt_komeral(request):
 
         # history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
         # history.save()
-        history = History(object=object, status=28, comment="Komeral nazorat aktisi saqlandi", user_id=worker)
+        history = History(object=object, status=28, comment="Komeral nazorat aktisi saqlandi", user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1181,6 +1188,7 @@ def sent_to_check_akt(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         array=data.get('array')
         akt_komeral_file =request.FILES.get('akt_komeral_file')
 
@@ -1200,7 +1208,7 @@ def sent_to_check_akt(request):
         workerobject.status_geodezis_komeral=1
         workerobject.save()
 
-        history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
+        history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -1213,6 +1221,7 @@ def deny_komeral(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         reason_file =request.FILES.get('reason_file')
 
@@ -1227,7 +1236,7 @@ def deny_komeral(request):
         reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason, version = workerobject.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=15, comment="Rad etildi", user_id=worker)
+        history = History(object=object_id, status=15, comment="Rad etildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -1312,12 +1321,13 @@ def re_send_to_check_komeral(request):
         data = request.POST
         work_id = data.get('work-id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         workerobject = WorkerObject.objects.filter(object=work_id).first()
         workerobject.status_geodezis_komeral = 1
         workerobject.save()
 
-        history = History(object=workerobject.object, status=19, comment="Ish geodezis komeral nazoratiga qayta yuborildi",user_id=worker)
+        history = History(object=workerobject.object, status=19, comment="Ish geodezis komeral nazoratiga qayta yuborildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1330,7 +1340,7 @@ def re_send_to_check_komeral(request):
 @login_required(login_url='/signin')
 def worker_new_works(request):
     # status_recive = 1 is started work but not recived by worker
-    worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.full_name).all()
+    worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).all()
 
     context = {'worker_new_works': worker_new_works, 'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'worker/worker_new_works.html', context)
@@ -1338,11 +1348,11 @@ def worker_new_works(request):
 @login_required(login_url='/signin')
 def polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
-    new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # yangi kelgan
-    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # muhokama jarayonida
-    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # qaytarilgan ishlar
-    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # muddati kam qolgan ishlar
-    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).filter(object__worker_ispolnitel=request.user.profile.full_name).all() # tasdiqlangan ishlar
+    new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).filter(object__worker_ispolnitel=request.user.profile.pk).all() # yangi kelgan
+    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).filter(object__worker_ispolnitel=request.user.profile.pk).all() # muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).all() # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=3).filter(object__worker_ispolnitel=request.user.profile.pk).all() # muddati kam qolgan ishlar
+    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).filter(object__worker_ispolnitel=request.user.profile.pk).all() # tasdiqlangan ishlar
     rejects = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works,'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects,'count_works': new_work_counter(request)}
@@ -1388,6 +1398,7 @@ def send_to_check_komeral(request):
         data = request.POST
         work_id = data.get('work-id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         workerobject = AktKomeralForm.objects.filter(object=work_id).first()
         print(workerobject)
@@ -1395,7 +1406,7 @@ def send_to_check_komeral(request):
         workerobject.save()
 
 
-        history = History(object=workerobject.object, status=16, comment="Ish komeral nazorat tekshiruviga qayta yuborildi",user_id=worker)
+        history = History(object=workerobject.object, status=16, comment="Ish komeral nazorat tekshiruviga qayta yuborildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1427,6 +1438,7 @@ def send_to_check_polevoy(request):
         work_id = data.get('work-id')
         print(work_id)
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         workerobject = WorkerObject.objects.filter(id=work_id).first()
         print(workerobject)
@@ -1434,7 +1446,7 @@ def send_to_check_polevoy(request):
         workerobject.save()
 
 
-        history = History(object=workerobject.object, status=7, comment="Ish dala nazorati tekshiruvga yuborildi",user_id=worker)
+        history = History(object=workerobject.object, status=7, comment="Ish dala nazorati tekshiruvga yuborildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1445,6 +1457,7 @@ def save_sirie_files(request):
     if request.method == 'POST':
         id = request.POST.get('work-id')
         worker = request.POST.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         file1_1 =request.FILES.get('file1_1')
         file1_2 =request.FILES.get('file1_2')
@@ -1488,7 +1501,7 @@ def save_sirie_files(request):
         object_id = Object.objects.filter(id=object.object.id).first()
         aktkomeral = AktKomeralForm.objects.filter(object=object_id).first()
 
-        history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=worker)
+        history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=user)
         history.save()
 
         if object.status_geodezis_komeral == 2:
@@ -1508,6 +1521,7 @@ def save_sirie_files(request):
 def edit_sirie_files(request,id):
     if request.method == 'POST':
         worker = request.POST.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         file1_1 =request.FILES.get('file1_1')
         file1_2 =request.FILES.get('file1_2')
@@ -1712,7 +1726,7 @@ def edit_sirie_files(request,id):
         object_id = Object.objects.filter(id=object.object.id).first()
         aktkomeral = AktKomeralForm.objects.filter(object=object_id).first()
 
-        history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=worker)
+        history = History(object=object_id, status=7, comment="Dala nazoratiga sirie ma'lumotlari yuklandi", user_id=user)
         history.save()
         
         if object.status_geodezis_komeral == 2:
@@ -1735,6 +1749,12 @@ def store(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
+
+        table1 = data.get('table1')
+        table2 = data.get('table2')
+        table3 = data.get('table3')
+        table4 = data.get('table4')
 
         b1 = data.get('b1')
         b2 = data.get('b2')
@@ -1803,29 +1823,6 @@ def store(request):
         d_12 = data.get('d_12')
         d_13 = data.get('d_13')
 
-        b8_1 = data.get('b8_1')
-        b8_2 = data.get('b8_2')
-        b8_3 = data.get('b8_3')
-        b8_4 = data.get('b8_4')
-
-        b9_1 = data.get('b9_1')
-        b9_2 = data.get('b9_2')
-        b9_3 = data.get('b9_3')
-        b9_4 = data.get('b9_4')
-
-        b17_1 = data.get('b17_1')
-        b17_2 = data.get('b17_2')
-        b17_3 = data.get('b17_3')
-        b17_4 = data.get('b17_4')
-        b17_5 = data.get('b17_5')
-        b17_6 = data.get('b17_6')
-        b17_7 = data.get('b17_7')
-
-        b18_1 = data.get('b18_1')
-        b18_2 = data.get('b18_2')
-        b18_3 = data.get('b18_3')
-        b18_4 = data.get('b18_4')
-        b18_5 = data.get('b18_5')
 
         status_id = data.get('status-id')
 
@@ -1842,22 +1839,79 @@ def store(request):
                                  ,d_8=d_8,d_9=d_9,d_10=d_10,d_11=d_11,d_12=d_12,d_13=d_13, status=status)
         form1.save()
 
-        form2=PoyasitelniyFormTable1(poyasitelniyform=form1,b8_1=b8_1,b8_2=b8_2,b8_3=b8_3,b8_4=b8_4)
-        form2.save()
+        for i in json.loads(table1):
+            if str(i['id']) == '-1' and int(i['del']) != 1:
+                form2_1 = PoyasitelniyFormTable1(poyasitelniyform=form1, b8_1=i['b8_1'], b8_2=i['b8_2'], b8_3=i['b8_3'],
+                                                 b8_4=i['b8_4'])
+                form2_1.save()
+            elif int(i['del']) == 1:
+                PoyasitelniyFormTable1.objects.filter(pk=i['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable1.objects.filter(pk=i['id']).first()
+                if obj:
+                    obj.b8_1 = i['b8_1']
+                    obj.b8_2 = i['b8_2']
+                    obj.b8_3 = i['b8_3']
+                    obj.b8_4 = i['b8_4']
+                    obj.save()
 
-        form3 = PoyasitelniyFormTable2(poyasitelniyform=form1,b9_1=b9_1,b9_2=b9_2,b9_3=b9_3,b9_4=b9_4)
-        form3.save()
+        for j in json.loads(table2):
+            if str(j['id']) == '-1' and int(j['del']) != 1:
+                form3_1 = PoyasitelniyFormTable2(poyasitelniyform=form1, b9_1=j['b9_1'], b9_2=j['b9_2'], b9_3=j['b9_3'],
+                                                 b9_4=j['b9_4'])
+                form3_1.save()
+            elif int(j['del']) == 1:
+                PoyasitelniyFormTable2.objects.filter(pk=j['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable2.objects.filter(pk=j['id']).first()
+                if obj:
+                    obj.b9_1 = j['b9_1']
+                    obj.b9_2 = j['b9_2']
+                    obj.b9_3 = j['b9_3']
+                    obj.b9_4 = j['b9_4']
+                    obj.save()
 
-        form4 = PoyasitelniyFormTable3(poyasitelniyform=form1,b17_1=b17_1,b17_2=b17_2,b17_3=b17_3,b17_4=b17_4,b17_5=b17_5,b17_6=b17_6,b17_7=b17_7)
-        form4.save()
+        for k in json.loads(table3):
+            if str(k['id']) == '-1' and int(k['del']) != 1:
+                form4_1 = PoyasitelniyFormTable3(poyasitelniyform=form1, b17_1=k['b17_1'], b17_2=k['b17_2'],
+                                                 b17_3=k['b17_3'], b17_4=k['b17_4'], b17_5=k['b17_5']
+                                                 , b17_6=k['b17_7'], b17_7=k['b17_7'])
+                form4_1.save()
+            elif int(k['del']) == 1:
+                PoyasitelniyFormTable3.objects.filter(pk=k['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable3.objects.filter(pk=k['id']).first()
+                if obj:
+                    obj.b17_1 = k['b17_1']
+                    obj.b17_2 = k['b17_2']
+                    obj.b17_3 = k['b17_3']
+                    obj.b17_4 = k['b17_4']
+                    obj.b17_5 = k['b17_5']
+                    obj.b17_6 = k['b17_6']
+                    obj.b17_7 = k['b17_7']
+                    obj.save()
 
-        form5 = PoyasitelniyFormTable4(poyasitelniyform=form1,b18_1=b18_1,b18_2=b18_2,b18_3=b18_3,b18_4=b18_4,b18_5=b18_5)
-        form5.save()
+        for l in json.loads(table4):
+            if str(l['id']) == '-1' and int(l['del']) != 1:
+                form5_1 = PoyasitelniyFormTable4(poyasitelniyform=form1, b18_1=l['b18_1'], b18_2=l['b18_2'],
+                                                 b18_3=l['b18_3'], b18_4=l['b18_4'], b18_5=l['b18_5'])
+                form5_1.save()
+            elif int(l['del']) == 1:
+                PoyasitelniyFormTable4.objects.filter(pk=l['id']).delete()
+            else:
+                obj = PoyasitelniyFormTable4.objects.filter(pk=l['id']).first()
+                if obj:
+                    obj.b18_1 = l['b18_1']
+                    obj.b18_2 = l['b18_1']
+                    obj.b18_3 = l['b18_1']
+                    obj.b18_4 = l['b18_1']
+                    obj.b18_5 = l['b18_1']
+                    obj.save()
 
         object_id = Object.objects.filter(id=workerobject.object.id).first()
 
         history = History(object=object_id, status=9, comment="Dala nazoratiga poyasitelniy formaga ma'lumot yuklandi",
-                          user_id=worker)
+                          user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -1871,6 +1925,8 @@ def edit_poyasitelniy(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
+
         status_id = data.get('status-id')
         table1 = data.get('table1')
         table2 = data.get('table2')
@@ -2092,7 +2148,7 @@ def edit_poyasitelniy(request):
         object_id = Object.objects.filter(id=workerobject.object.id).first()
 
         history = History(object=object_id, status=9, comment="Dala nazoratiga poyasitelniy formaga ma'lumot yuklandi",
-                          user_id=worker)
+                          user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -2105,6 +2161,7 @@ def save_files(request):
         data = request.POST
         id = data.get('work-id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         abris =request.FILES.get('abris')
         kroki =request.FILES.get('kroki')
@@ -2192,7 +2249,7 @@ def save_files(request):
 
         object_id = Object.objects.filter(id=object.object.id).first()
 
-        history = History(object=object_id, status=8, comment="Dala nazoratiga fayl yuklandi", user_id=worker)
+        history = History(object=object_id, status=8, comment="Dala nazoratiga fayl yuklandi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -2249,12 +2306,14 @@ def recive_work(request):
         id = data.get('data-id')
         worker_full_name= data.get('worker-id')
 
+        user_worker_ispolnitel = Worker.objects.filter(id=worker_full_name).first()
+
         object = Object.objects.filter(id=id).first()
-        object.worker_ispolnitel=worker_full_name
+        object.worker_ispolnitel=user_worker_ispolnitel
         object.save()
 
         order = Order.objects.filter(object=object.id).first()
-        order.order_receiver = worker_full_name
+        order.order_receiver = user_worker_ispolnitel
         order.save()
 
         pdoworks = PdoWork.objects.filter(id=object.pdowork_id).first()
@@ -2328,7 +2387,7 @@ def order_to_pdf(request):
                 <br>
                 <ol>''';
 
-        context += '<li>Должность, Ф.И.О. исполнителя ' + object.worker_ispolnitel + ' </li>';
+        context += '<li>Должность, Ф.И.О. исполнителя ' + object.worker_ispolnitel.full_name + ' </li>';
         context += '<li>Наименование объекта ' + object.pdowork.object_name + '</li>';
         context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
         context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
@@ -2347,8 +2406,8 @@ def order_to_pdf(request):
         context += ' <li>Приложение: <ol>'
         context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
         context += '</ol></li>';
-        context += '<p>Предписание составил: ' + order.order_creator + ' </p>';
-        context += '<p>Предписание получил: ' + object.worker_ispolnitel + ' </p>';
+        context += '<p>Предписание составил: ' + order.order_creator.full_name + ' </p>';
+        context += '<p>Предписание получил: ' + object.worker_ispolnitel.full_name + ' </p>';
         context += '''</ol>
                 </body>
                 </html>''';
@@ -3404,7 +3463,7 @@ def doing_poyasitelniy_file(request):
                                             21. По выявлению и съёмке подземных коммуникаций на объекте:
                                             <br>
                                             <div class="mb-3 row">
-                                                Работа выполнена исполнителем '''+str(object.object.worker_ispolnitel)+'''
+                                                Работа выполнена исполнителем '''+str(object.object.worker_ispolnitel.full_name)+'''
                                                 <br>
                                                 <br>
                                             <p>в нижеследующем объёме:</p>
@@ -5277,6 +5336,7 @@ def confirm_program_work(request):
         data = request.POST
         id = data.get('object-id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         object = ProgramWork.objects.filter(object=id).first()
         object.status = 4
@@ -5284,10 +5344,10 @@ def confirm_program_work(request):
 
         object_id = Object.objects.filter(id=object.object.id).first()
         worker1 = Object.objects.filter(id=id).first()
-        worker1.worker_geodezis = worker
+        worker1.worker_geodezis = user
         worker1.save()
 
-        history = History(object=object_id, status=4, comment="Tasdiqlandi", user_id=worker)
+        history = History(object=object_id, status=4, comment="Tasdiqlandi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5300,6 +5360,7 @@ def reject_program_work(request):
         data = request.POST
         id = data.get('object-id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         reject_file =request.FILES.get('reject_file')
 
@@ -5313,7 +5374,7 @@ def reject_program_work(request):
         reject = ProgramWorkReject(programowork=object, file=reject_file, reason=reason, version = object.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=5, comment="Rad etildi", user_id=worker)
+        history = History(object=object_id, status=5, comment="Rad etildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5362,6 +5423,7 @@ def program_work_form_re_sent(request):
         table2 = data.get('table2')
 
         program_work_creator = data.get('program_work_creator')
+        worker = data.get('worker')
         object_id = data.get('object_id')
         proramwork_id = data.get('proramwork_id')
 
@@ -5471,7 +5533,7 @@ def program_work_form_re_sent(request):
         programwork1.save()
 
         history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi",
-                          user_id=program_work_creator)
+                          user_id=object.worker_leader)
         # status=26 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
@@ -5522,6 +5584,7 @@ def geodezis_deny_komeral(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         reason_file =request.FILES.get('reason_file')
 
@@ -5533,7 +5596,7 @@ def geodezis_deny_komeral(request):
         reject = LeaderKomeralWorkReject(object=workerobject.object, file=reason_file, reason=reason)
         reject.save()
 
-        history = History(object=workerobject.object, status=18, comment="Komeral nazorat bosh geodezis tomonidan red etildi", user_id=worker)
+        history = History(object=workerobject.object, status=18, comment="Komeral nazorat bosh geodezis tomonidan red etildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5568,20 +5631,21 @@ def sent_to_oggd(request):
         data = request.POST
         work_id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         workerobject=WorkerObject.objects.filter(object=work_id).first()
         workerobject.status_geodezis_komeral=4
         workerobject.save()
 
         object = Object.objects.filter(id=work_id).first()
-        object.worker_geodezis = worker
+        object.worker_geodezis = user
         object.save()
 
         if object.isset_programwork == True:
             report = Report(object=object)
             report.save()
 
-        history = History(object=object, status=20, comment="Komeral nazorat bosh geodezis tomonidan tasdiqlandi", user_id=worker)
+        history = History(object=object, status=20, comment="Komeral nazorat bosh geodezis tomonidan tasdiqlandi", user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -5674,6 +5738,7 @@ def reject_report(request):
         data = request.POST
         id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         reason_file =request.FILES.get('reason_file')
 
@@ -5684,7 +5749,7 @@ def reject_report(request):
         work = ReportReject(object=report.object, file=reason_file,reason=reason)
         work.save()
 
-        history = History(object=report.object, status=22, comment="Geodezis xisoborni rad etgan!", user_id=worker)
+        history = History(object=report.object, status=22, comment="Geodezis xisoborni rad etgan!", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5697,13 +5762,14 @@ def confirm_report(request):
         data = request.POST
         id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
 
         report = Report.objects.filter(object=id).first()
         report.status = 4
         report.save()
 
-        history = History(object=report.object, status=23, comment="Geodezis xisoborni tasdiqlandi!", user_id=worker)
+        history = History(object=report.object, status=23, comment="Geodezis xisoborni tasdiqlandi!", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5755,6 +5821,7 @@ def report_send(request):
         data = request.POST
         id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         report_file =request.FILES.get('report_file')
 
@@ -5768,7 +5835,7 @@ def report_send(request):
         object.worker_ogogd = worker
         object.save()
 
-        history = History(object=report.object, status=21, comment="Oogd xodimi hisobotni tekshiruvga yubordi", user_id=worker)
+        history = History(object=report.object, status=21, comment="Oogd xodimi hisobotni tekshiruvga yubordi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5829,6 +5896,7 @@ def confirm_print(request):
         data = request.POST
         id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         object = Object.objects.filter(id=id).first()
 
@@ -5838,7 +5906,7 @@ def confirm_print(request):
         workerobject.status_repoert_printer = 1
         workerobject.save()
 
-        history = History(object=report.object, status=24, comment="Obektni pechatga yuborish", user_id=worker)
+        history = History(object=report.object, status=24, comment="Obektni pechatga yuborish", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5899,6 +5967,7 @@ def confirm_print2(request):
         data = request.POST
         id = data.get('work_id')
         worker = data.get('worker')
+        user = Worker.objects.filter(id=worker).first()
 
         object = Object.objects.filter(id=id).first()
         # status_printer
@@ -5912,7 +5981,7 @@ def confirm_print2(request):
             report.status = 5
             report.save()
 
-        programwork = ProgramWork.objects.filter(object=report.object).first()
+        programwork = ProgramWork.objects.filter(object=object).first()
         if programwork:
             programwork.status = 5
             programwork.save()
@@ -5929,10 +5998,10 @@ def confirm_print2(request):
         aktkomeral.save()
 
         object = Object.objects.filter(id=workerobject.object.id).first()
-        object.worker_ogogd = worker
+        object.worker_ogogd = user
         object.save()
 
-        history = History(object=workerobject.object, status=22, comment="Obektni pechatga yuborish hisobotsiz", user_id=worker)
+        history = History(object=workerobject.object, status=22, comment="Obektni pechatga yuborish hisobotsiz", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5945,6 +6014,16 @@ def history(request):
     works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
     content={'count': counter(),'works':works}
     return render(request,'history.html',content)
+
+@login_required(login_url='/signin')
+def status_work(request, id):
+    work = PdoWork.objects.filter(id=id).first()
+    pdowork = Object.objects.filter(pdowork=work).first()
+    histories = History.objects.filter(object=pdowork).all()
+    works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
+    content = {'count': counter(),'works':works,'pdowork': pdowork,'work':work,'histories': histories,'count_works': new_work_counter(request)}
+    return render(request,'history_work.html',content)
+
 
 @login_required(login_url='/signin')
 def workers(request):
@@ -6077,6 +6156,7 @@ def sign_up(request):
         password = request.POST.get('password')
         department = request.POST.get('department')
         branch = request.POST.get('branch')
+        branch_id = Branch.objects.filter(id=branch).first()
 
         depart = Department.objects.filter(id=department).first()
         if User.objects.filter(username=email).first():
@@ -6085,7 +6165,7 @@ def sign_up(request):
 
         else:
             user = User.objects.create_user(username=email, email=email, password=password)
-            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch,position=position,department=depart,email=email,branch_id=1)
+            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch_id,position=position,department=depart,email=email,branch_id=1)
             worker.save()
             messages.success(request, "Siz ro'yhatdan o'tdingiz tasdiqlashini kuting!")
             return HttpResponseRedirect('/signin')

@@ -318,7 +318,7 @@
                                         </div>
                                     {% endif %}
                                         <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
-                                        <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
+                                        <input type="text" value="{{ user.profile.pk }}" name="worker" style="display: none">
                                     <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
                                 </form>
                                 {% endif %}
@@ -716,7 +716,7 @@
                                         </div>
                                     {% endif %}
 {#                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">#}
-                                        <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
+                                        <input type="text" value="{{ user.profile.pk }}" name="worker" style="display: none">
 
                                     {% if work.status == 0 or work.status == 2 %}
                                         <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
@@ -906,12 +906,12 @@
                 {% if work.status == 0 or work.status == 2 %}
                 <div class="row p-2 mb-2">
                     <div class="col-md-6 card p-2 shadow-lg">
-                        <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>
+                        <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>
                     </div>
                      {% if programwork %}
                          {% if programwork.status == 4 %}
                              <div class="col-md-6 card p-2 shadow-lg">
-                                 <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy"  style="width: 100%"> <i class="fa fa-check"></i> Текширувга юбориш</button>
+                                 <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="send_to_check_polevoy"  style="width: 100%"> <i class="fa fa-check"></i> Текширувга юбориш</button>
                              </div>
                          {% else %}
                              <div class="col-md-6 card p-2 shadow-lg">
@@ -920,7 +920,7 @@
                          {% endif %}
                      {% else %}
                             <div class="col-md-6 card p-2 shadow-lg">
-                                 <button type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="send_to_check_polevoy" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Текширувга юбориш</button>
+                                 <button type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="send_to_check_polevoy" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Текширувга юбориш</button>
                             </div>
                      {% endif %}
                 </div>

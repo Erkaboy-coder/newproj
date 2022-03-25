@@ -619,11 +619,11 @@
                                     <div class="row p-2 mb-2">
                                         {% if workerobject.status_repoert_printer == 0 %}
                                         <div class="col-md-12 card p-2 shadow-lg">
-                                            <button class="btn btn-lg bg-success" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="confirm_print"  style="width: 100%;"> <i class="fa fa-check"></i> Тасдиқлаш печатга юбориш</button>
+                                            <button class="btn btn-lg bg-success" type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="confirm_print"  style="width: 100%;"> <i class="fa fa-check"></i> Тасдиқлаш печатга юбориш</button>
                                         </div>
                                         {% else %}
                                             <div class="col-md-12 card p-2 shadow-lg">
-                                            <button class="btn btn-lg bg-warning" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  style="width: 100%;"> <i class="fa fa-check"></i> Тасдиқланган. Печат қилишга юборилган.</button>
+                                            <button class="btn btn-lg bg-warning" type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  style="width: 100%;"> <i class="fa fa-check"></i> Тасдиқланган. Печат қилишга юборилган.</button>
                                         </div>
                                         {% endif %}
                                     </div>
@@ -632,7 +632,7 @@
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center" >

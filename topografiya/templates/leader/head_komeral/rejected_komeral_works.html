@@ -303,7 +303,7 @@
                                         </div>
                                     {% endif %}
                                         <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
-                                        <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
+                                        <input type="text" value="{{ user.profile.pk }}" name="worker" style="display: none">
                                     {% if work.status_geodezis_komeral != 4 %}
                                          {% if work.status_geodezis_komeral != 1 %}
                                                 <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
@@ -705,7 +705,7 @@
                                         </div>
                                     {% endif %}
 {#                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">#}
-                                        <input type="text" value="{{ user.profile.full_name }}" name="worker" style="display: none">
+                                        <input type="text" value="{{ user.profile.pk }}" name="worker" style="display: none">
                                      {% if work.status_geodezis_komeral != 4 %}
                                          {% if work.status_geodezis_komeral != 1 %}
                                             <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
@@ -919,10 +919,10 @@
 
                     <div class="row p-2 mb-2">
                         <div class="col-md-6 card p-2 shadow-lg">
-                            <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>
+                            <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>
                         </div>
                         <div class="col-md-6 card p-2 shadow-lg">
-                             <button type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.object.id }}"  id="re_send_to_check_komeral" class="btn btn-success btn-lg" style="width: 100%"> <i class="fa fa-refresh"></i> Қайта геодезис назоратига юбориш</button>
+                             <button type="button" worker="{{ user.profile.pk }}" work-id="{{ work.object.id }}"  id="re_send_to_check_komeral" class="btn btn-success btn-lg" style="width: 100%"> <i class="fa fa-refresh"></i> Қайта геодезис назоратига юбориш</button>
                         </div>
                     </div>
 

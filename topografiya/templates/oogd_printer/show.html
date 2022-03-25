@@ -703,13 +703,13 @@
                                         {% if programwork %}
                                             {% if workerobject.status_repoert_printer == 1 %}
                                             <div class="col-md-12 card p-2 shadow-lg">
-                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
+                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
                                                    Топографик материалларни чоп етиш
                                                 </button>
                                             </div>
                                             {% else %}
                                                 <div class="col-md-12 card p-2 shadow-lg">
-                                                <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ workerobject.object.id }}"  style="width: 100%"> <i class="fa fa-print"></i>
+                                                <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ workerobject.object.id }}"  style="width: 100%"> <i class="fa fa-print"></i>
                                                    Топографик материалларни чоп етиш учун тасдиқлашни кутинг
                                                 </button>
                                             </div>
@@ -717,7 +717,7 @@
                                         {% else %}
 
                                             <div class="col-md-12 card p-2 shadow-lg">
-                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
+                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
                                                    Топографик материалларни чоп етиш
                                                 </button>
                                             </div>
@@ -725,7 +725,7 @@
                                         {% endif %}
 
                                     <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                    <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                    <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
 
                                         {% csrf_token %}
 

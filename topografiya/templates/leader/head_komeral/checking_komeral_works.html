@@ -985,13 +985,13 @@
                                         </div>
                                         <div class="row p-2 mb-2">
                                              <div class="col-md-6 card p-2 shadow-lg">
-                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
                                              </div>
 
                                             {% if programwork %}
                                                 {% if programwork.status == 4 %}
                                                     <div class="col-md-6 card p-2 shadow-lg">
-                                                        <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
+                                                        <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
                                                     </div>
                                                     {% else %}
                                                     <div class="col-md-6 card p-2 shadow-lg">
@@ -1000,7 +1000,7 @@
                                                 {% endif %}
                                             {% else %}
                                                  <div class="col-md-6 card p-2 shadow-lg">
-                                                    <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
+                                                    <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
                                                 </div>
                                             {% endif %}
 
@@ -1010,7 +1010,7 @@
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">

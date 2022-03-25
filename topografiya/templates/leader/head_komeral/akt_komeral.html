@@ -480,7 +480,7 @@
                                 {% endif %}
 
                                     <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                    <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                    <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                 </div>
@@ -492,7 +492,7 @@
 </div>
 
 <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-<input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+<input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
 {% csrf_token %}
 
 

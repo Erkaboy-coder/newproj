@@ -93,7 +93,7 @@ class PdoWork(models.Model):
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        return self.work_type
+        return self.object_number
 
     class Meta:
         verbose_name_plural = "PdoWorks"

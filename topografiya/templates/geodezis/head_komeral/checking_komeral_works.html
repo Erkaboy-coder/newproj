@@ -593,11 +593,11 @@
                                     {% if work.status_geodezis_komeral != 4 %}
                                         <div class="row p-2">
                                              <div class="col-md-6 card p-2 shadow-lg">
-                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
                                              </div>
 
                                             <div class="col-md-6 card p-2 shadow-lg">
-                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.object.id }}"  id="sent_to_oggd"  style="width: 100%"> <i class="fa fa-check"></i>
+                                                <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.object.id }}"  id="sent_to_oggd"  style="width: 100%"> <i class="fa fa-check"></i>
                                                     {% if pdowork.isset_programwork == True %}
                                                         Ишни ҳисобот ёзишга юбориш
                                                     {% else %}
@@ -611,7 +611,7 @@
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">

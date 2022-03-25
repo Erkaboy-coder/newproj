@@ -621,7 +621,7 @@
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center" >

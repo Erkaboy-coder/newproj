@@ -612,13 +612,8 @@
                                                 <div class="row">
                                                     <div class="col-xl-8"></div>
                                                     <div class="col-xl-4 col-sm-5 col-lg-5">
-                                                        <div class="text-end input-group date" id="dt-minimum"
-                                                             data-target-input="nearest">
-                                                            <input class=" text-end form-control datetimepicker-input digits"
-                                                                   type="text" id="a1" name="a1" value="{{ work.a1 }}" data-target="#dt-minimum">
-                                                            <div class="input-group-text" data-target="#dt-minimum"
-                                                                 data-toggle="datetimepicker"><i
-                                                                    class="fa fa-calendar"> </i></div>
+                                                         <div class="text-end ">
+                                                            <input id="a1" name="a1" value="{{ work.a1 }}" class="text-end form-control" type="date">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -960,7 +955,7 @@
                                                     <div class="mb-3 row">
                                                         <label class="col-sm-3 col-form-label">Оценка качества работ </label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
+                                                            <input class="form-control" type="text"  id="a61" name="a61" value="{{ work.a61 }}"  placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -1007,7 +1002,7 @@
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">

@@ -602,7 +602,7 @@
                                                             <ol style="font-size: 18px">
                                                                     <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
                                                                     {% if report.reason %}
-                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ reports.reason }}</li>
+                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
                                                                     {% endif %}
                                                             </ol>
                                                         </div>
@@ -632,7 +632,7 @@
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-                                            <input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
                                             {% csrf_token %}
 
                                         <div class="btn-foot m-t-50 m-b-40 align-items-center" >
@@ -640,11 +640,11 @@
 
                                             <div class="row p-2 mb-2">
                                                     <div class="col-md-6 card p-2 shadow-lg">
-                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
                                                     </div>
 
                                                     <div class="col-md-6 card p-2 shadow-lg">
-                                                        <button class="btn btn-lg" type="button" worker="{{ user.profile.full_name }}" work-id="{{ work.id }}"  id="confirm_report"  style="width: 100%;background-color: green;color: whitesmoke"> <i class="fa fa-check"></i> Тасдиқлаш</button>
+                                                        <button class="btn btn-lg" type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="confirm_report"  style="width: 100%;background-color: green;color: whitesmoke"> <i class="fa fa-check"></i> Тасдиқлаш</button>
                                                     </div>
                                             </div>
 
@@ -696,7 +696,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <ol style="font-size: 18px">
-                                                                <li class="p-2"><a href="/{{ report.file }}"> <i class="fa fa-file-pdf-o"></i> Ҳисобат файли билан танишиш</a></li>
+                                                                <li class="p-2"><a href="/{{ report.file }}"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
                                                                 <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
                                                             </ol>
                                                         </div>

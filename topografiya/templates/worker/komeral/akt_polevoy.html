@@ -29,13 +29,13 @@
                             <h3>Майдон назоратини AKT</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                {% if pdowork.worker_ispolnitel == user.profile.full_name %}
+                                {% if pdowork.worker_ispolnitel == user.profile.pk %}
                                     <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">Комерал назорат</a></li>
                                     <li class="breadcrumb-item" ><a href="{% url 'show_rejected_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                                     <li class="breadcrumb-item" ><a href="{% url 'show_akt_polevoy_worker' id=workerobject.object.id %}">АКТ майдон назорати далолатномаси</a></li>
                                 {% endif %}
                                 <br>
-                                {% if pdowork.worker_leader == user.profile.full_name  %}
+                                {% if pdowork.worker_leader == user.profile.pk  %}
                                     <li class="breadcrumb-item"><a href="{% url 'leader_komeral_works' %}">Комерал назорат</a></li>
                                     {% if workerobject.status == 4 %}
                                     <li class="breadcrumb-item" ><a href="{% url 'rejected_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
@@ -3790,7 +3790,7 @@
                                                                                         <label class="col-sm-3 col-form-label">Проверку
                                                                                             произвел(и) </label>
                                                                                         <div class="col-sm-9">
-                                                                                            <input class="form-control" value="{{ user.profile.full_name }}" id="a70" name="a70"
+                                                                                            <input class="form-control" value="{{ user.profile.pk }}" id="a70" name="a70"
                                                                                                    type="text"
                                                                                                    placeholder="должность,роспись,фамилия и.о.">
                                                                                         </div>
@@ -3849,7 +3849,7 @@
 </div>
 
 <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
-<input type="text" name="worker" id="worker" value="{{ user.profile.full_name }}" style="display: none">
+<input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
 {% csrf_token %}
 
 

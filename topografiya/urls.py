@@ -109,6 +109,7 @@ urlpatterns = [
     # ogogdprinter
 
     re_path(r'^history/$', views.history, name='history'),
+    re_path(r'^status_work/(?P<id>\d+)/$', views.status_work, name='status_work'),
     re_path(r'^obj_data$', views.obj_data, name='obj_data'),
     re_path(r'^workers/$', views.workers, name='workers'),
     re_path(r'^reject_worker$', views.reject_worker, name='reject_worker'),
