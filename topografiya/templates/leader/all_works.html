@@ -38,6 +38,7 @@
         color: #800e24;
         border-radius: 50%;
     }
+
 </style>
 {% endblock stylecontent %}
 
@@ -61,7 +62,7 @@
                                 <p>11/11/2022</p>
                             </div>
                             <div class="mb-2">
-                                <b>Обект номи<sup style="color: red;">*</sup></b>
+                                <b>Объект номи<sup style="color: red;">*</sup></b>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </p>
                             </div>
                             <div class="mb-2">
@@ -178,152 +179,164 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
                                                         <thead>
-                                                        <tr>
+                                                        <tr style="text-align: center">
                                                             <th scope="col">#</th>
-                                                            <th scope="col">Обект номи</th>
+                                                            <th scope="col">Объект номи</th>
                                                             <th scope="col">Маъсул шахс</th>
-                                                            <th scope="col">Ишчи дастур ҳолати</th>
-                                                            <th scope="col">Дала назорати ҳолати</th>
-                                                            <th scope="col">Камерал нозорат ҳолати</th>
+                                                            <th scope="col">Ишчи дастур</th>
+                                                            <th scope="col">Дала назорати</th>
+                                                            <th scope="col">Камерал нозорат</th>
                                                             <th scope="col">Хисобот</th>
-                                                            <th scope="col">Кўриш</th>
+                                                            <th scope="col">Танишиш</th>
 
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr style="background-color: #d5f8da;">
-                                                            <th scope="row">1</th>
-                                                            <td>Янги қурилиши режалаштирилаётган МСВ</td>
-                                                            <td>Aбдуллайев Aббос Умаров</td>
-                                                            <td><a href="{% url 'history_program_work' %}" class="succes">05/01/2022</a></td>
-                                                            <td><a href="../starter-kit/timearxiv.html" class="warning">29/12/2021</a></td>
-                                                            <td><span class="succes">13/01/2022</span></td>
-                                                            <td><span class="succes">12/12/2021</span></td>
-                                                            <td>
-                                                                <a class="" href="" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                                                                    <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
-                                                                </a>
-                                                            </td>
 
-                                                        </tr>
-                                                        <tr class="table-warning">
-                                                            <th scope="row">2</th>
-                                                            <td>Golden House янги уйлар</td>
-                                                            <td>Комилов Сардорбек Шухратов</td>
-                                                            <td><span class="tie">.....</span></td>
-                                                            <td><span class="warning tie">29/12/2021</span></td>
-                                                            <td><span class="succes tie">13/01/2022</span></td>
-                                                            <td><span class="tie">.....</span></td>
-                                                            <td><a class="" href="" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                                                                                    <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
-                                                                                </a>
-                                                                                </td>
-                                                        </tr>
-                                                        <tr  class="table-danger">
-                                                            <th scope="row">3</th>
-                                                            <td>Янги қурилиши режалаштирилаётган МСВ</td>
-                                                            <td>Aбдуллайев Aббос Умаров</td>
-                                                            <td><span class="danger">05/01/2022</span></td>
-                                                            <td><span class="warning">29/12/2021</span></td>
-                                                            <td><span class="warning">13/01/2022</span></td>
-                                                            <td><span class="">.....</span></td>
-                                                            <td><a class="" href="" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                                                                                    <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
-                                                                                </a>
-                                                                                </td>
-                                                        </tr>
-                                                        <tr class="table-danger">
-                                                            <th scope="row">4</th>
-                                                            <td>Golden House янги уйлар</td>
-                                                            <td>Комилов Сардорбек Шухратов</td>
-                                                            <td><span class="danger ">05/01/2022</span></td>
-                                                            <td><span class="">.......</span></td>
-                                                            <td><span class="danger ">13/01/2022</span></td>
-                                                            <td><span class="warning ">07/12/2021</span></td>
-                                                            <td><a class="" href="" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                                                                                    <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
-                                                                                </a>
-                                                                                </td>
-                                                        </tr>
-                                                        <tr class="table-warning">
-                                                            <th scope="row">5</th>
-                                                            <td>Янги қурилиши режалаштирилаётган МСВ</td>
-                                                            <td>Aбдуллайев Aббос Умаров</td>
-                                                            <td><span class=" warning">05/01/2022</span></td>
-                                                            <td><span class="warning te">29/12/2021</span></td>
-                                                            <td><span class="succes tie">13/01/2022</span></td>
-                                                            <td><span class="">.....</span></td>
-                                                            <td><a class="" href="" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                                                                                    <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
-                                                                                </a>
-                                                                                </td>
-                                                        </tr>
-                                                        <tr style="background-color: #d5f8da">
-                                                            <th scope="row">6</th>
-                                                            <td>Янги қурилиши режалаштирилаётган МСВ</td>
-                                                            <td>Aбдуллайев Aббос Умаров</td>
-                                                            <td><span class="succes ">05/01/2022</span></td>
-                                                            <td><span class="warning ">29/12/2021</span></td>
-                                                            <td><span class="succes ">13/01/2022</span></td>
-                                                            <td><span class="succes ">12/12/2021</span></td>
-                                                            <td><a class="" href="" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                                                                                    <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
-                                                                                </a>
-                                                                                </td>
-                                                        </tr>
-                                                        <tr class="table-warning">
-                                                            <th scope="row">7</th>
-                                                            <td>Golden House янги уйлар</td>
-                                                            <td>Комилов Сардорбек Шухратов</td>
-                                                            <td><span class="">.....</span></td>
-                                                            <td><span class="warning ">29/12/2021</span></td>
-                                                            <td><span class="succes te">13/01/2022</span></td>
-                                                            <td><span class="">.....</span></td>
-                                                            <td><a class="look" href="/"><i
-                                                                    class="fa fa-eye"></i> Кўриш</a></td>
-                                                        </tr>
-                                                        <tr class="table-danger">
-                                                            <th scope="row">8</th>
-                                                            <td>Янги қурилиши режалаштирилаётган МСВ</td>
-                                                            <td>Aбдуллайев Aббос Умаров</td>
-                                                            <td><span class="danger ">05/01/2022</span></td>
-                                                            <td><span class="warning ">29/12/2021</span></td>
-                                                            <td><span class="warning ">13/01/2022</span></td>
-                                                            <td><span class="">.....</span></td>
-                                                            <td><a class="look" href="/"><i
-                                                                    class="fa fa-eye"></i> Кўриш</a></td>
-                                                        </tr>
+                                                        {% for work in works %}
+
+                                                            <tr {% if work.status == 5 %} style="background-color: #d5f8da;text-align: center" {% else %} style="background-color: rgba(255, 224, 179, 0.8);text-align: center" {% endif %}>
+                                                                <td scope="row">#</td>
+                                                                <td>{{ work.object.pdowork.object_name}}</td>
+                                                                <td>{{ work.object.worker_ispolnitel}}</td>
+
+                                                                <td>
+                                                                    <a href="{% url 'history_program_work' id=work.object.id %}">
+                                                                        {% for programwork in programworks %}
+                                                                            {% if work.object.id == programwork.object.id %}
+                                                                                {% if programwork.status == 4 or programwork.status == 5 %}
+                                                                                    <span class="text-white p-1" style="background-color: green"><i class="fa fa-check"></i> <b>{{ programwork.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+
+                                                                                {% if programwork.status == 2 %}
+                                                                                    <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ programwork.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+
+                                                                                {% if programwork.status == 1 %}
+                                                                                    <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ programwork.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </a>
+                                                                </td>
+
+                                                                <td>
+                                                                    <a href="{% url 'history_polevoy_checking' id=work.object.id %}">
+
+                                                                        {% if work.status == 4 or work.status == 5 %}
+                                                                            <span class="text-white p-1" style="background-color: green"><i class="fa fa-check"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
+                                                                        {% endif %}
+
+                                                                        {% if work.status == 2 %}
+                                                                            <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
+                                                                        {% endif %}
+
+                                                                        {% if work.status == 1 %}
+                                                                            <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
+                                                                        {% endif %}
+
+                                                                    </a>
+                                                                </td>
+
+                                                                <td>
+                                                                    <a href="{% url 'history_komeral_checking' id=work.object.id %}">
+                                                                    {% for aktkomeral in aktkomerals %}
+                                                                            {% if work.object.id == aktkomeral.object.id %}
+                                                                                {% if aktkomeral.status == 4 or aktkomeral.status == 5 %}
+                                                                                    <span class="text-white p-1" style="background-color: green"><i class="fa fa-check"></i> <b>{{ aktkomeral.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+
+                                                                                {% if aktkomeral.status == 2 %}
+                                                                                    <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ aktkomeral.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+
+                                                                                {% if aktkomeral.status == 1 %}
+                                                                                    <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ aktkomeral.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </a>
+                                                                </td>
+
+                                                                {% if work.object.isset_programwork == True %}
+                                                                    <td>
+                                                                        <a href="{% url 'history_report' id=work.object.id %}">
+
+                                                                            {% for report in reports %}
+                                                                                {% if work.object.id == report.object.id %}
+                                                                                    {% if report.status == 4 or report.status == 5 %}
+                                                                                        <span class="text-white p-1" style="background-color: green"><i class="fa fa-check"></i> <b>{{ report.active_time|date:"m/d/Y"}}</b></span>
+                                                                                    {% endif %}
+
+                                                                                    {% if report.status == 2 %}
+                                                                                        <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ report.active_time|date:"m/d/Y"}}</b></span>
+                                                                                    {% endif %}
+
+                                                                                    {% if report.status == 1 %}
+                                                                                        <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ report.active_time|date:"m/d/Y"}}</b></span>
+                                                                                    {% endif %}
+
+                                                                                {% endif %}
+                                                                            {% endfor %}
+
+                                                                        </a>
+                                                                    </td>
+                                                                {% else %}
+                                                                    <td><a href="#"> <span class="succes">-- --</span> </a></td>
+                                                                {% endif %}
+
+                                                                {% if work.status == 5 %}
+                                                                    <td>
+                                                                        <a href="{% url 'show_all_works' id=work.object.id %}">
+                                                                            <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
+                                                                        </a>
+                                                                    </td>
+                                                                {% else %}
+                                                                    <td>
+
+                                                                    </td>
+                                                                {% endif %}
+
+
+                                                            </tr>
+
+                                                        {% endfor %}
+
+
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12">
-                                            <nav style="float: right;">
-                                                <ul class="pagination pagination-primary">
-                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)"
-                                                                             tabindex="-1"><i
-                                                            class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-                                                    </li>
-                                                    <li class="page-item active"><a class="page-link"
-                                                                                    href="javascript:void(0)">1</a></li>
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="javascript:void(0)">2 <span
-                                                            class="sr-only">(current)</span></a></li>
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="javascript:void(0)">4</a></li>
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="javascript:void(0)">5</a></li>
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="javascript:void(0)">6</a></li>
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="javascript:void(0)"><i
-                                                            class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
+{#                                        <div class="col-xl-12">#}
+{#                                            <nav style="float: right;">#}
+{#                                                <ul class="pagination pagination-primary">#}
+{#                                                    <li class="page-item"><a class="page-link" href="javascript:void(0)"#}
+{#                                                                             tabindex="-1"><i#}
+{#                                                            class="fa fa-long-arrow-left" aria-hidden="true"></i></a>#}
+{#                                                    </li>#}
+{#                                                    <li class="page-item active"><a class="page-link"#}
+{#                                                                                    href="javascript:void(0)">1</a></li>#}
+{#                                                    <li class="page-item"><a class="page-link"#}
+{#                                                                             href="javascript:void(0)">2 <span#}
+{#                                                            class="sr-only">(current)</span></a></li>#}
+{#                                                    <li class="page-item"><a class="page-link"#}
+{#                                                                             href="javascript:void(0)">4</a></li>#}
+{#                                                    <li class="page-item"><a class="page-link"#}
+{#                                                                             href="javascript:void(0)">5</a></li>#}
+{#                                                    <li class="page-item"><a class="page-link"#}
+{#                                                                             href="javascript:void(0)">6</a></li>#}
+{#                                                    <li class="page-item"><a class="page-link"#}
+{#                                                                             href="javascript:void(0)"><i#}
+{#                                                            class="fa fa-long-arrow-right" aria-hidden="true"></i></a>#}
+{#                                                    </li>#}
+{#                                                </ul>#}
+{#                                            </nav>#}
+{#                                        </div>#}
                                     </div>
+
                                     <div class="tab-pane fade" id="pills-warningprofile" role="tabpanel"
                                          aria-labelledby="pills-warningprofile-tab">
                                         <div class="col-sm-12 col-xl-12 xl-100">

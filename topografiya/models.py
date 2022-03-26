@@ -103,11 +103,11 @@ class PdoWork(models.Model):
 
 class Object(models.Model):
     pdowork = models.ForeignKey(PdoWork, blank=True, on_delete=models.CASCADE, related_name='pdoworkobject')
-    worker_leader = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='workerleader')
-    worker_ispolnitel = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='workerispolnitel')
-    worker_geodezis = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='worker_geodezis')
-    worker_printer = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='worker_printer')
-    worker_reporter = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='worker_reporter')
+    worker_leader = models.ForeignKey(Worker, blank=True, null=True, on_delete=models.CASCADE, related_name='workerleader')
+    worker_ispolnitel = models.ForeignKey(Worker, blank=True, null=True, on_delete=models.CASCADE, related_name='workerispolnitel')
+    worker_geodezis = models.ForeignKey(Worker, blank=True, null=True, on_delete=models.CASCADE, related_name='worker_geodezis')
+    worker_printer = models.ForeignKey(Worker, blank=True, null=True, on_delete=models.CASCADE, related_name='worker_printer')
+    worker_reporter = models.ForeignKey(Worker, blank=True, null=True, on_delete=models.CASCADE, related_name='worker_reporter')
     isset_programwork = models.BooleanField(default=False)
 
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -475,6 +475,7 @@ class WorkerObject(models.Model):
     # status = 4 tasdiqlangan
     status_printer = models.IntegerField(default=0)
     status_repoert_printer = models.IntegerField(default=0)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
         return self.object.pdowork.object_name
 
@@ -594,7 +595,7 @@ class AktKomeralForm(models.Model):
     a61 = models.TextField(blank=True)
     a62 = models.TextField(blank=True)
     a63 = models.TextField(blank=True)
-
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.object.pdowork.object_name
@@ -894,30 +895,39 @@ class Polygons(models.Model):
 class History(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='historyobject')
     status = models.IntegerField(default=0)
+
     # status = 4 bolsa bu program rabotni tasdiqlagan bo'ladi
     # status = 5 bolsa bu program rabotni rad etilgan
+
     # status = 6 bolsa bu program rabotni qayta tekshiruvga yuborildi
+    # status = 26 Ishchi dastur o'zgartirildi
+    # status = 27 Ishchi dasturi teskhiruvga yuborilgan
+
     # status = 7 Dala nazoratiga sirie ma'lumotlari yuklandi
     # status = 8 Dala nazoratiga fayl yuklandi
     # status = 9 Dala nazoratiga poyasitelniy formaga ma'lumot yuklandi
     # status = 10 Dala nazorati tekshiruviga yuborilgan ish
+
     # status = 11 Dala nazorati tekshiruvi akt yaratildi
     # status = 12 Dala nazorati tekshiruvi akt o'zgartirildi
     # status = 13 Dala nazorati tekshiruvi tasdqilandi
     # status = 14 Dala nazorati tekshiruvi rad etildi
+
     # status = 15 komeral nazorati rad etildi
     # status = 16 komeral nazoratga teskhiruviga qayta yuborildi
     # status = 17 komeral nazoratidan o'tgan ish
+
     # status = 18 Geodezis komeral nazoratidan qaytarilgan ish
     # status = 19 Geodezis komeral nazoratidan qayta yuborilgan ish
     # status = 20 Geodezis komeral nazoratni tasdiqladi
+
     # status = 21 Oogd xodimi hisobotni tekshiruvga yubordi
     # status = 22 Geodezis hisobotni rad etgan
     # status = 23 Geodezis hisobotni tasdiqlandi
+
     # status = 24 Geodezis hisobotini pechatga yuborish
+
     # status = 25 Geodezis 2 hisobotini pechatga yuborish
-    # status = 26 Ishchi dastur o'zgartirildi
-    # status = 27 Ishchi dasturi teskhiruvga yuborilgan
     # status = 28 AKT komeral nazorat saqlandi
     # status = 29 Ko'rsatma fayli saqlandi
 
@@ -926,6 +936,6 @@ class History(models.Model):
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     comment = models.TextField(blank=True)
     def __str__(self):
-        return self.object.pdowork.object_name
+        return self.comment
     class Meta:
         verbose_name_plural = "History"

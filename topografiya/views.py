@@ -183,8 +183,12 @@ def save_order(request):
 
 @login_required(login_url='/signin')
 def allworks(request):
-    pdoworks = PdoWork.objects.filter(status=0)
-    context = {'pdoworks': pdoworks, 'count': counter(),'count_works': new_work_counter(request)}
+    works = WorkerObject.objects.order_by('-id').all()
+    programworks = ProgramWork.objects.all()
+    aktkomerals = AktKomeralForm.objects.all()
+    reports = Report.objects.all()
+
+    context = {'works': works, 'count': counter(),'count_works': new_work_counter(request),'programworks': programworks, 'aktkomerals': aktkomerals,'reports': reports}
     return render(request, 'leader/all_works.html', context)
 
 @login_required(login_url='/signin')
@@ -545,11 +549,49 @@ def sent_to_check_programwork(request):
 
 
 @login_required(login_url='/signin')
-def history_program_work(request):
+def history_program_work(request, id):
     pdoworks = PdoWork.objects.filter(status=0)
+    work = WorkerObject.objects.filter(object=id).first()
 
-    context = {'pdoworks': pdoworks, 'count': counter()}
-    return render(request, 'leader/history_program_work.html', context)
+    # status = 4 bolsa bu program rabotni tasdiqlagan bo'ladi
+    # status = 5 bolsa bu program rabotni rad etilgan
+    # status = 6 bolsa bu program rabotni qayta tekshiruvga yuborildi
+    # status = 26 Ishchi dastur o'zgartirildi
+    # status = 27 Ishchi dasturi teskhiruvga yuborilgan
+
+    histories = History.objects.filter(object=id).all()
+
+    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work}
+
+    return render(request, 'leader/history/history_program_work.html', context)
+
+@login_required(login_url='/signin')
+def history_polevoy_checking(request, id):
+    pdoworks = PdoWork.objects.filter(status=0)
+    work = WorkerObject.objects.filter(object=id).first()
+    histories = History.objects.filter(object=id).all()
+
+    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work}
+
+    return render(request, 'leader/history/history_polevoy_checking.html', context)
+
+@login_required(login_url='/signin')
+def history_komeral_checking(request, id):
+    pdoworks = PdoWork.objects.filter(status=0)
+    work = WorkerObject.objects.filter(object=id).first()
+    histories = History.objects.filter(object=id).all()
+
+    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work}
+
+    return render(request, 'leader/history/history_komeral_checking.html', context)
+
+@login_required(login_url='/signin')
+def history_report(request, id):
+    pdoworks = PdoWork.objects.filter(status=0)
+    work = WorkerObject.objects.filter(object=id).first()
+    histories = History.objects.filter(object=id).all()
+    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work}
+    return render(request, 'leader/history/history_report.html', context)
 
 @login_required(login_url='/signin')
 def leader_polevoy_works(request):
@@ -1446,7 +1488,7 @@ def send_to_check_polevoy(request):
         workerobject.save()
 
 
-        history = History(object=workerobject.object, status=7, comment="Ish dala nazorati tekshiruvga yuborildi",user_id=user)
+        history = History(object=workerobject.object, status=10, comment="Ish dala nazorati tekshiruvga yuborildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -5532,9 +5574,9 @@ def program_work_form_re_sent(request):
         programwork1.status = 1
         programwork1.save()
 
-        history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi",
+        history = History(object=object, status=6, comment="Ishchi dasturi qayta tekshiruvga yuborildi",
                           user_id=object.worker_leader)
-        # status=26 ishchi dastur o'zgarishlari saqlandi
+        # status=6 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
         return HttpResponse(1)
@@ -6001,7 +6043,7 @@ def confirm_print2(request):
         object.worker_ogogd = user
         object.save()
 
-        history = History(object=workerobject.object, status=22, comment="Obektni pechatga yuborish hisobotsiz", user_id=user)
+        history = History(object=workerobject.object, status=25, comment="Obektni pechatga yuborish hisobotsiz", user_id=user)
         history.save()
 
         return HttpResponse(1)
