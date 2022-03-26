@@ -827,7 +827,7 @@ class Order(models.Model):
     type_of_sirie = models.CharField(verbose_name='type_of_work', default='1', max_length=10, choices=type_order)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
-        return self.info
+        return self.object.pdowork.object_name
 
     class Meta:
         verbose_name_plural = "Order"

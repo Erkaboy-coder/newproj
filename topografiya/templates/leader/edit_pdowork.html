@@ -398,7 +398,7 @@
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>16. </b>Метод топографической съемки <sup class="text-danger">*</sup></label>
 {#                                                                                {{ order.type_of_sirie }}#}
-                                                                                <div class="col-sm-8">
+                                                                              <div class="col-sm-8">
                                                                                     <select name="type_of_sirie" id="type_of_sirie" required class="js-example-disabled-results col-sm-12">
                                                                                         <option value="">--- ---</option>
                                                                                         <option value="0" {% if order.type_of_sirie == '0' %}selected{% endif %}>БПЛА</option>
@@ -431,9 +431,10 @@
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание составил</label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.pk }}">
+                                                                                    <input class="form-control" name="order_creator" readonly id="order_creator" type="text" value="{{ user.profile.full_name }}">
                                                                                     <input class="form-control" name="worker_leader" readonly id="worker_leader" type="text" value="{{ user.profile.pk }}" style="display: none">
-                                                                                </div>                                                                            </div>
+                                                                                </div>
+                                                                            </div>
 
                                                                              <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">Предписание получил</label>
@@ -520,6 +521,12 @@
             $("#isset_programwork").val(this.value);
         });
        });
+
+       $(document).ready(function(){
+            var a = '{{ object.isset_programwork }}';
+            $("#isset_programwork").val(a);
+       });
+
 
     </script>
         <script>

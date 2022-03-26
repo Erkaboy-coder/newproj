@@ -228,7 +228,7 @@
 
                                                                             </div>
 
-                                                                            <input type="text" id="isset_programwork" value="False" style="display:none;" name="is_programwork">
+                                                                            <input type="text" id="isset_programwork" style="display: none" value="False" name="is_programwork">
 
                                                                         </div>
                                                                         <div class="col-lg-6">
@@ -640,6 +640,11 @@
         $("input[name='isset_programwork']").click(function(){
             $("#isset_programwork").val(this.value);
         });
+       });
+
+        $(document).ready(function(){
+            var a = '{{ object.isset_programwork }}';
+            $("#isset_programwork").val(a);
        });
 
     </script>

@@ -2434,7 +2434,7 @@ def order_to_pdf(request):
         context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
         context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
         context += '<li>Виды работ ' + object.pdowork.work_type + '</li>';
-        context += '<li>Сроки выполнения работ ' + object.pdowork.work_term + '</li>';
+        context += '<li>Сроки выполнения работ ' + object.pdowork.work_term + ' день</li>';
         context += '<li>Oбъемы работ ' + order.size + '</li>';
         context += '<li>Исходные данные, система координат и высот, использование материалов работ прошлых лет ' + order.info + '</li>';
         context += '<li>Методы создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек ' + order.method_creation + '</li>';
@@ -2444,7 +2444,12 @@ def order_to_pdf(request):
         context += '<li>Особые требования ' + order.requirements + '</li>';
         context += '<li>Поверки геодезических инструментов ' + order.item_check + '</li>';
         context += '<li>Перечень предоставляемых материалов ' + order.list_of_materials + '</li>';
-        context += '<li>Метод топографической съемки ' + order.type_of_sirie + '</li>';
+        if order.type_of_sirie == '0':
+            context += '<li>Метод топографической съемки БПЛА</li>';
+        if order.type_of_sirie == '1':
+            context += '<li>Метод топографической съемки GNSS</li>';
+        if order.type_of_sirie == '2':
+            context += '<li>Метод топографической съемки Тахеометрическая съемка</li>';
         context += ' <li>Приложение: <ol>'
         context += '<li><a href=http://0.0.0.0:1515/'+str(object.pdowork.tz)+'>Копия технического задания</a></li>';
         context += '</ol></li>';
@@ -5261,6 +5266,59 @@ def start(request):
         order_creator = data.get('worker_leader')
         pdowork_id = data.get('pdowork_id')
 
+        info = request.POST.get('info')
+        method_creation = request.POST.get('method_creation')
+        method_fill = request.POST.get('method_fill')
+        syomka = request.POST.get('syomka')
+        requirements = request.POST.get('requirements')
+        item_check = request.POST.get('item_check')
+        list_of_materials = request.POST.get('list_of_materials')
+        adjustment_methods = request.POST.get('adjustment_methods')
+        type_of_sirie = request.POST.get('type_of_sirie')
+
+        isset_programwork = request.POST.get('isset_programwork')
+
+        worker_ispolnitel = request.POST.get('worker_ispolnitel')
+        worker_leader = request.POST.get('worker_leader')
+
+        user_worker_leader = Worker.objects.filter(pk=worker_leader).first()
+        user_worker_ispolnitel = Worker.objects.filter(pk=worker_ispolnitel).first()
+
+        object_id = request.POST.get('object_id')
+        is_programwork = request.POST.get('is_programwork')
+
+        object = Object.objects.filter(pdowork=pdowork_id).first()
+        object.pdowork = object.pdowork
+        object.worker_leader = user_worker_leader
+        object.isset_programwork = isset_programwork
+        object.worker_ispolnitel = user_worker_ispolnitel
+        object.save()
+
+        order = Order.objects.filter(object=object).first()
+
+        order.object = object
+        order.info = info
+        order.method_creation = method_creation
+        order.method_fill = method_fill
+        order.syomka = syomka
+        order.requirements = requirements
+        order.item_check = item_check
+        order.list_of_materials = list_of_materials
+        order.adjustment_methods = adjustment_methods
+        order.type_of_sirie = type_of_sirie
+        order.order_creator = user_worker_leader
+        order.save()
+
+        program_work = ProgramWork.objects.filter(object=object_id).first()
+        if is_programwork == 'True':
+            if not program_work:
+                programm_work = ProgramWork(object=object, status=0)
+                programm_work.save()
+        elif is_programwork == 'False':
+            if program_work:
+                program_work.delete()
+
+
         pdowork = PdoWork.objects.filter(id=pdowork_id).first()
         pdowork.status_recive=1
         # status_recive = 1 is started work but not recived by worker
@@ -5299,6 +5357,7 @@ def edit_pdowork_changes(request):
         worker_id = request.POST.get('worker_id')
         object_id = request.POST.get('object_id')
         is_programwork = request.POST.get('is_programwork')
+
         object = Object.objects.filter(id=object_id).first()
         object.pdowork=object.pdowork
         object.worker_leader = user_worker_leader

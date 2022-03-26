@@ -199,7 +199,7 @@
                                                                 <td scope="row">#</td>
                                                                 <td>{{ work.object.pdowork.object_name}}</td>
                                                                 <td>{{ work.object.worker_ispolnitel}}</td>
-
+                                                                 {% if work.object.isset_programwork == True %}
                                                                 <td>
                                                                     <a href="{% url 'history_program_work' id=work.object.id %}">
                                                                         {% for programwork in programworks %}
@@ -220,6 +220,9 @@
                                                                         {% endfor %}
                                                                     </a>
                                                                 </td>
+                                                                {% else %}
+                                                                    <td><a href="#"> <span class="succes">-- --</span> </a></td>
+                                                                {% endif %}
 
                                                                 <td>
                                                                     <a href="{% url 'history_polevoy_checking' id=work.object.id %}">
