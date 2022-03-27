@@ -6113,7 +6113,8 @@ def confirm_print2(request):
 @login_required(login_url='/signin')
 def history(request):
     works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
-    content={'count': counter(),'works':works}
+    workers = Worker.objects.filter(branch=request.user.profile.branch).filter(status=0).all()
+    content={'count': counter(),'works':works,'workers':workers}
     return render(request,'history.html',content)
 
 @login_required(login_url='/signin')
@@ -6237,6 +6238,61 @@ def login(request):
         messages.error(request, "Bunday foydalanuvchi mavjud emas !")
         return HttpResponseRedirect('/')
 
+@login_required(login_url='/signin')
+def settings(request,id):
+    worker = Worker.objects.filter(id=id).first()
+
+    content={'count': counter(), 'worker': worker}
+
+    return render(request,'settings.html', content)
+
+@login_required(login_url='/signin')
+def edit_user_info(request):
+    if request.method == 'POST':
+        data = request.POST
+        user_id = data.get('user_id')
+        position = data.get('position')
+        contact = data.get('contact')
+        email = data.get('email')
+        full_name = data.get('full_name')
+
+        user = Worker.objects.filter(id=user_id).first()
+        user.full_name = full_name
+        user.contact = contact
+        user.position = position
+        user.email = email
+        user.save()
+        messages.success(request, "Данные изменены.")
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def change_password(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        new_password = request.POST.get('new_password')
+        worker = Worker.objects.filter(id=user_id).first()
+        user = User.objects.get(id=worker.user.id)
+        user.set_password(new_password)
+        user.save()
+
+        messages.success(request, "Данные изменены.")
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
+def search(request):
+    if request.method == 'POST':
+        worker = request.POST.get('worker')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        number = request.POST.get('number')
+
+        objects = Object.objects.filter(worker_ispolnitel=worker).all()
+        return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+
 def register(request):
     workers = Worker.objects.filter(status=0).all()
     objects = Object.objects.all()
@@ -6275,3 +6331,6 @@ def sign_up(request):
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect('/')
+
+
+

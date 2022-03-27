@@ -35,55 +35,51 @@
                                 <h5>Aрхивга келиб тушган ишлар ҳақида маълумотлар</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <input class="form-control" type="text"
-                                               placeholder="Геодезис назорат бўйича">
+                                <form action="">
+                                    <div class="row">
+
+                                        <div class="col-lg-6">
+                                            <select class="form-control form-control-info btn-square" name="worker" id="worker">
+                                                <option value="">-- Ишнибажарувчи --</option>
+                                                {% for worker in workers %}
+                                                    <option value="{{ worker.id }}">{{ worker.full_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                                <input class="form-control" type="number" placeholder="Обьект рақами бўйича" id="number" name="number">
+                                        </div>
+
                                     </div>
-                                    <div class="col-lg-4">
-                                        <select class="form-control form-control-info btn-square"
-                                                name="select">
-                                            <option value="opt1">Komilov Sardorbek</option>
-                                            <option value="opt2">Type 2</option>
-                                            <option value="opt3">Type 3</option>
-                                            <option value="opt3">Type 3</option>
-                                            <option value="opt3">Type 3</option>
-                                        </select>
+                                    <div class="row m-t-15">
+                                        <div class="col-lg-4 col-md-6 input-group" style="width: 35%">
+                                            <span class="input-group-text">Шартнома санаси дан ... </span>
+                                            <input class="form-control" type="date" id="start_time" name="start_time">
+                                        </div>
+                                         <div class="col-lg-4 col-md-6 input-group" style="width: 35%">
+                                            <span class="input-group-text">.... гача ... </span>
+                                            <input class="form-control" type="date" id="end_time" name="end_time">
+                                        </div>
+
+
+                                        <div class="col-lg-4 col-md-4" style="width: 30%">
+                                            <button class="btn btn-primary w-100 text-center" id="search">
+                                                Қидириш
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <input class="form-control" type="text"
-                                               placeholder="Дала назорати бўйича">
-                                    </div>
-                                </div>
-                                <div class="row m-t-15">
-                                    <div class="col-lg-3">
-                                        <input class="form-control" type="text"
-                                               placeholder="ID raqam bo'yich">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input class="datepicker-here form-control digits" type="text" data-language="ru" data-multiple-dates-separator=", " data-position="bottom left" placeholder="dan...">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input class="datepicker-here form-control digits" type="text" data-language="ru" data-multiple-dates-separator=", " data-position="bottom right" placeholder="...gach">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <button class="btn btn-primary w-100 text-center">
-                                            Қидириш
-                                        </button>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                             <div class="table-responsive p-l-30 p-r-30 p-b-30">
                                 <table class="table table-bordered">
                                     <thead class="table-primary">
                                     <tr>
                                         <th class="text-center" scope="col">№</th>
-                                        <th scope="col">Ишнибажарувчи</th>
-                                        <th scope="col">Ташкилот номи</th>
-                                        <th scope="col">Ишмазмуни</th>
-                                        <th scope="col" class="text-center">Муддати</th>
+                                        <th scope="col"><b>Ишнибажарувчи</b></th>
+                                        <th scope="col"><b>Ташкилот номи</b></th>
+                                        <th scope="col"><b>Ишмазмуни</b></th>
+                                        <th scope="col" class="text-center"><b>Муддати</b></th>
                                         <th scope="col" class="text-center">Кўриш</th>
-                                        <th scope="col"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -100,7 +96,7 @@
                                                     <button class="btn btn-outline-primary">Кўриш</button>
                                                 </a>
                                             </td>
-                                            <td class="text-center"><i class="fa fa-trash-o txt-danger f-20"></i></td>
+
                                         </tr>
                                     {% endfor %}
 
@@ -128,3 +124,37 @@
 </div>
 
 {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <script type="text/javascript">
+    $(document).on('click',"#search",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+
+        data.append("worker", $('#worker').val());
+        data.append("start_time", $('#start_time').val());
+        data.append("end_time", $('#end_time').val());
+        data.append("number", $('#number').val());
+
+        event.preventDefault();
+            $.ajax({
+            type: 'POST',
+            url: '{% url 'search' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+{#                $('#succes_message').css('display','inline-block');#}
+                location.replace(window.location.pathname);
+            },
+{#             timeout: 3000;#}
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>

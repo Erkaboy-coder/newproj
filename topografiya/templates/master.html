@@ -140,8 +140,7 @@
                                 </div>
                             </div>
                         <ul class="notification-dropdown onhover-show-div"style="width: 225px;top:60px;">
-                            <li class=""><a href="">Профил</a></li>
-                            <li class=""><a href="">Шахсий маълумотларим</a></li>
+                            <li class=""><a href="{% url 'settings' id=request.user.profile.pk %}">Шахсий маълумотларим</a></li>
                             <li class=""><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Чиқиш</a></li>
                         </ul>
                     </li>
@@ -348,7 +347,7 @@
 
 {#                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="#"><i data-feather="message-circle"></i><span>Хабарлар<span style="float: right" class="badge rounded-pill badge-danger">3</span></span></a></li>#}
                             <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'history' %}"><i data-feather="arrow-down-circle"></i><span>Aрхив</span></a></li>
-{#                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="../starter-kit/settings.html"><i data-feather="settings"></i><span>Созламалар</span></a></li>#}
+                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>Созламалар</span></a></li>
                             <li style="position: fixed;bottom: 10px;"><a  href="tel:+998711715658"><i data-feather="phone"></i> +998711715658</a></li>
                         </ul>
                     </div>

@@ -126,6 +126,11 @@ urlpatterns = [
     re_path(r'^show_work$', views.show_work, name='show_work'),
     re_path(r'^recive_work$', views.recive_work, name='recive_work'),
     # re_path(r'^ilova_to_pdf$', views.ilova_to_pdf, name='ilova_to_pdf'),
+    re_path(r'^settings/(?P<id>\d+)/$', views.settings, name='settings'),
+    re_path(r'^edit_user_info$', views.edit_user_info, name='edit_user_info'),
+    re_path(r'^change_password$', views.change_password, name='change_password'),
+    re_path(r'^search$', views.search, name='search'),
+
     re_path(r'^show_pdowork/(?P<id>\d+)/$', views.show_pdowork, name='show_pdowork'),
     re_path(r'^edit_pdowork/(?P<id>\d+)/$', views.edit_pdowork, name='edit_pdowork'),
     re_path(r'^topografiya/static/files/(?P<path>.*)', serve, {'document_root': settings.DOCS_ROOT}),
