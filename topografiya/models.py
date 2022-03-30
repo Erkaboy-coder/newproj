@@ -524,6 +524,8 @@ class LeaderKomeralWorkReject(models.Model):
 class AktKomeralForm(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='aktkomeralobject')
     status = models.IntegerField(default=0)
+    status_save = models.IntegerField(default=0)
+
     # status = 0 bosa komeral tekshiruvga kelgan ish
     # status = 1 bosa komeral nazorati tekshiruvida
     # status = 2 bosa komeral nazoratdan qaytgan ish

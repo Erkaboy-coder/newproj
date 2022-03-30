@@ -5,6 +5,7 @@
 {% block content%}
 
 {% block stylecontent %}
+    {% load mathfilters %}
 <style>
     .views {
         border-radius: 50%;
@@ -177,13 +178,27 @@
                                         <div class="row m-t-40">
                                             <div class="col-sm-12 col-lg-12">
                                                 <div class="default-according style-1" id="accordionoc">
-                                                    <div class="bg-primary" style="display: inline-block">
-                                                        <button class="btn btn-link text-white collapsed"
-                                                                data-bs-toggle="collapse" data-bs-target="#collapseicon"
-                                                                aria-expanded="false" aria-controls="collapse11"><i
-                                                                class="icofont icofont-search"></i> Бу йердан қидиринг
-                                                        </button>
+{#                                                    <div class="bg-primary" style="display: inline-block">#}
+{#                                                        <button class="btn btn-link text-white collapsed"#}
+{#                                                                data-bs-toggle="collapse" data-bs-target="#collapseicon"#}
+{#                                                                aria-expanded="false" aria-controls="collapse11"><i#}
+{#                                                                class="icofont icofont-search"></i> Бу йердан қидиринг#}
+{#                                                        </button>#}
+{#                                                    </div>#}
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+                                                             <div class="input-group">
+                                                                <span class="input-group-text"><i class="fa fa-search"></i> </span>
+                                                                <input id="search" type="text" class="form-control" placeholder="Маълумотларни излаш..">
+                                                              </div>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+
                                                     </div>
+
+
                                                     <div class="collapse" id="collapseicon" aria-labelledby="collapseicon" data-bs-parent="#accordionoc" style="">
                                                         <div class="card-body">
                                                             <div class="row">
@@ -6992,10 +7007,14 @@
 
                                                         </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="all_works">
 
-                                                        {% for work in works %}
-
+                                                        {% for work in workerobjects %}
+{#                                                            {{ current_time|date:"d/m/Y" }}#}
+{#                                                            <br>#}
+{#                                                            {{ work.pdowork.agreement_date }}#}
+{#                                                            {{ current_time|date:"d/m/Y"|sub:work.object.pdowork.agreement_date }}#}
+{#                                                            <tr class="work" work-agreement="{{ work.pdowork.agreement_date }}" work-term="{{ work.pdowork.work_term }}" current-date="{{ current_time|date:"d/m/Y" }}">#}
                                                             <tr {% if work.status == 5 %} style="background-color: #d5f8da;text-align: center" {% else %} style="background-color: rgba(255, 224, 179, 0.8);text-align: center" {% endif %}>
                                                                 <td scope="row">#</td>
                                                                 <td>{{ work.object.pdowork.object_name}}</td>
@@ -7016,7 +7035,6 @@
                                                                                 {% if programwork.status == 1 %}
                                                                                     <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ programwork.active_time|date:"m/d/Y"}}</b></span>
                                                                                 {% endif %}
-
                                                                             {% endif %}
                                                                         {% endfor %}
                                                                     </a>
@@ -7027,19 +7045,21 @@
 
                                                                 <td>
                                                                     <a href="{% url 'history_polevoy_checking' id=work.object.id %}">
+{#                                                                        {% for workerobject in workerobjects %}#}
+{#                                                                            {% if work.id == workerobject.object.id %}#}
+                                                                                {% if work.status == 4 or work.status == 5 %}
+                                                                                    <span class="text-white p-1" style="background-color: green"><i class="fa fa-check"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
 
-                                                                        {% if work.status == 4 or work.status == 5 %}
-                                                                            <span class="text-white p-1" style="background-color: green"><i class="fa fa-check"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
-                                                                        {% endif %}
+                                                                                {% if work.status == 2 %}
+                                                                                    <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
 
-                                                                        {% if work.status == 2 %}
-                                                                            <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
-                                                                        {% endif %}
-
-                                                                        {% if work.status == 1 %}
-                                                                            <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
-                                                                        {% endif %}
-
+                                                                                {% if work.status == 1 %}
+                                                                                    <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ work.active_time|date:"m/d/Y"}}</b></span>
+                                                                                {% endif %}
+{#                                                                            {% endif %}#}
+{#                                                                        {% endfor %}#}
                                                                     </a>
                                                                 </td>
 
@@ -7055,7 +7075,7 @@
                                                                                     <span class="text-white p-1" style="background-color: red"><i class="fa fa-close"></i> <b>{{ aktkomeral.active_time|date:"m/d/Y"}}</b></span>
                                                                                 {% endif %}
 
-                                                                                {% if aktkomeral.status == 1 %}
+                                                                                {% if aktkomeral.status == 0 %}
                                                                                     <span class="text-white bg-warning p-1"><i class="fa fa-warning"></i> <b>{{ aktkomeral.active_time|date:"m/d/Y"}}</b></span>
                                                                                 {% endif %}
 
@@ -7093,7 +7113,7 @@
 
                                                                 {% if work.status == 5 %}
                                                                     <td>
-                                                                        <a href="{% url 'show_all_works' id=work.object.id %}">
+                                                                        <a href="{% url 'show_all_works' id=work.id %}">
                                                                             <button style="white-space: nowrap;" class="btn btn-primary">Кўриш</button>
                                                                         </a>
                                                                     </td>
@@ -10566,5 +10586,48 @@
                 </div>
             </div>
         </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#all_works tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+    <script>
+    $(document).ready(function(){
+        var work_agreement = $('work').attr('work_agreement');
+        var work_term = $('work').attr('work_term');
+        var current_date = $('work').attr('current_date');
+
+        console.log(work_agreement);
+        console.log(work_term);
+        console.log(current_date);
+
+    });
+    </script>
+
+    <script>
+        let elements = document.getElementsByClassName("time");
+        let terms = document.getElementsByClassName("term");
+        const dates = [];
+        for(let i=0; i < elements.length; i++){
+            dates.push(elements[i].innerHTML);
+            var a = dates[i].split('/').reverse();
+            var b = a[0].toString()+'-'+a[1].toString()+'-'+a[2].toString();
+            const d = new Date(b);
+            d.setDate(d.getDate() + parseInt(terms[i].innerHTML));
+            t=d.toISOString().substring(0, 10);
+
+            document.getElementsByClassName("one")[i].setAttribute("data-time", t);
+            document.getElementsByClassName("count")[i].innerHTML=1;
+        }
+    </script>
+
 
 {% endblock %}

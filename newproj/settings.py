@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'topografiya',
     'leaflet',
     'django.contrib.gis',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'django_filters',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [

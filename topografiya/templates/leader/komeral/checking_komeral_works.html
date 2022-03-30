@@ -684,8 +684,8 @@
                                                                 class="badge rounded-pill badge-primary">2</span> Работа
                                                             выполнена в границах</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a6" name="a6"
-                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием">{{ work.a6 }}</textarea>
+                                                            <textarea class="form-control" type="text" id="a6" name="a6">{{ work.a6 }}</textarea>
+                                                            <p>заданием заказчика, программой работ, техническим предписанием</p>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -901,12 +901,10 @@
                                                                 class="badge rounded-pill badge-primary">8</span> Работа
                                                             выполнена в границах</label>
                                                         <div class="col-sm-9">
-                                                            <textarea class="form-control" type="text" id="a51" name="a51"
-                                                                      placeholder="
-                                                                      указать среднее количество пикетов на дм2, заполнение контуров, правильность
+                                                            <textarea class="form-control" type="text" id="a51" name="a51">{{ work.a51 }}</textarea>
+                                                            <p>указать среднее количество пикетов на дм2, заполнение контуров, правильность
                                                                       применения условных знаков,
-                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">
-                                                            {{ work.a51 }}</textarea>
+                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры</p>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3 row">
@@ -1031,16 +1029,38 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                    {% if work.status_save == 1 %}
                                         <div class="row p-2 mb-2">
                                              <div class="col-md-6 card p-2 shadow-lg">
                                                  <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
                                              </div>
 
                                                  <div class="col-md-6 card p-2 shadow-lg">
-                                                    <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="sent_to_check_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
+                                                    <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="sent_to_check_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
+{#                                                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModal1"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="sent_to_check_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>#}
                                                 </div>
 
                                         </div>
+                                    {% endif %}
+
+                                    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Обновить профиль</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <h5 class="text-warning">Вы действительно хотите изменить данные пользователя?</h5>
+                                      </div>
+                                      <div class="modal-footer" >
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa fa-close"></i> Отказ</button>
+                                        <button type="button" class="btn btn-primary" id="edit_user_info" user-id="{{ worker.pk }}"><i class="fa fa-check"></i> Сохранить изменения </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
 
 
                                      <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">

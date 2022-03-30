@@ -21,6 +21,8 @@
                                     <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
                                     {% elif work.status_geodezis_komeral == 1 %}
                                          <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
+                                    {% elif aktkomeral.status == 2 %}
+                                         <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">Бош геодезис назорати</a></li>
                                 {% else %}
                                     <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
                                 {% endif %}
@@ -29,7 +31,9 @@
                                     <li class="breadcrumb-item"><a href="{% url 'leader_rejected_komeral_works' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
                                     {% elif work.status_geodezis_komeral == 1 %}
                                      <li class="breadcrumb-item"><a href="{% url 'show_komeral_checking_leader' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
-                                    {% else %}
+                                 {% elif aktkomeral.status == 2 %}
+                                    <li class="breadcrumb-item"><a href="{% url 'show_rejected_komeral_works' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
+                                {% else %}
                                     <li class="breadcrumb-item"><a href="{% url 'polevoy_work_doing' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
                                 {% endif %}
 
@@ -45,6 +49,12 @@
                         {% if work.status == 0 %}
                             <a href="{% url 'polevoy_work_doing' id=work.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
                         {% endif %}
+
+                        {% if aktkomeral.status == 2 %}
+                            <a href="{% url 'show_rejected_komeral_works' id=work.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
+                        {% endif %}
+
+
                     </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@
 {% endblock stylecontent %}
 
 
+{% csrf_token %}
 
         <div class="page-body">
             <div class="container-fluid">
@@ -36,42 +37,62 @@
                             </div>
                             <div class="card-body">
                                 <form action="">
+{#                                    <div class="row">#}
+{#                                        <div class="col-md-12">#}
+{#                                            {{ myfilter.form }}#}
+{#                                            <button class="btn btn-primary" type="submit">Search</button>#}
+{#                                        </div>#}
+{#                                        <div class="col-lg-6">#}
+{#                                            <select class="form-control js-example-placeholder-multiple btn-square" name="worker" id="worker">#}
+{#                                                <option value="">-- Ишнибажарувчи --</option>#}
+{#                                                {% for worker in workers %}#}
+{#                                                    <option value="{{ worker.id }}">{{ worker.full_name}}</option>#}
+{#                                                {% endfor %}#}
+{#                                            </select>#}
+{#                                        </div>#}
+{#                                        <div class="col-md-6">#}
+{#                                                <input class="form-control" type="text" placeholder="Обьект рақами бўйича" id="number" name="number">#}
+{#                                        </div>#}
+{##}
+{#                                    </div>#}
+{#                                    <div class="row m-t-15">#}
+{#                                        <div class="col-lg-4 col-md-6 input-group" style="width: 35%">#}
+{#                                            <span class="input-group-text">Шартнома санаси дан ... </span>#}
+{#                                            <input class="form-control" type="date" id="start_time" name="start_time">#}
+{#                                        </div>#}
+{#                                         <div class="col-lg-4 col-md-6 input-group" style="width: 35%">#}
+{#                                            <span class="input-group-text">.... гача ... </span>#}
+{#                                            <input class="form-control" type="date" id="end_time" name="end_time">#}
+{#                                        </div>#}
+{##}
+{##}
+{#                                        <div class="col-lg-4 col-md-4" style="width: 30%">#}
+{#                                            <button class="btn btn-primary w-100 text-center" id="search" type="button">#}
+{#                                                Қидириш#}
+{#                                            </button>#}
+{#                                        </div>#}
+{#                                    </div>#}
+
                                     <div class="row">
-
-                                        <div class="col-lg-6">
-                                            <select class="form-control form-control-info btn-square" name="worker" id="worker">
-                                                <option value="">-- Ишнибажарувчи --</option>
-                                                {% for worker in workers %}
-                                                    <option value="{{ worker.id }}">{{ worker.full_name}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                                <input class="form-control" type="number" placeholder="Обьект рақами бўйича" id="number" name="number">
-                                        </div>
-
-                                    </div>
-                                    <div class="row m-t-15">
-                                        <div class="col-lg-4 col-md-6 input-group" style="width: 35%">
-                                            <span class="input-group-text">Шартнома санаси дан ... </span>
-                                            <input class="form-control" type="date" id="start_time" name="start_time">
-                                        </div>
-                                         <div class="col-lg-4 col-md-6 input-group" style="width: 35%">
-                                            <span class="input-group-text">.... гача ... </span>
-                                            <input class="form-control" type="date" id="end_time" name="end_time">
-                                        </div>
+{#                                        <div class="col-md-6">#}
+{##}
+{#                                        </div>#}
+                                        <div class="col-md-12">
+                                             <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-search"></i> </span>
+                                                <input id="myInput" type="text" class="form-control" placeholder="Маълумотларни излаш..">
+                                              </div>
 
 
-                                        <div class="col-lg-4 col-md-4" style="width: 30%">
-                                            <button class="btn btn-primary w-100 text-center" id="search">
-                                                Қидириш
-                                            </button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
+
+
+
                             <div class="table-responsive p-l-30 p-r-30 p-b-30">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" >
                                     <thead class="table-primary">
                                     <tr>
                                         <th class="text-center" scope="col">№</th>
@@ -82,7 +103,7 @@
                                         <th scope="col" class="text-center">Кўриш</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="search_item">
 
                                     {% for work in works %}
                                         <tr>
@@ -96,7 +117,6 @@
                                                     <button class="btn btn-outline-primary">Кўриш</button>
                                                 </a>
                                             </td>
-
                                         </tr>
                                     {% endfor %}
 
@@ -123,38 +143,72 @@
     </div>
 </div>
 
-{% endblock %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-       <script type="text/javascript">
-    $(document).on('click',"#search",function(){
-        var data = new FormData();
-        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
 
-        data.append("worker", $('#worker').val());
-        data.append("start_time", $('#start_time').val());
-        data.append("end_time", $('#end_time').val());
-        data.append("number", $('#number').val());
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-        event.preventDefault();
-            $.ajax({
-            type: 'POST',
-            url: '{% url 'search' %}',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (result){
-{#                $('#succes_message').css('display','inline-block');#}
-                location.replace(window.location.pathname);
-            },
-{#             timeout: 3000;#}
-
-            error: function(){
-              alert('Serverga yubara olmaymiz !! ');
-            }
-
-        });
-
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_item tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
+  });
+});
 </script>
+{##}
+{#       <script type="text/javascript">#}
+{#    $(document).on('keyup',"#number",function(){#}
+{##}
+{#$(document).ready(function(){#}
+{#    $("#number").keyup(function(event) {#}
+{##}
+{#        var data = new FormData();#}
+{#        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);#}
+{##}
+{#        data.append("worker", $('#worker').val());#}
+{#        data.append("start_time", $('#start_time').val());#}
+{#        data.append("end_time", $('#end_time').val());#}
+{#        data.append("number", $('#number').val());#}
+{##}
+{#        event.preventDefault();#}
+{#            $.ajax({#}
+{#            type: 'POST',#}
+{#            url: '{% url 'search' %}',#}
+{#            data: data,#}
+{#            cache: false,#}
+{#            contentType: false,#}
+{#            processData: false,#}
+{##}
+{#            success: function (result){#}
+{##}
+{#            console.log(result['works']);#}
+{#            console.log(result['pdoworks']);#}
+{#            console.log(result['objects']);#}
+{##}
+{#            var text=``;#}
+{#                text +=`<tr>#}
+{#                  <th class="text-center" scope="row">#</th>#}
+{#                  <td>`+ result['objects'][0].worker_ispolnitel`</td>#}
+{#                  <td>`+ result['pdoworks'][0].customer+`</td>#}
+{#                  <td>`+ result['pdoworks'][0].object_name+`</td>#}
+{#                  <td class="text-center">`+ result['pdoworks'][0].work_term+` kun</td>#}
+{#                  <td class="text-center">#}
+{#                        <a href="/show_all_works/`+result['objects'][0].id+`">#}
+{#                            <button class="btn btn-outline-primary">Кўриш</button>#}
+{#                        </a>#}
+{#                  </td>#}
+{#                </tr>`;#}
+{#                $('#search_item').html(text);#}
+{#            },#}
+{##}
+{#            error: function(){#}
+{#              alert('Serverga yubara olmaymiz !! ');#}
+{#            }#}
+{##}
+{#            });#}
+{#        });#}
+{#    });#}
+{#</script>#}
+
+{% endblock %}

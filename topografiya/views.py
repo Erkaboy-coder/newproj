@@ -19,6 +19,8 @@ from django.core.serializers import serialize
 from django.core import serializers
 import json
 from django.core import serializers
+
+from .filters import ObjectsFilter
 from datetime import datetime
 # Create your views here.
 
@@ -180,15 +182,18 @@ def save_order(request):
         return HttpResponse(1)
     else:
         return HttpResponse(0)
-
+import datetime
 @login_required(login_url='/signin')
 def allworks(request):
-    works = WorkerObject.objects.order_by('-id').all()
+    works = Object.objects.order_by('-id').all()
+    workerobjects = WorkerObject.objects.order_by('-id').all()
     programworks = ProgramWork.objects.all()
     aktkomerals = AktKomeralForm.objects.all()
     reports = Report.objects.all()
+    current_time = datetime.now().date()
 
-    context = {'works': works, 'count': counter(),'count_works': new_work_counter(request),'programworks': programworks, 'aktkomerals': aktkomerals,'reports': reports}
+    context = {'works': works, 'count': counter(),'count_works': new_work_counter(request),'programworks': programworks, 'aktkomerals': aktkomerals,
+               'reports': reports, 'current_time':current_time, 'workerobjects':workerobjects}
     return render(request, 'leader/all_works.html', context)
 
 @login_required(login_url='/signin')
@@ -1206,7 +1211,7 @@ def save_akt_komeral(request):
         d={}
         object=Object.objects.filter(id=work_id).first()
         j=0
-        d = {'object': object, 'status': 4}
+        d = {'object': object, 'status_save': 1}
         for i in array.split(','):
             j=j+1
             d['a'+str(j)]=i
@@ -1266,8 +1271,8 @@ def deny_komeral(request):
         user = Worker.objects.filter(id=worker).first()
         reason = data.get('reason')
         reason_file =request.FILES.get('reason_file')
-
-        workerobject = AktKomeralForm.objects.filter(object=work_id).first()
+        object = Object.objects.filter(id=work_id).first()
+        workerobject = AktKomeralForm.objects.filter(object=object).first()
         workerobject.status = 2
         workerobject.version = workerobject.version+1
         workerobject.save()
@@ -1275,7 +1280,7 @@ def deny_komeral(request):
         object_id = Object.objects.filter(id=work_id).first()
         path = 'topografiya/static/files/akt-komeral/akt_komeral_'+str(object_id.id)+'_'+str(workerobject.version)+'v.pdf'
 
-        reject = KameralWorkReject(workerobject=workerobject.object, file=reason_file, reason=reason, version = workerobject.version, rejected_file=path)
+        reject = KameralWorkReject(workerobject=object, file=reason_file, reason=reason, version = workerobject.version, rejected_file=path)
         reject.save()
 
         history = History(object=object_id, status=15, comment="Rad etildi", user_id=user)
@@ -2318,6 +2323,8 @@ def object_poyasitelniy_form(request,id):
     objects_pdo = PdoWork.objects.filter(status_recive=0).all()
     sirie_type = Order.objects.filter(object=work.object.id).first()
 
+    aktkomeral = AktKomeralForm.objects.filter(object=work.object).first()
+
     form=PoyasitelniyForm.objects.filter(workerobject=work).first()
     form1=PoyasitelniyFormTable1.objects.filter(poyasitelniyform=form).all()
     form2=PoyasitelniyFormTable2.objects.filter(poyasitelniyform=form).all()
@@ -2325,7 +2332,7 @@ def object_poyasitelniy_form(request,id):
     form4=PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).all()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work, 'objects_pdo': objects_pdo,'sirie_type':sirie_type,'count': counter(),
-               'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request),'aktkomeral':aktkomeral
+               'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request),'aktkomeral':aktkomeral,'aktkomeral':aktkomeral
                }
     return render(request, 'worker/object_poyasitelniy_form.html', context)
 
@@ -2777,7 +2784,8 @@ def doing_akt_komeral_file(request):
     if request.method == 'POST':
         data = request.POST
         id = data.get('data-id')
-        work = AktKomeralForm.objects.filter(object=id).first()
+        object = Object.objects.filter(id=id).first()
+        work = AktKomeralForm.objects.filter(object=object).first()
 
         context = '''
         <!DOCTYPE html>
@@ -3724,10 +3732,10 @@ def doing_akt_polevoy_file(request):
         id = data.get('object-id')
         object = Object.objects.filter(id=id).first()
 
-        workerobject = WorkerObject.objects.filter(object=id).first()
+        workerobject = WorkerObject.objects.filter(object=object).first()
         pdowork = Object.objects.filter(id=id).first()
         siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
-        order = Order.objects.filter(object=id).first()
+        order = Order.objects.filter(object=object).first()
 
         work = AktPolevoyForm.objects.filter(object=id).first()
 
@@ -4015,9 +4023,9 @@ def doing_akt_polevoy_file(request):
                                                                                                             </td>
                                                                                                         </tr>
                                                                                                         <tr>
-                                                                                                            <th scope="row">
+                                                                                                            <td scope="row">
                                                                                                                 8
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                             <td>
                                                                                                                 Перенос
                                                                                                                 проекта
@@ -4057,38 +4065,39 @@ def doing_akt_polevoy_file(request):
                                                                                             системе высот.</p>
                                                                                         <h6>Результаты полевого
                                                                                             контроля:</h6>
+                                                                                            <br><br>
+<br><br>
                                                                                         <p>
                                                                                             <span class="badge rounded-pill badge-primary">a)</span>
                                                                                             теодолитные хода
                                                                                         </p>
 
                                                                                             <div>
-                                                                                                    <table cellspacing="0" cellpadding="0" >
+                                                                                                    <table style=" width: 100%">
                                                                                                 
-                                                                                                        <tr>
-                                                                                                            <th scope="col">
+                                                                                                        <tr style="text-align:center">
+                                                                                                            <td>
                                                                                                                 №
-                                                                                                            </th>
-                                                                                                            <th style="width:20px">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Наименование
                                                                                                                 хода
-                                                                                                            </th>
-                                                                                                            <th style="width:5%">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Длина
                                                                                                                 хода
-                                                                                                            </th>
-                                                                                                            <th >
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 К-во
                                                                                                                 углов
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
-                                                                                                                >
+                                                                                                            </td>
+                                                                                                            <td colspan="2">
                                                                                                                 Угл
                                                                                                                 невязки:получ,допуст
-                                                                                                            </th>
-                                                                                                            <th colspan="2">
+                                                                                                            </td>
+                                                                                                            <td colspan="2">
                                                                                                                 Лин.невязки:абсол,относит
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                             
                                                                                                         </tr>
         
@@ -4096,43 +4105,21 @@ def doing_akt_polevoy_file(request):
         for form1_1 in work_table1:
             context += '''
                                                                                                         <tr>
-                                                                                                            <th scope="row">
+                                                                                                            <td >
                                                                                                                 #
-                                                                                                            </th>
-                                                                                                            <td style="width:5%"><input id="a1_1" name="a1_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_1)+'''"
-                                                                                                                    placeholder="">
                                                                                                             </td>
-                                                                                                            <td style="width:5%"><input id="a1_2" name="a1_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_2)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td style="">'''+str(form1_1.a1_1)+'''</td>
+                                                                                                            <td style="">'''+str(form1_1.a1_2)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a1_3" name="a1_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_3)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_1.a1_3)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a1_4" name="a1_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_4)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_1.a1_4)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a1_5" name="a1_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_5)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_1.a1_5)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a1_6" name="a1_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_6)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_1.a1_6)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a1_7" name="a1_7"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_1.a1_7)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_1.a1_7)+'''
                                                                                                             </td>
                                                                                                            
                                                                                                         </tr>''';
@@ -4156,39 +4143,38 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-12 m-t-5">
                                                                                             <div class="card border-0">
                                                                                                 <div class="table-responsive">
-                                                                                                    <table class="table table-bordered"
-                                                                                                           id="childTable1">
+                                                                                                    <table style=" width: 100%">
                                                                                                         <thead class="table-primary">
-                                                                                                         <tr>
-                                                                                                            <th scope="col">
+                                                                                                         <tr style="text-align:center">
+                                                                                                            <td>
                                                                                                                 №
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Наименование
                                                                                                                 хода
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Длина
                                                                                                                 хода
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 К-во
                                                                                                                 штатив
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Невязки в мм
                                                                                                                 <br>
                                                                                                                 получ
-                                                                                                            </th>
-                                                                                                             <th scope="col">
+                                                                                                            </td>
+                                                                                                             <td>
                                                                                                                 Невязки в мм
                                                                                                                  <br>
                                                                                                                  допуст
-                                                                                                            </th>
+                                                                                                            </td>
 
-                                                                                                            <th scope="col">
+                                                                                                            <td>
                                                                                                                 Примеч
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                             
                                                                                                         </tr>
                                                                                                         </thead>
@@ -4196,38 +4182,20 @@ def doing_akt_polevoy_file(request):
         for form1_2 in work_table2:
             context += '''
                                                                                                         <tr>
-                                                                                                            <th scope="row">
+                                                                                                            <td scope="row">
                                                                                                                 #
-                                                                                                            </th>
-                                                                                                            <td><input  id="a2_1" name="a2_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    value="'''+str(form1_2.a2_1)+'''">
                                                                                                             </td>
-                                                                                                            <td><input id="a2_2" name="a2_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_2.a2_2)+'''">
+                                                                                                            <td>'''+str(form1_2.a2_1)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a2_3" name="a2_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_2.a2_3)+'''">
+                                                                                                            <td>'''+str(form1_2.a2_2)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a2_4" name="a2_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_2.a2_4)+'''">
+                                                                                                            <td>'''+str(form1_2.a2_3)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a2_5" name="a2_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_2.a2_5)+'''">
+                                                                                                            <td>'''+str(form1_2.a2_4)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a2_6" name="a2_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_2.a2_6)+'''">
+                                                                                                            <td>'''+str(form1_2.a2_5)+'''
+                                                                                                            </td>
+                                                                                                            <td>'''+str(form1_2.a2_6)+'''
                                                                                                             </td>
 
                                                                                                             
@@ -4260,48 +4228,47 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-12 m-t-10">
                                                                                             <div class="card border-0">
                                                                                                 <div class="table-responsive">
-                                                                                                    <table class="table table-bordered"
-                                                                                                           id="childTable2">
-                                                                                                        <thead class="bg-primary">
-                                                                                                        <tr>
-                                                                                                            <th scope="col">
+                                                                                                    <table>
+                                                                                                        <thead >
+                                                                                                        <tr style="text-align:center">
+                                                                                                            <td>
                                                                                                                 №
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td >
                                                                                                                 Оценка
                                                                                                                 качества
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
-                                                                                                                scope="col">
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
+                                                                                                               >
                                                                                                                 Средняя
                                                                                                                 ошибка
                                                                                                                 (расхождение)
                                                                                                                 в мм
                                                                                                                 плана
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
-                                                                                                                scope="col">
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
+                                                                                                                >
                                                                                                                 Расхождение
                                                                                                                 превышающее
                                                                                                                 1мм
                                                                                                                 плана в
                                                                                                                 проц.
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
-                                                                                                                scope="col">
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
+                                                                                                                >
                                                                                                                 Средняя
                                                                                                                 ошибка
                                                                                                                 (расхождение)
                                                                                                                 в см по
                                                                                                                 высоте
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
-                                                                                                                scope="col">
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
+                                                                                                                >
                                                                                                                 Расхождения
                                                                                                                 превышающие
                                                                                                                 двойной
                                                                                                                 в проц.
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
@@ -4309,55 +4276,27 @@ def doing_akt_polevoy_file(request):
         for form1_3 in work_table3:
             context += '''
                                                                                                          <tr>
-                                                                                                            <td class="table-primary"
-                                                                                                                scope="row">
+                                                                                                            <td  >
                                                                                                                 #
                                                                                                             </td>
-                                                                                                            <td><input id="a3_1" name="a3_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_1)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_1)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_2" name="a3_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_2)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_2)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_3" name="a3_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_3)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_3)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_4" name="a3_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_4)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_4)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_5" name="a3_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_5)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_5)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_6" name="a3_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_6)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_6)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_7" name="a3_7"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_7)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_7)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a3_8" name="a3_8"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_8)+'''">
+                                                                                                            <td>'''+str(form1_3.a3_8)+'''
                                                                                                             </td>
                                                                                                             <td>
-                                                                                                                <input id="a3_9" name="a3_9"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_3.a3_9)+'''">
+                                                                                                                '''+str(form1_3.a3_9)+'''
                                                                                                             </td>
                                                                                                             
                                                                                                         </tr>''';
@@ -4398,38 +4337,38 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-12 m-t-5">
                                                                                             <div class="card border-0">
                                                                                                 <div class="table-responsive">
-                                                                                                    <table class="table table-bordered"
+                                                                                                    <table
                                                                                                            id="childTable3">
-                                                                                                        <thead class="table-primary">
-                                                                                                         <tr>
-                                                                                                            <th scope="col">
+                                                                                                        <thead>
+                                                                                                         <tr style="text-align:center">
+                                                                                                            <td>
                                                                                                                 №
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Расстояния
                                                                                                                 с плана
                                                                                                                 (м)
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Расстояния
                                                                                                                 в натуре (м)
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Расхождения (гр.3-гр.2) (м)
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Расхождения (гр.3-гр.2) d, (мм) плана
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Между
                                                                                                                 какими
                                                                                                                 контурами
                                                                                                                 произведены
                                                                                                                 промеры
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td scope="col">
                                                                                                                 Примечание
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
@@ -4440,38 +4379,20 @@ def doing_akt_polevoy_file(request):
 
                                                                                                         
                                                                                                          <tr>
-                                                                                                            <th scope="row">
+                                                                                                            <td>
                                                                                                                 #
-                                                                                                            </th>
-                                                                                                            <td><input id="a4_1" name="a4_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_4.a4_1)+'''">
                                                                                                             </td>
-                                                                                                            <td><input id="a4_2" name="a4_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="" value="'''+str(form1_4.a4_2)+'''">
+                                                                                                            <td>'''+str(form1_4.a4_1)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a4_3" name="a4_3" value="'''+str(form1_4.a4_3)+'''"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_4.a4_2)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a4_4" name="a4_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_4.a4_4)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_4.a4_3)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a4_5" name="a4_5"
-                                                                                                                    class="border-0 w-100" value="'''+str(form1_4.a4_5)+'''"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_4.a4_4)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a4_6" name="a4_6" value="'''+str(form1_4.a4_6)+'''"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_4.a4_5)+'''
+                                                                                                            </td>
+                                                                                                            <td>'''+str(form1_4.a4_6)+'''
                                                                                                             </td>
                                                                                                             
                                                                                                         </tr>''';
@@ -4559,39 +4480,39 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-12 m-t-5">
                                                                                             <div class="card border-0">
                                                                                                 <div class="table-responsive">
-                                                                                                    <table class="table table-bordered"
+                                                                                                    <table 
                                                                                                            id="childTable4">
                                                                                                         <thead class="table-primary">
-                                                                                                        <tr>
-                                                                                                            <th scope="col">
+                                                                                                        <tr style="text-align:center">
+                                                                                                            <td>
                                                                                                                 №
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Отметка
                                                                                                                 <br>
                                                                                                                 с плана
                                                                                                                 (м)
-                                                                                                            </th>
-                                                                                                            <th scope="col">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Отметка
                                                                                                                 <br>
                                                                                                                 в натуре (м)
-                                                                                                            </th>
-                                                                                                            <th scope="col" class="text-center">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Расхождения (гр.3-гр.2)
                                                                                                                 <br> (м)
-                                                                                                            </th>
-                                                                                                            <th scope="col" class="text-center">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Расхождения (гр.3-гр.2)
                                                                                                                 <br> d, (мм) плана
-                                                                                                            </th>
-                                                                                                            <th scope="col" class="text-center">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Наименование
 контур
-                                                                                                            </th>
-                                                                                                            <th scope="col" class="text-center">
+                                                                                                            </td>
+                                                                                                            <td>
                                                                                                                 Примечание
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                             
                                                                                                         </tr>
                                                                                                         </thead>
@@ -4599,38 +4520,20 @@ def doing_akt_polevoy_file(request):
         for form1_5 in work_table5:
             context += '''
                                                                                                         <tr>
-                                                                                                            <th scope="row">
+                                                                                                            <td scope="row">
                                                                                                                 #
-                                                                                                            </th>
-                                                                                                            <td><input id="a5_1" name="a5_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_5.a5_1)+'''"
-                                                                                                                    placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a5_2" name="a5_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_5.a5_2)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_5.a5_1)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a5_3" name="a5_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_5.a5_3)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_5.a5_2)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a5_4" name="a5_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_5.a5_4)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_5.a5_3)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a5_5" name="a5_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_5.a5_5)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_5.a5_4)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a5_6" name="a5_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_5.a5_6)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_5.a5_5)+'''
+                                                                                                            </td>
+                                                                                                            <td>'''+str(form1_5.a5_6)+'''
                                                                                                             </td>
                                                                                                             
                                                                                                         </tr>''';
@@ -4768,34 +4671,33 @@ def doing_akt_polevoy_file(request):
                                                                                         <div class="col-sm-12 m-t-20">
                                                                                             <div class="card border-0">
                                                                                                 <div class="table-responsive">
-                                                                                                    <table class="table table-bordered"
-                                                                                                           id="childTable5">
+                                                                                                    <table >
                                                                                                         <thead class="table-primary">
-                                                                                                        <tr>
-                                                                                                            <th scope="col">
+                                                                                                        <tr style="text-align:center">
+                                                                                                            <td>
                                                                                                                 №
-                                                                                                            </th>
-                                                                                                            <th scope="col">Планшет (лист)
-                                                                                                            </th>
-                                                                                                            <th colspan="2" scope="col">Средняя ошибка (расхождение) в мм плана
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
+                                                                                                            </td>
+                                                                                                            <td>Планшет (лист)
+                                                                                                            </td>
+                                                                                                            <td colspan="2" scope="col">Средняя ошибка (расхождение) в мм плана
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
                                                                                                                 scope="col">
                                                                                                                 Расхождения,
                                                                                                                 превышающие
                                                                                                                 1,4мм
                                                                                                                 плана в
                                                                                                                 процентах
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
                                                                                                                 scope="col">
                                                                                                                 Средняя
                                                                                                                 ошибка
                                                                                                                 (расхождение)
                                                                                                                 в см по
                                                                                                                 высоте
-                                                                                                            </th>
-                                                                                                            <th colspan="2"
+                                                                                                            </td>
+                                                                                                            <td colspan="2"
                                                                                                                 scope="col">
                                                                                                                 Расхождения,
                                                                                                                 превышающие
@@ -4804,7 +4706,7 @@ def doing_akt_polevoy_file(request):
                                                                                                                 средней
                                                                                                                 ошибки в
                                                                                                                 проц.
-                                                                                                            </th>
+                                                                                                            </td>
                                                                                                            
                                                                                                         </tr>
                                                                                                         </thead>
@@ -4813,53 +4715,26 @@ def doing_akt_polevoy_file(request):
         for form1_6 in work_table6:
             context += '''
                                                                                                         <tr>
-                                                                                                            <th scope="row">
+                                                                                                            <td scope="row">
                                                                                                                 #
-                                                                                                            </th>
-                                                                                                            <td><input id="a6_1" name="a6_1"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_1)+'''"
-                                                                                                                    placeholder="">
                                                                                                             </td>
-                                                                                                            <td><input id="a6_2" name="a6_2"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_2)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_1)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_3" name="a6_3"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_3)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_2)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_4" name="a6_4"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_4)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_3)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_5" name="a6_5"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_5)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_4)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_6" name="a6_6"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_6)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_5)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_7" name="a6_7"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_7)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_6)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_8" name="a6_8"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_8)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_7)+'''
                                                                                                             </td>
-                                                                                                            <td><input id="a6_9" name="a6_9"
-                                                                                                                    class="border-0 w-100"
-                                                                                                                    type="text" value="'''+str(form1_6.a6_9)+'''"
-                                                                                                                    placeholder="">
+                                                                                                            <td>'''+str(form1_6.a6_8)+'''
+                                                                                                            </td>
+                                                                                                            <td>'''+str(form1_6.a6_9)+'''
                                                                                                             </td>
                                                                                                             
                                                                                                         </tr>''';
@@ -4908,35 +4783,35 @@ def doing_akt_polevoy_file(request):
                                                                                     <div class="col-sm-12 m-t-5">
                                                                                         <div class="card border-0">
                                                                                             <div class="table-responsive">
-                                                                                                <table class="table table-bordered"
+                                                                                                <table c
                                                                                                        id="childTable6">
                                                                                                     <thead class="table-primary">
-                                                                                                   <tr>
-                                                                                                        <th scope="col">
+                                                                                                   <tr style="text-align:center">
+                                                                                                        <td >
                                                                                                             №
-                                                                                                        </th>
-                                                                                                        <th scope="col" class="text-center">
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
                                                                                                             Расстояния
                                                                                                             <br>
                                                                                                             с плана (м)
-                                                                                                        </th>
-                                                                                                        <th scope="col" class="text-center">
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
                                                                                                             Расстояния
                                                                                                             <br> в натуре м
-                                                                                                        </th>
-                                                                                                        <th scope="col" class="text-center">
+                                                                                                        </td>
+                                                                                                        <td class="text-center">
                                                                                                             Расхождения
                                                                                                             <br>
                                                                                                             d,м
-                                                                                                        </th>
-                                                                                                        <th scope="col" class="text-center">
+                                                                                                        </td>
+                                                                                                        <td  class="text-center">
                                                                                                             Расхождения
                                                                                                             <br>
                                                                                                             d (мм) плана
-                                                                                                        </th>
-                                                                                                        <th scope="col" class="text-center">
+                                                                                                        </td>
+                                                                                                        <td  class="text-center">
                                                                                                             Между какими контурами и инженерными сооружениями произведены промеры
-                                                                                                        </th>
+                                                                                                        </td>
                                                                                                         
                                                                                                     </tr>
                                                                                                     </thead>
@@ -4944,33 +4819,18 @@ def doing_akt_polevoy_file(request):
         for form1_7 in work_table7:
             context += '''
                                                                                                     <tr>
-                                                                                                        <th scope="row">
+                                                                                                        <td scope="row">
                                                                                                             #
-                                                                                                        </th>
-                                                                                                        <td><input id="a7_1" name="a7_1" value="'''+str(form1_7.a7_1)+'''"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text"
-                                                                                                                placeholder="">
                                                                                                         </td>
-                                                                                                        <td><input id="a7_2" name="a7_2"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_7.a7_2)+'''"
-                                                                                                                placeholder="">
+                                                                                                        <td>'''+str(form1_7.a7_1)+'''
                                                                                                         </td>
-                                                                                                        <td><input id="a7_3" name="a7_3"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_7.a7_3)+'''"
-                                                                                                                placeholder="">
+                                                                                                        <td>'''+str(form1_7.a7_2)+'''
                                                                                                         </td>
-                                                                                                        <td><input id="a7_4" name="a7_4"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_7.a7_4)+'''"
-                                                                                                                placeholder="">
+                                                                                                        <td>'''+str(form1_7.a7_3)+'''
                                                                                                         </td>
-                                                                                                        <td><input id="a7_5" name="a7_5"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_7.a7_5)+'''"
-                                                                                                                placeholder="">
+                                                                                                        <td>'''+str(form1_7.a7_4)+'''
+                                                                                                        </td>
+                                                                                                        <td>'''+str(form1_7.a7_5)+'''
                                                                                                         </td>
                                                                                                         
                                                                                                     </tr>
@@ -5065,35 +4925,35 @@ def doing_akt_polevoy_file(request):
                                                                                     <div class="col-sm-12 m-t-5">
                                                                                         <div class="card border-0">
                                                                                             <div class="table-responsive">
-                                                                                                <table class="table table-bordered"
+                                                                                                <table
                                                                                                        id="childTable7">
                                                                                                     <thead class="table-primary">
-                                                                                                     <tr>
-                                                                                                        <th scope="col">
+                                                                                                     <tr style="text-align:center">
+                                                                                                        <td scope="col">
                                                                                                             №
-                                                                                                        </th>
-                                                                                                        <th scope="col">
+                                                                                                        </td>
+                                                                                                        <td scope="col">
                                                                                                             Глубина заложения
                                                                                                             коммуникации
                                                                                                             <br>
                                                                                                             с плана см
-                                                                                                        </th>
-                                                                                                        <th scope="col">
+                                                                                                        </td>
+                                                                                                        <td scope="col">
                                                                                                             Глубина заложения
                                                                                                             коммуникации
                                                                                                             <br>
                                                                                                             в натуре cм
-                                                                                                        </th>
-                                                                                                        <th scope="col">
+                                                                                                        </td>
+                                                                                                        <td scope="col">
                                                                                                             Расхождения(h)
                                                                                                             <br>
                                                                                                             (гр.3-гр.2) см
-                                                                                                        </th>
+                                                                                                        </td>
 
-                                                                                                        <th scope="col">
+                                                                                                        <td scope="col">
                                                                                                            Описание местоположения
                                                                                                             контрольного замера
-                                                                                                        </th>
+                                                                                                        </td>
                                                                                                         
                                                                                                     </tr>
                                                                                                     </thead>
@@ -5101,28 +4961,17 @@ def doing_akt_polevoy_file(request):
         for form1_8 in work_table8:
             context += '''
                                                                                                     <tr>
-                                                                                                        <th scope="row">
+                                                                                                        <td scope="row">
                                                                                                             1
-                                                                                                        </th>
-                                                                                                        <td><input id="a8_1" name="a8_1"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_8.a8_1)+'''"
-                                                                                                                placeholder="">
                                                                                                         </td>
-                                                                                                        <td><input id="a8_2" name="a8_2"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_8.a8_2)+'''"
-                                                                                                                placeholder="">
+                                                                                                        <td>'''+str(form1_8.a8_1)+'''
                                                                                                         </td>
-                                                                                                        <td><input id="a8_3" name="a8_3"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_8.a8_3)+'''"
-                                                                                                                placeholder="">
+                                                                                                        <td>'''+str(form1_8.a8_2)+'''
                                                                                                         </td>
-                                                                                                        <td><input id="a8_4" name="a8_4"
-                                                                                                                class="border-0 w-100"
-                                                                                                                type="text" value="'''+str(form1_8.a8_4)+'''"
-                                                                                                             >
+                                                                                                        <td>'''+str(form1_8.a8_3)+'''
+                                                                                                        </td>
+                                                                                                        <td>'''+str(form1_8.a8_4)+'''
+                                                                                                             
                                                                                                         </td>
 
                                                                                                         
@@ -6114,8 +5963,12 @@ def confirm_print2(request):
 def history(request):
     works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
     workers = Worker.objects.filter(branch=request.user.profile.branch).filter(status=0).all()
-    content={'count': counter(),'works':works,'workers':workers}
+
+    content={'count': counter(),'works':works,'workers':workers,'count_works':new_work_counter(request), }
     return render(request,'history.html',content)
+
+
+
 
 @login_required(login_url='/signin')
 def status_work(request, id):
@@ -6242,7 +6095,7 @@ def login(request):
 def settings(request,id):
     worker = Worker.objects.filter(id=id).first()
 
-    content={'count': counter(), 'worker': worker}
+    content={'count': counter(),'count_works':new_work_counter(request), 'worker': worker}
 
     return render(request,'settings.html', content)
 
@@ -6290,6 +6143,23 @@ def search(request):
 
         objects = Object.objects.filter(worker_ispolnitel=worker).all()
         return HttpResponse(1)
+    else:
+        return HttpResponse(0)
+def search(request):
+    if request.method == 'POST':
+        data = request.POST
+        number = data.get('number')
+        worker = data.get('worker')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+        number = data.get('number')
+
+        works = WorkerObject.objects.filter(object__pdowork__object_number=number)
+        pdoworks = PdoWork.objects.filter(object_number=number)
+        objects = Object.objects.filter(pdowork__object_number=number)
+
+        return JsonResponse({'works': list(works.values()), 'pdoworks': list(pdoworks.values()), 'objects': list(objects.values())}, safe=False)
+
     else:
         return HttpResponse(0)
 
