@@ -130,6 +130,10 @@ urlpatterns = [
     re_path(r'^edit_user_info$', views.edit_user_info, name='edit_user_info'),
     re_path(r'^change_password$', views.change_password, name='change_password'),
     re_path(r'^search$', views.search, name='search'),
+    re_path(r'^send_message', views.send_message, name='send_message'),
+    re_path(r'^new_messages/$', views.new_messages, name='new_messages'),
+    re_path(r'^delete_message$', views.delete_message, name='delete_message'),
+    re_path(r'^status_changer$', views.status_changer, name='status_changer'),
 
     re_path(r'^show_pdowork/(?P<id>\d+)/$', views.show_pdowork, name='show_pdowork'),
     re_path(r'^edit_pdowork/(?P<id>\d+)/$', views.edit_pdowork, name='edit_pdowork'),

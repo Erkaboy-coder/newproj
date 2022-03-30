@@ -894,6 +894,23 @@ class Polygons(models.Model):
     class Meta:
         verbose_name_plural = "Polygons"
 
+class Xabarlar(models.Model):
+    message_reciver = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='messagereciver')
+    message_sender = models.ForeignKey(Worker, blank=True,null=True, on_delete=models.CASCADE, related_name='messagesender')
+    title = models.CharField(max_length=255,blank=True, null=True)
+    active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
+    comment = models.TextField(blank=True)
+    status_new = models.IntegerField(default=0)
+    status_sended = models.IntegerField(default=0)
+    status_recived = models.IntegerField(default=0)
+    status_deleted = models.IntegerField(default=0)
+    # status = 0 bosa yangi yuborilgan xabar
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name_plural = "Xabarlar"
+
 class History(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='historyobject')
     status = models.IntegerField(default=0)

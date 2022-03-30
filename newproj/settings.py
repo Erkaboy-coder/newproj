@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django.contrib.humanize',
     'django_filters',
-    'mathfilters'
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +132,7 @@ STATIC_URL = 'static/'
 LOGIN_REDIRECT_URL = '/signin'
 LOGOUT_REDIRECT_URL = '/signin'
 DOCS_ROOT='topografiya/static/files/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

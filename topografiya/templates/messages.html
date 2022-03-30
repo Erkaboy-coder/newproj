@@ -1,0 +1,614 @@
+
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Иш холати {% endblock %}
+
+{% block content %}
+
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Хабарлар</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i
+                                        class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'new_messages' %}">Хабарлар</a></li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-12">
+                            {% if messages %}
+                            <ul class="text text-center" style="font-size:15px">
+                                {% for message in messages %}
+                                    {% if message.tags == "error"  %}
+                                        <div class="alert alert-error" style="background-color: #f7d7da">
+                                            <b ><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </b> <span>{{ message }}</span>
+                                        </div>
+
+                                    {% else %}
+                                        <div class="alert alert-success" style="background-color:#d4edda">
+                                            <b class="text-success">Поздравления  !</b> <span class="text text-success">{{ message }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="email-wrap bookmark-wrap">
+                    <div class="row">
+                        <div class="col-xl-3 xl-30">
+                            <div class="email-sidebar"><a class="btn btn-primary email-aside-toggle"
+                                                          href="javascript:void(0)">bookmark filter</a>
+                                <div class="email-left-aside">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="email-app-sidebar left-bookmark">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h6 class="f-w-600 txt-dark f-40">Xabarlar</h6>
+                                                    </div>
+                                                </div>
+                                                <ul class="nav main-menu" role="tablist">
+                                                    <li><a class="show" id="pills-notification-tab"
+                                                           data-bs-toggle="pill" href="#pills-notification" role="tab"
+                                                           aria-controls="pills-notification" aria-selected="true"><span
+                                                            class="title"><i class="fa fa-paper-plane"
+                                                                             aria-hidden="true"></i> Xabar yuborish</span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="d-flex align-items-center" id="pills-created-tab"
+                                                           data-bs-toggle="pill"
+                                                           href="#pills-created" role="tab"
+                                                           aria-controls="pills-created" aria-selected="false">
+                                                        <span class="title" id="status_changer" user-id="{{ request.user.profile.pk }}">
+                                                            <i class="fa fa-download"></i> Kiruvchi xabarlar
+                                                        </span>
+                                                            {% if count_works.new_messages != 0 %}
+                                                                <span style="float: right" class="badge rounded-pill badge-danger text-white">
+                                                                    {{ count_works.new_messages }}
+                                                                </span>
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                     <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
+                                                           href="#pills-favourites" role="tab"
+                                                           aria-controls="pills-favourites" aria-selected="false"><span
+                                                            class="title"><i class="fa fa-commenting-o"></i> Jo'natilgan xabarlar</span></a>
+                                                    </li>
+
+                                                    <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
+                                                           href="#old_ones" role="tab"
+                                                           aria-controls="pills-favourites" aria-selected="false"><span
+                                                            class="title"><i class="fa fa-archive"></i>  O'qilgan xabarlar</span></a>
+                                                    </li>
+{#                                                    <li><a class="show" id="pills-shared-tab" data-bs-toggle="pill"#}
+{#                                                           href="#pills-shared" role="tab" aria-controls="pills-shared"#}
+{#                                                           aria-selected="false"><span class="title"><i#}
+{#                                                            class="fa fa-file-text-o"></i> Қоралама</span></a></li>#}
+                                                    <li><a class="show" id="pills-bookmark-tab" data-bs-toggle="pill"
+                                                           href="#pills-bookmark" role="tab"
+                                                           aria-controls="pills-bookmark" aria-selected="false"><span
+                                                            class="title"><i class="fa fa-trash-o"></i> O'chirilgan xabarlar</span></a>
+                                                    </li>
+                                                    <li>
+                                                        <hr>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% csrf_token %}
+                        <div class="col-xl-9 col-md-12 box-col-8 xl-70">
+                            <div class="email-right-aside bookmark-tabcontent">
+                                <div class="card email-body radius-left">
+                                    <div class="ps-0">
+                                        <div class="tab-content">
+                                            <div class="fade tab-pane active show" id="pills-notification"
+                                                 role="tabpanel" aria-labelledby="pills-notification-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex"
+                                                         style="border-left: 3px solid #168eea;">
+                                                        <h6 class="mb-0">Хабар юбориш</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <label>Кимга <sup class="txt-danger">*</sup></label>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div>
+                                                                    <select class="js-example-placeholder-multiple col-sm-12 col-sm-12" id="worker" name="worker">
+                                                                        <option value="">-- --</option>
+                                                                        {% for worker in workers %}
+                                                                                {% if worker.pk != request.user.profile.pk %}
+
+                                                                                        <optgroup>
+                                                                                            <option value="{{ worker.pk }}">{{ worker.full_name }}</option>
+                                                                                        </optgroup>
+
+                                                                                {% endif %}
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <label class="m-t-5">Мавзу <sup
+                                                                class="txt-danger">*</sup></label>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <input class="form-control" placeholder="Мавзу..." id="title" name="title" type="text">
+                                                            </div>
+                                                        </div>
+                                                        <label class="m-t-5">Хабар ёзиш<sup
+                                                                class="txt-danger">*</sup></label>
+                                                        <textarea style="height: 150px;" class="form-control" id="comment" name="comment" placeholder="Хабарни киритинг..."></textarea>
+                                                        <button class="btn btn-primary m-t-25" id="send_message" user="{{ request.user.profile.pk }}">Юбориш</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade " id="pills-created" role="tabpanel"
+                                                 aria-labelledby="pills-created-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex align-items-center"
+                                                         style="border-left: 3px solid #168eea;">
+                                                        <h6 class="mb-0">Кирувчи хабарлар</h6>
+                                                        <div class="search-bg d-flex align-items-center">
+                                                            <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
+                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body p-0 m-t-25">
+                                                        <div class="details-bookmark text-center">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-sm">
+                                                                    <thead class="table-primary">
+                                                                    <tr>
+                                                                        <th scope="col">№</th>
+                                                                        <th scope="col">Kimdan kelgan</th>
+                                                                        <th scope="col">Sarlavhasi</th>
+                                                                        <th scope="col">Xabar mazmumi</th>
+                                                                        <th scope="col">Kelib tushgan vaqti</th>
+{#                                                                        <th scope="col"></th>#}
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    {% for message in messages_recived %}
+                                                                            <tr>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td>{{ message.message_sender }}</td>
+                                                                                <td>{{ message.title }}</td>
+                                                                                <td>{{ message.comment }}</td>
+                                                                                <td>{{ message.active_time }}</td>
+{#                                                                                <td>#}
+{#                                                                                    <a href="{% url 'show_message' %}">#}
+{#                                                                                        Ўқиш#}
+{#                                                                                    </a>#}
+{#                                                                                </td>#}
+{#                                                                                <td>#}
+{#                                                                                    <i class="fa fa-trash-o txt-danger f-20"></i>#}
+{#                                                                                </td>#}
+                                                                            </tr>
+                                                                    {% endfor %}
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                             <div class="tab-pane fade " id="old_ones" role="tabpanel"
+                                                 aria-labelledby="pills-created-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex align-items-center"
+                                                         style="border-left: 3px solid #168eea;">
+                                                        <h6 class="mb-0">O'qilgan xabarlar</h6>
+                                                        <div class="search-bg d-flex align-items-center">
+                                                            <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
+                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body p-0 m-t-25">
+                                                        <div class="details-bookmark text-center">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-sm">
+                                                                    <thead class="table-primary">
+                                                                    <tr>
+                                                                        <th scope="col">№</th>
+                                                                        <th scope="col">Kimdan kelgan</th>
+                                                                        <th scope="col">Sarlavhasi</th>
+                                                                        <th scope="col">Xabar mazmumi</th>
+                                                                        <th scope="col">Kelib tushgan vaqti</th>
+{#                                                                        <th scope="col"></th>#}
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    {% for message in messages_read %}
+                                                                            <tr>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td>{{ message.message_sender }}</td>
+                                                                                <td>{{ message.title }}</td>
+                                                                                <td>{{ message.comment }}</td>
+                                                                                <td>{{ message.active_time }}</td>
+{#                                                                                <td>#}
+{#                                                                                    <a href="{% url 'show_message' %}">#}
+{#                                                                                        Ўқиш#}
+{#                                                                                    </a>#}
+{#                                                                                </td>#}
+{#                                                                                <td>#}
+{#                                                                                    <i class="fa fa-trash-o txt-danger f-20"></i>#}
+{#                                                                                </td>#}
+                                                                            </tr>
+                                                                    {% endfor %}
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="fade tab-pane" id="pills-favourites" role="tabpanel"
+                                                 aria-labelledby="pills-favourites-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex"
+                                                         style="border-left: 3px solid #168eea;">
+                                                        <h6 class="mb-0">Жўнатилган хабарлар</h6>
+                                                        <div class="search-bg d-flex align-items-center">
+                                                            <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
+                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body p-0 m-t-25">
+                                                        <div class="details-bookmark">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-sm text-center">
+                                                                    <thead class="table-primary">
+                                                                    <tr>
+                                                                        <th scope="col">№</th>
+                                                                        <th scope="col">Kimga yuborilgan</th>
+                                                                        <th scope="col">Sarlavhasi</th>
+                                                                        <th scope="col">Xabar mazmumi</th>
+                                                                        <th scope="col">Kelib tushgan vaqti</th>
+                                                                        <th scope="col"></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for message in messages_sended %}
+                                                                        {% if message.status_deleted != 1 %}
+                                                                            <tr>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td>{{ message.message_reciver }}</td>
+                                                                                <td>{{ message.title }}</td>
+                                                                                <td>{{ message.comment }}</td>
+                                                                                <td>{{ message.active_time }}</td>
+{#                                                                                <td>#}
+{#                                                                                    <a href="../starter-kit/text.html">#}
+{#                                                                                        Ўқиш#}
+{#                                                                                    </a>#}
+{#                                                                                </td>#}
+                                                                                <td>
+                                                                                    <i type="button" class="fa fa-trash-o txt-danger f-20 delete_message" message-id="{{ message.id }}"></i>
+                                                                                </td>
+                                                                            </tr>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="fade tab-pane" id="pills-shared" role="tabpanel"
+                                                 aria-labelledby="pills-shared-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex"
+                                                         style="border-left: 3px solid #168eea;">
+                                                        <h6 class="mb-0">Қоралама</h6>
+                                                        <div class="search-bg d-flex align-items-center">
+                                                            <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
+                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="details-bookmark text-center">
+                                                            <span><i
+                                                                    class="fa fa-exclamation-triangle f-20 txt-warning"></i> Қораламада Хабарлар ёқ</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="fade tab-pane" id="pills-bookmark" role="tabpanel"
+                                                 aria-labelledby="pills-bookmark-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex">
+                                                        <h6 class="mb-0">Очирилган хабарлар</h6>
+                                                        <div class="search-bg d-flex align-items-center">
+                                                            <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
+                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body p-0 m-t-25">
+                                                        <div class="details-bookmark text-center">
+                                                            <div class="table-responsive">
+                                                                 <table class="table table-sm">
+                                                                    <thead class="table-primary">
+                                                                    <tr>
+                                                                        <th scope="col">№</th>
+                                                                        <th scope="col">Kimga yuborilgan</th>
+                                                                        <th scope="col">Sarlavhasi</th>
+                                                                        <th scope="col">Xabar mazmumi</th>
+                                                                        <th scope="col">Kelib tushgan vaqti</th>
+{#                                                                        <th scope="col"></th>#}
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    {% for message in messages_deleted %}
+                                                                            <tr>
+                                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                                <td>{{ message.message_reciver }}</td>
+                                                                                <td>{{ message.title }}</td>
+                                                                                <td>{{ message.comment }}</td>
+                                                                                <td>{{ message.active_time }}</td>
+        {#                                                                        <td>#}
+        {#                                                                            <a href="../starter-kit/text.html">#}
+        {#                                                                                Ўқиш#}
+        {#                                                                            </a>#}
+        {#                                                                        </td>#}
+{#                                                                                <td>#}
+{#                                                                                    <i class="fa fa-trash-o txt-danger f-20"></i>#}
+{#                                                                                </td>#}
+                                                                            </tr>
+                                                                    {% endfor %}
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+{#                                                    <div class="card-body">#}
+{#                                                        <div class="details-bookmark text-center">#}
+{#                                                            <span><i#}
+{#                                                                    class="fa fa-exclamation-triangle f-20 txt-warning"></i> Очирилган хабарлар ёқ</span>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+
+{#                                                    </div>#}
+                                                </div>
+                                            </div>
+                                            <div class="fade tab-pane" id="pills-newsletter" role="tabpanel"
+                                                 aria-labelledby="pills-newsletter-tab">
+                                                <div class="card mb-0">
+                                                    <div class="card-header d-flex">
+                                                        <h6 class="mb-0">Newsletter</h6>
+                                                        <ul>
+                                                            <li><a class="grid-bookmark-view" href="javascript:void(0)"><i
+                                                                    data-feather="grid"></i></a></li>
+                                                            <li><a class="list-layout-view" href="javascript:void(0)"><i
+                                                                    data-feather="list"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="details-bookmark text-center"><span>No Bookmarks Found.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade modal-bookmark" id="createtag" tabindex="-1"
+                                                 role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary">
+                                                            <h5 class="modal-title">Ходим танлаш</h5>
+                                                            <div data-bs-dismiss="modal" aria-label="Close"><a
+                                                                    class="txt-light" href="">X</a></div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="card-body p-0 m-t-25">
+                                                                <div class="details-bookmark ">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-sm">
+                                                                            <thead class="table-primary">
+                                                                            <tr>
+                                                                                <th class="text-center" scope="col">
+                                                                                    Танлаш
+                                                                                </th>
+                                                                                <th scope="col">Номи</th>
+                                                                                <th scope="col">Бўлим</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th class="text-center" scope="row">
+                                                                                    <input type="checkbox">
+                                                                                </th>
+                                                                                <td>Комилов Сардорбек</td>
+                                                                                <td>Кадастер бўлим бошлиғи</td>
+                                                                            </tr>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $("#send_message").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("title", $('#title').val());
+        data.append("comment", $('#comment').val());
+        data.append("worker", $('#worker').val());
+        data.append("user",$(this).attr('user'));
+
+        event.preventDefault();
+
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'send_message' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+              location.replace(window.location.pathname);
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+
+
+        });
+</script>
+
+    <script>
+    $(".delete_message").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("id",$(this).attr('message-id'));
+
+        event.preventDefault();
+
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'delete_message' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+              location.replace(window.location.pathname);
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+
+
+        });
+</script>
+
+        <script>
+    $("#status_changer").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("id",$(this).attr('user-id'));
+
+        event.preventDefault();
+
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'status_changer' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+              console.log("Ko'rildi");
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+
+
+        });
+</script>
+
+{% endblock %}
+
+{% block scriptcontent %}
+
+
+    <script src="{% static 'assets/js/datepicker/date-time-picker/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/datetimepicker.custom.js' %}"></script>
+    <script src="{% static 'assets/js/boottable.js' %}"></script>
+
+    <script src="{% static 'assets/js/timeline/timeline-v-2/jquery.timeliny.min.js' %}"></script>
+    <script src="{% static 'assets/js/timeline/timeline-v-2/timeline-v-2-custom.js' %}"></script>
+    <script src="{% static 'assets/js/script.js' %}"></script>
+
+
+{% endblock scriptcontent %}
