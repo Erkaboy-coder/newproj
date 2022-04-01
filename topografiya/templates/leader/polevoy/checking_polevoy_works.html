@@ -4554,7 +4554,9 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                                <div class="col-md-12 card p-1 shadow-lg">
+                                                    <i style="font-size: 20px"><sup class="text-danger">*</sup> Текширувга юборишдан олдин, ўзгаришларни <b>САҚЛАШ</b> тугмасини босишингизни сўраймиз!</i>
+                                                </div>
                                             {% if workerobject.status != 4  %}
                                                 {% if workerobject.status != 2 %}
                                                 <div class="row p-2 mb-2">
@@ -4563,7 +4565,7 @@
                                                     </div>
 
                                                     <div class="col-md-6 card p-2 shadow-lg">
-                                                        <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="send_to_kameral"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
+                                                        <button class="btn btn-primary btn-lg" type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" form-checking="{{ a }}"   id="send_to_kameral"  style="width: 100%"> <i class="fa fa-check"></i> Камерал назоратга юбориш</button>
                                                     </div>
                                                 </div>
                                                 {% endif %}
@@ -4604,7 +4606,7 @@
                                                             <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button  class="btn btn-outline-danger" id="deny_polevoy"  type="button">Юбориш</button>
+                                                            <button  class="btn btn-outline-danger" id="deny_polevoy" form-checking="{{ a }}" type="button">Юбориш</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -4622,7 +4624,7 @@
             </div>
         </div>
     
-    <button akt-object-id="{{ work.object.id }}" id="doing_akt_polevoy_file" style="display:none;"></button>
+    <button akt-object-id="{{ work.object.id }}" id="doing_akt_polevoy_file" style="display: none"></button>
 
 <scritp src="{% static 'file_upload/custom-file-input.js' %}"></scritp>
 
@@ -4975,7 +4977,6 @@
         data.append("worker", $('#worker').val());
         data.append("work_id", $('#work_id').val());
         data.append("akt_file", $('#akt_file')[0].files[0]);
-        var form = "{{ work.pk }}";
         event.preventDefault();
         if($('#akt_file')[0].files[0] != undefined){
            $.ajax({
@@ -4997,7 +4998,7 @@
         }
 
         else{
-            if(form){
+            if($(this).attr('form-checking') == '1'){
            $.ajax({
             type: 'POST',
             url: '{% url 'send_to_kameral' %}',
@@ -5034,9 +5035,8 @@
         data.append("work_id", $('#work_id').val());
         data.append("reason", $('#reason').val());
         data.append("reason_file", $('#reason_file')[0].files[0]);
-        var form = "{{ work.pk }}";
         event.preventDefault();
-        if(form){
+        if($(this).attr('form-checking') == '1'){
         if($('#reason').val() != 0){
            $.ajax({
             type: 'POST',
@@ -5060,7 +5060,7 @@
         }
         }
         else{
-        alert("АКТ fayl maydonlarini to'ldirib saqlashni bosing!");
+            alert("АКТ fayl maydonlarini to'ldirib saqlashni bosing!");
         }
 
 

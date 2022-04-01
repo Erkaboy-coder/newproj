@@ -20,6 +20,7 @@ import json
 from django.core import serializers
 
 from django.contrib import messages
+from django.core.paginator import Paginator
 from .filters import ObjectsFilter
 from datetime import datetime
 # Create your views here.
@@ -98,7 +99,7 @@ def index(request):
 @login_required(login_url='/signin')
 def pdoworks(request):
     pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type='Topografik suratga olish').filter()
-    context = {'pdoworks': pdoworks,'count': counter()}
+    context = {'pdoworks': pdoworks,'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'leader/pdo_works.html', context)
 
 @login_required(login_url='/signin')
@@ -314,7 +315,7 @@ def program_work_save_edits(request):
         program_work_creator = data.get('program_work_creator')
         object_id = data.get('object_id')
         proramwork_id = data.get('proramwork_id')
-
+        user = Worker.objects.filter(id=program_work_creator).first()
         object = Object.objects.filter(id=object_id).first()
 
         programwork=ProgramWork.objects.filter(id=proramwork_id).first()
@@ -341,7 +342,7 @@ def program_work_save_edits(request):
         form.a10=a10
         form.a11=a11
         form.a12=a12
-        form.program_work_creator = program_work_creator
+        form.program_work_creator = user
         form.save()
 
         for i in json.loads(table1):
@@ -414,8 +415,8 @@ def program_work_save_edits(request):
 
         files.save()
 
-
-        history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi", user_id = program_work_creator)
+        user = Worker.objects.filter(id=program_work_creator).first()
+        history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi", user_id=user)
         # status=26 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
@@ -470,12 +471,13 @@ def program_work_form_store(request):
         proramwork_id = data.get('proramwork_id')
 
         programwork = ProgramWork.objects.filter(id=proramwork_id).first()
+        user = Worker.objects.filter(id=program_work_creator).first()
         # programwork.status = 1
         # programwork.save()
         # status  = 1 bu tekshiruvga yuborilgan
 
         programworkform = ProgramWorkForm(programwork=programwork, a0=a0, a1_1=a1_1, a1_2=a1_2, a1_3=a1_3, a2=a2, a3=a3, a4=a4, a5=a5, a6=a6, a7_2=a7_2,
-                                        a7_3=a7_3, a7_4=a7_4, a8=a8, a8_1=a8_1, a9_1=a9_1, a9_3=a9_3, a9_4=a9_4, a10=a10, a11=a11, a12=a12, program_work_creator=program_work_creator)
+                                        a7_3=a7_3, a7_4=a7_4, a8=a8, a8_1=a8_1, a9_1=a9_1, a9_3=a9_3, a9_4=a9_4, a10=a10, a11=a11, a12=a12, program_work_creator=user)
         programworkform.save()
 
 
@@ -630,7 +632,12 @@ def checking_polevoy_works(request,id):
     programwork = ProgramWork.objects.filter(object=workerobject.object.id).first()
     programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
-    work = AktPolevoyForm.objects.filter(object=id).first()
+    object = Object.objects.filter(id=id).first()
+    work = AktPolevoyForm.objects.filter(object=object).first()
+    if work:
+        a = 1
+    else:
+        a = 0
 
     work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work)
     work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work)
@@ -648,7 +655,7 @@ def checking_polevoy_works(request,id):
     context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
-               ,'cots': cost,'now':now, 'poyasitelniy':poyasitelniy,'programworkform':programworkform,'count_works': new_work_counter(request)}
+               ,'cots': cost,'now':now, 'poyasitelniy':poyasitelniy,'programworkform':programworkform,'count_works': new_work_counter(request),'a':a}
 
     return render(request, 'leader/polevoy/checking_polevoy_works.html', context)
 
@@ -842,7 +849,7 @@ def save_akt_polevoy(request):
                     obj.save()
 
 
-        history = History(object=object, status=11, comment="Dala nazoratida akt yaratildi",user_id=user)
+        history = History(object=object, status=11, comment="Dala nazorati dalolatnomasi yaratildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -870,13 +877,15 @@ def edit_akt_polevoy(request):
         d={}
         object=Object.objects.filter(id=work_id).first()
         j=0
-
         d = {'object': object}
         for i in array.split(','):
             j=j+1
             d['a'+str(j)]=i
         k = AktPolevoyForm.objects.filter(object=object).update(**d)
+        
         form = AktPolevoyForm.objects.filter(object=work_id).first()
+        # form.version = form.version+1
+        # form.save()
 
         for i in json.loads(table1):
             if str(i['id']) == '-1' and int(i['del']) != 1:
@@ -1038,7 +1047,7 @@ def edit_akt_polevoy(request):
                     obj.save()
 
 
-        history = History(object=object, status=12, comment="Dala nazoratida akt o'zgartirildi",user_id=user)
+        history = History(object=object, status=12, comment="Dala nazorati dalolatnomasi o'zgartirildi",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1054,6 +1063,12 @@ def send_to_kameral(request):
         akt_file =request.FILES.get('akt_file')
         print(akt_file)
         workerobject = WorkerObject.objects.filter(object=work_id).first()
+        object = Object.objects.filter(id=work_id).first()
+
+        work = AktPolevoyForm.objects.filter(object=object).first()
+        work.version = work.version + 1
+        work.save()
+
 
         if akt_file != None:
             akt = AktPolevoyForm(object=workerobject.object, file=akt_file)
@@ -1063,7 +1078,7 @@ def send_to_kameral(request):
             workerobject.status = 4
             workerobject.save()
 
-            history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",
+            history = History(object=workerobject.object, status=13, comment="Ish dala nazorati tasdiqlandi",
                               user_id=worker)
             history.save()
         else:
@@ -1073,7 +1088,7 @@ def send_to_kameral(request):
 
             kameral = AktKomeralForm(object=workerobject.object)
             kameral.save()
-            history = History(object=workerobject.object, status=13, comment="Ish dala nazoratidan tasdiqlandi",user_id=user)
+            history = History(object=workerobject.object, status=13, comment="Ish dala nazorati tasdiqlandi",user_id=user)
             history.save()
         return HttpResponse(1)
     else:
@@ -1231,7 +1246,7 @@ def save_akt_komeral(request):
 
         # history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
         # history.save()
-        history = History(object=object, status=28, comment="Komeral nazorat aktisi saqlandi", user_id=user)
+        history = History(object=object, status=28, comment="Komeral nazorat dalolatnomasi saqlandi", user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1262,6 +1277,11 @@ def sent_to_check_akt(request):
         workerobject=WorkerObject.objects.filter(object=work_id).first()
         workerobject.status_geodezis_komeral=1
         workerobject.save()
+
+        work = AktKomeralForm.objects.filter(object=object).first()
+        work.version = work.version + 1
+        work.save()
+
 
         history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=user)
         history.save()
@@ -3746,7 +3766,7 @@ def doing_akt_polevoy_file(request):
         siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
         order = Order.objects.filter(object=object).first()
 
-        work = AktPolevoyForm.objects.filter(object=id).first()
+        work = AktPolevoyForm.objects.filter(object=object).first()
 
         work_table1 = AktPolovoyTable1.objects.filter(aktpolovoy=work)
         work_table2 = AktPolovoyTable2.objects.filter(aktpolovoy=work)
@@ -5299,6 +5319,7 @@ def confirm_program_work(request):
         user = Worker.objects.filter(id=worker).first()
 
         object = ProgramWork.objects.filter(object=id).first()
+        object.version = object.version+1
         object.status = 4
         object.save()
 
@@ -5307,7 +5328,7 @@ def confirm_program_work(request):
         worker1.worker_geodezis = user
         worker1.save()
 
-        history = History(object=object_id, status=4, comment="Tasdiqlandi", user_id=user)
+        history = History(object=object_id, status=4, comment="Ishchi dastur tasdiqlandi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5334,7 +5355,7 @@ def reject_program_work(request):
         reject = ProgramWorkReject(programowork=object, file=reject_file, reason=reason, version = object.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=5, comment="Rad etildi", user_id=user)
+        history = History(object=object_id, status=5, comment="Ishchi dastur tekshiruvidan qaytarildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5383,6 +5404,7 @@ def program_work_form_re_sent(request):
         table2 = data.get('table2')
 
         program_work_creator = data.get('program_work_creator')
+        user = Worker.objects.filter(id=program_work_creator).first()
         worker = data.get('worker')
         object_id = data.get('object_id')
         proramwork_id = data.get('proramwork_id')
@@ -5414,7 +5436,7 @@ def program_work_form_re_sent(request):
         form.a11 = a11
         form.a12 = a12
         form.version = form.version + 1
-        form.program_work_creator = program_work_creator
+        form.program_work_creator = user
         form.save()
 
         for i in json.loads(table1):
@@ -5493,7 +5515,7 @@ def program_work_form_re_sent(request):
         programwork1.save()
 
         history = History(object=object, status=6, comment="Ishchi dasturi qayta tekshiruvga yuborildi",
-                          user_id=object.worker_leader)
+                          user_id=user)
         # status=6 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
@@ -5704,9 +5726,10 @@ def reject_report(request):
 
         report = Report.objects.filter(object=id).first()
         report.status = 2
+        report.version = report.version + 1
         report.save()
 
-        work = ReportReject(object=report.object, file=reason_file,reason=reason)
+        work = ReportReject(object=report.object, file=reason_file, reason=reason, version=report.version)
         work.save()
 
         history = History(object=report.object, status=22, comment="Geodezis xisoborni rad etgan!", user_id=user)
@@ -5727,9 +5750,10 @@ def confirm_report(request):
 
         report = Report.objects.filter(object=id).first()
         report.status = 4
+        report.version = report.version + 1
         report.save()
 
-        history = History(object=report.object, status=23, comment="Geodezis xisoborni tasdiqlandi!", user_id=user)
+        history = History(object=report.object, status=23, comment="Geodezis xisobotni tasdiqladi!", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5795,7 +5819,7 @@ def report_send(request):
         object.worker_ogogd = worker
         object.save()
 
-        history = History(object=report.object, status=21, comment="Oogd xodimi hisobotni tekshiruvga yubordi", user_id=user)
+        history = History(object=report.object, status=21, comment="OGOGD xodimi hisobotni tekshiruvga yubordi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5866,7 +5890,7 @@ def confirm_print(request):
         workerobject.status_repoert_printer = 1
         workerobject.save()
 
-        history = History(object=report.object, status=24, comment="Obektni pechatga yuborish", user_id=user)
+        history = History(object=report.object, status=24, comment="Obekt pechatga yuborildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5961,7 +5985,7 @@ def confirm_print2(request):
         object.worker_ogogd = user
         object.save()
 
-        history = History(object=workerobject.object, status=25, comment="Obektni pechatga yuborish hisobotsiz", user_id=user)
+        history = History(object=workerobject.object, status=25, comment="Obekt pechatga hisobotsiz yuborildi", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -6175,18 +6199,26 @@ def search(request):
     else:
         return HttpResponse(0)
 
+# from django.views.generic import ListView
+# class MessageListView(ListView):
+#     paginate_by = 2
+#     model = Xabarlar
+
 def new_messages(request):
 
     workers = Worker.objects.filter(branch=request.user.profile.branch).order_by('-id').all()
 
-    messages_sended = Xabarlar.objects.filter(message_sender=request.user.profile.pk).filter(status_sended=1).order_by('-id').all()
+    messages_sended = Xabarlar.objects.filter(message_sender=request.user.profile.pk).filter(status_sended=1).filter(status_deleted=0).order_by('-id').all()
+    messages_sended_paginator = Paginator(messages_sended, 2)
+    messages_sended_page = messages_sended_paginator.get_page(1)
+
     messages_recived = Xabarlar.objects.filter(message_reciver=request.user.profile.pk).filter(status_new=1).order_by('-id').all()
     messages_read = Xabarlar.objects.filter(message_reciver=request.user.profile.pk).filter(status_deleted=0).filter(status_new=0).order_by('-id').all()
     messages_deleted = Xabarlar.objects.filter(message_sender=request.user.profile.pk).filter(status_deleted=1).order_by('-id').all()
 
     context = {'count': counter(), 'count_works': new_work_counter(request), 'workers':workers,
                 'messages_sended': messages_sended, 'messages_recived':messages_recived, 'messages_deleted': messages_deleted,
-               'count_works': new_work_counter(request), 'messages_read':messages_read}
+               'messages_read':messages_read,'messages_sended_page':messages_sended_page}
 
 
     return render(request, 'messages.html', context)

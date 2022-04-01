@@ -122,7 +122,7 @@
                                             <ul>
                                                <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси <b class="text-danger">{{ work.version }}-V</b></a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>

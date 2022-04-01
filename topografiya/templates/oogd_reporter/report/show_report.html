@@ -591,7 +591,7 @@
                                                             <ol style="font-size: 18px">
                                                                     <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
                                                                     {% if report.reason %}
-                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ reports.reason }}</li>
+                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>
                                                                     {% endif %}
                                                             </ol>
                                                         </div>
@@ -631,27 +631,27 @@
 {#                                                Камерал назоратга юбориш#}
 {#                                            </button>#}
 
-                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                                 aria-labelledby="exampleModalCenter" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title"> Ҳисобат билан танишиш</h5>
-                                                            <div type="button" data-bs-dismiss="modal"
-                                                                 aria-label="Close">x
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <ol style="font-size: 18px">
-                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
-                                                                    {% if report.reason %}
-                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ reports.reason }}</li>
-                                                                    {% endif %}
-                                                            </ol>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+{#                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"#}
+{#                                                 aria-labelledby="exampleModalCenter" aria-hidden="true">#}
+{#                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">#}
+{#                                                    <div class="modal-content">#}
+{#                                                        <div class="modal-header bg-primary">#}
+{#                                                            <h5 style="color: white;" class="modal-title"> Ҳисобат билан танишиш</h5>#}
+{#                                                            <div type="button" data-bs-dismiss="modal"#}
+{#                                                                 aria-label="Close">x#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                        <div class="modal-body">#}
+{#                                                            <ol style="font-size: 18px">#}
+{#                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>#}
+{#                                                                    {% if report.reason %}#}
+{#                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }}</li>#}
+{#                                                                    {% endif %}#}
+{#                                                            </ol>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
                                         </div>
                                     </div>
                             </div>

@@ -34,7 +34,7 @@
                                             <li>
                                             <ul>
                                                <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
-                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Ishchi dasturi <b>{{ work.version }}</b></a></li>
                                                 {% if work.file %}
                                                     <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
                                                 {% endif %}
@@ -111,7 +111,7 @@
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                                     <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>
                                     <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Форма орқали киритиш</a></li>
-                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Илова</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Ko'rsatma</a></li>
                                     <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Буюртма ҳақида маълумот</a></li>
                                 </ul>
 
@@ -121,13 +121,16 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3"><br>
-                                                    <form class="dropzone dz-clickable" id="singleFileUpload">
-                                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                                            <h6>Drop files here or click to upload.</h6><span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                                                        </div>
+                                                    <form class="" id="singleFileUpload">
+                                                            <div class="bg-primary" style="height: 80px;">
+                                                                <br>
+                                                                <input type="file" style="width: 80%;margin: auto" class="form-control p-1" id="file" name="file" >
+                                                            </div>
                                                     </form>
                                                     <br>
-                                                    <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>
+{#                                                    {% if work %}#}
+{#                                               <button type="button" id="sent_to_check_programwork" class="btn btn-warning ">Текширувга юбориш</button>#}
+{#                                                    {% endif %}#}
                                                 </div>
                                             </div>
                                         </div>
@@ -458,14 +461,15 @@
                                               <div class="m-b-20 m-t-20 row">
                                                    <label class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ form.program_work_creator }}">
+                                                       <input class="form-control" type="text" value="{{ form.program_work_creator }}">
+                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ form.program_work_creator.id }}" style="display: none">
                                                        <input class="form-control" name="worker" id="worker" type="text" value="{{ user.profile.pk }}" style="display:none;">
                                                    </div>
                                                </div>
 
                                                {% if form.programwork.status == 2 %}
                                                     <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">
-                                                    <button type="button" id="program_work_form_re_sent" class="float-end btn btn-primary ">Қайта текширувга юбориш</button>
+                                                    <button type="button" id="program_work_form_re_sent" class="float-end btn btn-primary">Қайта текширувга юбориш</button>
                                               {% endif %}
 
                                           </form>

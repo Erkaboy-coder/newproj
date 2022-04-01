@@ -24,12 +24,12 @@
                             <ul class="text text-center" style="font-size:15px">
                                 {% for message in messages %}
                                     {% if message.tags == "error"  %}
-                                        <div class="alert alert-error" style="background-color: #f7d7da">
+                                        <div class="alert alert-error" style="background-color: #f7d7da;width: 50%">
                                             <b ><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </b> <span>{{ message }}</span>
                                         </div>
 
                                     {% else %}
-                                        <div class="alert alert-success" style="background-color:#d4edda">
+                                        <div class="alert alert-success" style="background-color:#d4edda;width: 50%">
                                             <b class="text-success">Поздравления  !</b> <span class="text text-success">{{ message }}</span>
                                         </div>
                                     {% endif %}
@@ -88,7 +88,7 @@
                                                     <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#old_ones" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-archive"></i>  O'qilgan xabarlar</span></a>
+                                                            class="title"><i class="fa fa-eye"></i>  O'qilgan xabarlar</span></a>
                                                     </li>
 {#                                                    <li><a class="show" id="pills-shared-tab" data-bs-toggle="pill"#}
 {#                                                           href="#pills-shared" role="tab" aria-controls="pills-shared"#}
@@ -290,8 +290,9 @@
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    {% for message in messages_sended %}
-                                                                        {% if message.status_deleted != 1 %}
+
+                                                                    {% for message in messages_sended_page.object_list %}
+
                                                                             <tr>
                                                                                 <th scope="row">{{ forloop.counter }}</th>
                                                                                 <td>{{ message.message_reciver }}</td>
@@ -307,11 +308,12 @@
                                                                                     <i type="button" class="fa fa-trash-o txt-danger f-20 delete_message" message-id="{{ message.id }}"></i>
                                                                                 </td>
                                                                             </tr>
-                                                                        {% endif %}
+
                                                                     {% endfor %}
 
                                                                     </tbody>
                                                                 </table>
+
                                                             </div>
                                                         </div>
                                                     </div>

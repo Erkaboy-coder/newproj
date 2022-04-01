@@ -179,7 +179,8 @@ class ProgramWorkForm(models.Model):
     a10 = models.TextField(blank=True)
     a11 = models.TextField(blank=True)
     a12 = models.TextField(blank=True)
-    program_work_creator = models.TextField(blank=True)
+    # program_work_creator =models.TextField(blank=True)
+    program_work_creator = models.ForeignKey(Worker, blank=True, on_delete=models.CASCADE, related_name='programwork')
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
         return self.a0
@@ -839,6 +840,7 @@ class Report(models.Model):
     file = models.FileField("Report file", upload_to='topografiya/static/files/otchot', blank=True)
     reason = models.TextField(blank=True)
     status = models.IntegerField(default=0)
+    version = models.IntegerField(default=0)
     # status = 0 bosa hisobot yozish uchun kelgan
     # status = 1 bosa hisobot tekshiruv jarayonida
     # status = 2 bosa hisobot qaytarilgan
@@ -855,6 +857,7 @@ class ReportReject(models.Model):
     object = models.ForeignKey(Object, blank=True, on_delete=models.CASCADE, related_name='reportreject')
     file = models.FileField("Qaytarilgan fayl", upload_to='topografiya/static/files/reportreject', blank=True)
     reason = models.TextField(blank=True)
+    version = models.IntegerField(default=0)
     active_time = models.DateTimeField(auto_now=True, blank=True, null=True)
     def __str__(self):
         return self.object.pdowork.object_name

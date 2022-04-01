@@ -123,7 +123,7 @@
                                         <li>
                                             <ul>
                                                <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
-                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Komeral nazorat dalolatnomasi <b>{{ work.version }}</b></a></li>
                                                 {% if work.file %}
                                                     <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
                                                 {% endif %}
@@ -1029,6 +1029,10 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                                <div class="col-md-12 card p-1 shadow-lg">
+                                                    <i style="font-size: 20px"><sup class="text-danger">*</sup> Текширувга юборишдан олдин, ўзгаришларни <b>САҚЛАШ</b> тугмасини босишингизни сўраймиз!</i>
+                                                </div>
 
                                     {% if work.status_save == 1 %}
                                         <div class="row p-2 mb-2">

@@ -62,7 +62,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури</a> </li>
-                                <li class="breadcrumb-item"><a href="{% url 'program_work_event' id=order.object.id %}">{{ object.programwork.object.pdowork.object_name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'program_work_event' id=order.object.id %}">{{ order.object.pdowork.object_name }}</a></li>
 
                             </ol>
                         </div>
@@ -99,7 +99,7 @@
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
 {#                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>#}
                                     <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Топографик-геодезик дастури</a></li>
-                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Илова</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Ko'rsatma</a></li>
                                     <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Буюртма ҳақида маълумот</a></li>
                                 </ul>
 
@@ -466,13 +466,12 @@
                                            <div class="row">
                                             <hr>
                                           <div class="col-lg-6">
-                                            <button class="btn btn-danger btn-lg w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg1">Рад етиш</button>
+                                            <button class="btn btn-danger btn-lg w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg1"><i class="fa fa-close"></i> Рад етиш</button>
                                             <div class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabelru" aria-hidden="true">
                                               <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                   <div class="modal-header bg-danger">
-                                                            <h5 style="color: white;" class="modal-title">Хатолик
-                                                                хабарини тасдиқлаш</h5>
+                                                            <h5 style="color: white;" class="modal-title">Хатолик хабарини тасдиқлаш</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
@@ -503,7 +502,7 @@
                                           </div>
 
                                           <div class="col-lg-6">
-                                            <button class="btn btn-primary btn-lg w-100" id="confirm" worker="{{ user.profile.pk }}" object-id="{{ form.programwork.object.id }}" > Тасдиқлаш</button>
+                                            <button class="btn btn-primary btn-lg w-100" id="confirm" worker="{{ user.profile.pk }}" object-id="{{ form.programwork.object.id }}" ><i class="fa fa-check"></i> Тасдиқлаш</button>
                                           </div>
 
                                         </div>
@@ -792,12 +791,12 @@
                                                                             </div>
                                                                             <div class="floder_input">
                                                                                 <div class="row">
-                                                                                    <a download="" href="#">
+                                                                                    <a  href="#">
                                                                                         <div class="f-14 f-w-600">
                                                                                             <span><i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
                                                                                         </div>
                                                                                     </a>
-                                                                                    <a href="#" download="">
+                                                                                    <a href="#" >
                                                                                         <div class="f-14 f-w-600"><span>
                                                                                             <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
                                                                                             Графическое приложение

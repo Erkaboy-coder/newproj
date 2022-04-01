@@ -713,7 +713,8 @@
                                               <div class="m-b-20 m-t-20 row">
                                                    <label class="col-sm-3 col-form-label">Программу составил</label>
                                                    <div class="col-sm-9">
-                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ pdowork.worker_leader.full_name }}">
+                                                       <input class="form-control"  type="text" value="{{ pdowork.worker_leader.full_name }}">
+                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ pdowork.worker_leader.id }}" style="display: none">
                                                    </div>
                                                </div>
 
@@ -728,6 +729,9 @@
                                               <input type="text" value="{{ object.object.id }}" id="object_id" name="object_id" style="display:none;">
                                               <input type="text" value="{{ object.id }}" id="proramwork_id" name="proramwork_id" style="display:none;">
                                               <input type="text" value="{{ user.profile.pk }}" id="worker" name="worker" style="display:none;">
+                                                <div class="col-md-12 card p-1 shadow-lg">
+                                                    <i style="font-size: 20px"><sup class="text-danger">*</sup> Текширувга юборишдан олдин, ўзгаришларни <b>САҚЛАШ</b> тугмасини босишингизни сўраймиз!</i>
+                                                </div>
 
                                                <button type="button" id="sent_to_check_programwork" class="float-end btn btn-primary ">Текширувга юбориш</button>
                                                <button type="button" id="program_work_save_edits" class="float-left btn btn-outline-warning m-r-5"> Сақлаш</button>

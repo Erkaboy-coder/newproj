@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Ишни бошлаб {% endblock %}
+{% block title %} Ishni boshlash {% endblock %}
 {% block content%}
 
 {% block stylecontent %}
@@ -98,8 +98,9 @@
                                                                                         class="fa fa-folder f-36 txt-warning"></i>
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
-                                                                                            <a href="/{{ pdowork.tz }}" target="_blank">Техник топшириқ
-                                                                                             билан танишиш</a></h6>
+                                                                                            <a href="/{{ pdowork.tz }}" target="_blank">
+                                                                                                Техник топшириқ билан танишиш
+                                                                                            </a></h6>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
@@ -108,8 +109,9 @@
                                                                                         class="fa fa-file-archive-o f-36 txt-warning" ></i>
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
-                                                                                            <a href="/{{ pdowork.smeta }}" target="_blank">Смета
-                                                                                            билан танишиш</a></h6>
+                                                                                            <a href="/{{ pdowork.smeta }}" target="_blank">
+                                                                                                Смета билан танишиш
+                                                                                            </a></h6>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
@@ -211,9 +213,9 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6">
-                                                                            <h5>Ишчи дастур ва хисобот
-                                                                                шакллантирилади<sup
-                                                                                        style="color: red">*</sup></h5>
+                                                                            <h5>
+                                                                                Ишчи дастур ва хисобот шакллантирилади
+                                                                                <sup style="color: red">*</sup></h5>
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
@@ -233,8 +235,8 @@
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="mb-4">
-                                                                                <h5>Мазкур ишни бажариш учун маъсул
-                                                                                    жавобгар шахс <sup
+                                                                                <h5>Мазкур ишни бажариш учун маъсул жавобгар шахс
+                                                                                    <sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
 
@@ -252,8 +254,8 @@
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
-                                                                                Топографик-геодезик ишларни бажариш учун
-                                                                                кўрсатма шакллантириш</h5>
+                                                                                Топографик-геодезик ишларни бажариш учун кўрсатма шакллантириш
+                                                                            </h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
@@ -273,8 +275,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>3. </b>Местоположение
-                                                                                    объекта</label>
+                                                                                    <b>3. </b>Местоположение объекта</label>
                                                                                 <div class="col-sm-8">
                                                                                     <input class="form-control"
                                                                                            type="text"
@@ -312,7 +313,7 @@
 {#                                                                            fields#}
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>7. </b>объемы работ <sup class="text-danger" style="font-size: 14px">*</sup>
+                                                                                    <b>7. </b>Oбъемы работ <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="size" id="size" required style="height: 100px;"
@@ -322,9 +323,9 @@
 
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>8. </b>Исходные данные, система координат и
-                                                                                    высот, использование материалов
-                                                                                    работ прошлых лет <sup class="text-danger" style="font-size: 14px">*</sup>
+                                                                                    <b>8. </b>
+                                                                                    Исходные данные, система координат и высот, использование материалов работ прошлых лет
+                                                                                    <sup class="text-danger" style="font-size: 14px">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="info" id="info" required style="height: 100px;"
@@ -333,9 +334,7 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>9. </b>Методы создания геодезического и
-                                                                                    (или) съемочного обоснования,
-                                                                                    закрепление пунктов, точек</label>
+                                                                                    <b>9. </b>Методы создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea  name="method_creation" id="method_creation" style="height: 100px;"
                                                                                               class="form-control">{{ order.method_creation }}</textarea>
@@ -355,10 +354,9 @@
 
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>11. </b>Метод
-                                                                                    выполнения топографической съемки.
-                                                                                    Технические требования и технология
-                                                                                    выполнения работ</label>
+                                                                                    <b>11. </b>
+                                                                                    Метод выполнения топографической съемки. Технические требования и технология выполнения работ
+                                                                                </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="method_fill" id="method_fill"  style="height: 100px;"
                                                                                               class="form-control">{{ order.method_fill }}</textarea>
@@ -366,17 +364,14 @@
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>12. </b>Съемка
-                                                                                    инженерно-подземных
-                                                                                    коммуникаций</label>
+                                                                                    <b>12. </b>Съемка инженерно-подземных коммуникаций</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="syomka" id="syomka"  style="height: 100px;" class="form-control">{{ order.syomka }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-3">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>13. </b>Особые
-                                                                                    требования</label>
+                                                                                    <b>13. </b>Особые требования</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="requirements" id="requirements"  style="height: 100px;" class="form-control">{{ order.requirements }}</textarea>
                                                                                 </div>
@@ -399,8 +394,7 @@
 {#                                                                            </div>#}
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>15. </b>Перечень
-                                                                                    предоставляемых материалов</label>
+                                                                                    <b>15. </b>Перечень предоставляемых материалов</label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="list_of_materials" id="list_of_materials" style="height: 100px;"  class="form-control">{{ order.list_of_materials }}</textarea>
                                                                                 </div>
@@ -496,10 +490,7 @@
                                                                 <div class="file-sidebar row ">
                                                                     <div class="pricing-plan col-lg-6 shadow-lg">
                                                                         <h5>Aнанавий усулда</h5>
-                                                                        <p>Lorem ipsum dolor sit amet, consectetur
-                                                                            adipisicing elit. Magni perspiciatis
-                                                                            provident quae quam quasi recusandae sed
-                                                                            totam? Architecto laudantium, veritatis?</p>
+                                                                        <p>Ish an'anaviy usulda tizim orqali qilinmasdan amalga oshiriladi!</p>
                                                                         <div class="btn-showcase">
                                                                             <button class="btn btn-primary sweet-1"
                                                                                     type="button"

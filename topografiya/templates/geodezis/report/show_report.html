@@ -121,7 +121,7 @@
                                             <ul>
                                                <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси <b class="text-danger">{{ work.version }}-V</b></a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -618,9 +618,9 @@
                                                         </div>
                                                          <div class="modal-body">
                                                             <ol style="font-size: 18px">
-                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
+                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш <b class="text-danger">{{ work.version }}-V</b></a></li>
                                                                     {% if report.reason %}
-                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ reports.reason }}</li>
+                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ report.reason }} </li>
                                                                     {% endif %}
                                                             </ol>
                                                         </div>

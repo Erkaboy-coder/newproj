@@ -80,18 +80,18 @@
                           <a href="/{{ work.object.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ билан танишиш</h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                          <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета билан танишиш</h6></a>
                       </div>
                        <div class="col-md-12">
-                          <a href="#" target="_blank" class="file" data-id="{{ work.object.id }}"><h6 class=""> <i class="fa fa-file-word-o"></i> Илова файли билан танишиш</h6></a>
+                          <a href="#" target="_blank" class="file" data-id="{{ work.object.id }}"><h6 class=""> <i class="fa fa-file-word-o"></i> Ko'rsatma билан танишиш</h6></a>
                       </div>
                       {% if programwork %}
                             {% if programwork.status == 4 %}
                                <div class="col-md-12">
-                                  <a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" ><h6 class=""> <i class="fa fa-file-word-o"></i> Топографик-геодезик дастури файли билан танишиш</h6></a>
+                                  <a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" ><h6 class=""> <i class="fa fa-file-word-o"></i> Топографик-геодезик дастури билан танишиш</h6></a>
                               </div>
                               {% else %}
                                   <a href="#" ><h6 class="text-warning"> <i class="fa fa-file-word-o"></i>Топографик-геодезик дастури тайёрланмоқда</h6></a>
@@ -902,6 +902,9 @@
                             </div>
                         </div>
                 </div>
+                <div class="col-md-12 card p-1 shadow-lg">
+                    <i style="font-size: 20px"><sup class="text-danger">*</sup> Текширувга юборишдан олдин, ўзгаришларни <b>САҚЛАШ</b> тугмасини босишингизни сўраймиз!</i>
+                </div>
 
                 {% if work.status == 0 or work.status == 2 %}
                 <div class="row p-2 mb-2">
@@ -948,7 +951,7 @@
             processData: false,
 
             success: function (result){
-                window.open('/static/files/akt_polevoy/akt-polevoy.pdf','_blank');
+               window.open('/static/files/'+result,'_blank');
 {#                var link = document.createElement('a');#}
 {#                link.href = "/static/files/file.pdf";#}
 {#                link.download = "file_" + new Date() + ".pdf";#}
