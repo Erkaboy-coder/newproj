@@ -1,0 +1,810 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Топографик-Геодезик Дастури o'zgartirish {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
+<style>
+    .formact{
+        border: 1px solid #e6edef;
+    }
+</style>
+{% endblock stylecontent %}
+
+    <div class="modal fade modal-bookmark " id="exampleModal1"
+       tabindex="-1" aria-labelledby="exampleModalLabel1"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-white" id="exampleModalLabel1">
+                      Рад этилганлар
+                  </h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                            <ol>
+
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
+
+                                </ol>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+        <div class="page-body">
+
+            <div class="container-fluid">
+                <div class="page-header">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Топографик-геодезик дастури</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
+                                {% if user.profile.status == '1' %}
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a> </li>
+                                {% endif %}
+                                {% if user.profile.status == '2' %}
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури</a> </li>
+                                {% endif %}
+
+                                <li class="breadcrumb-item">{{ object.pdowork.object_name }}</li>
+
+                            </ol>
+                        </div>
+
+                     <div class="col-sm-6 text-end">
+                            {% if rejects %}
+                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
+                                    Рад этилишлар сони
+
+                                    {% if rejects.count > 0 %}
+                                         &nbsp;
+                                        <span class="badge rounded-pill bg-white">
+                                             <b class="text-danger">{{ rejects.count }}</b>
+                                         </span>
+                                     {% endif %}
+
+                                </button>
+                            {% endif %}
+
+                     </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-xl-12 xl-100">
+                        <div class="card">
+                            <div class="card-header pb-0">
+                                {% if form.programwork.status == 4 %}
+                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> Тасдиқланган иш</b></div>
+                                {% endif %}
+                                {% if form.programwork.status == 2 %}
+                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> Рад этилган иш</b></div>
+                                {% endif %}
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>
+                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Форма орқали киритиш</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Илова</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Буюртма ҳақида маълумот</a></li>
+                                </ul>
+
+                                <div class="tab-content" id="icon-tabContent">
+
+                                    <div class="tab-pane fade " id="icon-home" role="tabpanel" aria-labelledby="icon-home-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3"><br>
+                                                    {% if form.file %}
+                                                    <a href="/{{ form.file }}"  target="_blank"><i class="fa fa-file-pdf-o"></i> Ishchi dasturi bilan tanishish</a>
+                                                    {% endif %}
+                                                    <br>
+{#                                                    <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>#}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="tab-pane fade show active" id="profile-icon" role="tabpanel" aria-labelledby="profile-icon-tab">
+                                      <div class="top-forma m-t-40">
+                                          <form method="post"  enctype="multipart/form-data" >
+                                        {% csrf_token %}
+
+{#                                               <div class="mb-3 row">#}
+{#                                                   <label class="col-sm-3 col-form-label">Приложение D рекомендуемое</label>#}
+{#                                                   <div class="col-sm-9">#}
+{#                                                       <input class="form-control" type="text" name="" placeholder="Организация-исполнитель, отдел">#}
+{#                                                   </div>#}
+{#                                               </div>#}
+{#                                               <div class="mb-3 row">#}
+{#                                                   <label class="col-sm-3 col-form-label">«УТВЕРЖДАЮ» Главный инженер организации </label>#}
+{#                                                   <div class="col-sm-9">#}
+{#                                                       <input class="form-control" type="text" placeholder="Ф.И.О.">#}
+{#                                                   </div>#}
+{#                                               </div>#}
+
+                                               <h4 class="text-center">ПРОГРАММА ТОПОГРАФО-ГЕОДЕЗИЧЕСКИХ РАБОТ</h4>
+                                               <p>По объекту <span><input style="width: 90%" class="formact" name="a0" value="{{ form.a0 }}" type="text" >
+                                                <p style="font-size: 12px;margin-top: -15px;margin-left: 150px"> (наименование объекта, его местоположение)</p>
+                                               </span>
+                                              </p>
+
+                                              <label class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">1</span> ОБЩИЕ ДАННЫЕ</label>
+                                               <p>
+                                                   Основанием для производства работ послужило техническое задание, выданное <sup class="text-danger" style="font-size: 15px">*</sup>
+                                                   <span><input style="width: 54%" class="m-b-5 formact" value="{{ form.a1_1 }}"  name="a1_1" type="text"></span>
+                                                   <br>
+                                                   Цель, назначение и объем проектируемых работ
+                                                   <span><input style="width: 73%" class="m-b-5 formact"  name="a1_2" value="{{ form.a1_2 }}" type="text"></span>
+                                                   <br><br>
+                                                   Дополнительные требования к выполнению геодезических работ
+                                                   <span><input class="m-b-5 formact" style="width: 63%"   name="a1_3" value="{{ form.a1_3 }}" type="text"></span>
+                                               </p>
+
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">2</span> КРАТКАЯ ФИЗИКО-ГЕОГРАФИЧЕСКАЯ ХАРАКТЕРИСТИКА РАЙОНА РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" name="a2" placeholder="указываются физико-географические условия местности">{{ form.a2 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">3</span> СВЕДЕНИЯ О СИСТЕМЕ КООРДИНАТ И ВЫСОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" name="a3" value="{{ form.a3 }}" type="text" placeholder="">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">4</span> ТОПОГРАФО-ГЕОДЕЗИЧЕСКАЯ ИЗУЧЕННОСТЬ РАЙОНА РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" name="a4" type="text" placeholder="производится описание существующей геодезической сети, ее класс, разряд, система координат и высот, исходные пункты для ">{{ form.a4 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">5</span> РАЗВИТИЕ ОПОРНОЙ ГЕОДЕЗИЧЕСКОЙ СЕТИ СГУЩЕНИЯ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" name="a5" placeholder="обоснование видов и классов (разрядов) проектируемой опорной геодезической сети и схемы ее построения с расчетом точности ">{{ form.a5 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">6</span> ПОСТРОЕНИЕ СЪЕМОЧНОГО ОБОСНОВАНИЯ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" name="a6" type="text" placeholder="производится описание принятого вида обоснования, его точность;">{{ form.a6 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-12" >
+                                                   <p class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">7</span> ПРОИЗВОДСТВО ТОПОГРАФИЧЕСКИХ СЪЕМОК</p>
+                                               </div>
+                                               <div style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.1</span> Вид, масштаб и объем съемки.</div>
+                                               <div class="col-sm-12">
+                                                   <div class="card border-0">
+                                                       <div class="table-responsive">
+                                                           <table class="table table-bordered"  id="childTable_pr1">
+                                                               <thead class="bg-primary">
+                                                              <tr>
+                                                                   <th scope="col">N</th>
+                                                                   <th scope="col">Наименование площадки, участка</th>
+                                                                   <th scope="col">Метод съемки</th>
+                                                                   <th scope="col">Масштаб съемки</th>
+                                                                   <th scope="col">Высота сечения рельефа, м</th>
+                                                                   <th scope="col">Объем</th>
+                                                                   <th scope="col"></th>
+                                                               </tr>
+                                                               </thead>
+                                                               <tbody>
+
+                                                               {% if formtable1 %}
+                                                                   {% for work_table1_1 in formtable1 %}
+                                                                       <tr data-obj = {{ work_table1_1.id }} del=0>
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_1" name="a7_1_1" data-column="a7_1_1" value="{{ work_table1_1.a7_1_1 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_2" name="a7_1_2" data-column="a7_1_2" value="{{ work_table1_1.a7_1_2 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_3" name="a7_1_3" data-column="a7_1_3" value="{{ work_table1_1.a7_1_3 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_4" name="a7_1_4" data-column="a7_1_4" value="{{ work_table1_1.a7_1_4 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_5" name="a7_1_5" data-column="a7_1_5" value="{{ work_table1_1.a7_1_5 }}" placeholder=""></td>
+                                                                   <td>
+                                                                       <i id="addrow2" onclick="childrenRow_pr()"
+                                                                          class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                   </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                              </tr>
+                                                                                {% endfor %}
+                                                               {% else %}
+                                                                   <tr data-obj = '-1'>
+
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_1" name="a7_1_1" data-column="a7_1_1" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_2" name="a7_1_2" data-column="a7_1_2" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_3" name="a7_1_3" data-column="a7_1_3" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_4" name="a7_1_4" data-column="a7_1_4" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" type="text" id="a7_1_5" name="a7_1_5" data-column="a7_1_5" placeholder=""></td>
+                                                                   <td>
+                                                                       <i id="addrow2" onclick="childrenRow_pr()"
+                                                                          class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                   </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                   {% endif %}
+                                                               </tbody>
+                                                           </table>
+
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.2</span> При горизонтальной и высотной съемках застроенных территорий</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" name="a7_2" type="text" placeholder="указывается необходимость обмеров по контуру зданий, сооружений, их координирование">{{ form.a7_2 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.3</span> Привязка инженерно-геологических выработок, геофизических и др. точек</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" name="a7_3" type="text" placeholder="требования к разбивке и планово-высотной привязке инженерно-геологических выработок и других точек">{{ form.a7_3 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">7.4</span> Составление топографических планов</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" name="a7_4" placeholder="масштаб, номенклатура, система координат и высот">{{ form.a7_4 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">8</span> СЪЕМКА ПОДЗЕМНЫХ И НАЗЕМНЫХ КОММУНИКАЦИЙ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" name="a8" type="text" placeholder="указывается метод съемки: по выходам подземных коммуникаций, с помощью трубокабелеискателя, шурфованием, их эскизирование и координирование; согласование схем подземных коммуникаций с технологическими службами ">{{ form.a8 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">8.1</span> Составление планов подземных коммуникаций</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" name="a8_1" placeholder="указывается масштаб и вид плана, выноса эскизов на план и пр.">{{ form.a8_1 }}</textarea>
+                                                   </div>
+                                               </div>
+                                              <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">9</span> ИНЖЕНЕРНЫЕ ИЗЫСКАНИЯ ДЛЯ ЛИНЕЙНОГО СТРОИТЕЛЬСТВА</label>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-warning">9.1</span> Виды, объемы и технические характеристики линейных сооружений, подлежащих изысканиям</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea style="height: 100px;" class="form-control" type="text" name="a9_1" placeholder="указывается планово-высотная привязка трасс, их закрепление в натуре, схемы привязок, абрис, сдача заказчику по акту закрепленных трасс">{{ form.a9_1 }}</textarea>
+                                                   </div>
+                                               </div>
+                                               <h6 class=""><span class="badge rounded-pill badge-warning">9.2</span> Перечень материалов, представляемых по окончании работы</h6>
+                                               <div class="col-sm-12">
+                                                   <div class="card border-0">
+                                                       <div class="table-responsive">
+
+                                                           <table class="table table-bordered" id="childTable_pd2">
+                                                               <thead class="bg-primary">
+                                                               <tr>
+                                                                   <th scope="col">N</th>
+                                                                   <th scope="col">Наименование трассы, участка</th>
+                                                                   <th scope="col">Масштаб плана трассы</th>
+                                                                   <th scope="col">Масштаб продольного профиля горизонтальный</th>
+                                                                   <th scope="col">Масштаб продольного профиля вертикальный</th>
+                                                                   <th scope="col">Масштаб перехода горизонтальный</th>
+                                                                   <th scope="col">Масштаб перехода вертикальный</th>
+                                                                   <th scope="col"></th>
+                                                               </tr>
+                                                               </thead>
+                                                                <tbody>
+                                                               {% if formtable2 %}
+                                                                                {% for formtable1_2 in formtable2 %}
+                                                                                    <tr data-obj = {{ formtable1_2.id }} del=0>
+                                                                   <td>#</td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_1" data-column="a9_2_1" id="a9_2_1" value="{{ formtable1_2.a9_2_1 }}" type="text" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_2" data-column="a9_2_2" id="a9_2_2" type="text" value="{{ formtable1_2.a9_2_2 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_3" data-column="a9_2_3" id="a9_2_3" type="text" value="{{ formtable1_2.a9_2_3 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_4" data-column="a9_2_4" id="a9_2_4" type="text" value="{{ formtable1_2.a9_2_4 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_5" data-column="a9_2_5" id="a9_2_5" type="text" value="{{ formtable1_2.a9_2_5 }}" placeholder=""></td>
+                                                                   <td><input class="border-0 w-100" name="a9_2_6" data-column="a9_2_6" id="a9_2_6" type="text" value="{{ formtable1_2.a9_2_6 }}" placeholder=""></td>
+                                                                   <td>
+                                                                        <i id="addrow4" onclick="childrenRow_pr2()"
+                                                                           class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                   </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                   {% endfor %}
+                                                               {% else %}
+                                                                    <tr data-obj = '-1'>
+                                                                       <td>#</td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_1" id="a9_2_1" type="text" data-column="a9_2_1"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_2" id="a9_2_2" type="text" data-column="a9_2_2"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_3" id="a9_2_3" type="text" data-column="a9_2_3"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_4" id="a9_2_4" type="text" data-column="a9_2_4"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_5" id="a9_2_5" type="text" data-column="a9_2_5"></td>
+                                                                       <td><input class="border-0 w-100" name="a9_2_6" id="a9_2_6" type="text" data-column="a9_2_6"></td>
+                                                                       <td>
+                                                                            <i id="addrow4" onclick="childrenRow_pr2()"
+                                                                               class="fa fa-plus-circle f-20 txt-primary" aria-hidden="true"></i>
+                                                                       </td>
+                                                                   <td><i class="fa fa-close f-20 txt-danger del-row"></i></td>
+                                                               </tr>
+                                                                    {% endif %}
+
+                                                               </tbody>
+
+                                                           </table>
+
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Ведомости:</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" name="a9_3" type="text" value="{{ form.a9_3 }}" placeholder="наименование">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label">Прочие материалы:</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" name="a9_4" type="text" value="{{ form.a9_4 }}" placeholder="наименование">
+                                                   </div>
+                                               </div>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">10</span> ТЕХНИЧЕСКИЙ КОНТРОЛЬ И ПРИЕМКА РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" type="text" name="a10" placeholder="самоконтроль исполнителя, проверка работ в процессе их выполнения, приемка завершенных полевых работ">{{ form.a10 }}</textarea>
+                                                   </div>
+                                               </div>
+                                              <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">11</span> ТЕХНИКА БЕЗОПАСНОСТИ</label>
+                                               <p>
+                                                   К работе допускаются лица, прошедшие вводный инструктаж по технике безопасности, соблюдению полевой гигиены и санитарии <span><sup style="color: red">*</sup></span>
+                                                   <textarea style="height: 100px;" name="a11" class="form-control" placeholder="кто проводит, где, когда">{{ form.a11 }}</textarea>
+                                               </p>
+                                               <div class="mb-3 row">
+                                                   <label style="text-transform: lowercase;" class="col-sm-3 col-form-label"><span class="badge rounded-pill badge-primary">12</span> ИСПОЛНИТЕЛИ И СРОКИ ВЫПОЛНЕНИЯ РАБОТ</label>
+                                                   <div class="col-sm-9">
+                                                       <textarea class="form-control" name="a12" type="text" placeholder="очередность выполнения работ по объектам и передача для камеральной обработки">{{ form.a12 }}</textarea>
+                                                   </div>
+                                               </div>
+                                              <label style="text-transform: lowercase;" class="col-sm-12 col-form-label"><span class="badge rounded-pill badge-primary">13</span> ПЕРЕЧЕНЬ МАТЕРИАЛОВ, ПРИЛАГАЕМЫХ К ПРОГРАММЕ</label>
+
+                                                    <div class="floder_input">
+                                                   <div class="row">
+{#                                                       <div class="col-lg-12 mt-3" style="font-size: 18px">1. <a href="/{{ form.programwork.object.pdowork.tz }}"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>#}
+                                                        <div class="col-lg-9 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
+
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ form.programwork.object.pdowork.tz }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+
+
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">2. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема топографо-геодезической изученности района (участка) работ</a></div>
+
+                                                       {% if files.file2 %}
+                                                           <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
+                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
+                                                           {% endif %}
+
+
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
+                                                        {% if files.file3 %}
+                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
+                                                           {% endif %}
+
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
+                                                        {% if files.file4 %}
+                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
+                                                           {% endif %}
+
+
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
+                                                       {% if files.file5 %}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
+                                                           {% endif %}
+
+
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
+                                                        {% if files.file6 %}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                           <div class="col-lg-6 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
+                                                           {% endif %}
+
+
+
+                                                       <div class="col-lg-6 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
+                                                        {% if files.file7 %}
+                                                       <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           {% else %}
+                                                           <div class="col-lg-6 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
+                                                           {% endif %}
+
+                                                   </div>
+                                               </div>
+
+                                              <div class="m-b-20 m-t-20 row">
+                                                   <label class="col-sm-3 col-form-label">Программу составил</label>
+                                                   <div class="col-sm-9">
+                                                       <input class="form-control" name="program_work_creator" id="program_work_creator" type="text" value="{{ form.program_work_creator }}">
+                                                   </div>
+                                              </div>
+
+{#                                               {% if form.programwork.status == 2 %}#}
+{#                                                    <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">#}
+{#                                                    <button type="submit" class="float-end btn btn-primary ">Қайта текширувга юбориш</button>#}
+{#                                              {% endif %}#}
+
+                                          </form>
+                                      </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade" id="contact-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
+                                        <br><br>
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                    Буюртма ҳақида маълумот</h5>
+                                            </div>
+
+                                                  <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="mb-2">
+                                                                                    <b>Шартнома рақами<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.object_number }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Шартнома санаси</b>
+                                                                                    <p>{{ object.pdowork.agreement_date }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Обект номи<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.object_name }} </p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Буюрмачи</b>
+                                                                                    <p>{{ object.pdowork.customer }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Обект манзили<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.object_address }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6 text-end">
+                                                                                <div class="mb-2">
+                                                                                    <b>Бажариш муддати<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.work_term }} kun</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Буюртмачи маълумотлари<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.customer_info }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Иш тури<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.work_type }}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Нархи<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.object_cost}}</p>
+                                                                                </div>
+                                                                                <div class="mb-2">
+                                                                                    <b>Маъсул бажарувчи бўлим<sup
+                                                                                            style="color: red;">*</sup></b>
+                                                                                    <p>{{ object.pdowork.department }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <ul class="folder">
+                                                                            <li class="folder-box">
+                                                                                <a href="/{{ object.pdowork.latter }}">
+                                                                                    <i class="fa fa-file-pdf-o f-20 txt-dark"></i>  Буюрта хати билан танишиш
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="folder-box m-b-5 m-t-5">
+                                                                                <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
+                                                                                <a href="/{{ object.pdowork.tz }}">
+                                                                                        Техник топшириқ файли билан танишиш
+                                                                                </a>
+
+                                                                            </li>
+
+                                                                            <li class="folder-box">
+                                                                                <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
+                                                                                <a href="/{{ object.pdowork.smeta }}">Смета файли
+                                                                                            билан танишиш</a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                  </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade" id="ilova-icon" role="tabpanel" aria-labelledby="contact-icon-tab">
+
+                                               <div class="details-bookmark">
+                                                            <div class="row" id="bookmarkData">
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6">
+                                                                            <h5>Ишчи дастур ва хисобот
+                                                                                шакллантирилади<sup
+                                                                                        style="color: red">*</sup></h5>
+                                                                            <div class="form-group m-t-15 custom-radio-ml">
+
+                                                                                <div class="radio radio-primary">
+                                                                                    <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
+                                                                                    <label for="radio1"><span class="digits">Ҳа</span></label>
+                                                                                </div>
+
+                                                                                <div class="radio radio-primary">
+                                                                                    <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
+                                                                                    <label for="radio4">Йўқ</label>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                            <input type="text" id="isset_programwork" value="False" style="display:none;" name="is_programwork">
+
+                                                                        </div>
+                                                                        <div class="col-lg-6">
+                                                                            <div class="mb-4">
+                                                                                <h5>Мазкур ишни бажариш учун маъсул
+                                                                                    жавобгар шахс<sup
+                                                                                            style="color: red">*</sup>
+                                                                                </h5>
+{#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
+                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel">
+{#                                                                                    <option value="{{ object.worker_ispolnitel }}" selected>{{ object.worker_ispolnitel }}</option>#}
+                                                                                    {% for worker in workers %}
+                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <h5 class="mb-4 text-center fontbold-700">
+                                                                                Топографик-геодезик ишларни бажариш учун
+                                                                                кўрсатма шаклланториш</h5>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Должность, Ф.И.О. исполнителя
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control" type="text" value="{{ object.pdowork.customer_info }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Наименование
+                                                                                    объекта</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text" value="{{ object.pdowork.object_name }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Местоположение
+                                                                                    объекта</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text"
+                                                                                           value="{{ object.pdowork.object_address}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Заказчик</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text"
+                                                                                           value="{{ object.pdowork.customer }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Виды
+                                                                                    и объемы работ</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control"
+                                                                                           type="text"
+                                                                                           value="{{ object.pdowork.work_type }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Сроки
+                                                                                    выполнения работ</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control digits"
+                                                                                           id="example-datetime-local-input"
+                                                                                           type="text"
+                                                                                           value="{{ object.pdowork.work_term }} kun">
+                                                                                </div>
+                                                                            </div>
+
+{#                                                                            fields#}
+
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Исходные данные, система координат и
+                                                                                    высот, использование материалов
+                                                                                    работ прошлых лет
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="info" required style="height: 100px;"
+                                                                                              class="form-control">{{ order.info }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Метод создания геодезического и
+                                                                                    (или) съемочного обоснования,
+                                                                                    закрепление пунктов, точек</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea required name="method_creation" style="height: 100px;"
+                                                                                              class="form-control">{{ order.method_creation }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Метод
+                                                                                    выполнения топографической съемки.
+                                                                                    Технические требования и технология
+                                                                                    выполнения работ</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="method_fill" required style="height: 100px;"
+                                                                                              class="form-control">{{ order.method_fill }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Съемка
+                                                                                    инженерно-подземных
+                                                                                    коммуникаций</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="syomka" required class="form-control">{{ order.syomka }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Особые
+                                                                                    требования</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="requirements" required class="form-control">{{ order.requirements }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">
+                                                                                    Поверки геодезических
+                                                                                    инструментов</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input name="item_check" required class="form-control"
+                                                                                           type="text" value="{{ order.item_check }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <label class="col-sm-3 col-form-label">Методы
+                                                                                    и программы уравнивания</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea name="adjustment_methods" required class="form-control">{{ order.adjustment_methods }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Перечень
+                                                                                    предоставляемых материалов</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input name="list_of_materials" required class="form-control"
+                                                                                           type="text" value="{{ order.list_of_materials }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Сырые изм-ные данные</label>
+{#                                                                                {{ order.type_of_sirie }}#}
+                                                                                <div class="col-sm-9">
+                                                                                    <select name="type_of_sirie" required class="js-example-disabled-results col-sm-12">
+                                                                                        <option value="">--- ---</option>
+                                                                                        <option value="0" {% if order.type_of_sirie == '0' %}selected{% endif %}>БПЛА</option>
+                                                                                        <option value="1" {% if order.type_of_sirie == '1' %}selected{% endif %}>GNSS</option>
+                                                                                        <option value="2" {% if order.type_of_sirie == '2' %}selected{% endif %}>Тахеометрическая съемка</option>
+                                                                                    </select>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="floder_input">
+                                                                                <div class="row">
+                                                                                    <a download="" href="#">
+                                                                                        <div class="f-14 f-w-600">
+                                                                                            <span><i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
+                                                                                        </div>
+                                                                                    </a>
+                                                                                    <a href="#" download="">
+                                                                                        <div class="f-14 f-w-600"><span>
+                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
+                                                                                            Графическое приложение
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="mb-3 row">
+                                                                                <label class="col-sm-3 col-form-label">Предписание составил</label>
+                                                                                <div class="col-sm-9">
+                                                                                    <input class="form-control" name="order_creator" type="text" value="{{ order.order_creator }}">
+                                                                                </div>
+                                                                            </div>
+
+{#                                                                            <input type="text" name="pdowork" value="{{ pdowork.id }}" style="display: none">#}
+{#                                                                            <input type="text" name="worker_id" value="{{ user.profile.id }}" style="display: none">#}
+{#                                                                            <input type="text" name="object_id" value="{{ object.id }}" style="display: none">#}
+
+{#                                                                            <hr>#}
+{#                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>#}
+{#                                                                            <button class="float-end btn btn-primary" type="submit"> <i class="fa fa-check"></i> Ишни узгартириш</button>#}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    <script src="{% static 'assets/js/script.js' %}"></script>
+    <script src="{% static 'assets/js/boottable.js' %}"></script>
+
+        {% endblock %}
+
+<script src="{% static 'assets/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'assets/js/dropzone/dropzone-script.js' %}"></script>

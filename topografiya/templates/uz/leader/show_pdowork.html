@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Начало работы {% endblock %}
+{% block title %} Ishni boshlash {% endblock %}
 {% block content%}
 
 {% block stylecontent %}
@@ -17,7 +17,7 @@
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="exampleModalLabel">
-                                                                            Информация о заказе</h5>
+                                                                            Буюртма ҳақида маълумот</h5>
                                                                         <button class="btn-close" type="button"
                                                                                 data-bs-dismiss="modal"
                                                                                 aria-label="Close"></button>
@@ -26,47 +26,47 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="mb-2">
-                                                                                    <b>ШНомер договора<sup
+                                                                                    <b>Шартнома рақами<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_number }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Дата договора</b>
+                                                                                    <b>Шартнома санаси</b>
                                                                                     <p>{{ pdowork.agreement_date }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Наименование объекта<sup
+                                                                                    <b>Объект  номи<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_name }} </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Заказчик</b>
+                                                                                    <b>Буюртмачи</b>
                                                                                     <p>{{ pdowork.customer }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Адрес объекта<sup
+                                                                                    <b>Объект манзили<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_address }}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 text-end">
                                                                                 <div class="mb-2">
-                                                                                    <b>Сроки выполнения<sup
+                                                                                    <b>Бажариш муддати<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.work_term }} kun</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Реквизиты заказчика<sup
+                                                                                    <b>Буюртмачи реквизитлари<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.customer_info }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Вид работы<sup
+                                                                                    <b>Иш тури<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.work_type }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Сумма договора<sup
+                                                                                    <b>Шартнома суммаси<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>
 
@@ -75,7 +75,7 @@
                                                                                     </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Отдел ответственный за исполнительнение <sup
+                                                                                    <b>Маъсул бажарувчи бўлим<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.department }}</p>
                                                                                 </div>
@@ -88,7 +88,7 @@
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
                                                                                             <a href="/{{ pdowork.latter }}" target="_blank">
-                                                                                                Ознакомление с письмом заказчика
+                                                                                                Буюртма хати билан танишиш
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -99,7 +99,7 @@
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
                                                                                             <a href="/{{ pdowork.tz }}" target="_blank">
-                                                                                                 Ознакомление с техническим заданием
+                                                                                                Техник топшириқ билан танишиш
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -110,7 +110,7 @@
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
                                                                                             <a href="/{{ pdowork.smeta }}" target="_blank">
-                                                                                                Ознакомление со сметой
+                                                                                                Смета билан танишиш
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -126,10 +126,10 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-8">
-                            <h3>Информация об объекте</h3>
+                            <h3>Обйект ҳақида маълумот</h3>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'pdoworks' %}">Новые договора</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'pdoworks' %}">Янги шартномалар</a></li>
                                 <li class="breadcrumb-item active">{{ pdowork.object_name }}</li>
                             </ol>
                         </div>
@@ -138,7 +138,7 @@
                             <button class="btn btn-primary"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                     class="icofont icofont-maximize"></i>
-                                Информация о заказе
+                                Буюртма ҳақида маълумот
                             </button>
                         </div>
                     </div>
@@ -168,22 +168,22 @@
 
                         <div class="col-xl-3 xl-30">
                             <div class="email-sidebar"><a class="btn btn-primary email-aside-toggle"
-                                                          href="javascript:void(0)">Тип выполнения работы</a>
+                                                          href="javascript:void(0)">Ишни бажариш тури</a>
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="email-app-sidebar left-bookmark">
                                                 <ul class="nav main-menu" role="tablist">
                                                     <li class="nav-item" ><span
-                                                            class="main-title txt-dark">Тип выполнения работы</span></li>
+                                                            class="main-title txt-dark">Ишни бажариш тури</span></li>
                                                     <li><a class="active" id="pills-created-tab"
                                                            data-bs-toggle="pill" href="#pills-created" role="tab"
                                                            aria-controls="pills-created" aria-selected="true"><span
-                                                            class="title">С использованием  системы</span></a></li>
+                                                            class="title">Тизим ёрдамида</span></a></li>
                                                     <li><a id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#pills-favourites" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title active show">Традиционным способом</span></a></li>
+                                                            class="title active show">Aнанавий усулда</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@
                                                 <div class="ribbon-wrapper card  mb-0">
                                                     <div class="card-body p-0">
                                                         <div class="ribbon ribbon-bookmark ribbon-primary"
-                                                             style="font-size: 20px;font-weight: 500;">С использованием  системы
+                                                             style="font-size: 20px;font-weight: 500;">Тизим ёрдамида
                                                         </div>
 
 
@@ -214,18 +214,18 @@
                                                                     <div class="row">
                                                                         <div class="col-lg-6">
                                                                             <h5>
-                                                                                Cформировать рабочую программу и отчет
+                                                                                Ишчи дастур ва хисобот шакллантирилади
                                                                                 <sup style="color: red">*</sup></h5>
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
-                                                                                    <label for="radio1"><span class="digits">Да</span></label>
+                                                                                    <label for="radio1"><span class="digits">Ҳа</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
-                                                                                    <label for="radio4">Нет</label>
+                                                                                    <label for="radio4">Йўқ</label>
                                                                                 </div>
 
                                                                             </div>
@@ -235,7 +235,7 @@
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="mb-4">
-                                                                                <h5>Ответственное лицо за выполнение данной работы
+                                                                                <h5>Мазкур ишни бажариш учун маъсул жавобгар шахс
                                                                                     <sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
@@ -254,7 +254,7 @@
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
-                                                                                Формирование инструкции по выполнению топографо-геодезических работ
+                                                                                Топографик-геодезик ишларни бажариш учун кўрсатма шакллантириш
                                                                             </h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
@@ -378,7 +378,7 @@
                                                                             </div>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
-                                                                                    <b>14.</b>Поверка геодезических инструментов <sup class="text-danger">*</sup>
+                                                                                    <b>14.</b>Поверки геодезических инструментов <sup class="text-danger">*</sup>
                                                                                 </label>
                                                                                 <div class="col-sm-8">
                                                                                     <textarea name="item_check" id="item_check" style="height: 100px;"  class="form-control">{{ order.item_check }}</textarea>
@@ -453,7 +453,7 @@
 
                                                                             <hr>
 
-                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Очистить поле</button>
+                                                                            <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Майдонни тозалаш</button>
 {#                                                                            {% if order != 'None' %}#}
                                                                                 <button class="float-end btn btn-warning" id="save_order" type="button"> <i class="fa fa-check"></i> Сақлаш</button>
 {#                                                                            {% else %}#}

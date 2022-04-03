@@ -1,0 +1,214 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Архив {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+
+{% csrf_token %}
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Aрхив</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i
+                                        class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'history' %}">Aрхив</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Aрхивга келиб тушган ишлар ҳақида маълумотлар</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="">
+{#                                    <div class="row">#}
+{#                                        <div class="col-md-12">#}
+{#                                            {{ myfilter.form }}#}
+{#                                            <button class="btn btn-primary" type="submit">Search</button>#}
+{#                                        </div>#}
+{#                                        <div class="col-lg-6">#}
+{#                                            <select class="form-control js-example-placeholder-multiple btn-square" name="worker" id="worker">#}
+{#                                                <option value="">-- Ишнибажарувчи --</option>#}
+{#                                                {% for worker in workers %}#}
+{#                                                    <option value="{{ worker.id }}">{{ worker.full_name}}</option>#}
+{#                                                {% endfor %}#}
+{#                                            </select>#}
+{#                                        </div>#}
+{#                                        <div class="col-md-6">#}
+{#                                                <input class="form-control" type="text" placeholder="Обьект рақами бўйича" id="number" name="number">#}
+{#                                        </div>#}
+{##}
+{#                                    </div>#}
+{#                                    <div class="row m-t-15">#}
+{#                                        <div class="col-lg-4 col-md-6 input-group" style="width: 35%">#}
+{#                                            <span class="input-group-text">Шартнома санаси дан ... </span>#}
+{#                                            <input class="form-control" type="date" id="start_time" name="start_time">#}
+{#                                        </div>#}
+{#                                         <div class="col-lg-4 col-md-6 input-group" style="width: 35%">#}
+{#                                            <span class="input-group-text">.... гача ... </span>#}
+{#                                            <input class="form-control" type="date" id="end_time" name="end_time">#}
+{#                                        </div>#}
+{##}
+{##}
+{#                                        <div class="col-lg-4 col-md-4" style="width: 30%">#}
+{#                                            <button class="btn btn-primary w-100 text-center" id="search" type="button">#}
+{#                                                Қидириш#}
+{#                                            </button>#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="row">
+{#                                        <div class="col-md-6">#}
+{##}
+{#                                        </div>#}
+                                        <div class="col-md-12">
+                                             <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-search"></i> </span>
+                                                <input id="myInput" type="text" class="form-control" placeholder="Маълумотларни излаш..">
+                                              </div>
+
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+                            <div class="table-responsive p-l-30 p-r-30 p-b-30">
+                                <table class="table table-bordered" >
+                                    <thead class="table-primary">
+                                    <tr>
+                                        <th class="text-center" scope="col">№</th>
+                                        <th scope="col"><b>Ишнибажарувчи</b></th>
+                                        <th scope="col"><b>Ташкилот номи</b></th>
+                                        <th scope="col"><b>Ишмазмуни</b></th>
+                                        <th scope="col" class="text-center"><b>Муддати</b></th>
+                                        <th scope="col" class="text-center">Кўриш</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="search_item">
+
+                                    {% for work in works %}
+                                        <tr>
+                                            <th class="text-center" scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ work.object.worker_ispolnitel}}</td>
+                                            <td>{{ work.object.pdowork.customer}}</td>
+                                            <td>{{ work.object.pdowork.object_name}}</td>
+                                            <td class="text-center">{{ work.object.pdowork.work_term}} kun</td>
+                                            <td class="text-center">
+                                                <a href="{% url 'show_all_works' id=work.object.id %}">
+                                                    <button class="btn btn-outline-primary">Кўриш</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xl-12">
+                                <nav class="float-end p-b-30 p-r-30">
+                                    <ul class="pagination pagination-primary">
+                                        <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">Олдинги</a></li>
+                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2<span class="sr-only"></span></a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">Кейинги</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search_item tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+{##}
+{#       <script type="text/javascript">#}
+{#    $(document).on('keyup',"#number",function(){#}
+{##}
+{#$(document).ready(function(){#}
+{#    $("#number").keyup(function(event) {#}
+{##}
+{#        var data = new FormData();#}
+{#        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);#}
+{##}
+{#        data.append("worker", $('#worker').val());#}
+{#        data.append("start_time", $('#start_time').val());#}
+{#        data.append("end_time", $('#end_time').val());#}
+{#        data.append("number", $('#number').val());#}
+{##}
+{#        event.preventDefault();#}
+{#            $.ajax({#}
+{#            type: 'POST',#}
+{#            url: '{% url 'search' %}',#}
+{#            data: data,#}
+{#            cache: false,#}
+{#            contentType: false,#}
+{#            processData: false,#}
+{##}
+{#            success: function (result){#}
+{##}
+{#            console.log(result['works']);#}
+{#            console.log(result['pdoworks']);#}
+{#            console.log(result['objects']);#}
+{##}
+{#            var text=``;#}
+{#                text +=`<tr>#}
+{#                  <th class="text-center" scope="row">#</th>#}
+{#                  <td>`+ result['objects'][0].worker_ispolnitel`</td>#}
+{#                  <td>`+ result['pdoworks'][0].customer+`</td>#}
+{#                  <td>`+ result['pdoworks'][0].object_name+`</td>#}
+{#                  <td class="text-center">`+ result['pdoworks'][0].work_term+` kun</td>#}
+{#                  <td class="text-center">#}
+{#                        <a href="/show_all_works/`+result['objects'][0].id+`">#}
+{#                            <button class="btn btn-outline-primary">Кўриш</button>#}
+{#                        </a>#}
+{#                  </td>#}
+{#                </tr>`;#}
+{#                $('#search_item').html(text);#}
+{#            },#}
+{##}
+{#            error: function(){#}
+{#              alert('Serverga yubara olmaymiz !! ');#}
+{#            }#}
+{##}
+{#            });#}
+{#        });#}
+{#    });#}
+{#</script>#}
+
+{% endblock %}

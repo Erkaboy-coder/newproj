@@ -1,0 +1,260 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Dala nazorati ishlari {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+
+            <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Дала назорати</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item active">Дала назорати</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-xl-12 xl-100">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#new-ones" role="tab" aria-selected="false">Жорий ишлар {% if new_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ new_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> Дала назорати текширувига юборилганлар {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true">Дала назоратидан қайтарилганлар {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#less-time-ones" role="tab" aria-controls="camera-icon" aria-selected="true"> Муддати кам қолганлар {% if less_time_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ less_time_ones.count }}</span>{% endif %} </a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true"> Якунланганлар {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
+                                </ul>
+
+
+                                <div class="tab-content" id="icon-tabContent">
+
+                                         <div class="tab-pane fade active show" id="new-ones" role="tabpanel">
+                                            <div class="row">
+                                                    {% if new_ones.count == 0 %}
+                                                        <p class="mb-0 m-t-30">Келиб тушган иш йўқ</p>
+                                                    {% endif %}
+
+                                                     {% for object in new_ones %}
+                                                        <div class="col-xl-4 col-md-6 mt-4">
+                                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                                    <div class="pricing-plan shadow border-0">
+                                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+
+                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+
+                                                                         <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
+                                                                        <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer}}</div>
+                                                                        <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                        <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+
+
+                                                                        <hr>
+                                                                        <div class="detail-footer">
+                                                                            <a href="{% url 'polevoy_work_doing' id=object.object.id %}">
+                                                                                <button class="btn btn-square btn-outline-primary-2x float-end">
+                                                                                    Батафсил маълумот
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                 {% endfor %}
+                                            </div>
+                                        </div>
+
+
+
+                                    <div class="tab-pane fade" id="checking-ones" role="tabpanel" aria-labelledby="profile-icon-tab">
+                                        <div class="row">
+                                            {% if checking_ones.count == 0 %}
+                                             <p class="mb-0 m-t-30">Муҳокама жараёнида иш йок</p>
+                                            {% endif %}
+
+                                             {% for object in checking_ones %}
+                                                 <div class="col-xl-4 col-md-6 mt-4">
+                                                              <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                                    <div class="pricing-plan shadow border-0">
+                                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                                        <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
+                                                                        <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer}}</div>
+                                                                        <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                        <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                                        <hr>
+                                                                        <div class="detail-footer">
+                                                                            <a href="{% url 'polevoy_work_doing' id=object.object.id %}">
+                                                                                <button class="btn btn-square btn-outline-primary-2x float-end">
+                                                                                    Батафсил маълумот
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade" id="rejected-ones" role="tabpanel" aria-labelledby="contact-icon-tab">
+                                        <div class="row">
+                                        {% if rejected_ones.count == 0 %}
+                                             <p class="mb-0 m-t-30">Қайтарилган иш йўқ</p>
+                                        {% endif %}
+
+                                        {% for object in rejected_ones %}
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+                                                    <div class="blog-post-date"><span class="blg-month">Кун</span><span
+                                                class="blg-date">{{ object.object.pdowork.work_term }}</span></div>
+{#                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>#}
+                                                        <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
+                                                        <div><b>Буюртмачи номи:</b> {{ object.object.pdowork.customer}}</div>
+                                                        <div><b>Шартнома тузилган сана:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                        <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+
+                                                            <div class="text-end text-danger"><b>Қайтарилганлар сони:</b>
+                                                                <span style="color: #168eea;font-size:30px;">
+                                        <b  class="count" data-all="{% for work in rejects %}{% if work.workerobject.object.id == object.object.id %} {{ work.workerobject.id }},{% endif %}{% endfor %}"></b>
+                                                                </span>
+                                                            </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="{% url 'polevoy_work_doing' id=object.object.id %}">
+                                                                <button class="btn btn-square btn-primary float-end" style="width: 100%">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="tab-pane fade" id="less-time-ones" role="tabpanel" aria-labelledby="camera-icon-tab">
+                                        <div class="row">
+
+                                         {% if less_time_ones.count == 0 %}
+                                             <p class="mb-0 m-t-30">Муддати кам қолган иш йўқ</p>
+                                        {% endif %}
+
+                                        {% for object in less_time_ones %}
+
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                    <div class="pricing-plan shadow border-0">
+                                                        <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">30</span> Январ 2022</div>
+                                                        <h5>Обйект ҳақида маълумот</h5>
+                                                        <div class="blog-bottom-content">
+                                                            <div><b>Келиб тушган вақти:</b> 10/01/2022</div>
+                                                            <div><b>Муддати</b> 10/01/2022</div>
+                                                            <div><b>Жойлашган жойи:</b> Тошкент, Янги ҳаёт туман,</div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="detail-footer">
+                                                            <a href="../starter-kit/">
+                                                                <button class="btn btn-square btn-outline-primary-2x">
+                                                                    Батафсил маълумот
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder1.png' %}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             {% endfor %}
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="tab-pane fade" id="aggreed-ones" role="tabpanel" aria-labelledby="grow-icon-tab">
+                                        <div class="row">
+
+                                            {% if aggreed_ones.count == 0 %}
+                                                 <p class="mb-0 m-t-30">Тасдикланган иш йўқ</p>
+                                            {% endif %}
+
+                                            {% for object in aggreed_ones %}
+                                            <div class="col-xl-4 col-md-6 mt-4">
+                                                                <div class="file-sidebar ribbon-vertical-right-wrapper">
+                                                                    <div class="pricing-plan shadow border-0">
+                                                                        <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                                        <h5>{{ object.object.pdowork.object_name}}</h5>
+                                                                        <div class="blog-bottom-content">
+                                                                            <div><b>Келиб тушган вақти:</b> {{ object.object.pdowork.agreement_date}}</div>
+                                                                            <div><b>Муддати</b> {{ object.object.pdowork.work_term}}</div>
+                                                                            <div><b>Жойлашган жойи:</b> {{ object.object.pdowork.object_address}}</div>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="detail-footer">
+                                                                            <a href="{% url 'polevoy_work_doing' id=object.object.id %}">
+                                                                                <button class="btn btn-square btn-outline-primary-2x float-end">
+                                                                                    Батафсил маълумот
+                                                                                </button>
+                                                                            </a>
+                                                                        </div>
+                                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder.png' %}" alt="">
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.count').each(function(i,obj){
+    let text=$(this).attr('data-all');
+    num=text.split(',');
+    let s=0;
+    for(let i in num){
+    if(num[i]!='')
+      s++;
+      }
+        $(this).text(s);
+    });
+  });
+
+</script>
+{% endblock %}

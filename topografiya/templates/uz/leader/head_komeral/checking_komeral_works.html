@@ -1,0 +1,1292 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Комерал назорати {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+<style>
+    p {
+        margin: 0;
+        color: #111727 !important;
+    }
+    .form-plan{
+        border: 1px solid #e6edef;
+    }
+
+    .actform {
+        border: none;
+        border-bottom: 1px solid #cccccc;
+    }
+
+</style>
+{% endblock stylecontent %}
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
+
+  <div class="modal fade modal-bookmark " id="exampleModal"
+       tabindex="-1" aria-labelledby="exampleModalLabel"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-primary">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                      Буюртма ҳақида маълумот</h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-2">
+                              <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_number }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Шартнома санаси</b>
+                              <p>{{ pdowork.pdowork.agreement_date }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Обект номи<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_name }} </p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Буюрмачи</b>
+                              <p>{{ pdowork.pdowork.customer }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Обект манзили<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_address }}</p>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 text-end">
+                          <div class="mb-2">
+                              <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.work_term }} kun</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Буюртмачи маълумотлари<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.customer_info }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Иш тури<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.work_type }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Нархи<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.object_cost}}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.department }}</p>
+                          </div>
+                      </div>
+                  </div>
+                  <ul class="folder">
+                      <li class="folder-box">
+                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
+                              <div class="media-body ">
+                                  <h6 class="">
+                                      <a href="/{{ pdowork.pdowork.latter }}">Буюрта хати билан танишиш</a></h6>
+                              </div>
+                          </div>
+                      </li>
+                      <li class="folder-box">
+                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
+                              <div class="media-body ">
+                                  <h6 class="">
+                                      <a href="/{{ pdowork.pdowork.tz }}">Техник топшириқ файли билан танишиш</a></h6>
+                              </div>
+                          </div>
+                      </li>
+                      <li class="folder-box">
+                          <div class="media"><i class="fa fa-file-pdf-o f-36 txt-warning"></i>
+                              <div class="media-body ">
+                                  <h6 class=""><a href="/{{ pdowork.pdowork.smeta }}">Смета файли билан танишиш</a></h6>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <div class="modal fade modal-bookmark " id="exampleModal1"
+       tabindex="-1" aria-labelledby="exampleModalLabel1"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-white" id="exampleModalLabel1">
+                      Рад этилганлар
+                  </h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                           <ol>
+
+                                    {% for work in rejects %}
+                                        <li>
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                        </li>
+                                    {% endfor %}
+
+                                </ol>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="0" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 class="modal-title " id="myLargeModalLabel">
+                    {% if order.type_of_sirie == '0' %}
+                        Полевые материалы по БПЛА
+                    {% endif %}
+                    {% if order.type_of_sirie == '1' %}
+                        Полевые материалы GNSS
+                    {% endif %}
+                    {% if order.type_of_sirie == '1' %}
+                        Сырые измерительные данные для тахеометрической съемки (по факту)
+                    {% endif %}
+                </h4>
+                <div type="button" data-bs-dismiss="modal" aria-label="Close">X</div>
+            </div>
+
+            <div class="modal-body">
+
+                       <div class="row text-end">
+                    {% if order.type_of_sirie == '0' %}
+                        {% if siriefiles.file1_1 %}
+                                <div class="col-lg-6 m-b-10">
+                                    <div class="m-b-10">
+                                        <div>Разрешение на залет от МО РУз</div>
+                                        <a href="/{{ siriefiles.file1_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                    </div>
+                                </div>
+                        {% endif %}
+                        {% if siriefiles.file1_2 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class="m-b-10">
+                            <div>Схема планирования залета БПЛА<sup style="color: red;">*</sup></div>
+                            <a  href="/{{ siriefiles.file1_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_3 %}
+                    <div class="col-lg-6 m-b-10">
+                          <div class="m-b-10">
+                            <div>Схема выполненных залетов<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_4 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class='m-b-10'>
+                            <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_5 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class="m-b-10">
+                            <div>Схема расположение опознаков и исходные пункты<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_6 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class="m-b-10">
+                            <div>Каталог координат исходных пунктов<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_7 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class="m-b-10">
+                            <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_8 %}
+                    <div class="col-lg-6 m-b-10">
+                         <div class="m-b-10">
+                            <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_9 %}
+                    <div class="col-lg-6 m-b-10">
+                         <div class="m-b-10">
+                            <div>Отчёт обработки ортофотоплана<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_10 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class="m-b-10">
+                            <div>Измерения, скаченные с прибора(БПЛА)<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                        {% if siriefiles.file1_11 %}
+                    <div class="col-lg-6 m-b-10">
+                        <div class="m-b-10">
+                            <div>Фото. опознаков<sup style="color: red;">*</sup></div>
+                            <a href="/{{ siriefiles.file1_11 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                        </div>
+                    </div>
+                            {% endif %}
+                    {% endif %}
+
+                    {% if order.type_of_sirie == '1' %}
+                        {% if siriefiles.file2_1 %}
+                         <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Каталог координат исходных пунктов</div>
+                                <a href="/{{ siriefiles.file2_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% if siriefiles.file2_2 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Каталог кооодинат долговременных точек <sup style="color: red;">*</sup></div>
+                                <a  href="/{{ siriefiles.file2_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% if siriefiles.file2_3 %}
+                        <div class="col-lg-6 m-b-10">
+                              <div class="m-b-10">
+                                <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file2_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% if siriefiles.file2_4 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class='m-b-10'>
+                                <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file2_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% if siriefiles.file2_5 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file2_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% if siriefiles.file2_6 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Измерения, скаченные с прибора ( GNSS )<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file2_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% if siriefiles.file2_7 %}
+                         <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Схема калибровки с границами объекта<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file2_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                            {% endif %}
+                    {% endif %}
+
+                     {% if order.type_of_sirie == '2' %}
+                         {% if siriefiles.file3_1 %}
+                         <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Ведомость обследования наличия и состояния пунктов геодезической сети на объекте</div>
+                                <a href="/{{ siriefiles.file3_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_2 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Каталог исходных пунктов и ранее заложенных точек <sup style="color: red;">*</sup></div>
+                                <a  href="/{{ siriefiles.file3_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_3 %}
+                        <div class="col-lg-6 m-b-10">
+                              <div class="m-b-10">
+                                <div>Схема съемочного обоснования<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_4 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class='m-b-10'>
+                                <div>Хурналы нивелирования теодолитных ходов<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_5 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Ведомость уравнивания теодолитных ходов и характеристики<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_6 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Ведомость нивелирных ходов и характеристики<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_7 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Схема уравнивания<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_8 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Схема размещения объекта по планшетам<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_9 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Каталог координат (пикеты)<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                         {% if siriefiles.file3_10 %}
+                        <div class="col-lg-6 m-b-10">
+                            <div class="m-b-10">
+                                <div>Измерения, скаченные с прибора (тахеометра)<sup style="color: red;">*</sup></div>
+                                <a href="/{{ siriefiles.file3_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            </div>
+                        </div>
+                             {% endif %}
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <h3>Комерал назорати текшируви</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'leader_komeral_c' %}">Комерал назорати текшируви</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'checking_polevoy_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
+                            </ol>
+
+                        </div>
+
+                        <div class="col-sm-6 text-end">
+                            {% if rejects %}
+                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
+                                    Рад этилишлар сони
+                                     <span class="badge rounded-pill badge-warning">
+                                        <b class="text-white">{{ rejects.count }}</b>
+                                     </span>
+
+                                </button>
+                            {% endif %}
+                            <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
+                                Буюртма ҳақида маълумот
+                            </button>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 box-col-12">
+                        <div class="file-content">
+                            <div class="card">
+                                <div class="card-body file-manager ">
+                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича комерал назорати ва қабул қилиш далолатномаси</h4>
+                                    <div class="row m-b-30">
+                                        <div class="col-lg-12">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6139262.264677291!2d60.086000668460755!3d41.29392364762516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b20a5d676b1%3A0xca0a6dad7e841e20!2z0KPQt9Cx0LXQutC40YHRgtCw0L0!5e0!3m2!1sru!2s!4v1642200261479!5m2!1sru!2s"
+                                                    height="500" style="border:0;width: 97%;" allowfullscreen="" loading="lazy"></iframe>
+                                        </div>
+                                    </div>
+                                    <ul class="files ">
+                                        <li class="file-box ">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
+                                            <div class="file-bottom">
+                                                <h6>1. Скрыть изм-ные данные</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                            </div>
+                                        </li>
+                                        <li class="file-box ">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom">
+                                                <h6>2. Абрис</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                        <li class="file-box ">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
+                                            <div class="file-bottom">
+                                                <h6>3. Кроки</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                        <li class="file-box ">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i></div>
+                                            <div class="file-bottom">
+                                                <h6>4. Эксплуатация колодцев</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i>
+                                            </div>
+                                            <div class="file-bottom">
+                                                <h6>5. Ж эксплуатация колодцев</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i>
+                                            </div>
+                                            <div class="file-bottom ">
+                                                <h6>6. Лист эксплуатирующими </h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file   }}" class="text-white">Кўриш</a></button>
+                                            </div>
+                                        </li>
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>7. Пояснительная записка</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                            </div>
+                                        </li>
+
+                                        <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
+                                            <div class="file-bottom ">
+                                                <h6>8. АКТ дала назорати текшируви</h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+{#                                    <ul class="folder ">#}
+{#                                        <li class="folder-box m-t-5">#}
+{#                                            <h6>8. Время проверить</h6>#}
+{#                                            <div class="media align-items-center"><i#}
+{#                                                    class="fa fa-clock-o f-36 txt-danger"></i>#}
+{#                                                <div class="media-body ms-3">#}
+{#                                                    <p style="font-size: 14px; color: #999999" class="m-0"><span style="font-size: 20px; color: #168eea">16</span>/01/2022</p>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+                                    <hr>
+{#                                    <div class="card">#}
+
+
+                                    <h4 class="m-t-25 ">Муҳандислик тармоқлари сиёмкаси бўйича дала назорати ва қабул қилиш далолатномаси</h4>
+                                    <div class="row p-r-40">
+                                        <div class="col-sm-2 tabs-responsive-side">
+                                            <div class="nav flex-column nav-pills border-tab nav-left" id="v-pills-tab"
+                                                 role="tablist" aria-orientation="vertical">
+                                                <a class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false">Тайёр файлни юклаш</a>
+                                                <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true" style="white-space: nowrap;">Форма орқали киритиш</a></div>
+                                            </div>
+
+                                        <div class="col-sm-10">
+                                            <div class="tab-content" id="v-pills-tabContent">
+                                                <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
+                                                     aria-labelledby="v-pills-home-tab">
+                                                    <form class="dropzone digits dz-clickable" id="singleFileUpload"
+                                                          action="">
+                                                        <div class="dz-message needsclick"><i
+                                                                style="color: #168eea;font-size: 60px;"
+                                                                data-feather="upload"></i>
+                                                            <h6>Файлларни шу йерга ташланг ёки юклаш учун босинг.</h6>
+                                                            <span class="note needsclick">Бу шунчаки демо тушириш зонаси. Танланган файллар аслида юкланмаган.</span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel"
+                                                     aria-labelledby="v-pills-profile-tab">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body ">
+                                <div class="col-xs-12">
+                                    <div class="file-sidebar">
+                                        <div class="pricing-plan">
+                                            <div class="col-md-12">
+                                                <p class="text-end">ШНК 1.02.07-19 стр.</p>
+                                                <div class="row">
+                                                    <div class="col-xl-8"></div>
+                                                    <div class="col-xl-4 col-sm-5 col-lg-5">
+                                                        <div class="text-end input-group date" id="dt-minimum"
+                                                             data-target-input="nearest">
+                                                            <input class=" text-end form-control datetimepicker-input digits"
+                                                                   type="text" id="a1" name="a1" data-target="#dt-minimum">
+                                                            <div class="input-group-text" data-target="#dt-minimum"
+                                                                 data-toggle="datetimepicker"><i
+                                                                    class="fa fa-calendar"> </i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <h3 class="text-center">А К Т</h3>
+                                                <h4 class="mb-3 text-center">1. Камеральной проверки и приемки
+                                                    топографических работ <span><sup style="color: red;">*</sup></span>
+                                                </h4>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label" for="inputEmail3">По
+                                                            объекту:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" id="a2" name="a2" type="text"
+                                                                   placeholder="" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Проверка и приемка
+                                                            произведена</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a3" name="a3"
+                                                                   placeholder="должность фамилия, имя, отчество">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">В присутствии
+                                                            исполнителя</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a4" name="a4"
+                                                                   placeholder="должность фамилия, имя, отчество">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">В процессе проверки
+                                                            установлено:
+                                                            <span class="badge rounded-pill badge-primary">1</span>
+                                                            Топографические работы выполнены в соответствии</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a5" name="a5"
+                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">2</span> Работа
+                                                            выполнена в границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a6" name="a6"
+                                                                      placeholder="заданием заказчика, программой работ, техническим предписанием"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="col-sm-12">
+                                                    <div class="card border-0">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered">
+                                                                <thead class="bg-primary">
+                                                                <tr>
+                                                                    <th scope="col">№</th>
+                                                                    <th scope="col">Наименование виды работ</th>
+                                                                    <th scope="col">Ед.измерения</th>
+                                                                    <th colspan="2" scope="col">Объем работ / факт</th>
+                                                                    <th scope="col">Категория работ</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">1</th>
+                                                                    <td>Отыскивание исходных пунктов</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a7" name="a7"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a8" name="a8"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a9" name="a9"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">2</th>
+                                                                    <td>Создание обоснования</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a10" name="a10"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a11" name="a11"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a12" name="a12"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">3</th>
+                                                                    <td>Техническое нивелирование</td>
+                                                                    <td>км</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a13" name="a13"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a14" name="a14"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a15" name="a15"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">4</th>
+                                                                    <td>Закладка центров</td>
+                                                                    <td>знак</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a16" name="a16"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a17" name="a17"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a18" name="a18"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">5</th>
+                                                                    <td>Координирование углов</td>
+                                                                    <td>точка</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a19" name="a19"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a20" name="a20"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a21" name="a21"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">6</th>
+                                                                    <td>
+                                                                        Тахеометрическая съемка М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a22" name="a22"></span>
+                                                                        сечением рельефа горизонталями через
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a23" name="a23"></span>м
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a24" name="a24"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a25" name="a25"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a26" name="a26"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="bg-primary" scope="row">7</th>
+                                                                    <td>
+                                                                        Корректура съемки М 1:
+                                                                        <span><input
+                                                                                style="border: none;border-bottom: 1px solid #cccccc"
+                                                                                type="text" id="a27" name="a27"></span>
+                                                                    </td>
+                                                                    <td>га</td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a28" name="a28"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a29" name="a29"></td>
+                                                                    <td><input class="border-0 w-100" type="text"
+                                                                               placeholder="" id="a30" name="a30"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p><span class="badge rounded-pill badge-primary">3</span> Работы
+                                                    выполнены в <span><input style="border:1px solid #e6edef;"
+                                                                             type="text" id="a31" name="a31"></span> системе
+                                                    координат и в и грунтовые репера системе высот.</p>
+                                                <p>Результаты полевого контроля:</p>
+                                                <p><span class="badge rounded-pill badge-primary">4</span> Исходными
+                                                    пунктами для построения съемочного обоснования послужили:</p>
+                                                <textarea style="width: 50%" class="form-control" type="text"
+                                                          placeholder="..." id="a32" name="a32"></textarea>
+                                                <p class="m-t-10">и грунтовые репера <span>
+                                                    <input
+                                                        style="border:1px solid #e6edef;width: 39%" type="text" id="a33" name="a33"></span>
+                                                    имеющие отметки нивелирования <span><input
+                                                            style="border:1px solid #e6edef;" type="text" id="a34" name="a34"></span> кл.
+                                                </p>
+                                                <p>
+                                                    <span class="badge rounded-pill badge-primary">5</span>
+                                                    Длины ходов от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a35" name="a35"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a36" name="a36"></span>
+                                                    км Абсолютные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a37" name="a37"></span>
+                                                    до
+                                                    <span><input class="m-b-10" style="border:1px solid #e6edef;"
+                                                                 type="text" id="a38" name="a38"></span>
+                                                    м.Относительные ошибки от
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a39" name="a39"></span>
+                                                    до
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a40" name="a40"></span>.
+                                                    Система ходов уравнена
+                                                    <span><input style="border:1px solid #e6edef;" type="text" id="a41" name="a41"></span>.
+                                                </p>
+                                                <form class="theme-form">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">6</span>
+                                                            Техническое нивелирование выполнено</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a42" name="a42"
+                                                                      placeholder="система ходов, предельные длины и невязки ходов и методов уравнивания"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <p><span class="badge rounded-pill badge-primary">7</span> Состояние
+                                                        полевой документации:</p>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">журналы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a43" name="a43"
+                                                                   placeholder="кто, когда проверил и принял, максимальные расхождения в полуприемах, отсчетах по рейке, измерениях линий">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">схемы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a44" name="a44"
+                                                                   placeholder="масштаб, назначение, качество каждой схемы">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">абрисы:</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" placeholder="" id="a45" name="a45">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Акт сдачи пунктов на
+                                                            наблюдение за сохранностью</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a46" name="a46"
+                                                                   placeholder="когда, кому сданы – Ф.И.О.">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Каталог:</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a47" name="a47"
+                                                                      placeholder="исходных, закрепленных знаков, закоординированных углов, количество совмещенных точек с местными предметами"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Вычислительные
+                                                            материалы</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a48" name="a48"
+                                                                   placeholder="качество оформления">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Пояснительная записка,
+                                                            тех. отчет</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="кто и что составил, качество" id="a49" name="a49">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label"><span
+                                                                class="badge rounded-pill badge-primary">8</span> Работа
+                                                            выполнена в границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a50" name="a50"
+                                                                      placeholder="
+                                                                      указать среднее количество пикетов на дм2, заполнение контуров, правильность
+                                                                      применения условных знаков,
+                                                                      сводки по рамкам, удаление лишней ненужной ситуации с планшетов и качество корректуры">
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечания
+                                                            исправил</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя" id="a51" name="a51">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работа выполнена в
+                                                            границах</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text"
+                                                                      placeholder="" id="a52" name="a52"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a53" name="a53"
+                                                                   placeholder="подпись, Ф.И.О., исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a54" name="a54"
+                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Общая оценка качества
+                                                            выпускаемой продукции</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="number"
+                                                                      placeholder="" id="a55" name="a55"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="text-center m-b-20 m-t-20"><span
+                                                            class="badge rounded-pill badge-primary">9</span>
+                                                        камерального контроля и приемки работ по съемке инженерных
+                                                        сетей.
+                                                    </h5>
+                                                    <p>
+                                                        Топографическая съемка инженерных сетей проверена на
+                                                        <span><input type="text" class="actform" id="a56" name="a56"></span>
+                                                        листах(е),
+                                                        и/или планшетах(е) с номенклатурой:
+                                                        <span><input type="text" class="actform" id="a57" name="a57"></span>
+                                                    </p>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечание по экспликации колодцев и опор</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" type="text" id="a58" name="a58" placeholder=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Замечания
+                                                            исправил</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a59" name="a59"
+                                                                   placeholder="подпись, Ф.И.О., должность исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Заключение </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a60" name="a60"  placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Оценка качества работ </label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="number"  id="a61" name="a61"  placeholder="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу сдал</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a62" name="a62"
+                                                                   placeholder="подпись, Ф.И.О., исполнителя">
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">Работу принял</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="text" id="a63" name="a63"
+                                                                   placeholder="подпись, Ф.И.О., должность принявшего">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <img class="bg-img" style="width: 20%;"
+                                                 src="{% static 'assets/images/clock.jpg' %}"
+                                                 alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-2 mb-2">
+                                             <div class="col-md-6 card p-2 shadow-lg">
+                                                 <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-refresh"></i> Қайтариш</button>
+                                             </div>
+
+                                            {% if programwork %}
+                                                {% if programwork.status == 4 %}
+                                                    <div class="col-md-6 card p-2 shadow-lg">
+                                                        <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
+                                                    </div>
+                                                    {% else %}
+                                                    <div class="col-md-6 card p-2 shadow-lg">
+                                                        <h4 class="btn btn-warning btn-lg"  type="button"> <i class="fa fa-warning"></i> Бу обектда топографик геодезик иш мавжуд! Тасдиқланишни кутинг илтимос!   </h4>
+                                                    </div>
+                                                {% endif %}
+                                            {% else %}
+                                                 <div class="col-md-6 card p-2 shadow-lg">
+                                                    <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="save_akt"  style="width: 100%"> <i class="fa fa-check"></i> Бош геодезис назоратига юбориш</button>
+                                                </div>
+                                            {% endif %}
+
+
+
+                                        </div>
+
+
+                                     <input type="text" name="work_id" id="work_id" value="{{ workerobject.object.id }}" style="display: none">
+                                            <input type="text" name="worker" id="worker" value="{{ user.profile.pk }}" style="display: none">
+                                            {% csrf_token %}
+
+                                        <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center">
+{#                                            <button class="btn btn-outline-danger m-r-20" data-bs-toggle="modal"#}
+{#                                                    data-bs-target="#exampleModalCenter">Қайтариш#}
+{#                                            </button>#}
+{#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
+{#                                                Камерал назоратга юбориш#}
+{#                                            </button>#}
+                                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                                 aria-labelledby="exampleModalCenter" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 style="color: white;" class="modal-title">Хатолик
+                                                                хабарини тасдиқлаш</h5>
+                                                            <div type="button" data-bs-dismiss="modal"
+                                                                 aria-label="Close">x
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul class="messages text text-center text-danger" id="error_show" style="display:none">
+                                                               <div class="alert alert-danger">
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Maydonlarni to'ldiring !</b></li>
+                                                               </div>
+                                                           </ul>
+                                                            <br>
+                                                            <h5 class="m-b-20">Хатолик аризаси файли</h5>
+                                                            <input class="form-control" id="reason_file" name="reason_file" type="file">
+                                                            <h5 class="m-t-20 m-b-20">Хатолик аризаси матни</h5>
+                                                            <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button  class="btn btn-outline-danger" id="deny_komeral" type="button">Юбориш</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#save_akt").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        var array = [];
+        for(var i=1;i<64;i++){
+                array.push($('#a'+i).val());
+        }
+        data.append("array", array);
+        event.preventDefault();
+
+        if($('#a61').val() == 0){
+           alert("Ishni baxolash maydonini to'ldiring");
+        }
+        else{
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'save_akt_komeral' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace('/leader_komeral_works');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+
+
+
+        });
+</script>
+
+<script>
+    $(".edit_akt").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+
+        var array = [];
+        for(var i=1;i<127;i++){
+                array.push($('#a'+i).val());
+        }
+        data.append("array", array);
+
+        var array1 = [];
+        for(var j=1;j<8;j++){
+                array1.push($('#a1_'+j).val());
+        }
+        data.append("array1", array1);
+
+        var array2 = [];
+        for(var k=1;k<8;k++){
+                array2.push($('#a2_'+k).val());
+        }
+        data.append("array2", array2);
+
+        var array3 = [];
+        for(var l=1;l<10;l++){
+                array3.push($('#a3_'+l).val());
+        }
+        data.append("array3", array3);
+
+        var array4 = [];
+        for(var m=1;m<7;m++){
+                array4.push($('#a4_'+m).val());
+        }
+        data.append("array4", array4);
+
+        var array5 = [];
+        for(var n=1;n<7;n++){
+                array5.push($('#a5_'+n).val());
+        }
+        data.append("array5", array5);
+
+        var array6 = [];
+        for(var b=1;b<10;b++){
+                array6.push($('#a6_'+b).val());
+        }
+        data.append("array6", array6);
+
+        var array7 = [];
+        for(var c=1;c<6;c++){
+                array7.push($('#a7_'+c).val());
+        }
+        data.append("array7", array7);
+
+        var array8 = [];
+        for(var d=1;d<6;d++){
+                array8.push($('#a8_'+d).val());
+        }
+        data.append("array8", array8);
+
+        event.preventDefault();
+
+        if($('#a1').val() == 0){
+           alert("Maydonni to'ldiring");
+        }
+        else{
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'edit_akt_polevoy' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace(window.location.pathname);
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+
+
+
+        });
+</script>
+
+
+<script>
+    $("#send_to_kameral").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        var form = "{{ work.pk }}";
+        event.preventDefault();
+
+        if(form){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'send_to_kameral' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace('/leader_polevoy_works');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+        else{
+          alert("Maydonni to'ldiring");
+        }
+
+
+
+        });
+</script>
+
+    <script>
+    $("#deny_komeral").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("worker", $('#worker').val());
+        data.append("work_id", $('#work_id').val());
+        data.append("reason", $('#reason').val());
+        data.append("reason_file", $('#reason_file')[0].files[0]);
+        event.preventDefault();
+
+        if($('#reason').val() != 0 ){
+           $.ajax({
+            type: 'POST',
+            url: '{% url 'deny_komeral' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result){
+               location.replace('/leader_komeral_works');
+            },
+
+            error: function(){
+              alert('Ajax da xatolik !! ');
+            }
+        });
+        }
+        else{
+          $('#error_show').css('display','block');
+        }
+
+
+
+        });
+</script>
+
+    <script>
+    function dropdown() {
+        document.getElementById("root").style.display="block";
+    }
+    setTimeout(() => {
+        if (document.getElementById('root') !== null) {
+            document.getElementById("root").style.display = "none";
+        }
+    }, 1000)
+</script>
+
+{% endblock %}
+
+{% block scriptcontent %}
+
+
+    <script src="{% static 'assets/js/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'assets/js/dropzone/dropzone-script.js' %}"></script>
+    <script src="{% static 'assets/js/notify/bootstrap-notify.min.js' %}"></script>
+    <script src="{% static 'assets/js/notify/notify-script.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'assets/js/datepicker/date-time-picker/datetimepicker.custom.js' %}"></script>
+    <script src="{% static 'assets/js/boottable.js' %}"></script>
+{% endblock scriptcontent %}
+

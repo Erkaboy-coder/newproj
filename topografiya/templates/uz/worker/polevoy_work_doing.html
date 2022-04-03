@@ -1,0 +1,1224 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Dala nazoratini bajarish {% endblock %}
+
+{% block content%}
+
+{% block stylecontent %}
+{% load l10n %}
+    {% load humanize %}
+{% endblock stylecontent %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+<div class="loader-wrapper">
+    <div class="theme-loader">
+        <div class="loader-p"></div>
+    </div>
+</div>
+
+  <div class="modal fade modal-bookmark " id="exampleModal"
+       tabindex="-1" aria-labelledby="exampleModalLabel"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-primary">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                      Буюртма ҳақида маълумот</h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-2">
+                              <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.object_number }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Шартнома санаси</b>
+                              <p>{{ work.object.pdowork.agreement_date }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Объект номи<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.object_name }} </p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Буюрмачи</b>
+                              <p>{{ work.object.pdowork.customer }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Объект манзили<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.object_address }}</p>
+                          </div>
+                      </div>
+
+                      <div class="col-lg-6 text-end">
+                          <div class="mb-2">
+                              <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.work_term }} kun</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.customer_info }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Иш тури<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.work_type }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <p>{{ cost|intcomma }}</p>
+                          </div>
+                          <div class="mb-2">
+                              <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.department }}</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <a href="/{{ work.object.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ билан танишиш</h6></a>
+                      </div>
+                      <div class="col-md-12">
+                          <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета билан танишиш</h6></a>
+                      </div>
+                       <div class="col-md-12">
+                          <a href="#" target="_blank" class="file" data-id="{{ work.object.id }}"><h6 class=""> <i class="fa fa-file-word-o"></i> Ko'rsatma билан танишиш</h6></a>
+                      </div>
+                      {% if programwork %}
+                            {% if programwork.status == 4 %}
+                               <div class="col-md-12">
+                                  <a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" ><h6 class=""> <i class="fa fa-file-word-o"></i> Топографик-геодезик дастури билан танишиш</h6></a>
+                              </div>
+                              {% else %}
+                                  <a href="#" ><h6 class="text-warning"> <i class="fa fa-file-word-o"></i>Топографик-геодезик дастури тайёрланмоқда</h6></a>
+                              {% endif %}
+                      {% endif %}
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <div class="modal fade modal-bookmark " id="exampleModal1"
+       tabindex="-1" aria-labelledby="exampleModalLabel1"
+       style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header bg-danger">
+                  <h5 class="modal-title text-white" id="exampleModalLabel1">
+                      Рад этилганлар
+                  </h5>
+                  <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+
+                            <ol>
+                                 <li>
+                                    {% for work in rejects %}
+                                            <ul>
+                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                                {% if work.file %}
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <hr>
+                                    {% endfor %}
+                                 </li>
+                                </ol>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Выполнение работ</h3>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'polevoy_work_doing' id=work.object.id %}">{{ work.object.pdowork.object_name }}</a></li>
+{#                                <li class="breadcrumb-item">Выполнение работ</li>#}
+                            </ol>
+                        </div>
+
+                         <div class="col-sm-6 text-end">
+                            {% if rejects %}
+                                <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
+                                    Рад этилишлар сони
+                                     <span class="badge rounded-pill bg-white">
+                                        <b class="text-danger">{{ rejects.count }}</b>
+                                     </span>
+
+                                </button>
+                            {% endif %}
+
+                              <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-refresh"></i>
+                                    Буюртма ҳақида маълумот
+                              </button>
+
+
+                        </div>
+
+                    </div>
+
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary">
+                                    {% if sirie_type.type_of_sirie == '0' %}
+                                        <h4 class="modal-title" id="myLargeModalLabel">Полевые материалы по БПЛА</h4>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '1' %}
+                                        <h4 class="modal-title" id="myLargeModalLabel">Полевые материалы GNSS</h4>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '2' %}
+                                        <h4 class="modal-title" id="myLargeModalLabel">Сырые измерительные данные для тахеометрической съемки (по факту)</h4>
+                                    {% endif %}
+
+                                    <div data-bs-dismiss="modal" aria-label="Close"><a href=""><i class="fa fa-window-close-o f-25 txt-light"></i></a></div>
+                                </div>
+                                <div class="modal-body">
+                                {% if not file %}
+                                    <form action="{% url 'save_sirie_files' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% if sirie_type.type_of_sirie == '0' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Разрешение на залет от МО РУз. <sup class="text-danger">*</sup> </div>
+                                            <div class="col-lg-6"><input class="form-control"  required name="file1_1" id="file1_1" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Схема планирования залета БПЛА</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_2" id="file1_2" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Схема выполненных залетов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_3" id="file1_3" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Отчёт калибровки</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_4" id="file1_4" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Схема расположение опознаков и исходные пункты</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_5" id="file1_5" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Каталог координат исходных пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_6" id="file1_6" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Ведомость обследование пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_7" id="file1_7" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">8. Кроки  исходных пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_8" id="file1_8"  type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">9. Отчёт обработки ортофотоплана</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_9" id="file1_9" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">10. Измерения, скаченные с прибора(БПЛА)</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_10" id="file1_10" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">11. Фото. опознаков</div>
+                                            <div class="col-lg-6"><input class="form-control"  name="file1_11" id="file1_11" type="file"></div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '1' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Каталог координат исходных пунктов.<sup class="text-danger">*</sup></div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_1" id="file2_1" required type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Каталог кооодинат долговременных точек </div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_2" id="file2_2" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Ведомость обследование пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_3" id="file2_3" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Отчёт калибровки</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_4" id="file2_4" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Кроки  исходных пунктов</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_5" id="file2_5" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Измерения, скаченные с прибора ( GNSS )</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_6" id="file2_6" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Схема калибровки с границами объекта</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file2_7" id="file2_7" type="file"></div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '2' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Ведомость обследования наличия и состояния пунктов геодезической сети на объекте.</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_1" id="file3_1" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Каталог исходных пунктов и ранее заложенных точек <sup class="text-danger">*</sup></div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_2" id="file3_2" type="file" required></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Схема съемочного обоснования</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_3" id="file3_3" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Хурналы нивелирования теодолитных ходов</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_4" id="file3_4" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Ведомость уравнивания теодолитных ходов и характеристики</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_5" id="file3_5" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Ведомость нивелирных ходов и характеристики</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_6" id="file3_6" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Схема уравнивания</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_7" id="file3_7" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">8. Схема размещения объекта по планшетам</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_8" id="file3_8" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">9. Каталог координат (пикеты)</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_9" id="file3_9" type="file"></div>
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">10.Измерения, скаченные с прибора (тахеометра).</div>
+                                            <div class="col-lg-6"><input class="form-control" name="file3_10" id="file3_10" type="file"></div>
+                                        </div>
+                                    {% endif %}
+                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">
+                                        <input type="text" value="{{ user.profile.pk }}" name="worker" style="display: none">
+                                    <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                </form>
+                                {% endif %}
+
+
+
+                                {% if file %}
+                                    <form action="{% url 'edit_sirie_files' id=work.id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% if sirie_type.type_of_sirie == '0' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Разрешение на залет от МО РУз.<sup class="text-danger">*</sup></div>
+                                            {% if file.file1_1 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_1" id="file1_1" type="file" value="{{ file.file1_1 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_1 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                  <div class="col-lg-6"><input class="form-control" required  name="file1_1" id="file1_1" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Схема планирования залета БПЛА</div>
+                                             {% if file.file1_2 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_2" id="file1_2" type="file" value="{{ file.file1_2 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_2 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_2" id="file1_2" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Схема выполненных залетов</div>
+                                            {% if file.file1_3 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_3" id="file1_3" type="file" value="{{ file.file1_3 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_3 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_3" id="file1_3" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Отчёт калибровки</div>
+                                            {% if file.file1_4 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_4" id="file1_4" type="file" value="{{ file.file1_4 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_4 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_4" id="file1_4" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Схема расположение опознаков и исходные пункты</div>
+                                            {% if file.file1_5 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_5" id="file1_5" type="file" value="{{ file.file1_5 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_5 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_5" id="file1_5" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Каталог координат исходных пунктов</div>
+                                            {% if file.file1_6 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_6" id="file1_6" type="file" value="{{ file.file1_6 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_6 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_6" id="file1_6" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Ведомость обследование пунктов</div>
+                                            {% if file.file1_7 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_7" id="file1_7" type="file" value="{{ file.file1_7 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_7 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_7" id="file1_7" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">8. Кроки  исходных пунктов</div>
+                                            {% if file.file1_8 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_8" id="file1_8" type="file" value="{{ file.file1_8 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_8 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_8" id="file1_8"  type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">9. Отчёт обработки ортофотоплана</div>
+                                             {% if file.file1_9 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_9" id="file1_9" type="file" value="{{ file.file1_9 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_9 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_9" id="file1_9" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">10. Измерения, скаченные с прибора(БПЛА)</div>
+                                            {% if file.file1_10 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_10" id="file1_10" type="file" value="{{ file.file1_10 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_10 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_10" id="file1_10" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">11. Фото. опознаков</div>
+                                            {% if file.file1_11 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file1_11" id="file1_11" type="file" value="{{ file.file1_11 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file1_11 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                 <div class="col-lg-6"><input class="form-control"  name="file1_11" id="file1_11" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '1' %}
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Каталог координат исходных пунктов.</div>
+                                             {% if file.file2_1 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_1" id="file2_1" type="file" value="{{ file.file2_1 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_1 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                    <div class="col-lg-6"><input class="form-control" name="file2_1" id="file2_1" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Каталог кооодинат долговременных точек </div>
+                                            {% if file.file2_2 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_1" id="file2_1" type="file" value="{{ file.file2_2 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_2 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                    <div class="col-lg-6"><input class="form-control" name="file2_2" id="file2_2" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Ведомость обследование пунктов</div>
+                                            {% if file.file2_3 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_3" id="file2_3" type="file" value="{{ file.file2_3 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_3 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                    <div class="col-lg-6"><input class="form-control" name="file2_3" id="file2_3" type="file"></div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Отчёт калибровки</div>
+                                            {% if file.file2_4 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_4" id="file2_4" type="file" value="{{ file.file2_4 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_4 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                    <div class="col-lg-6"><input class="form-control" name="file2_4" id="file2_4" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Кроки  исходных пунктов</div>
+                                            {% if file.file2_5 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_5" id="file2_5" type="file" value="{{ file.file2_5 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_5 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                   <div class="col-lg-6"><input class="form-control" name="file2_5" id="file2_5" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Измерения, скаченные с прибора ( GNSS )</div>
+                                            {% if file.file2_6 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_6" id="file2_6" type="file" value="{{ file.file2_6 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_6 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                   <div class="col-lg-6"><input class="form-control" name="file2_6" id="file2_6" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Схема калибровки с границами объекта</div>
+                                            {% if file.file2_7 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file2_7" id="file2_7" type="file" value="{{ file.file2_7 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file2_7 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                  <div class="col-lg-6"><input class="form-control" name="file2_7" id="file2_7" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                    {% endif %}
+
+                                    {% if sirie_type.type_of_sirie == '2' %}
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">1. Ведомость обследования наличия и состояния пунктов геодезической сети на объекте.</div>
+                                            {% if file.file3_1 %}
+                                                <div class="col-lg-4">
+                                                    <input class="form-control" name="file3_1" id="file3_1" type="file" value="{{ file.file3_1 }}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_1 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                    <input class="form-control" name="file3_1" id="file3_1" type="file">
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">2. Каталог исходных пунктов и ранее заложенных точек <sup class="text-danger">*</sup></div>
+
+                                            {% if file.file3_2 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_2" id="file3_2" type="file" value="{{ file.file3_2 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_2 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6">
+                                                    <input class="form-control" name="file3_2" id="file3_2" required type="file">
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">3. Схема съемочного обоснования</div>
+
+                                            {% if file.file3_3 %}
+                                               <div class="col-lg-4">
+                                                   <input class="form-control" name="file3_3" id="file3_3" type="file" value="{{ file.file3_3 }}">
+                                               </div>
+                                                <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_3 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_3" id="file3_3" type="file"></div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">4. Хурналы нивелирования теодолитных ходов</div>
+                                            {% if file.file3_4 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_4" id="file3_4" type="file" value="{{ file.file3_4 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_4 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_4" id="file3_4" type="file"></div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">5. Ведомость уравнивания теодолитных ходов и характеристики</div>
+                                            {% if file.file3_5 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_5" id="file3_5" type="file" value="{{ file.file3_5 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_5 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_5" id="file3_5" type="file"></div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">6. Ведомость нивелирных ходов и характеристики</div>
+                                            {% if file.file3_6 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_6" id="file3_6" type="file" value="{{ file.file3_6 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_6 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_6" id="file3_6" type="file"></div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">7. Схема уравнивания</div>
+                                            {% if file.file3_7 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_7" id="file3_7" type="file" value="{{ file.file3_7 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_7 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_7" id="file3_7" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">8. Схема размещения объекта по планшетам</div>
+                                            {% if file.file3_8 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_8" id="file3_8" type="file" value="{{ file.file3_8 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_8 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_8" id="file3_8" type="file"></div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">9. Каталог координат (пикеты)</div>
+                                            {% if file.file3_9 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_9" id="file3_9" type="file" value="{{ file.file3_9 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_9 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_9" id="file3_9" type="file"></div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="row m-b-10">
+                                            <div class="col-lg-6">10.Измерения, скаченные с прибора (тахеометра).</div>
+                                            {% if file.file3_10 %}
+                                               <div class="col-lg-4"><input class="form-control" name="file3_10" id="file3_10" type="file" value="{{ file.file3_10 }}"></div>
+                                                 <div class="col-lg-2">
+                                                    <a href="/{{ file.file3_9 }}" target="_blank" class="text-success"><i class="fa fa-check"></i> Ko'rish</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6"><input class="form-control" name="file3_10" id="file3_10" type="file"></div>
+                                            {% endif %}
+
+                                        </div>
+                                    {% endif %}
+{#                                        <input type="text" value="{{ work.id }}" name="work-id" style="display: none">#}
+                                        <input type="text" value="{{ user.profile.pk }}" name="worker" style="display: none">
+
+                                    {% if work.status == 0 or work.status == 2 %}
+                                        <button type="submit" class="btn btn-primary float-end m-t-10" >Сақлаш</button>
+                                        {% endif %}
+                                </form>
+                                {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">1</div>
+                                <h5>Сырые измерительные данные</h5>
+                                <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">Файл юклаш</button>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper shadow card">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">2</div>
+                                <h5>Абрис <sup class="txt-danger">*</sup></h5>
+                                {% if work.abris_file %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" value="{{ work.abris_file }}" abris-id="1"  id="abris" name="abris" type="file"></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.abris_file }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" id="abris" name="abris" abris-id="0" type="file">
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper shadow card">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">3</div>
+                                <h5>Кроки <sup class="txt-danger">*</sup></h5>
+                                 {% if work.kroki_file %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" kroki-id="1" value="{{ work.kroki_file }}"  id="kroki" name="kroki" type="file"></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.kroki_file }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" id="kroki" name="kroki" kroki-id="0" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">4</div>
+                                <h5>Журнал эксплуатация колодцев<sup class="txt-danger">*</sup></h5>
+                                {% if work.jurnal_file %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control"  jurnal-id="1"  id="jurnal" name="jurnal" value="{{ work.jurnal_file }}" type="file"></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.jurnal_file }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="jurnal" id="jurnal" jurnal-id="0" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">5</div>
+                                <h5>Ведомость экспликации колодцев<sup class="txt-danger">*</sup></h5>
+                                {% if work.vidimes_file %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" vidimes-id="1"  id="vidimes" name="vidimes" value="{{ work.vidimes_file }}" type="file"></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.vidimes_file }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="vidimes"  vidimes-id="0" id="vidimes" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">6</div>
+{#                                 с эксплуатирующими организация#}
+                                <h5>Лист согласования<sup class="txt-danger">*</sup></h5>
+                                 {% if work.list_agreement_file %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" list-id="1"  id="list" name="list" value="{{ work.list_agreement_file }}" type="file" ></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.list_agreement_file }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="list" list-id="0" id="list" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">7</div>
+                                     <h5 style="margin-top: -25px">Укажите месторасположение объекта на карте<sup class="txt-danger">*</sup></h5>
+{#                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95942.65769716408!2d69.20932726033043!3d41.282576225565485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xa5a9323b4aa5cb98!2z0KLQsNGI0LrQtdC90YIsINCj0LfQsdC10LrQuNGB0YLQsNC9!5e0!3m2!1sru!2s!4v1642709720963!5m2!1sru!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>#}
+                            <div id="map"></div>
+                                <br>
+{#                                <button class="btn btn-success float-end" id='save_data'>Saqlash</button>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4" id="topo-plan-file">
+                        <div class="ribbon-wrapper card shadow">
+                            <div class="card-body">
+                                <div class="ribbon ribbon-clip ribbon-primary">8</div>
+{#                                 с эксплуатирующими организация#}
+                                <h5>Топографический план<sup class="txt-danger">*</sup></h5>
+                                 {% if work.topo_plan %}
+                                    <div class="row">
+                                        <div class="col-lg-8"><input class="form-control" topo-id="1"  id="topo_plan" name="topo_plan" value="{{ work.topo_plan }}" type="file" ></div>
+                                        <div class="col-lg-4">
+                                            <a href="/{{ work.topo_plan }}" target="_blank" class="text-success">
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Ko'rish</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input class="form-control" name="topo_plan" topo-id="0" id="topo_plan" type="file">
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-4">
+                            <div class="ribbon-wrapper card shadow">
+                                <div class="card-body">
+                                    <div class="ribbon ribbon-clip ribbon-primary">9</div>
+                                    <h5>Пояснительная записка<sup class="txt-danger">*</sup></h5>
+                                    <a href="{% url "object_poyasitelniy_form" id=work.object.id %}">
+                                        <button class="btn btn-outline-primary w-100">по топографо-геодезическим работам </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-12 card p-1 shadow-lg">
+                    <i style="font-size: 20px"><sup class="text-danger">*</sup> Текширувга юборишдан олдин, ўзгаришларни <b>САҚЛАШ</b> тугмасини босишингизни сўраймиз!</i>
+                </div>
+
+                {% if work.status == 0 or work.status == 2 %}
+                <div class="row p-2 mb-2">
+                    <div class="col-md-6 card p-2 shadow-lg">
+                        <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сақлаш</button>
+                    </div>
+                     {% if programwork %}
+                         {% if programwork.status == 4 %}
+                             <div class="col-md-6 card p-2 shadow-lg">
+                                 <button class="btn btn-primary btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="send_to_check_polevoy"  style="width: 100%"> <i class="fa fa-check"></i> Текширувга юбориш</button>
+                             </div>
+                         {% else %}
+                             <div class="col-md-6 card p-2 shadow-lg">
+                                 <h4 class="btn btn-warning btn-lg"  type="button"> <i class="fa fa-warning"></i> Топографик-геодезик дастури тайёрланмоқда!   </h4>
+                             </div>
+                         {% endif %}
+                     {% else %}
+                            <div class="col-md-6 card p-2 shadow-lg">
+                                 <button type="button" worker="{{ user.profile.pk }}" work-id="{{ work.id }}"  id="send_to_check_polevoy" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Текширувга юбориш</button>
+                            </div>
+                     {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <!-- Container-fluid Ends-->
+        </div>
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+    $(document).on('click',".doing_akt_polevoy_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+         data.append("object-id", $(this).attr('akt-object-id'));
+
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_akt_polevoy_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+               window.open('/static/files/'+result,'_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+{#            console.log('Fayl yaratildi')#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+    <script>
+     if($('#vidimes').attr('vidimes-id') == '1'
+     && $('#list').attr('list-id') == '1' && $('#jurnal').attr('jurnal-id') == '1' && $('#kroki').attr('kroki-id') == '1'
+     && $('#abris').attr('abris-id') == '1'){
+        $('#send_to_check_polevoy').removeAttr("disabled");
+     }
+     else{
+        $('#send_to_check_polevoy').attr("disabled", true);
+     }
+    </script>
+<script type="text/javascript">
+    $(document).on('click',"#save_files",function(){
+        if(drawnItems.toGeoJSON().features.length==0){
+            alert("Укажите месторасположение объекта на карте");
+        }
+        else{
+        json_str_point='{"type": "MultiPoint","coordinates":[';
+        json_str_line='{"type": "multiLineString","coordinates":[';
+        json_str_polygon='{"type": "MultiPolygon","coordinates":[';
+
+
+        for (var i in drawnItems.toGeoJSON().features){
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='Point'){
+
+        json_str_point+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+        if(i!=drawnItems.toGeoJSON().features.length-1)
+        json_str_point+=',';
+        }
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='Polygon'){
+            json_str_polygon+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+            if(i!=drawnItems.toGeoJSON().features.length-1)
+            json_str_polygon+=',';
+        }
+
+        if(drawnItems.toGeoJSON().features[i].geometry.type=='LineString'){
+            json_str_line+=JSON.stringify(drawnItems.toGeoJSON().features[i].geometry.coordinates);
+            if(i!=drawnItems.toGeoJSON().features.length-1)
+            json_str_line+=',';
+            }
+        }
+
+        json_str_point+=']}';
+        json_str_polygon+=']}';
+        json_str_line+=']}';
+
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("work-id", $(this).attr('work-id'));
+        data.append("worker", $(this).attr('worker'));
+
+        data.append("abris", $('#abris')[0].files[0]);
+        data.append("kroki", $('#kroki')[0].files[0]);
+        data.append("jurnal", $('#jurnal')[0].files[0]);
+        data.append("vidimes", $('#vidimes')[0].files[0]);
+        data.append("list", $('#list')[0].files[0]);
+        data.append("topo_plan", $('#topo_plan')[0].files[0]);
+        data.append('geometry_point',json_str_point);
+        data.append('geometry_line',json_str_line);
+        data.append('geometry_polygon',json_str_polygon);
+        event.preventDefault();
+        $.ajax({
+           type: 'POST',
+           url: '{% url 'save_files' %}',
+           data: data,
+           cache: false,
+           contentType: false,
+           processData: false,
+
+           success: function (result){
+               location.replace(window.location.pathname);
+           },
+
+           error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+        });
+    }
+    });
+
+</script>
+
+
+    <script type="text/javascript">
+    $(document).on('click',"#send_to_check_polevoy",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("work-id", $(this).attr('work-id'));
+        data.append("worker", $(this).attr('worker'));
+
+        data.append("abris", $('#abris')[0].files[0]);
+        data.append("kroki", $('#kroki')[0].files[0]);
+        data.append("jurnal", $('#jurnal')[0].files[0]);
+        data.append("vidimes", $('#vidimes')[0].files[0]);
+        data.append("list", $('#list')[0].files[0]);
+        data.append("topo_plan", $('#topo_plan')[0].files[0]);
+        event.preventDefault();
+         if(drawnItems.toGeoJSON().features.length==0 || $('#topo_plan').attr('topo-id')=='0'){
+            alert("Vektorli ma'lumot yo'q");
+        }
+        else{
+        if($('#vidimes').attr('vidimes-id') == '1'  && $('#list').attr('list-id') == '1' && $('#jurnal').attr('jurnal-id') == '1' && $('#kroki').attr('kroki-id') == '1' && $('#abris').attr('abris-id') == '1'){
+
+        if({{ poyasitelniy.status }} == 1 ){
+        $.ajax({
+           type: 'POST',
+           url: '{% url 'send_to_check_polevoy' %}',
+           data: data,
+           cache: false,
+           contentType: false,
+           processData: false,
+
+           success: function (result){
+               location.replace('/polevoy_works');
+           },
+
+           error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+        });}
+        else{
+            alert("Topografik-geodezik ishlar bo'yicha kengaytirilgan tushuntirish xati yozib tagatilmagan!");
+        }
+
+        }
+        else{
+            alert('Iltimos maydonlarni toldirishingizni soraymiz');
+            }
+
+        }
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).on('click',"#doing_program_work_file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('programwork-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'doing_program_work_file' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/'+result,'_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+        <script type="text/javascript">
+    $(document).on('click',".file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'order_to_pdf' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+        <script>
+    $(document).ready(function(){
+    var data = new FormData();
+    data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+    data.append('id',{{ work.object.id }});
+
+        $.ajax({
+            url: '/obj_data',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'post',
+            success: function (result) {
+                    json_point=JSON.parse(result.data1);
+                    console.log(json_point.features);
+                    if (json_point.features[0].geometry!=null){
+                        json_point.features[0].geometry.coordinates.forEach(function(corr,i){
+                             var point={type:'Point',coordinates:corr};
+                            L.geoJson(point,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                            });
+                        });
+                    }
+
+                    json_line=JSON.parse(result.data2);
+                    if (json_line.features[0].geometry!=null){
+                    json_line.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polyline={type:'LineString',coordinates:corr};
+                    L.geoJson(polyline,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+
+
+                    json_polygon=JSON.parse(result.data3);
+                    if (json_polygon.features[0].geometry!=null){
+                    json_polygon.features[0].geometry.coordinates.forEach(function(corr,i){
+                    var polygon={type:'Polygon',coordinates:corr};
+                    L.geoJson(polygon,{ onEachFeature:function(features,layer){drawnItems.addLayer(layer); }
+                    });
+                    });
+                }
+            },
+            error: function(){
+              console.log('xatolik')
+            }
+
+    });
+    });
+    </script>
+
+    {% endblock %}
+
+

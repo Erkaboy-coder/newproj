@@ -1,0 +1,261 @@
+{% extends 'master.html' %}
+
+{% load static %}
+{% block title %} Янги Топшириқлар {% endblock %}
+{% block content%}
+
+{% block stylecontent %}
+
+{% endblock stylecontent %}
+{% load l10n %}
+    {% load humanize %}
+
+<div class="modal fade modal-bookmark" id="exampleModal"
+     tabindex="-1" aria-labelledby="exampleModalLabel"
+     style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="exampleModalLabel">Буюртма ҳақида маълумот</h5>
+                <div data-bs-dismiss="modal" aria-label="Close"><a class="txt-light" href="">X</a></div>
+            </div>
+
+            <div class="modal-body" id="show_content">
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+{% csrf_token %}
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Янги топшириқлар</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="container-fluid blog-page">
+                <div class="row pricing-plan">
+                    {% if not worker_new_works %}
+                        <div class="col-sm-12">
+                             <div class="card text-center p-4 bg-images text-warning">
+                                 <h4>Yangi topshiriq yo'q</h4>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                    <p></p>
+
+                    {% for work in worker_new_works %}
+
+                        <div class="col-sm-6 col-xl-4 box-col-6 des-xl-50 mb-4">
+                            <div class="card bg-images">
+                                <div class="blog-box blog-grid">
+                                    <div class="blog-details-second pricing-plan">
+
+                                                                               <div class="blog-post-date"><span class="blg-month">Кун</span><span
+                                                class="blg-date">{{ work.pdowork.work_term }}</span></div>
+{#                                        <a href="">#}
+                                            <h6 class="blog-bottom-details">{{ work.pdowork.object_name }}</h6>
+                                        <div><b>Буюртмачи номи:</b> {{ work.pdowork.customer }}</div>
+                                        <div><b>Шартнома тузилган сана:</b> {{ work.pdowork.agreement_date }}</div>
+                                        <div><b>Жойлашган жойи:</b> {{ work.pdowork.object_address }}</div>
+
+                                        <div><b>Ишчи дастур :</b>
+                                            {% if work.isset_programwork == True %}
+                                               <b class="text-success"><i  class="fa fa-check"></i> Мавжуд</b>
+                                                {% else %}
+                                                <b class="text-danger"><i  class="fa fa-close"></i> Талаб этилмайди</b>
+                                            {% endif %}
+                                        </div>
+                                        <div class="detail-footer m-t-20">
+                                            <button class="btn btn-primary show_work"  work-id="{{ work.pdowork.id }}"  data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal" >
+                                                Батафсил маълумот
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+
+
+ <a href="#"  target="_blank" id="order_file" style="display: none"></a>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".show_work").click(function(event) {
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        event.preventDefault();
+        data.append("work_id", $(this).attr('work-id'));
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'show_work' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                console.log(result['work']);
+                console.log(result['pdowork']);
+            text=`
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-2">
+                            <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].object_number+`</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Шартнома санаси</b>
+                            <p>`+result['pdowork'][0].agreement_date+`</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Объект номи<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].object_name+` </p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Буюрмачи</b>
+                            <p>`+result['pdowork'][0].customer+`</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Объект манзили<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].object_address+`</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-end">
+                        <div class="mb-2">
+                            <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].work_term+` kun</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Буюртмачи реквизитлари<sup
+                                    style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].customer_info+`</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Иш тури<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].work_type+`</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].object_cost+`</p>
+                        </div>
+                        <div class="mb-2">
+                            <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                            <p>`+result['pdowork'][0].department+`</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="m-b-20"><a class="f-w-500 f-15 " href="/`+result['pdowork'][0].latter+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Буюрта хати билан танишиш</a></div>
+                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Техник топшириқ билан танишиш</a></div>
+                    </div>
+                    <div class="col-lg-6 text-end">
+                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Смета билан танишиш</a></div>
+                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` target='_blank' href='#'><i class="fa fa-file-pdf-o f-20"></i>  Кўрсатма билан танишиш </a></div>
+
+                    </div>
+                </div>
+                    <div class="row m-t-30">
+                        <div class="col-lg-12">
+                            <button class="btn btn-primary text-center w-100 recive_work" data-id1=`+result['work'][0].id+` worker-id="{{ user.profile.pk }}" >Ишни қабул қилиш</button>
+                        </div>
+                    </div>
+            `;
+        $('.modal-body').html(text);
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).on('click',".recive_work",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id1'));
+        data.append("worker-id", $(this).attr('worker-id'));
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'recive_work' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+              	location.replace('/worker_new_works');
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+    <script type="text/javascript">
+    $(document).on('click',".file",function(){
+        var data = new FormData();
+        data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+        data.append("data-id", $(this).attr('data-id'));
+        {#alert($(this).attr('data-id'));#}
+        event.preventDefault()
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'order_to_pdf' %}',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (result){
+                window.open('/static/files/file.pdf','_blank');
+{#                var link = document.createElement('a');#}
+{#                link.href = "/static/files/file.pdf";#}
+{#                link.download = "file_" + new Date() + ".pdf";#}
+{#                link.click();#}
+{#                link.remove();#}
+            },
+
+            error: function(){
+              alert('Serverga yubara olmaymiz !! ');
+            }
+
+        });
+
+    });
+</script>
+
+        {% endblock %}
