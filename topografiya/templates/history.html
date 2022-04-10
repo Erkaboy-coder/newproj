@@ -33,10 +33,10 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Aрхивга келиб тушган ишлар ҳақида маълумотлар</h5>
+                                <h5>Сведения о поступивших в архив работах</h5>
                             </div>
                             <div class="card-body">
-                                <form action="">
+                                <form action="" id="search_field">
 {#                                    <div class="row">#}
 {#                                        <div class="col-md-12">#}
 {#                                            {{ myfilter.form }}#}
@@ -74,18 +74,18 @@
 {#                                    </div>#}
 
                                     <div class="row">
-{#                                        <div class="col-md-6">#}
-{##}
-{#                                        </div>#}
+
                                         <div class="col-md-12">
+
                                              <div class="input-group">
                                                 <span class="input-group-text"><i class="fa fa-search"></i> </span>
-                                                <input id="myInput" type="text" class="form-control" placeholder="Маълумотларни излаш..">
+                                                <input id="myInput" type="text" class="form-control" placeholder="Поиск информацию..">
                                               </div>
 
-
                                         </div>
+
                                     </div>
+
                                 </form>
                             </div>
 
@@ -96,11 +96,13 @@
                                     <thead class="table-primary">
                                     <tr>
                                         <th class="text-center" scope="col">№</th>
-                                        <th scope="col"><b>Ишнибажарувчи</b></th>
-                                        <th scope="col"><b>Ташкилот номи</b></th>
-                                        <th scope="col"><b>Ишмазмуни</b></th>
-                                        <th scope="col" class="text-center"><b>Муддати</b></th>
-                                        <th scope="col" class="text-center">Кўриш</th>
+                                        <th scope="col"><b>Испонитель</b></th>
+                                        <th scope="col"><b>Наименование организации</b></th>
+                                        <th scope="col"><b>Наименование объекта</b></th>
+                                        <th scope="col"><b>Номер договора</b></th>
+                                        <th scope="col"><b>Дата договора</b></th>
+                                        <th scope="col" class="text-center"><b>Cрок</b></th>
+                                        <th scope="col" class="text-center">Смотреть</th>
                                     </tr>
                                     </thead>
                                     <tbody id="search_item">
@@ -111,10 +113,12 @@
                                             <td>{{ work.object.worker_ispolnitel}}</td>
                                             <td>{{ work.object.pdowork.customer}}</td>
                                             <td>{{ work.object.pdowork.object_name}}</td>
+                                            <td>{{ work.object.pdowork.object_number}}</td>
+                                            <td>{{ work.object.pdowork.agreement_date}}</td>
                                             <td class="text-center">{{ work.object.pdowork.work_term}} kun</td>
                                             <td class="text-center">
                                                 <a href="{% url 'show_all_works' id=work.object.id %}">
-                                                    <button class="btn btn-outline-primary">Кўриш</button>
+                                                    <button class="btn btn-outline-primary">Смотреть</button>
                                                 </a>
                                             </td>
                                         </tr>
@@ -126,11 +130,11 @@
                             <div class="col-xl-12">
                                 <nav class="float-end p-b-30 p-r-30">
                                     <ul class="pagination pagination-primary">
-                                        <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">Олдинги</a></li>
+                                        <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">Предыдущий</a></li>
                                         <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
                                         <li class="page-item"><a class="page-link" href="javascript:void(0)">2<span class="sr-only"></span></a></li>
                                         <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">Кейинги</a>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">Далее</a>
                                         </li>
                                     </ul>
                                 </nav>

@@ -18,13 +18,13 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
                                 {% if work.status_geodezis_komeral == 2 %}
-                                    <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Главный геодезический контроль</a></li>
                                     {% elif work.status_geodezis_komeral == 1 %}
-                                         <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Бош геодезис назорати</a></li>
+                                         <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Главный геодезический контроль</a></li>
                                     {% elif aktkomeral.status == 2 %}
-                                         <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">Бош геодезис назорати</a></li>
+                                         <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">Главный геодезический контроль</a></li>
                                 {% else %}
-                                    <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Дала Назорати</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'polevoy_works' %}">Полевой контроль</a></li>
                                 {% endif %}
 
                                 {% if work.status_geodezis_komeral == 2 %}
@@ -47,11 +47,11 @@
                         </div>
                     <div class="col-sm-2">
                         {% if work.status == 0 %}
-                            <a href="{% url 'polevoy_work_doing' id=work.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
+                            <a href="{% url 'polevoy_work_doing' id=work.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Назад</a>
                         {% endif %}
 
                         {% if aktkomeral.status == 2 %}
-                            <a href="{% url 'show_rejected_komeral_works' id=work.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
+                            <a href="{% url 'show_rejected_komeral_works' id=work.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Назад</a>
                         {% endif %}
 
 
@@ -183,6 +183,7 @@
                                                                                     <th scope="col">Объемы работ по проекту</th>
                                                                                     <th scope="col">Фактически выполнено</th>
                                                                                     <th scope="col"></th>
+                                                                                    <th scope="col"></th>
                                                                                 </tr>
                                                                             </thead>
 
@@ -252,6 +253,7 @@
                                                                                 <th scope="col">Координаты x</th>
                                                                                 <th scope="col">Координаты y</th>
                                                                                 <th scope="col">Высота</th>
+                                                                                <th scope="col"></th>
                                                                                 <th scope="col"></th>
                                                                             </tr>
                                                                             </thead>
@@ -380,18 +382,18 @@
                                                     </div>
 
                                                      {% if work.status == 0 %}
-                                                        <button class="btn btn-success store" type="button" status-id="0"> <i class="fa fa-check"></i> Saqlash</button>
+                                                        <button class="btn btn-success store" type="button" status-id="0"> <i class="fa fa-check"></i> Сохранить</button>
                                                      {% endif %}
 
                                                     {% if aktkomeral.status == 2 %}
-                                                        <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                                        <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Сохранить</button>
                                                      {% endif %}
 
                                                     {% if work.status_geodezis_komeral == 2 %}
-                                                         <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                                         <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> %}</button>
                                                      {% endif %}
 
-                                                    <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                                    <button class="btn btn-primary nextBtn pull-right" type="button">Следующий  <i class="fa fa-long-arrow-right"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -703,18 +705,18 @@
                                         </div>
 
                                         {% if work.status == 0 %}
-                                            <button class="btn btn-success store" type="button" status-id="0"> <i class="fa fa-check"></i> Saqlash</button>
+                                            <button class="btn btn-success store" type="button" status-id="0"> <i class="fa fa-check"></i> Сохранить</button>
                                         {% endif %}
 
                                          {% if aktkomeral.status == 2 %}
-                                                        <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                                        <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Сохранить</button>
                                                      {% endif %}
 
                                          {% if work.status_geodezis_komeral == 2 %}
-                                             <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                             <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Сохранить</button>
                                          {% endif %}
 
-                                        <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Следующий  <i class="fa fa-long-arrow-right"></i></button>
                                     </div>
 
 
@@ -795,19 +797,19 @@
 {#                                                </div>#}
 {#                                            </div>#}
                                               {% if work.status == 0 %}
-                                                     <button class="btn btn-primary nextBtn pull-right store" status-id="1" type="button">Yakunlash</button>
+                                                     <button class="btn btn-primary nextBtn pull-right store" status-id="1" type="button">Закончить</button>
                                              {% endif %}
 
                                             {% if work.status == 2 %}
-                                                     <button class="btn btn-primary nextBtn pull-right store" type="button">Yakunlash</button>
+                                                     <button class="btn btn-primary nextBtn pull-right store" type="button">Закончить</button>
                                              {% endif %}
 
                                             {% if  work.status_geodezis_komeral == 2 %}
-                                                     <button class="btn btn-primary nextBtn pull-right store" type="button">Yakunlash</button>
+                                                     <button class="btn btn-primary nextBtn pull-right store" type="button">Закончить</button>
                                              {% endif %}
 
                                             {% if aktkomeral.status == 2 %}
-                                                <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Yakunlash</button>
+                                                <button class="btn btn-success store" type="button"> <i class="fa fa-check"></i> Закончить</button>
                                             {% endif %}
 
 
@@ -1115,12 +1117,12 @@
                                                         </div>
                                                     </div>
                                                      {% if work.status == 0 or work.status == 2  or work.status_geodezis_komeral == 2 %}
-                                                            <button class="btn btn-success edit_poyasitelniy" type="button" status-id="0"> <i class="fa fa-check"></i> Saqlash</button>
+                                                            <button class="btn btn-success edit_poyasitelniy" type="button" status-id="0"> <i class="fa fa-check"></i> Сохранить</button>
                                                      {% endif %}
                                                      {% if aktkomeral.status == 2 %}
-                                                        <button class="btn btn-success edit_poyasitelniy" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                                        <button class="btn btn-success edit_poyasitelniy" type="button"> <i class="fa fa-check"></i> Сохранить</button>
                                                      {% endif %}
-                                                    <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                                    <button class="btn btn-primary nextBtn pull-right" type="button">Следующий  <i class="fa fa-long-arrow-right"></i></button>
 
                                                 </div>
                                             </div>
@@ -1432,12 +1434,12 @@
                                         </div>
 
                                         {% if work.status == 0 or work.status == 2 or work.status_geodezis_komeral == 2 %}
-                                             <button class="btn btn-success edit_poyasitelniy" type="button" status-id="0"> <i class="fa fa-check"></i> Saqlash</button>
+                                             <button class="btn btn-success edit_poyasitelniy" type="button" status-id="0"> <i class="fa fa-check"></i> Сохранить</button>
                                          {% endif %}
                                          {% if aktkomeral.status == 2 %}
-                                                        <button class="btn btn-success edit_poyasitelniy" status-id="0" type="button"> <i class="fa fa-check"></i> Saqlash</button>
+                                                        <button class="btn btn-success edit_poyasitelniy" status-id="0" type="button"> <i class="fa fa-check"></i> Сохранить</button>
                                          {% endif %}
-                                        <button class="btn btn-primary nextBtn pull-right" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Следующий  <i class="fa fa-long-arrow-right"></i></button>
                                     </div>
                                     </div>
 
@@ -1514,17 +1516,17 @@
 {#                                                </div>#}
 {#                                            </div>#}
                                              {% if work.status == 0 %}
-                                                     <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Yakunlash</button>
+                                                     <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Закончить</button>
                                              {% endif %}
                                             {% if work.status == 2 %}
-                                                     <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Yakunlash</button>
+                                                     <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Закончить</button>
                                              {% endif %}
                                             {% if  work.status_geodezis_komeral == 2 %}
-                                                     <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Yakunlash</button>
+                                                     <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Закончить</button>
                                              {% endif %}
 
                                             {% if aktkomeral.status == 2 %}
-                                                        <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Yakunlash</button>
+                                                        <button class="btn btn-primary nextBtn pull-right edit_poyasitelniy" status-id="1" type="button">Закончить</button>
                                             {% endif %}
 
 
@@ -1756,7 +1758,7 @@
 
         else{
             if($('#d_9').val() == '' || $('#d_8').val() == '' || $('#d_7').val() == ''){
-                alert("Majburiy maydonlarni to'ldiring");
+                alert("Обязательное заполнение поля");
             }
             else{
                 event.preventDefault();
@@ -1976,7 +1978,7 @@
 
         else{
             if($('#d_9').val() == '' || $('#d_8').val() == '' || $('#d_7').val() == ''){
-                alert("Majburiy maydonlarni to'ldiring");
+                alert("Обязательное заполнение поля");
             }
             else{
                 event.preventDefault();

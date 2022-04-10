@@ -12,11 +12,11 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Хабарлар</h3>
+                            <h3>Сообщения</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i
                                         class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'new_messages' %}">Хабарлар</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'new_messages' %}">Сообщения</a></li>
                             </ol>
                         </div>
                         <div class="col-sm-12">
@@ -54,7 +54,7 @@
                                             <div class="email-app-sidebar left-bookmark">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h6 class="f-w-600 txt-dark f-40">Xabarlar</h6>
+                                                        <h6 class="f-w-600 txt-dark f-40">Сообщения</h6>
                                                     </div>
                                                 </div>
                                                 <ul class="nav main-menu" role="tablist">
@@ -62,7 +62,7 @@
                                                            data-bs-toggle="pill" href="#pills-notification" role="tab"
                                                            aria-controls="pills-notification" aria-selected="true"><span
                                                             class="title"><i class="fa fa-paper-plane"
-                                                                             aria-hidden="true"></i> Xabar yuborish</span></a>
+                                                                             aria-hidden="true"></i> Написать сообщение</span></a>
                                                     </li>
                                                     <li>
                                                         <a class="d-flex align-items-center" id="pills-created-tab"
@@ -70,7 +70,7 @@
                                                            href="#pills-created" role="tab"
                                                            aria-controls="pills-created" aria-selected="false">
                                                         <span class="title" id="status_changer" user-id="{{ request.user.profile.pk }}">
-                                                            <i class="fa fa-download"></i> Kiruvchi xabarlar
+                                                            <i class="fa fa-download"></i> Входящие
                                                         </span>
                                                             {% if count_works.new_messages != 0 %}
                                                                 <span style="float: right" class="badge rounded-pill badge-danger text-white">
@@ -82,13 +82,13 @@
                                                      <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#pills-favourites" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-commenting-o"></i> Jo'natilgan xabarlar</span></a>
+                                                            class="title"><i class="fa fa-commenting-o"></i> Отправленные</span></a>
                                                     </li>
 
                                                     <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#old_ones" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-eye"></i>  O'qilgan xabarlar</span></a>
+                                                            class="title"><i class="fa fa-eye"></i>  Прочитанные</span></a>
                                                     </li>
 {#                                                    <li><a class="show" id="pills-shared-tab" data-bs-toggle="pill"#}
 {#                                                           href="#pills-shared" role="tab" aria-controls="pills-shared"#}
@@ -97,7 +97,7 @@
                                                     <li><a class="show" id="pills-bookmark-tab" data-bs-toggle="pill"
                                                            href="#pills-bookmark" role="tab"
                                                            aria-controls="pills-bookmark" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-trash-o"></i> O'chirilgan xabarlar</span></a>
+                                                            class="title"><i class="fa fa-trash-o"></i> Удаленные</span></a>
                                                     </li>
                                                     <li>
                                                         <hr>
@@ -120,10 +120,10 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">Хабар юбориш</h6>
+                                                        <h6 class="mb-0">Отправить</h6>
                                                     </div>
                                                     <div class="card-body">
-                                                        <label>Кимга <sup class="txt-danger">*</sup></label>
+                                                        <label>Кому <sup class="txt-danger">*</sup></label>
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div>
@@ -143,17 +143,17 @@
                                                             </div>
 
                                                         </div>
-                                                        <label class="m-t-5">Мавзу <sup
+                                                        <label class="m-t-5">Тема <sup
                                                                 class="txt-danger">*</sup></label>
                                                         <div class="row">
                                                             <div class="col-lg-12">
-                                                                <input class="form-control" placeholder="Мавзу..." id="title" name="title" type="text">
+                                                                <input class="form-control" placeholder="Тема..." id="title" name="title" type="text">
                                                             </div>
                                                         </div>
-                                                        <label class="m-t-5">Хабар ёзиш<sup
+                                                        <label class="m-t-5">Написать сообщение<sup
                                                                 class="txt-danger">*</sup></label>
-                                                        <textarea style="height: 150px;" class="form-control" id="comment" name="comment" placeholder="Хабарни киритинг..."></textarea>
-                                                        <button class="btn btn-primary m-t-25" id="send_message" user="{{ request.user.profile.pk }}">Юбориш</button>
+                                                        <textarea style="height: 150px;" class="form-control" id="comment" name="comment" placeholder="Введите сообщение..."></textarea>
+                                                        <button class="btn btn-primary m-t-25" id="send_message" user="{{ request.user.profile.pk }}">Отправить</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,10 +163,10 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex align-items-center"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">Кирувчи хабарлар</h6>
+                                                        <h6 class="mb-0">Входящие</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                            <input class="form-control" placeholder="Поиск сообщения">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -176,10 +176,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">Kimdan kelgan</th>
-                                                                        <th scope="col">Sarlavhasi</th>
-                                                                        <th scope="col">Xabar mazmumi</th>
-                                                                        <th scope="col">Kelib tushgan vaqti</th>
+                                                                        <th scope="col">От кого</th>
+                                                                        <th scope="col">Тема</th>
+                                                                        <th scope="col">Содержание сообщения</th>
+                                                                        <th scope="col">Время получения</th>
 {#                                                                        <th scope="col"></th>#}
                                                                     </tr>
                                                                     </thead>
@@ -219,7 +219,7 @@
                                                         <h6 class="mb-0">O'qilgan xabarlar</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                            <input class="form-control" placeholder="Поиск сообщения.....">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -229,10 +229,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">Kimdan kelgan</th>
-                                                                        <th scope="col">Sarlavhasi</th>
-                                                                        <th scope="col">Xabar mazmumi</th>
-                                                                        <th scope="col">Kelib tushgan vaqti</th>
+                                                                        <th scope="col">От кого</th>
+                                                                        <th scope="col">Тема</th>
+                                                                        <th scope="col">Содержание сообщения</th>
+                                                                        <th scope="col">Время получения</th>
 {#                                                                        <th scope="col"></th>#}
                                                                     </tr>
                                                                     </thead>
@@ -272,7 +272,7 @@
                                                         <h6 class="mb-0">Жўнатилган хабарлар</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                            <input class="form-control" placeholder="Поиск сообщения.....">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -282,10 +282,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">Kimga yuborilgan</th>
-                                                                        <th scope="col">Sarlavhasi</th>
-                                                                        <th scope="col">Xabar mazmumi</th>
-                                                                        <th scope="col">Kelib tushgan vaqti</th>
+                                                                        <th scope="col">Кому отправил</th>
+                                                                        <th scope="col">Тема</th>
+                                                                        <th scope="col">Содержание сообщения</th>
+                                                                        <th scope="col">Время получения</th>
                                                                         <th scope="col"></th>
                                                                     </tr>
                                                                     </thead>
@@ -324,16 +324,16 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">Қоралама</h6>
+                                                        <h6 class="mb-0">черновике</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                            <input class="form-control" placeholder="Поиск сообщения">
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="details-bookmark text-center">
                                                             <span><i
-                                                                    class="fa fa-exclamation-triangle f-20 txt-warning"></i> Қораламада Хабарлар ёқ</span>
+                                                                    class="fa fa-exclamation-triangle f-20 txt-warning"></i> Нет сообщений в черновике</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -342,7 +342,7 @@
                                                  aria-labelledby="pills-bookmark-tab">
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex">
-                                                        <h6 class="mb-0">Очирилган хабарлар</h6>
+                                                        <h6 class="mb-0">Удаленные</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
                                                             <input class="form-control" placeholder="Хабарни қидириш">
@@ -355,10 +355,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">Kimga yuborilgan</th>
-                                                                        <th scope="col">Sarlavhasi</th>
-                                                                        <th scope="col">Xabar mazmumi</th>
-                                                                        <th scope="col">Kelib tushgan vaqti</th>
+                                                                        <th scope="col">Кому отправил</th>
+                                                                       <th scope="col">Тема</th>
+                                                                        <th scope="col">Содержание сообщения</th>
+                                                                        <th scope="col">Время получения</th>
 {#                                                                        <th scope="col"></th>#}
                                                                     </tr>
                                                                     </thead>

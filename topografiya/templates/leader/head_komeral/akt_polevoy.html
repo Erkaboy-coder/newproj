@@ -23,17 +23,17 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-10">
-                            <h3>Майдон назоратини текшириш</h3>
+                            <h3>Проверка полевой  контроля</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Майдон назоратини текшириш</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'leader_komeral_checking' %}">Проверка полевой  контроля</a></li>
                                 <li class="breadcrumb-item" ><a href="{% url 'leader_rejected_komeral_works' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
-                                <li class="breadcrumb-item" ><a href="{% url 'leader_akt_form_edit' id=workerobject.object.id %}">АКТ майдон назорати далолатномаси</a></li>
+                                <li class="breadcrumb-item" ><a href="{% url 'leader_akt_form_edit' id=workerobject.object.id %}">АКТ полевого контроля</a></li>
                             </ol>
                         </div>
                          <div class="col-sm-2">
 {#                        {% if workerobject.status_geodezis_komeral == 2 %}#}
-                        <a href="{% url 'leader_rejected_komeral_works' id=workerobject.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Orqaga qaytish</a>
+                        <a href="{% url 'leader_rejected_komeral_works' id=workerobject.object.id %}" class="btn btn-primary"> <i class="fa fa-backward"></i> Назад</a>
 {#                        {% endif %}#}
                     </div>
 
@@ -840,13 +840,13 @@
 
                                                                                             {% if workerobject.status_geodezis_komeral == 2 %}
                                                                                         <button class="edit_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                                type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                         </button>
                                                                                             {% endif %}
 
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
-                                                                                                type="button">Keyingisi
+                                                                                                type="button">Следующий
                                                                                             <i class="fa fa-long-arrow-right"></i>
                                                                                         </button>
                                                                                     </div>
@@ -1314,12 +1314,12 @@
                                                                                     </form>
                                                                                       {% if workerobject.status_geodezis_komeral == 2 %}
                                                                                         <button class="edit_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                                type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                         </button>
                                                                                             {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
-                                                                                            type="button">Keyingisi <i
+                                                                                            type="button">Следующий <i
                                                                                             class="fa fa-long-arrow-right"></i>
                                                                                     </button>
                                                                                 </div>
@@ -1573,11 +1573,11 @@
 
                                                                                      {% if workerobject.status_geodezis_komeral == 2 %}
                                                                                         <button class="edit_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                                type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                         </button>
                                                                                             {% endif %}
 
-                                                                                    <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                                                                    <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Следующий <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1786,12 +1786,12 @@
                                                                                     </div>
                                                                                       {% if workerobject.status_geodezis_komeral == 2 %}
                                                                                         <button class="edit_akt btn btn-warning pull-left"
-                                                                                                type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                                type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                         </button>
                                                                                             {% endif %}
 
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
-                                                                                            type="button">Keyingisi <i
+                                                                                            type="button">Следующий <i
                                                                                             class="fa fa-long-arrow-right"></i>
                                                                                     </button>
                                                                                 </div>
@@ -2765,12 +2765,12 @@
 
                                                                                         {% if workerobject.status_geodezis_komeral != 4 %}
                                                                                             <button class="save_akt btn btn-warning pull-left"
-                                                                                                    type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                                    type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                             </button>
                                                                                             {% endif %}
 
                                                                                         <button class="btn btn-primary nextBtn pull-right"
-                                                                                                type="button">Keyingisi
+                                                                                                type="button">Следующий
                                                                                             <i class="fa fa-long-arrow-right"></i>
                                                                                         </button>
                                                                                     </div>
@@ -3240,12 +3240,12 @@
                                                                                     </form>
                                                                                     {% if workerobject.status_geodezis_komeral != 4 %}
                                                                                     <button class="save_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                            type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                     </button>
                                                                                         {% endif %}
 
                                                                                     <button class="btn btn-primary nextBtn pull-right"
-                                                                                            type="button">Keyingisi <i
+                                                                                            type="button">Следующий <i
                                                                                             class="fa fa-long-arrow-right"></i>
                                                                                     </button>
                                                                                 </div>
@@ -3505,11 +3505,11 @@
 
                                                                 {% if workerobject.status_geodezis_komeral != 4 %}
                                                                                      <button class="save_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                            type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                     </button>
                                                                 {% endif %}
 
-                                                                                    <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Keyingisi <i class="fa fa-long-arrow-right"></i></button>
+                                                                                    <button class="btn btn-primary nextBtn pull-right m-t-40" type="button">Следующий <i class="fa fa-long-arrow-right"></i></button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -3722,11 +3722,11 @@
 
                                                                                     {% if workerobject.status_geodezis_komeral != 4 %}
                                                                                     <button class="save_akt btn btn-warning pull-left"
-                                                                                            type="button"> <i class="fa fa-save"></i>  Saqlash
+                                                                                            type="button"> <i class="fa fa-save"></i>  Сохранить
                                                                                     </button>
                                                                                         {% endif %}
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
-                                                                                            type="button">Keyingisi <i
+                                                                                            type="button">Следующий <i
                                                                                             class="fa fa-long-arrow-right"></i>
                                                                                     </button>
                                                                                 </div>
@@ -3926,7 +3926,7 @@
                                                                                     </div>
                                                                                 {% if workerobject.status != 4 %}
                                                                                     <button class="save_akt btn btn-primary nextBtn pull-right m-t-40"
-                                                                                            type="button">Yakunlash
+                                                                                            type="button">Завершение
                                                                                     </button>
                                                                                     {% endif %}
 

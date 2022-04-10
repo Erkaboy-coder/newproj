@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Топографик-Геодезик Дастури o'zgartirish {% endblock %}
+{% block title %} Программа работ {% endblock %}
 
 {% block content%}
 
@@ -21,7 +21,7 @@
           <div class="modal-content">
               <div class="modal-header bg-danger">
                   <h5 class="modal-title text-white" id="exampleModalLabel1">
-                      Рад этилганлар
+                     Отказанные
                   </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -33,10 +33,10 @@
                                     {% for work in rejects %}
                                         <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
-                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Akt dalolatnomasi <b>{{ work.version }}</b></a></li>
+                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> АКТ программа работ  <b>{{ work.version }}</b></a></li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата</a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -59,14 +59,14 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Топографик-геодезик дастури</h3>
+                            <h3>Программа работ</h3>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Бош саҳифа</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
                                 {% if user.profile.status == '1' %}
-                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a> </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Программа работ</a> </li>
                                 {% endif %}
                                 {% if user.profile.status == '2' %}
-                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографик-геодезик дастури</a> </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Программа работ</a> </li>
                                 {% endif %}
 
                                 <li class="breadcrumb-item">{{ object.pdowork.object_name }}</li>
@@ -77,7 +77,7 @@
                      <div class="col-sm-6 text-end">
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
-                                    Рад этилишлар сони
+                                    Количество отказов
 
                                     {% if rejects.count > 0 %}
                                          &nbsp;
@@ -101,18 +101,18 @@
                         <div class="card">
                             <div class="card-header pb-0">
                                 {% if form.programwork.status == 4 %}
-                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> Тасдиқланган иш</b></div>
+                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> Положительный</b></div>
                                 {% endif %}
                                 {% if form.programwork.status == 2 %}
-                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> Рад этилган иш</b></div>
+                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> Отрицательный</b></div>
                                 {% endif %}
                             </div>
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
-                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Тайёр файлни юклаш</a></li>
-                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Форма орқали киритиш</a></li>
-                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Илова</a></li>
-                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Буюртма ҳақида маълумот</a></li>
+                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Загрузить готовый файл</a></li>
+                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Внести через форму</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Предписание</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Информация о заказет</a></li>
                                 </ul>
 
                                 <div class="tab-content" id="icon-tabContent">
@@ -122,7 +122,7 @@
                                             <div class="col">
                                                 <div class="mb-3"><br>
                                                     {% if form.file %}
-                                                    <a href="/{{ form.file }}"  target="_blank"><i class="fa fa-file-pdf-o"></i> Ishchi dasturi bilan tanishish</a>
+                                                    <a href="/{{ form.file }}"  target="_blank"><i class="fa fa-file-pdf-o"></i> Ознакомление с программа работ</a>
                                                     {% endif %}
                                                     <br>
 {#                                                    <button class="btn btn-square btn-outline-primary btn-lg" type="button" data-bs-original-title="" title="">Текшурувга жўнатиш</button>#}
@@ -390,7 +390,7 @@
 {#                                                       <div class="col-lg-12 mt-3" style="font-size: 18px">1. <a href="/{{ form.programwork.object.pdowork.tz }}"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>#}
                                                         <div class="col-lg-9 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
 
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ form.programwork.object.pdowork.tz }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ form.programwork.object.pdowork.tz }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файлаиш</a></div>
 
 
 
@@ -398,7 +398,7 @@
 
                                                        {% if files.file2 %}
                                                            <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
-                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
                                                            {% else %}
                                                              <div class="col-lg-6 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
                                                            {% endif %}
@@ -408,7 +408,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
                                                         {% if files.file3 %}
                                                         <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
                                                            {% else %}
                                                              <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
                                                            {% endif %}
@@ -417,7 +417,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
                                                         {% if files.file4 %}
                                                         <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
                                                            {% else %}
                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
                                                            {% endif %}
@@ -427,7 +427,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
                                                        {% if files.file5 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
                                                            {% else %}
                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
                                                            {% endif %}
@@ -437,7 +437,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
                                                         {% if files.file6 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
                                                            {% else %}
                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
                                                            {% endif %}
@@ -447,7 +447,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
                                                         {% if files.file7 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Файл билан танишиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
                                                            {% else %}
                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
                                                            {% endif %}
@@ -478,59 +478,59 @@
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary">
                                                 <h5 class="modal-title" id="exampleModalLabel">
-                                                    Буюртма ҳақида маълумот</h5>
+                                                    Информация о заказе</h5>
                                             </div>
 
                                                   <div class="modal-body">
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="mb-2">
-                                                                                    <b>Шартнома рақами<sup
+                                                                                    <b>Номер договора<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_number }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Шартнома санаси</b>
+                                                                                    <b>Дата договора</b>
                                                                                     <p>{{ object.pdowork.agreement_date }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Обект номи<sup
+                                                                                    <b>Наименование объекта<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_name }} </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Буюрмачи</b>
+                                                                                    <b>Заказчик</b>
                                                                                     <p>{{ object.pdowork.customer }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Обект манзили<sup
+                                                                                    <b>Адрес объекта<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_address }}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 text-end">
                                                                                 <div class="mb-2">
-                                                                                    <b>Бажариш муддати<sup
+                                                                                    <b>Сроки выполнения<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.work_term }} kun</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Буюртмачи маълумотлари<sup
+                                                                                    <b>Реквизиты заказчика<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.customer_info }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Иш тури<sup
+                                                                                    <b>Вид работы<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.work_type }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Нархи<sup
+                                                                                    <b>Сумма договора<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_cost}}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Маъсул бажарувчи бўлим<sup
+                                                                                    <b>Отдел ответственный за исполнительнение<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.department }}</p>
                                                                                 </div>
@@ -538,22 +538,21 @@
                                                                         </div>
                                                                         <ul class="folder">
                                                                             <li class="folder-box">
-                                                                                <a href="/{{ object.pdowork.latter }}">
-                                                                                    <i class="fa fa-file-pdf-o f-20 txt-dark"></i>  Буюрта хати билан танишиш
+                                                                                <a href="/{{ object.pdowork.latter }}" target="_blank">
+                                                                                    <i class="fa fa-file-pdf-o f-20 txt-dark"></i>  Ознакомление с письмом заказчика
                                                                                 </a>
                                                                             </li>
                                                                             <li class="folder-box m-b-5 m-t-5">
                                                                                 <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
-                                                                                <a href="/{{ object.pdowork.tz }}">
-                                                                                        Техник топшириқ файли билан танишиш
+                                                                                <a href="/{{ object.pdowork.tz }}" target="_blank">
+                                                                                        Ознакомление с техническим заданием
                                                                                 </a>
 
                                                                             </li>
 
                                                                             <li class="folder-box">
                                                                                 <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
-                                                                                <a href="/{{ object.pdowork.smeta }}">Смета файли
-                                                                                            билан танишиш</a>
+                                                                                <a href="/{{ object.pdowork.smeta }}" target="_blank">Ознакомление со сметой</a>
                                                                             </li>
 
                                                                         </ul>
@@ -570,19 +569,18 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6">
-                                                                            <h5>Ишчи дастур ва хисобот
-                                                                                шакллантирилади<sup
+                                                                            <h5>Cформировать рабочую программу и отчет<sup
                                                                                         style="color: red">*</sup></h5>
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
-                                                                                    <label for="radio1"><span class="digits">Ҳа</span></label>
+                                                                                    <label for="radio1"><span class="digits">Да</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
-                                                                                    <label for="radio4">Йўқ</label>
+                                                                                    <label for="radio4">Нет</label>
                                                                                 </div>
 
                                                                             </div>
@@ -592,15 +590,15 @@
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="mb-4">
-                                                                                <h5>Мазкур ишни бажариш учун маъсул
-                                                                                    жавобгар шахс<sup
+                                                                                <h5>Ответственное лицо за выполнение данной работы<sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
 {#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
-                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel">
-{#                                                                                    <option value="{{ object.worker_ispolnitel }}" selected>{{ object.worker_ispolnitel }}</option>#}
+                                                                                <select class="js-example-placeholder-multiple col-sm-12" name="worker_ispolnitel" id="worker_ispolnitel">
+                                                                                    <option value="">--  --</option>
+
                                                                                     {% for worker in workers %}
-                                                                                         <option value="{{ worker.full_name }}" {% if worker.full_name == object.worker_ispolnitel %}selected{% endif  %}> {{ worker.full_name }} </option>
+                                                                                         <option value="{{ worker.pk }}" worker-name="{{ worker.full_name }}" {% if worker.id == pdowork.worker_ispolnitel.id %}selected{% endif  %}> {{ worker.full_name }} </option>
                                                                                     {% endfor %}
                                                                                 </select>
                                                                             </div>
@@ -609,8 +607,8 @@
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
-                                                                                Топографик-геодезик ишларни бажариш учун
-                                                                                кўрсатма шаклланториш</h5>
+                                                                                 Формирование инструкции по выполнению топографо-геодезических работ
+                                                                            </h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-3 col-form-label">
                                                                                     Должность, Ф.И.О. исполнителя
@@ -749,19 +747,23 @@
                                                                                 </div>
 
                                                                             </div>
+
                                                                             <div class="floder_input">
+                                                                                <label><b>17. </b>Приложение:</label>
                                                                                 <div class="row">
-                                                                                    <a download="" href="#">
-                                                                                        <div class="f-14 f-w-600">
-                                                                                            <span><i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
+
+                                                                                     <a href="/{{ pdowork.pdowork.tz }}" target="_blank">
+                                                                                        <div class="f-14 f-w-600 m-l-25">
+                                                                                            <span>  <label><b style="color: black">1. </b></label> <i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Tехническоe заданиe
                                                                                         </div>
                                                                                     </a>
-                                                                                    <a href="#" download="">
-                                                                                        <div class="f-14 f-w-600"><span>
-                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
-                                                                                            Графическое приложение
-                                                                                        </div>
-                                                                                    </a>
+{#                                                                                    <a href="/{{ pdowork.smeta }}" target="_blank">#}
+{#                                                                                        <div class="f-14 f-w-600 m-l-25"><span>#}
+{#                                                                                            <label><b style="color: black">2. </b></label>#}
+{#                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>#}
+{#                                                                                            Графическое приложение#}
+{#                                                                                        </div>#}
+{#                                                                                    </a>#}
                                                                                 </div>
                                                                             </div>
 

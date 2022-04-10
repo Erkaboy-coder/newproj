@@ -29,13 +29,13 @@
 <section class="bg-image">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{% static 'assets/images/0001.jpg' %}" alt="looginpage"></div>
-            <div class="col-xl-7 p-0">
+            <div class="col-xl-7"><img class="bg-img-cover bg-center" src="{% static 'assets/images/fon_sayt.jpg' %}" alt="looginpage"></div>
+            <div class="col-xl-5 p-0">
                 <div class="login-card">
                     <form class="theme-form login-form shadow-lg" autocomplete="off" action="{% url 'login' %}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <h4>Кириш</h4>
-                        <h6>Хуш келибсиз! Тизимга кириш.</h6>
+                        <h4 class="text-center">ВХОД</h4>
+                        <h6 class="text-center">Добро пожаловать в систему</h6>
                         	{% if messages %}
                                 <ul class="text text-center" style="font-size:13px">
                                     {% for message in messages %}
@@ -53,13 +53,13 @@
                                 </ul>
                             {% endif %}
                         <div class="form-group">
-                            <b>Фойдаланувчи логини</b>
+                            <b>Логин пользователя</b>
                             <div class="input-group"><span style="background-color: #90b4cd40" class="input-group-text"><i style="color: #168eea" class="icon-user"></i></span>
-                                <input class="form-control" autocomplete="off" type="text" required name="login" placeholder="Фойдаланувчи логини">
+                                <input class="form-control" autocomplete="off" type="text" required name="login" placeholder="Логин пользователя">
                             </div>
                         </div>
                         <div class="form-group">
-                            <b>Парол</b>
+                            <b>Пароль</b>
                             <div class="input-group"><span class="input-group-text"><i style="color: #168eea" class="icon-lock"></i></span>
                                 <input class="form-control" autocomplete="off" id="password" type="password" name="password" required placeholder="*********">
 
@@ -73,13 +73,13 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <input id="checkbox1" type="checkbox">
-                                <label class="text-muted" for="checkbox1">Паролни еслаб қолинг</label>
-                            </div><a style="color: #168eea" class="link" href="">Паролни унутдингизми?</a>
+                                <label class="text-muted" for="checkbox1">Запомнить пароль</label>
+                            </div><a style="color: #168eea" class="link" href="">Забыли пароль?</a>
                         </div>
                         <div class="form-group">
-                            <input type="submit" style="background-color: #168eea;color: white;width: 100%" class="btn btn-block" value="Тизимга кириш">
+                            <input type="submit" style="background-color: #168eea;color: white;width: 100%" class="btn btn-block" value="Вход в систему">
                         </div>
-                        <p>Aкаунтингиз йўқми?<a style="color: #168eea" class="ms-2" href="{% url 'register' %}">Aкаунт яратиш</a></p>
+                        <p>Аккаунт не найден?<a style="color: #168eea" class="ms-2" href="{% url 'register' %}">Создать аккаунт</a></p>
                     </form>
                 </div>
             </div>

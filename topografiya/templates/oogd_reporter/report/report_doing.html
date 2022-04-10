@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Xисобот шакллантириш {% endblock %}
+{% block title %} Формирование отчета {% endblock %}
 
 {% block content%}
 
@@ -34,7 +34,7 @@
           <div class="modal-content">
               <div class="modal-header bg-primary">
                   <h5 class="modal-title" id="exampleModalLabel">
-                      Буюртма ҳақида маълумот</h5>
+                      Информация о заказе</h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -42,59 +42,59 @@
                   <div class="row">
                 <div class="col-lg-6">
                           <div class="mb-2">
-                              <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                              <b>Номер договора<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Шартнома санаси</b>
+                              <b>Дата договора</b>
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Объект номи<sup style="color: red;">*</sup></b>
+                              <b>Наименование объекта<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюрмачи</b>
+                              <b>Заказчик</b>
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Объект манзили<sup style="color: red;">*</sup></b>
+                              <b>Адрес объекта<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
 
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
-                              <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                              <b>Сроки выполнения<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
+                              <b>Реквизиты заказчика<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Иш тури<sup style="color: red;">*</sup></b>
+                              <b>Вид работы<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <b>Сумма договора<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                              <b>Отдел ответственный за исполнительнение<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.department }}</p>
                           </div>
                       </div>
                   </div>
                    <div class="row">
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление с письмом заказчика</h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ билан танишиш</h6></a>
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление с техническим заданием</h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета билан танишиш</h6></a>
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление со сметой</h6></a>
                       </div>
 
                   </div>
@@ -110,7 +110,7 @@
           <div class="modal-content">
               <div class="modal-header bg-danger">
                   <h5 class="modal-title text-white" id="exampleModalLabel1">
-                      Рад этилганлар
+                      Отказанные
                   </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -121,9 +121,9 @@
                                     {% for work in rejects %}
                                         <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Қайтариш сабаби: </b> {{ work.reason }}</li>
+                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси <b class="text-danger">{{ work.version }}-V</b></a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата <b class="text-danger">{{ work.version }}-V</b></a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -157,7 +157,7 @@
                 </h4>
                 <div type="button" data-bs-dismiss="modal" aria-label="Close">X</div>
             </div>
-             <div class="modal-body">
+              <div class="modal-body">
 
                        <div class="row text-end">
                     {% if order.type_of_sirie == '0' %}
@@ -165,7 +165,7 @@
                                 <div class="col-lg-6 m-b-10">
                                     <div class="m-b-10">
                                         <div>Разрешение на залет от МО РУз</div>
-                                        <a href="/{{ siriefiles.file1_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                        <a href="/{{ siriefiles.file1_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                                     </div>
                                 </div>
                         {% endif %}
@@ -173,7 +173,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Схема планирования залета БПЛА<sup style="color: red;">*</sup></div>
-                            <a  href="/{{ siriefiles.file1_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a  href="/{{ siriefiles.file1_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -181,7 +181,7 @@
                     <div class="col-lg-6 m-b-10">
                           <div class="m-b-10">
                             <div>Схема выполненных залетов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -189,7 +189,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class='m-b-10'>
                             <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -197,7 +197,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Схема расположение опознаков и исходные пункты<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -205,7 +205,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Каталог координат исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -213,7 +213,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -221,7 +221,7 @@
                     <div class="col-lg-6 m-b-10">
                          <div class="m-b-10">
                             <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -229,7 +229,7 @@
                     <div class="col-lg-6 m-b-10">
                          <div class="m-b-10">
                             <div>Отчёт обработки ортофотоплана<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -237,7 +237,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Измерения, скаченные с прибора(БПЛА)<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -245,7 +245,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Фото. опознаков<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_11 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                            <a href="/{{ siriefiles.file1_11 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                         </div>
                     </div>
                             {% endif %}
@@ -256,7 +256,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог координат исходных пунктов</div>
-                                <a href="/{{ siriefiles.file2_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -264,7 +264,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог кооодинат долговременных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file2_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a  href="/{{ siriefiles.file2_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -272,7 +272,7 @@
                         <div class="col-lg-6 m-b-10">
                               <div class="m-b-10">
                                 <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -280,7 +280,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class='m-b-10'>
                                 <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -288,7 +288,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -296,7 +296,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Измерения, скаченные с прибора ( GNSS )<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_6 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -304,7 +304,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Схема калибровки с границами объекта<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file2_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                             {% endif %}
@@ -315,7 +315,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Ведомость обследования наличия и состояния пунктов геодезической сети на объекте</div>
-                                <a href="/{{ siriefiles.file3_1 }}"> <i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -323,7 +323,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог исходных пунктов и ранее заложенных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file3_2 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a  href="/{{ siriefiles.file3_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -331,7 +331,7 @@
                         <div class="col-lg-6 m-b-10">
                               <div class="m-b-10">
                                 <div>Схема съемочного обоснования<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_3 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -339,7 +339,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class='m-b-10'>
                                 <div>Хурналы нивелирования теодолитных ходов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_4 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -347,7 +347,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Ведомость уравнивания теодолитных ходов и характеристики<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_5 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -355,7 +355,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Ведомость нивелирных ходов и характеристики<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_6 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -363,7 +363,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Схема уравнивания<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -371,7 +371,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Схема размещения объекта по планшетам<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_8 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -379,7 +379,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог координат (пикеты)<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_9 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -387,7 +387,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Измерения, скаченные с прибора (тахеометра)<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_10 }}"><i class="fa fa-eye" aria-hidden="true"></i> Файлини кўриш</a>
+                                <a href="/{{ siriefiles.file3_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
                             </div>
                         </div>
                              {% endif %}
@@ -409,10 +409,10 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3>Хисобот шакллантириш</h3>
+                            <h3>Формирование отчета</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'oogd_reports' %}">Хисоботлар</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'oogd_reports' %}">Формирование отчета</a></li>
                                 <li class="breadcrumb-item" ><a href="{% url 'report_doing' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
@@ -421,7 +421,7 @@
                         <div class="col-sm-6 text-end">
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
-                                    Рад этилишлар сони
+                                   Количество отказов
                                      <span class="badge rounded-pill bg-white">
                                         <b class="text-danger">{{ rejects.count }}</b>
                                      </span>
@@ -429,7 +429,7 @@
                                 </button>
                             {% endif %}
                             <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
-                                Буюртма ҳақида маълумот
+                                Информация о заказе
                             </button>
                         </div>
 
@@ -447,7 +447,7 @@
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Муҳандислик тармоқлари сиёмкаси бўйича ҳисобот шакллантириш</h4>
+                                    <h4 class="m-b-20 m-t-20">Сформировать отчет по съемке инженерных сетей</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
                                             <div id="map"></div>
@@ -460,7 +460,7 @@
                                             <div class="file-bottom">
                                                 <h6>1. Скрыть изм-ные данные</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="btn btn-primary w-100 m-t-10">Кўриш</button>
+                                                <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="btn btn-primary w-100 m-t-10">Просмотр</button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -468,7 +468,7 @@
                                             <div class="file-bottom">
                                                 <h6>2. Абрис</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" target="_blank" class="text-white">Просмотр</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -476,7 +476,7 @@
                                             <div class="file-bottom">
                                                 <h6>3. Кроки</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" target="_blank" class="text-white">Просмотр</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -484,7 +484,7 @@
                                             <div class="file-bottom">
                                                 <h6>4. Эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" target="_blank" class="text-white">Просмотр</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -493,7 +493,7 @@
                                             <div class="file-bottom">
                                                 <h6>5. Ж эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" target="_blank" class="text-white">Просмотр</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -502,7 +502,7 @@
                                             <div class="file-bottom ">
                                                 <h6>6. Лист эксплуатирующими </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}" target="_blank" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}" target="_blank" class="text-white">Просмотр</a></button>
                                             </div>
                                         </li>
 
@@ -511,7 +511,7 @@
                                             <div class="file-bottom ">
                                                 <h6>7. Предписание </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Просмотр</a></button>
                                             </div>
                                         </li>
                                     <li class="file-box m-t-5">
@@ -519,7 +519,7 @@
                                            <div class="file-bottom ">
                                                 <h6>8. Топографический план </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">Просмотр</a></button>
                                             </div>
                                         </li>
 
@@ -528,9 +528,9 @@
                                             <li class="file-box m-t-5">
                                                 <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                                 <div class="file-bottom ">
-                                                    <h6>9. Топографик-геодезик дастури </h6>
+                                                    <h6>9. Программа работ </h6>
                                                     <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> Кўриш</a></button>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> Просмотр</a></button>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -542,25 +542,25 @@
                                             <div class="file-bottom ">
                                                 <h6>10. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Просмотр</a></button>
                                             </div>
                                         </li>
 
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>11. АКТ дала назорати текшируви</h6>
+                                                <h6>11. AKT полевого контроля</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Просмотр</a></button>
 
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>12. АКТ комерал назорат далолатномаси</h6>
+                                                <h6>12. AKT комерал контроля </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}">Кўриш</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}">Просмотр</a></button>
                                             </div>
                                         </li>
 
@@ -569,10 +569,10 @@
                                                 <li class="file-box m-t-5">
                                                     <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                                     <div class="file-bottom ">
-                                                        <h6>13. Хисобот билан танишиш</h6>
+                                                        <h6>13. Ознокомление с отчетом </h6>
                                                         <p>Ознакомиться с файлом отправки</p>
                                                         <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModalCenter1">Кўриш</button>
+                                                            data-bs-target="#exampleModalCenter1">Просмотр</button>
                                                     </div>
                                                 </li>
                                             {% endif %}
@@ -583,16 +583,16 @@
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title"> Хисобот билан танишиш</h5>
+                                                            <h5 style="color: white;" class="modal-title"> Ознокомление с отчетом </h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
                                                         </div>
                                                         <div class="modal-body">
                                                            <ol style="font-size: 18px">
-                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ҳисобат билан танишиш</a></li>
+                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ознокомление с отчетом </a></li>
                                                                     {% if report.reason %}
-                                                                        <li class="p-2"><b>Тавфсилоти:</b> {{ reports.reason }}</li>
+                                                                        <li class="p-2"><b>Пояснения:</b> {{ reports.reason }}</li>
                                                                     {% endif %}
                                                             </ol>
                                                         </div>
@@ -627,7 +627,7 @@
                                         <div class="btn-foot m-t-50 m-b-40 d-flex align-items-center" >
 
                                                 <button class="btn btn-lg" style="width: 100%;background-color: #0a790a;color: whitesmoke" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalCenter"> <i class="fa fa-mail-reply"></i> Хисоботни юклаш ва текширувга юбориш
+                                                    data-bs-target="#exampleModalCenter"> <i class="fa fa-mail-reply"></i> Загрузить отчет и отправить на проверку
                                                 </button>
 
 {#                                            <button id="bootstrap-notify-gen-btn" class="btn btn-outline-success">#}
@@ -639,7 +639,7 @@
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title">Хисоботни юклаш ва текширувга юбориш</h5>
+                                                            <h5 style="color: white;" class="modal-title">Загрузить отчет и отправить на проверку</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
@@ -647,17 +647,17 @@
                                                         <div class="modal-body">
                                                             <ul class="messages text text-center text-danger" id="error_show" style="display:none">
                                                                <div class="alert alert-danger">
-                                                                   <li style="font-size:14px" class="text text-white" ><b> Хисоботни юкланг !</b></li>
+                                                                   <li style="font-size:14px" class="text text-white" ><b> Загрузите отчет !</b></li>
                                                                </div>
                                                            </ul>
                                                             <br>
-                                                            <h5 class="m-b-20">Ҳисобот файли</h5>
+                                                            <h5 class="m-b-20">Файл отчета</h5>
                                                             <input class="form-control" id="reason_file" name="reason_file" type="file">
-                                                            <h5 class="m-t-20 m-b-20">Қўшимча маълумот</h5>
+                                                            <h5 class="m-t-20 m-b-20">Дополнительная информация</h5>
                                                             <textarea type="text" class="form-control" id="reason" name="reason" rows="6"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button  class="btn btn-success" id="report_send" type="button">Юбориш</button>
+                                                            <button  class="btn btn-success" id="report_send" type="button">Отправить</button>
                                                         </div>
                                                     </div>
                                                 </div>

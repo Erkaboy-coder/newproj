@@ -26,7 +26,7 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="mb-2">
-                                                                                    <b>ШНомер договора<sup
+                                                                                    <b>Номер договора<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_number }}</p>
                                                                                 </div>
@@ -455,12 +455,12 @@
 
                                                                             <button type="reset" class="btn btn-danger"> <i class="fa fa-close"></i> Очистить поле</button>
 {#                                                                            {% if order != 'None' %}#}
-                                                                                <button class="float-end btn btn-warning" id="save_order" type="button"> <i class="fa fa-check"></i> Сақлаш</button>
+                                                                                <button class="float-end btn btn-warning" id="save_order" type="button"> <i class="fa fa-check"></i> Сохранить</button>
 {#                                                                            {% else %}#}
                                                                             <br>
                                                                             <hr>
                                                                         {% if pdowork.status_start == 1 %}
-                                                                                <button class="float-end btn btn-primary" id="start" type="button"> <i class="fa fa-check"></i> Ишни бошлаш</button>
+                                                                                <button class="float-end btn btn-primary" id="start" type="button"> <i class="fa fa-check"></i> Начать работу</button>
 {#                                                                            {% endif %}#}
 {#                                                                            <button class="btn btn-warning" type="button" id="save_order" > <i class="fa fa-check"></i> Сақлашш</button>#}
                                                                         {% endif %}
@@ -482,21 +482,21 @@
                                                 <div class="ribbon-wrapper card  mb-0">
                                                     <div class="card-body">
                                                         <div class="ribbon ribbon-bookmark ribbon-primary"
-                                                             style="font-size: 20px;font-weight: 500;">Aнанавий усулда
+                                                             style="font-size: 20px;font-weight: 500;">Традиционный способ
                                                         </div>
                                                         <div class="job-sidebar"><a class="btn btn-primary job-toggle"
                                                                                     href="javascript:void(0)"></a>
                                                             <div class="job-left-aside custom-scrollbar">
                                                                 <div class="file-sidebar row ">
                                                                     <div class="pricing-plan col-lg-6 shadow-lg">
-                                                                        <h5>Aнанавий усулда</h5>
-                                                                        <p>Ish an'anaviy usulda tizim orqali qilinmasdan amalga oshiriladi!</p>
+                                                                        <h5>Традиционный способ</h5>
+                                                                        <p>Работа выполняется традиционным способом, без необходимости проходить регистрацию</p>
                                                                         <div class="btn-showcase">
                                                                             <button class="btn btn-primary sweet-1"
                                                                                     type="button"
                                                                                     onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-1']);"
                                                                                     data-bs-original-title="" >
-                                                                                Ишни бошлаш
+                                                                               Начать работу
                                                                             </button>
                                                                         </div>
                                                                         <img class="bg-img" src="{% static 'assets/images/dashboard/folder1.png' %}" alt="">
@@ -564,7 +564,7 @@
         });
         }
         else{
-        alert('Мазкур ишни бажариш учун маъсул жавобгар шахсни танланг');
+        alert('Выберите человека, ответственного за выполнение этой работы');
         }
 
 
@@ -597,7 +597,7 @@
         data.append("pdowork_id", $('#pdowork_id').val());
 
         event.preventDefault();
-        if($('#size').val() != 0 && $('#info').val() != 0 && $('#item_check').val() != 0 ){
+        if($('#size').val() != 0 && $('#info').val() != 0 && $('#item_check').val() != 0 && $('#type_of_sirie').val() != ''){
            $.ajax({
             type: 'POST',
             url: '{% url 'start' %}',
@@ -615,7 +615,7 @@
         });
         }
         else{
-            alert("Majburiy maydonlarni to'ldiring");
+            alert("Заполните необходимые поля ");
         }
 
 

@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
 {% load static %}
-{% block title %} Ходимлар {% endblock %}
+{% block title %} Сотрудники {% endblock %}
 
 {% block content%}
 
@@ -18,7 +18,7 @@
                             <h3>Ходим</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'workers' %}">Ходимлар</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'workers' %}">Сотрудники</a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'show_worker' id=worker.id %}">{{ worker.full_name }}</a></li>
                             </ol>
                         </div>
@@ -37,15 +37,16 @@
                             <form class="" >
 
                                 <div class="form-group">
-                                  <label>Ходим</label>
+                                  <label>Сотрудник</label>
                                   <div class="small-group">
                                     <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
                                       <input class="form-control" type="text" id="fio" name="fio" required="" value="{{ worker.full_name }}">
                                     </div>
                                   </div>
                                 </div>
+
                                 <div class="form-group">
-                                  <label>Телефон рақам</label>
+                                  <label>Номер телефона</label>
                                   <div class="small-group">
                                     <div class="input-group"><span class="input-group-text"><i class="fa fa-mobile"></i></span>
                                       <input class="form-control" type="number" id="contact" name="contact" required="" value="{{ worker.contact }}">
@@ -53,14 +54,14 @@
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label>Електрон почта манзили</label>
+                                  <label>Адресс электронной почты</label>
                                   <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
                                     <input class="form-control" type="email" required="" id="email" name="email" value="{{ worker.email }}">
                                   </div>
                                 </div>
 
                                  <div class="form-group">
-                                  <label>Лавозими</label>
+                                  <label>Должность</label>
                                   <div class="input-group"><span class="input-group-text"><i class="fa fa-user"></i></span>
                                     <input class="form-control" type="text" required="" id="position" name="position" value="{{ worker.position }}">
                                   </div>
@@ -68,7 +69,7 @@
 
 
                               <div class="form-group">
-                                  <label>Бўлим</label>
+                                  <label>Отдел</label>
                                   <div class="input-group"><span class="input-group-text"><i class="fa fa-group"></i></span>
                                   <input class="form-control" type="email" required="" id="email" name="email" value="{{ worker.department.name }}">
 {#                                     <select required class="form-control" id="department" name="department">#}
@@ -92,8 +93,8 @@
                                       {% endif %}
                                   </span>
                                      <select required class="form-control" id="status" name="status">
-                                             <option value="0" {% if worker.live == '1' %} selected {% endif %}> Фаол </option>
-                                             <option value="1" {% if worker.live == '0' %} selected {% endif %}> Фаол емас </option>
+                                             <option value="0" {% if worker.live == '1' %} selected {% endif %}> Активный </option>
+                                             <option value="1" {% if worker.live == '0' %} selected {% endif %}> Неактивный </option>
                                      </select>
                                   </div>
                                 </div>
@@ -102,11 +103,11 @@
                                 <div class="form-group ">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <button class="btn btn-danger w-100  btn-block" type="button" id="reject_worker"> <i class="fa fa-close"></i> Рад етиш</button>
+                                            <button class="btn btn-danger w-100  btn-block" type="button" id="reject_worker"> <i class="fa fa-close"></i> Отказ</button>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <button class="btn btn-primary w-100  btn-block" type="button" id="confirm_worker"><i class="fa fa-check"></i> Рухсат бериш</button>
+                                            <button class="btn btn-primary w-100  btn-block" type="button" id="confirm_worker"><i class="fa fa-check"></i> Разрешить</button>
                                         </div>
                                     </div>
 

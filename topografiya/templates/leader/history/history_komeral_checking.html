@@ -136,7 +136,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="exampleModalLabel">Буюртма ҳақида маълумот</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Информация о заказе</h5>
                 <div data-bs-dismiss="modal" aria-label="Close">X</div>
             </div>
 
@@ -144,46 +144,46 @@
                   <div class="row">
                       <div class="col-lg-6">
                           <div class="mb-2">
-                              <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                              <b>Номер договора<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_number }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Шартнома санаси</b>
+                             <b>Дата договора</b>
                               <p>{{ work.object.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Объект номи<sup style="color: red;">*</sup></b>
+                              <b>Наименование объекта<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюрмачи</b>
+                              <b>Заказчик</b>
                               <p>{{ work.object.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Объект манзили<sup style="color: red;">*</sup></b>
+                              <b>Адрес объекта<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_address }}</p>
                           </div>
                       </div>
 
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
-                              <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                              <b>Сроки выполнения<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Буюртмачи реквизитлари<sup style="color: red;">*</sup></b>
+                              <b>Реквизиты заказчика<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Иш тури<sup style="color: red;">*</sup></b>
+                              <b>Вид работы<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                              <b>Сумма договора<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                              <b>Отдел ответственный за исполнительнение<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.department }}</p>
                           </div>
                       </div>
@@ -213,17 +213,17 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Ишчи дастур холати</h3>
+                            <h3>Состояния комерал контроль</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'allworks' %}">Барча ишлар</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'history_komeral_checking' id=work.object.id %}">Комерал назорати</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'allworks' %}">Все работы</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'history_komeral_checking' id=work.object.id %}">Состояния комерал контроль</a></li>
                             </ol>
                         </div>
                         <div class="col-sm-6">
                             <div class="float-lg-end">
                                 <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
-                                    Буюртма ҳақида маълумот
+                                    Информация о заказе
                                 </button>
                             </div>
                         </div>
@@ -279,7 +279,7 @@
                                                         <ul>
                                                             <li><b class="text-primary"><i class="fa fa-user"></i> {{ history.user_id.full_name }}</b></li>
                                                             <li class="text text-success">
-                                                                <a href="#" class="text text-success"> Dalolatnoma (ijobiy)</a>
+                                                                <a href="#" class="text text-success"> Акт положительный</a>
                                                             </li>
                                                         </ul>
                                                         <p class="mb-0 mt-1"><i class="fa fa-check"> &nbsp;</i> {{ history.comment }}</p>

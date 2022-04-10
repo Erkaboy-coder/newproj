@@ -16,7 +16,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="exampleModalLabel">Буюртма ҳақида маълумот</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Информация о заказе</h5>
                 <div data-bs-dismiss="modal" aria-label="Close"><a class="txt-light" href="">X</a></div>
             </div>
 
@@ -35,7 +35,7 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3>Янги топшириқлар</h3>
+                            <h3>Новые договора</h3>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     {% if not worker_new_works %}
                         <div class="col-sm-12">
                              <div class="card text-center p-4 bg-images text-warning">
-                                 <h4>Yangi topshiriq yo'q</h4>
+                                 <h4>Нет нового задания</h4>
                             </div>
                         </div>
 
@@ -64,21 +64,21 @@
                                                 class="blg-date">{{ work.pdowork.work_term }}</span></div>
 {#                                        <a href="">#}
                                             <h6 class="blog-bottom-details">{{ work.pdowork.object_name }}</h6>
-                                        <div><b>Буюртмачи номи:</b> {{ work.pdowork.customer }}</div>
-                                        <div><b>Шартнома тузилган сана:</b> {{ work.pdowork.agreement_date }}</div>
-                                        <div><b>Жойлашган жойи:</b> {{ work.pdowork.object_address }}</div>
+                                        <div><b>Заказчик:</b> {{ work.pdowork.customer }}</div>
+                                        <div><b>Дата заключения договора:</b> {{ work.pdowork.agreement_date }}</div>
+                                        <div><b>Адрес объекта:</b> {{ work.pdowork.object_address }}</div>
 
-                                        <div><b>Ишчи дастур :</b>
+                                        <div><b>Программа работ :</b>
                                             {% if work.isset_programwork == True %}
-                                               <b class="text-success"><i  class="fa fa-check"></i> Мавжуд</b>
+                                               <b class="text-success"><i  class="fa fa-check"></i> Есть </b>
                                                 {% else %}
-                                                <b class="text-danger"><i  class="fa fa-close"></i> Талаб этилмайди</b>
+                                                <b class="text-danger"><i  class="fa fa-close"></i> Не требуется</b>
                                             {% endif %}
                                         </div>
                                         <div class="detail-footer m-t-20">
                                             <button class="btn btn-primary show_work"  work-id="{{ work.pdowork.id }}"  data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal" >
-                                                Батафсил маълумот
+                                                 Подробная информация
                                             </button>
                                         </div>
                                     </div>
@@ -124,64 +124,64 @@ $(document).ready(function(){
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-2">
-                            <b>Шартнома рақами<sup style="color: red;">*</sup></b>
+                            <b>Номер договора<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_number+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Шартнома санаси</b>
+                            <b>Дата договора</b>
                             <p>`+result['pdowork'][0].agreement_date+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Объект номи<sup style="color: red;">*</sup></b>
+                            <b>Наименование объекта<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_name+` </p>
                         </div>
                         <div class="mb-2">
-                            <b>Буюрмачи</b>
+                            <b>Заказчик</b>
                             <p>`+result['pdowork'][0].customer+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Объект манзили<sup style="color: red;">*</sup></b>
+                            <b>Адрес объекта<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_address+`</p>
                         </div>
                     </div>
                     <div class="col-lg-6 text-end">
                         <div class="mb-2">
-                            <b>Бажариш муддати<sup style="color: red;">*</sup></b>
+                            <b>Сроки выполнения<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].work_term+` kun</p>
                         </div>
                         <div class="mb-2">
-                            <b>Буюртмачи реквизитлари<sup
+                            <b>Реквизиты заказчика<sup
                                     style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].customer_info+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Иш тури<sup style="color: red;">*</sup></b>
+                            <b>Вид работы<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].work_type+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Шартнома суммаси<sup style="color: red;">*</sup></b>
+                            <b>Сумма договора<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_cost+`</p>
                         </div>
                         <div class="mb-2">
-                            <b>Маъсул бажарувчи бўлим<sup style="color: red;">*</sup></b>
+                            <b>Отдел ответственный за исполнительнение<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].department+`</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="m-b-20"><a class="f-w-500 f-15 " href="/`+result['pdowork'][0].latter+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Буюрта хати билан танишиш</a></div>
-                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Техник топшириқ билан танишиш</a></div>
+                        <div class="m-b-20"><a class="f-w-500 f-15 " href="/`+result['pdowork'][0].latter+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Ознакомление с письмом заказчика</a></div>
+                        <div><a class="f-w-500 f-15" href="/`+result['pdowork'][0].tz+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Ознакомление с техническим заданием</a></div>
                     </div>
                     <div class="col-lg-6 text-end">
-                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Смета билан танишиш</a></div>
-                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` target='_blank' href='#'><i class="fa fa-file-pdf-o f-20"></i>  Кўрсатма билан танишиш </a></div>
+                        <div class="m-b-20"><a class="f-w-500 f-15 m-b-20" href="/`+result['pdowork'][0].smeta+`" target='_blank'><i class="fa fa-file-pdf-o f-20"></i>  Ознакомление со сметой</a></div>
+                        <div><a class="f-w-500 f-15 file" data-id=`+result['work'][0].id+` target='_blank' href='#'><i class="fa fa-file-pdf-o f-20"></i>  Ознакомление с предписание   </a></div>
 
                     </div>
                 </div>
                     <div class="row m-t-30">
                         <div class="col-lg-12">
-                            <button class="btn btn-primary text-center w-100 recive_work" data-id1=`+result['work'][0].id+` worker-id="{{ user.profile.pk }}" >Ишни қабул қилиш</button>
+                            <button class="btn btn-primary text-center w-100 recive_work" data-id1=`+result['work'][0].id+` worker-id="{{ user.profile.pk }}" >Принять</button>
                         </div>
                     </div>
             `;

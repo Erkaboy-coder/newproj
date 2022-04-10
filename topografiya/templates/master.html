@@ -166,7 +166,7 @@
             <nav>
                 <div class="main-navbar">
                     <div id="mainnav">
-                        <ul class="nav-menu custom-scrollbar" id="myDIV">
+                        <ul class="nav-menu custom-scrollbar" id="myDIV" style="height: 800px">
                             <li class="back-btn">
                                 <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                             </li>
@@ -194,11 +194,11 @@
                                     <span> Дела </span>
                                 </a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="{% url 'allworks' %}">Все виды работ</a></li>
+                                        <li><a href="{% url 'allworks' %}">Все работы</a></li>
 {#                                        <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>#}
                                         <li>
 {#                                            <a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури#}
-                                            <a href="{% url 'program_works_leader' %}">Топографо-геодезическая работа
+                                            <a href="{% url 'program_works_leader' %}">Программа работ
                                                 {% if count.all_works_to_check_leader != 0 %}
                                                     <span class="badge rounded-pill badge-danger">
                                                          {{ count.all_works_to_check_leader }}
@@ -226,9 +226,9 @@
                                         </li>
                                         <li>
 {#                                            <a href="{% url 'leader_komeral_checking' %}">Бош геодезист назорати#}
-                                            <a href="{% url 'leader_komeral_checking' %}">Контроль главного геодезиста
+                                            <a href="{% url 'leader_komeral_checking' %}">Контроль службы главного <br> геодезиста
                                                 {% if count.leader_komeral_works_to_check != 0 %}
-                                                    <span style="float: right" class="badge rounded-pill badge-danger">
+                                                    <span style="float: right;" class="badge rounded-pill badge-danger">
                                                          {{ count.leader_komeral_works_to_check }}
                                                     </span>
                                               {% endif %}
@@ -260,7 +260,7 @@
                                 </li>
                             <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Дела</span></a>
                                 <ul class="nav-submenu menu-content">
-                                    <li><a href="{% url 'allworks' %}">Все виды работ</a></li>
+                                    <li><a href="{% url 'allworks' %}">Все работы</a></li>
 {#                                    <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>#}
 {#                                    <li><a href="{% url 'polevoy_works' %}">Жорий ишлар#}
                                     <li><a href="{% url 'polevoy_works' %}">Текущие работа
@@ -290,9 +290,9 @@
                              {% if user.profile.status == '2' %}
                             <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Дела</span></a>
                                 <ul class="nav-submenu menu-content">
-                                    <li><a href="{% url 'allworks' %}">Все виды работ</a></li>
+                                    <li><a href="{% url 'allworks' %}">Все работы</a></li>
                                     <li>
-                                        <a href="{% url 'program_works_geodezis' %}">Топографо-геодезическая работа
+                                        <a href="{% url 'program_works_geodezis' %}">Программа работ
                                     {% if count.new_works_geodezis != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_works_geodezis }}
