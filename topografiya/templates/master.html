@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -66,6 +66,8 @@
 </head>
 <body>
 
+{% load i18n %}
+
 <div class="loader-wrapper">
     <div class="theme-loader">
         <div class="loader-p"></div>
@@ -85,6 +87,8 @@
 
             </div>
 
+
+
             <div class="left-menu-header col">
                 <ul>
                     <li>
@@ -99,7 +103,25 @@
                 </ul>
             </div>
             <div class="nav-right col pull-right right-menu p-0">
+
                 <ul class="nav-menus" style="padding: 0px 20px;">
+                    <li>
+                        {% get_current_language_bidi as LANGUAGE_BIDI %}
+                        {% get_current_language as LANGUAGE_CODE %}
+                        <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                            <input name="next" type="hidden" value="/">
+                            <select name="language" onchange="this.form.submit()">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}" {%if language.code == LANGUAGE_CODE%}selected{%endif%}>
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </li>
+
                     <li class="onhover-dropdown">
                         <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span><sup> {{ count_works.new_messages }}</sup></div>
                         <ul class="notification-dropdown onhover-show-div">
@@ -177,7 +199,9 @@
                                   <li class="dropdown">
                                     <a class="nav-link menu-title link-nav" href="{% url 'pdoworks' %}"><i data-feather="file"></i>
                                         <span style="white-space: nowrap;">
-                                            Новые договора
+
+                                            {% trans "Новые договора" %}
+
 {#                                            Янги шартномалар#}
                                             {% if count.new_workers_pdo != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
@@ -191,7 +215,10 @@
                                 </li>
                                 <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i>
 {#                                    <span>Ишлар</span>#}
-                                    <span> Дела </span>
+                                    <span>
+                                        {% trans "Дела" %}
+
+                                    </span>
                                 </a>
                                     <ul class="nav-submenu menu-content">
                                         <li><a href="{% url 'allworks' %}">Все работы</a></li>
