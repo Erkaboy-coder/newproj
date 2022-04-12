@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django_filters',
     'mathfilters',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newproj.wsgi.application'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

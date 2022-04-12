@@ -21,11 +21,10 @@ from django.core import serializers
 
 from django.contrib import messages
 from django.core.paginator import Paginator
+
 from .filters import ObjectsFilter
 from datetime import datetime
 # Create your views here.
-
-
 
 def counter():
     count = {}
@@ -1939,8 +1938,7 @@ def store(request):
 
         for j in json.loads(table2):
             if str(j['id']) == '-1' and int(j['del']) != 1:
-                form3_1 = PoyasitelniyFormTable2(poyasitelniyform=form1, b9_1=j['b9_1'], b9_2=j['b9_2'], b9_3=j['b9_3'],
-                                                 b9_4=j['b9_4'])
+                form3_1 = PoyasitelniyFormTable2(poyasitelniyform=form1, b9_1=j['b9_1'], b9_2=j['b9_2'], b9_3=j['b9_3'], b9_4=j['b9_4'])
                 form3_1.save()
             elif int(j['del']) == 1:
                 PoyasitelniyFormTable2.objects.filter(pk=j['id']).delete()
