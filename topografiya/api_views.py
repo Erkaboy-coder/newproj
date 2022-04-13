@@ -9,16 +9,19 @@ from .models import Worker, Branch
 class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.all().order_by('id')
     serializer_class = BranchSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
 class WorkerViewSet(viewsets.ModelViewSet):
     queryset = Worker.objects.all().order_by('id')
     serializer_class = WorkerSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class ObjectViewSet(viewsets.ModelViewSet):
     queryset = Object.objects.all().order_by('id')
     serializer_class = ObjectSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class PdoViewSet(viewsets.ModelViewSet):
     queryset = PdoWork.objects.all().order_by('id')
     serializer_class = PdoSerializer
+    permission_classes = [permissions.IsAuthenticated]

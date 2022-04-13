@@ -28,6 +28,7 @@ class Branch(models.Model):
     name = models.CharField(max_length=250, blank=True)
     leader = models.CharField(max_length=250, blank=True)
     address = models.CharField(max_length=250, blank=True)
+    code = models.IntegerField(default=0, blank=True)
     def __str__(self):
         return self.name
     class Meta:
@@ -35,6 +36,23 @@ class Branch(models.Model):
 
     # def natural_key(self):
     #     return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
+
+class Period(models.Model):
+    title = models.CharField(max_length=250, blank=True)
+    description = models.CharField(max_length=250, blank=True)
+    amount = models.IntegerField(default=0, blank=True)
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name_plural = "Periods"
+
+class WorkType(models.Model):
+    name = models.CharField(max_length=250, blank=True)
+    code = models.IntegerField(default=0, blank=True)
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name_plural = "WorkTypes"
 
 class Worker(BaseModel):
     user = models.OneToOneField(

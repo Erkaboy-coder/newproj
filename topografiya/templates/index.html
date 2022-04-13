@@ -6,19 +6,19 @@
 {% block stylecontent %}
 
 {% endblock stylecontent %}
-
+{% load i18n %}
 
         <div class="page-body">
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Уведомления о проверке </h3>
+                            <h3>{% trans "Задачи наблюдения" %} </h3>
 {#                            <h3>Кузатувдаги вазифалар</h3>#}
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Главная" %}</a></li>
 {#                                <li class="breadcrumb-item"><a href="index.html">Бош саҳифа</a></li>#}
-                                <li class="breadcrumb-item active">Уведомления о проверке </li>
+                                <li class="breadcrumb-item active">{% trans "Уведомления о проверке" %} </li>
 {#                                <li class="breadcrumb-item active">Кузатувдаги вазифалар</li>#}
                             </ol>
                         </div>
@@ -49,7 +49,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
 {#                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaraladigan ish</h4>#}
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
@@ -61,16 +61,16 @@
                                                                         <thead class="bg-primary">
                                                                         <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -84,7 +84,7 @@
                                                                                     <td>{{ work.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
 {#                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.id %}" class="btn btn-success">Ko'rish</a></td>#}
                                                                           </tr>
 
@@ -118,7 +118,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
 {#                                                            <h4 class="modal-title" id="myLargeModalLabel">Bajaralidigan ish</h4>#}
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
@@ -130,16 +130,16 @@
                                                                         <thead class="bg-primary">
                                                                         <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -152,7 +152,7 @@
                                                                                     <td>{{ work.pdowork.work_type}}</td>
                                                                                     <td>{{ work.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 
@@ -183,7 +183,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -194,16 +194,16 @@
                                                                         <thead class="bg-primary">
                                                                         <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -216,7 +216,7 @@
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
                                                                                     <td>{{ work.object.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 
@@ -245,7 +245,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -256,16 +256,16 @@
                                                                         <thead class="bg-primary">
                                                                        <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -278,7 +278,7 @@
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
                                                                                     <td>{{ work.object.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 
@@ -307,7 +307,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -318,16 +318,16 @@
                                                                         <thead class="bg-primary">
                                                                         <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -341,7 +341,7 @@
                                                                                     <td>{{ work.object.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 
@@ -372,7 +372,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -383,16 +383,16 @@
                                                                         <thead class="bg-primary">
                                                                         <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -406,7 +406,7 @@
                                                                                     <td>{{ work.object.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 
@@ -437,7 +437,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -448,16 +448,16 @@
                                                                         <thead class="bg-primary">
                                                                        <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -471,7 +471,7 @@
                                                                                     <td>{{ work.object.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 
@@ -500,7 +500,7 @@
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" id="myLargeModalLabel">Выполняемые работы</h4>
+                                                            <h4 class="modal-title" id="myLargeModalLabel">{% trans "Выполняемые работы" %}</h4>
                                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -511,16 +511,16 @@
                                                                         <thead class="bg-primary">
                                                                         <tr class="text-white text-center">
                                                                             <th scope="col">#</th>
-                                                                            <th scope="col">Заказчик</th>
+                                                                            <th scope="col">{% trans "Заказчик" %}</th>
 {#                                                                            <th scope="col">Буюрмачи</th>#}
-                                                                            <th scope="col">Наименование объекта</th>
+                                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
 {#                                                                            <th scope="col">Объект номи</th>#}
-                                                                            <th scope="col">Вид работы</th>
+                                                                            <th scope="col">{% trans "Вид работы" %}</th>
 {#                                                                            <th scope="col">Иш тури</th>#}
-                                                                            <th scope="col">Срок выполнения</th>
+                                                                            <th scope="col">{% trans "Срок выполнения" %}</th>
 {#                                                                            <th scope="col">Бажариш муддати</th>#}
 {#                                                                            <th scope="col">Холати</th>#}
-                                                                            <th scope="col">Ознакомление</th>
+                                                                            <th scope="col">{% trans "Ознакомление" %}</th>
 {#                                                                            <th scope="col">Танишиш</th>#}
                                                                         </tr>
                                                                         </thead>
@@ -534,7 +534,7 @@
                                                                                     <td>{{ work.object.pdowork.work_term}} kun</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
-                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">Просмотр</a></td>
+                                                                                    <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
 
 

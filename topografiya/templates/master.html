@@ -95,7 +95,7 @@
                         <form class="form-inline search-form">
                             <div class="search-bg"><i class="fa fa-search"></i>
 {#                                <input class="form-control-plaintext" placeholder="Бу йердан қидиринг.....">#}
-                                <input class="form-control-plaintext" placeholder="Поиск.....">
+                                <input class="form-control-plaintext" placeholder="{% trans "Поиск" %}.....">
                             </div>
                         </form>
                         <span class="d-sm-none mobile-search search-bg"><i class="fa fa-search"></i></span>
@@ -129,7 +129,7 @@
                                 <a href="{% url 'new_messages' %}">
                                     <p class="f-w-700 mb-0">
 {#                                        Сизда <b class="text-danger">{{ count_works.new_messages }}</b> та билдиришнома бор#}
-                                        У вас есть <b class="text-danger">{{ count_works.new_messages }}</b> уведомлений
+                                        {% trans "У вас есть" %} <b class="text-danger">{{ count_works.new_messages }}</b> {% trans "уведомлений" %}
                                     </p>
                                 </a>
                             </li>
@@ -168,8 +168,8 @@
                             </div>
                         <ul class="notification-dropdown onhover-show-div"style="width: 225px;top:60px;">
 {#                            <li class=""><a href="{% url 'settings' id=request.user.profile.pk %}">Шахсий маълумотларим</a></li>#}
-                            <li class=""><a href="{% url 'settings' id=request.user.profile.pk %}">Личная информация</a></li>
-                            <li class=""><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Выход</a></li>
+                            <li class=""><a href="{% url 'settings' id=request.user.profile.pk %}">{% trans "Личная информация" %}</a></li>
+                            <li class=""><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> {% trans "Выход" %}</a></li>
 {#                            <li class=""><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i> Чиқиш</a></li>#}
                         </ul>
                     </li>
@@ -192,7 +192,9 @@
                             <li class="back-btn">
                                 <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                             </li>
-                           <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'index' %}"><i data-feather="home"></i><span>Главная</span></a></li>
+                           <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'index' %}"><i data-feather="home"></i><span>
+                                {% trans "Главная" %}
+                           </span></a></li>
 {#                           <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'index' %}"><i data-feather="home"></i><span>Бош саҳифа</span></a></li>#}
 
                              {% if user.profile.status == '1' %}
@@ -221,11 +223,11 @@
                                     </span>
                                 </a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="{% url 'allworks' %}">Все работы</a></li>
+                                        <li><a href="{% url 'allworks' %}">{% trans "Все работы" %}</a></li>
 {#                                        <li><a href="{% url 'allworks' %}">Барча ишлар</a></li>#}
                                         <li>
 {#                                            <a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури#}
-                                            <a href="{% url 'program_works_leader' %}">Программа работ
+                                            <a href="{% url 'program_works_leader' %}">{% trans "Программа работ" %}
                                                 {% if count.all_works_to_check_leader != 0 %}
                                                     <span class="badge rounded-pill badge-danger">
                                                          {{ count.all_works_to_check_leader }}
@@ -234,7 +236,7 @@
                                             </a>
                                         </li>
 {#                                        <li><a href="{% url 'leader_polevoy_works' %}">Дала назорати#}
-                                        <li><a href="{% url 'leader_polevoy_works' %}">Полевой контроль
+                                        <li><a href="{% url 'leader_polevoy_works' %}">{% trans "Полевой контроль" %}
                                              {% if count.new_polevoy_works_leader != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_polevoy_works_leader }}
@@ -243,7 +245,7 @@
                                         </a></li>
                                         <li>
 {#                                            <a href="{% url 'leader_komeral_works' %}">Камерал назорат#}
-                                            <a href="{% url 'leader_komeral_works' %}">Камеральный контроль
+                                            <a href="{% url 'leader_komeral_works' %}">{% trans "Камеральный контроль" %}
                                             {% if count.new_komeral_works_leader != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_komeral_works_leader }}
@@ -253,7 +255,8 @@
                                         </li>
                                         <li>
 {#                                            <a href="{% url 'leader_komeral_checking' %}">Бош геодезист назорати#}
-                                            <a href="{% url 'leader_komeral_checking' %}">Контроль службы главного <br> геодезиста
+                                            <a href="{% url 'leader_komeral_checking' %}">
+                                                {% trans "Контроль службы главного <br> геодезиста" %}
                                                 {% if count.leader_komeral_works_to_check != 0 %}
                                                     <span style="float: right;" class="badge rounded-pill badge-danger">
                                                          {{ count.leader_komeral_works_to_check }}
@@ -264,7 +267,7 @@
                                     </ul>
                                 </li>
 {#                                <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'workers' %}"><i data-feather="users"></i><span>Ходимлар</span></a></li>#}
-                                <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'workers' %}"><i data-feather="users"></i><span>Сотрудники</span></a></li>
+                                <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'workers' %}"><i data-feather="users"></i><span>{% trans "Сотрудники" %}</span></a></li>
                             {% endif %}
 {#                            bu boshliq profili#}
 
@@ -275,7 +278,8 @@
 
                                         <span style="white-space: nowrap;">
 {#                                            Янги топшириқлар#}
-                                            Новые задания
+
+                                        {% trans " Новые задания" %}
                                               {% if count_works.new_works_worker != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
 {#                                                     {{ count.new_works_worker }}#}
@@ -287,10 +291,11 @@
                                 </li>
                             <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Дела</span></a>
                                 <ul class="nav-submenu menu-content">
-                                    <li><a href="{% url 'allworks' %}">Все работы</a></li>
+                                    <li><a href="{% url 'allworks' %}">
+                                         {% trans "Все работы" %}</a></li>
 {#                                    <li><a href="{% url 'program_works_leader' %}">Топографик-геодезик дастури</a></li>#}
 {#                                    <li><a href="{% url 'polevoy_works' %}">Жорий ишлар#}
-                                    <li><a href="{% url 'polevoy_works' %}">Текущие работа
+                                    <li><a href="{% url 'polevoy_works' %}">{% trans "Текущие работа" %}
                                         {% if count_works.all_works_worker != 0 %}
                                             <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count_works.all_works_worker }}
@@ -299,7 +304,7 @@
 
                                     </a></li>
                                     <li>
-                                         <a href="{% url 'worker_komeral_works' %}">Камеральный контроль
+                                         <a href="{% url 'worker_komeral_works' %}">{% trans "Камеральный контроль" %}
 {#                                         <a href="{% url 'worker_komeral_works' %}">Камерал назорат#}
                                             {% if count_works.worker_komeral_works != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
@@ -315,11 +320,11 @@
 {#                            bu ispolnitel profili#}
 
                              {% if user.profile.status == '2' %}
-                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Дела</span></a>
+                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>{% trans "Дела" %}</span></a>
                                 <ul class="nav-submenu menu-content">
-                                    <li><a href="{% url 'allworks' %}">Все работы</a></li>
+                                    <li><a href="{% url 'allworks' %}">{% trans "Все работы" %}</a></li>
                                     <li>
-                                        <a href="{% url 'program_works_geodezis' %}">Программа работ
+                                        <a href="{% url 'program_works_geodezis' %}">{% trans "Программа работ" %}
                                     {% if count.new_works_geodezis != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                      {{ count.new_works_geodezis }}
@@ -329,7 +334,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="{% url 'geodesiz_komeral_works' %}">Камеральный контроль
+                                        <a href="{% url 'geodesiz_komeral_works' %}">{% trans "Камеральный контроль" %}
                                             {% if count.geodezis_komeral_works_to_check != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                     {{ count.geodezis_komeral_works_to_check }}
@@ -339,7 +344,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="{% url 'geodezis_reports' %}">Отчет
+                                        <a href="{% url 'geodezis_reports' %}">{% trans "Отчет" %}
 {#                                        <a href="{% url 'geodezis_reports' %}">Ҳисобот#}
                                             {% if count.new_geodezis_reports != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
@@ -362,7 +367,7 @@
                                         <i  data-feather="printer"></i>
 
 {#                                        <span style="white-space: nowrap;">Янги топшириқлар#}
-                                        <span style="white-space: nowrap;">Новые задания
+                                        <span style="white-space: nowrap;">{% trans "Новые задания" %}
                                               {% if count.new_ogogd_printer_works != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
 {#                                                     {{ count.new_works_worker }}#}
@@ -377,13 +382,13 @@
                         {#                        bu oogd printer#}
 {#                        bu oogd hisobot yozadigan#}
                         {% if user.profile.status == '4' %}
-                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Дела</span></a>
+                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>{% trans "Дела" %}</span></a>
                                 <ul class="nav-submenu menu-content">
 
 
                                     <li>
 {#                                        <a href="{% url 'oogd_reports' %}">Ҳисобот#}
-                                        <a href="{% url 'oogd_reports' %}">Отчет
+                                        <a href="{% url 'oogd_reports' %}">{% trans "Отчет" %}
                                             {% if count.reports_all_oogd != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                     {{ count.reports_all_oogd }}
@@ -401,7 +406,7 @@
                             <li class="dropdown">
                                 <a class="nav-link menu-title link-nav" href="{% url 'new_messages' %}"><i data-feather="message-circle"></i>
 {#                                    <span>Хабарлар#}
-                                    <span>Сообщения
+                                    <span>{% trans "Сообщения" %}
                                             {% if count_works.new_messages != 0 %}
                                                 <span style="float: right" class="badge rounded-pill badge-danger">
                                                     {{ count_works.new_messages }}
@@ -410,10 +415,10 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'history' %}"><i data-feather="arrow-down-circle"></i><span>Aрхив</span></a></li>
-                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>Настройки</span></a></li>
+                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'history' %}"><i data-feather="arrow-down-circle"></i><span>{% trans "Aрхив" %}</span></a></li>
+                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>{% trans "Настройки" %}</span></a></li>
 {#                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>Созламалар</span></a></li>#}
-                            <li style="position: fixed;bottom: 10px;"><a  href="tel:+998711715658"><i data-feather="phone"></i> +998711715658</a></li>
+                            <li style="position: fixed;bottom: 10px;"><a  href="tel:+998711715658"><i data-feather="phone"></i> +998(71) 271 27 07</a></li>
                         </ul>
                     </div>
                 </div>
@@ -432,7 +437,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 footer-copyright">
-                        <p class="mb-0">Авторское право 2021-22 © Uzgashkliti авторские права защищены.</p>
+                        <p class="mb-0">{% trans "Авторское право 2021-22 © Uzgashkliti авторские права защищены." %}</p>
 {#                        <p class="mb-0">Муаллифлик ҳуқуқи 2021-22 © Ўзгашклити барча ҳуқуқлар ҳимояланган.</p>#}
                     </div>
                 </div>

@@ -2,12 +2,7 @@ from django.contrib import admin
 from leaflet.admin  import LeafletGeoAdmin
 
 # Register your models here.
-from topografiya.models import Worker, Department, PdoWork, ProgramWorkForm, ProgramWork, Order, \
-    AktKomeralForm, AktPolevoyForm, History, Object, WorkerObject, Branch, ProgramWorkFormTable1, ProgramWorkFormTable2, \
-    SirieFiles, PoyasitelniyForm, PoyasitelniyFormTable2, PoyasitelniyFormTable1, PoyasitelniyFormTable3, \
-    PoyasitelniyFormTable4, AktPolovoyTable1, AktPolovoyTable2, AktPolovoyTable3, AktPolovoyTable4, AktPolovoyTable5, \
-    AktPolovoyTable6, AktPolovoyTable7, AktPolovoyTable8, PolevoyWorkReject, ProgramWorkReject, KameralWorkReject, \
-    LeaderKomeralWorkReject, Report, ProgramWorkFiles, Points, Lines, Polygons, Xabarlar
+from topografiya.models import *
 
 
 class PointsAdmin(LeafletGeoAdmin):
@@ -61,6 +56,9 @@ admin.site.register(AktPolovoyTable6)
 admin.site.register(AktPolovoyTable7)
 admin.site.register(AktPolovoyTable8)
 admin.site.register(PolevoyWorkReject)
+
+admin.site.register(Period)
+admin.site.register(WorkType)
 
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 13:13+0000\n"
+"POT-Creation-Date: 2022-04-13 07:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,146 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: topografiya/templates/master.html:183
+#: topografiya/templates/index.html:16 topografiya/templates/index.html:21
+msgid "Задачи наблюдения"
+msgstr "Kuzatuvdagi vazifalar"
+
+#: topografiya/templates/index.html:19 topografiya/templates/master.html:196
+msgid "Главная"
+msgstr "Bosh sahifa"
+
+#: topografiya/templates/index.html:52 topografiya/templates/index.html:121
+#: topografiya/templates/index.html:186 topografiya/templates/index.html:248
+#: topografiya/templates/index.html:310 topografiya/templates/index.html:375
+#: topografiya/templates/index.html:440 topografiya/templates/index.html:503
+msgid "Выполняемые работы"
+msgstr "Bajaraladigan ish"
+
+#: topografiya/templates/index.html:64 topografiya/templates/index.html:133
+#: topografiya/templates/index.html:197 topografiya/templates/index.html:259
+#: topografiya/templates/index.html:321 topografiya/templates/index.html:386
+#: topografiya/templates/index.html:451 topografiya/templates/index.html:514
+msgid "Заказчик"
+msgstr "Buyurtmachi"
+
+#: topografiya/templates/index.html:66 topografiya/templates/index.html:135
+#: topografiya/templates/index.html:199 topografiya/templates/index.html:261
+#: topografiya/templates/index.html:323 topografiya/templates/index.html:388
+#: topografiya/templates/index.html:453 topografiya/templates/index.html:516
+msgid "Наименование объекта"
+msgstr "Obekt nomi"
+
+#: topografiya/templates/index.html:68 topografiya/templates/index.html:137
+#: topografiya/templates/index.html:201 topografiya/templates/index.html:263
+#: topografiya/templates/index.html:325 topografiya/templates/index.html:390
+#: topografiya/templates/index.html:455 topografiya/templates/index.html:518
+msgid "Вид работы"
+msgstr "Ish turi"
+
+#: topografiya/templates/index.html:70 topografiya/templates/index.html:139
+#: topografiya/templates/index.html:203 topografiya/templates/index.html:265
+#: topografiya/templates/index.html:327 topografiya/templates/index.html:392
+#: topografiya/templates/index.html:457 topografiya/templates/index.html:520
+msgid "Срок выполнения"
+msgstr "Bajarish muddati"
+
+#: topografiya/templates/index.html:73 topografiya/templates/index.html:142
+#: topografiya/templates/index.html:206 topografiya/templates/index.html:268
+#: topografiya/templates/index.html:330 topografiya/templates/index.html:395
+#: topografiya/templates/index.html:460 topografiya/templates/index.html:523
+msgid "Ознакомление"
+msgstr "Tanishish"
+
+#: topografiya/templates/index.html:87 topografiya/templates/index.html:155
+#: topografiya/templates/index.html:219 topografiya/templates/index.html:281
+#: topografiya/templates/index.html:344 topografiya/templates/index.html:409
+#: topografiya/templates/index.html:474 topografiya/templates/index.html:537
+msgid "Просмотр"
+msgstr "Ko'rish"
+
+#: topografiya/templates/master.html:98
+msgid "Поиск"
+msgstr "Qidirish"
+
+#: topografiya/templates/master.html:132
+msgid "У вас есть"
+msgstr "Sizda mavjud"
+
+#: topografiya/templates/master.html:132
+msgid "уведомлений"
+msgstr "xabarnoma"
+
+#: topografiya/templates/master.html:171
+msgid "Личная информация"
+msgstr "Shaxsiy ma'lumotlar"
+
+#: topografiya/templates/master.html:172
+msgid "Выход"
+msgstr "Chiqish"
+
+#: topografiya/templates/master.html:205
 msgid "Новые договора"
 msgstr "Yangi shartnomalar"
 
-#: topografiya/templates/master.html:199
+#: topografiya/templates/master.html:221 topografiya/templates/master.html:323
+#: topografiya/templates/master.html:385
 msgid "Дела"
 msgstr "Ishlar"
+
+#: topografiya/templates/master.html:226 topografiya/templates/master.html:295
+#: topografiya/templates/master.html:325
+msgid "Все работы"
+msgstr "Barcha ishlar"
+
+#: topografiya/templates/master.html:230 topografiya/templates/master.html:327
+msgid "Программа работ"
+msgstr "Ishchi dastur"
+
+#: topografiya/templates/master.html:239
+msgid "Полевой контроль"
+msgstr "Dala nazorati"
+
+#: topografiya/templates/master.html:248 topografiya/templates/master.html:307
+#: topografiya/templates/master.html:337
+msgid "Камеральный контроль"
+msgstr "Komeral nazorat"
+
+#: topografiya/templates/master.html:259
+msgid "Контроль службы главного <br> геодезиста"
+msgstr "Bosh geodezis <br> nazorati"
+
+#: topografiya/templates/master.html:270
+msgid "Сотрудники"
+msgstr "Xodimlar"
+
+#: topografiya/templates/master.html:282
+msgid " Новые задания"
+msgstr "Yangi shartnomalar"
+
+#: topografiya/templates/master.html:298
+msgid "Текущие работа"
+msgstr "Joriy ishlar"
+
+#: topografiya/templates/master.html:347 topografiya/templates/master.html:391
+msgid "Отчет"
+msgstr "Xisobot"
+
+#: topografiya/templates/master.html:370
+msgid "Новые задания"
+msgstr "Yangi shartnomalar"
+
+#: topografiya/templates/master.html:409
+msgid "Сообщения"
+msgstr "Xabarlar"
+
+#: topografiya/templates/master.html:418
+msgid "Aрхив"
+msgstr "Arxiv"
+
+#: topografiya/templates/master.html:419
+msgid "Настройки"
+msgstr "Sozlamalar"
+
+#: topografiya/templates/master.html:440
+msgid "Авторское право 2021-22 © Uzgashkliti авторские права защищены."
+msgstr "Mualliflik huquqi 2021-22 © Uzgashkliti. Barcha huquqlarximoyalangan."
