@@ -1,6 +1,7 @@
 {% extends 'master.html' %}
 {% load static %}
-{% block title %} Новые договора {% endblock %}
+{% load i18n %}
+{% block title %} {% trans "Новые договора" %} {% endblock %}
 {#{% block title %} Янги Шартномалар {% endblock %}#}
 {% block stylecontent %}
 
@@ -9,14 +10,12 @@
 
 {% block content%}
 
-
-
         <div class="page-body">
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3>Новые договора</h3>
+                            <h3>{% trans "Новые договора" %}</h3>
                         </div>
                     </div>
                 </div>
@@ -30,14 +29,14 @@
                     <div class="col-sm-6 col-xl-4 box-col-6 des-xl-50 mb-4">
                             <div class="card ribbon-wrapper p-0 m-0">
                              {% if pdowork.status_recive == 1 %}
-                                <div class="ribbon ribbon-right ribbon-color"><i class="fa fa-exclamation-triangle" title="Работа, которую работник не принял "></i></div>
+                                <div class="ribbon ribbon-right ribbon-color"><i class="fa fa-exclamation-triangle" title="{% trans "Работа, которую работник не принял" %}"></i></div>
 {#                                <div class="ribbon ribbon-right ribbon-color"><i class="fa fa-exclamation-triangle" title="Ishchi qabul qilmagan ish"></i></div>#}
                               {% endif %}
 {#                            <div class="ribbon ribbon-clip ribbon-danger"></div>#}
 
                                 <div class="blog-box blog-grid">
                                     <div class="blog-details-second">
-                                        <div class="blog-post-date"><span class="blg-month">День</span><span
+                                        <div class="blog-post-date"><span class="blg-month">{% trans "День" %}</span><span
 {#                                        <div class="blog-post-date"><span class="blg-month">Кун</span><span#}
                                                 class="blg-date">{{ pdowork.work_term }}</span></div>
 
@@ -45,9 +44,9 @@
 {#                                        <div><b>Буюртмачи номи:</b> {{ pdowork.customer }}</div>#}
 {#                                        <div><b>Шартнома тузилган сана:</b> {{ pdowork.agreement_date }}</div>#}
 {#                                        <div><b>Жойлашган жойи:</b> {{ pdowork.object_address }}</div>#}
-                                        <div><b>Наименование заказчика:</b> {{ pdowork.customer }}</div>
-                                        <div><b>Дата заключения договора  :</b> {{ pdowork.agreement_date }}</div>
-                                        <div><b>Местоположение:</b> {{ pdowork.object_address }}</div>
+                                        <div><b>{% trans "Наименование заказчика" %} :</b> {{ pdowork.customer }}</div>
+                                        <div><b>{% trans "Дата заключения договора" %} :</b> {{ pdowork.agreement_date }}</div>
+                                        <div><b>{% trans "Местоположение" %} :</b> {{ pdowork.object_address }}</div>
 
                                         <div class="text-center p-2">
 
@@ -57,7 +56,7 @@
 
                                                 <a href="{% url 'edit_pdowork' id=pdowork.id %}">
                                                    <button class="btn btn-square btn-primary w-100">
-                                                        Подробная информация
+                                                       {% trans "Подробная информация" %}
 {#                                                        Батафсил маълумот#}
                                                     </button>
                                                 </a>
@@ -69,7 +68,7 @@
                                             <div class="detail-footer">
                                                 <a href="{% url 'show_pdowork' id=pdowork.id %}">
                                                     <button class="btn btn-square btn-primary w-100">
-                                                        Подробная информация
+                                                        {% trans "Подробная информация" %}
                                                     </button>
                                                 </a>
                                             </div>

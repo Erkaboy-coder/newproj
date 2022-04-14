@@ -9,6 +9,19 @@
 
 {% endblock stylecontent %}
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+   <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function () {
+  $('#dtBasicExample').DataTable({
+    "paging": false // false to disable pagination (or any other option)
+  });
+  $('.dataTables_length').addClass('bs-select');
+});
+    </script>
+
 
 {% csrf_token %}
 
@@ -35,6 +48,7 @@
                             <div class="card-header">
                                 <h5>Сведения о поступивших в архив работах</h5>
                             </div>
+
                             <div class="card-body">
                                 <form action="" id="search_field">
 {#                                    <div class="row">#}
@@ -92,7 +106,7 @@
 
 
                             <div class="table-responsive p-l-30 p-r-30 p-b-30">
-                                <table class="table table-bordered" >
+                                <table id="dtBasicExample"  class="table table-bordered table-sm" cellspacing="0" width="100%">
                                     <thead class="table-primary">
                                     <tr>
                                         <th class="text-center" scope="col">№</th>
@@ -150,6 +164,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+
 <script>
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
@@ -160,6 +175,8 @@ $(document).ready(function(){
   });
 });
 </script>
+
+
 {##}
 {#       <script type="text/javascript">#}
 {#    $(document).on('keyup',"#number",function(){#}

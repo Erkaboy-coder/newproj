@@ -161,3 +161,25 @@ msgstr "Sozlamalar"
 #: topografiya/templates/master.html:440
 msgid "Авторское право 2021-22 © Uzgashkliti авторские права защищены."
 msgstr "Mualliflik huquqi 2021-22 © Uzgashkliti. Barcha huquqlarximoyalangan."
+
+#: topografiya/templates/master.html:419
+msgid "День"
+msgstr "kun"
+
+msgid "Работа, которую работник не принял"
+msgstr "Ishchi qabul qilmagan ish"
+
+msgid "Наименование заказчика"
+msgstr "Buyurtmachi nomi"
+
+msgid "Дата заключения договора"
+msgstr "Shartnoma tuzilgan sana"
+
+msgid "Местоположение"
+msgstr "Joylashgan joyi"
+
+msgid "Подробная информация"
+msgstr "Batafsil ma'lumot"
+
+
+
