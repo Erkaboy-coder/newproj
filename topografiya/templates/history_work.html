@@ -1,6 +1,6 @@
 
 {% extends 'master.html' %}
-
+{% load i18n %}
 {% load static %}
 {% block title %} Иш холати {% endblock %}
 
@@ -71,66 +71,66 @@
           <div class="modal-content">
               <div class="modal-header bg-primary">
                   <h5 class="modal-title" id="exampleModalLabel">
-                       Информация о заказе</h5>
+                       {% trans "Информация о заказе" %} </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
              <div class="modal-body">
                   <div class="row">
                 <div class="col-lg-6">
                           <div class="mb-2">
-                              <b>Номер договора<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Номер договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Дата договора</b>
+                              <b>{% trans "Дата договора" %}</b>
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Наименование объекта<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Наименование объекта" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
-                              <b>Заказчик</b>
+                              <b>{% trans "Заказчик" %}</b>
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Адрес объекта<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Адрес объекта" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
 
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
-                              <b>Сроки выполнения<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_term }} kun</p>
                           </div>
                           <div class="mb-2">
-                              <b>Реквизиты заказчика<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Вид работы<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Вид работы" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Сумма договора<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Сумма договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Отдел ответственный за исполнительнение<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Отдел ответственный за исполнительнение" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.department }}</p>
                           </div>
                       </div>
                   </div>
                    <div class="row">
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление с письмом заказчика</h6></a>
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с письмом заказчика" %} </h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление с техническим заданием</h6></a>
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с техническим заданием" %} </h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление со сметой</h6></a>
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление со сметой" %} </h6></a>
                       </div>
 
                   </div>
@@ -144,7 +144,7 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Состояния работа</h3>
+                            <h3>{% trans "Состояния работа" %}</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}" ><i class="fa fa-home f-20"></i></a></li>
                                 <li class="breadcrumb-item"><a href="{% url 'status_work' id=work.id %}">{{ work.object_name }}</a></li>
@@ -155,7 +155,7 @@
                                 <div class="p-10 bg-primary f-w-600" type="button"
                                         data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                         class="icofont icofont-maximize"></i>
-                                    Информация о заказе
+                                    {% trans "Информация о заказе" %}
                                 </div>
                             </div>
                         </div>
@@ -183,9 +183,9 @@
                                                     <thead class="table-primary">
                                                     <tr>
                                                         <th scope="col">#</th>
-                                                        <th scope="col">Наименование объекта</th>
-                                                        <th scope="col">Кто выполнил</th>
-                                                        <th scope="col">Время, когда изменения были сделаны</th>
+                                                        <th scope="col">{% trans "Наименование объекта" %}</th>
+                                                        <th scope="col">{% trans "Кто выполнил" %}</th>
+                                                        <th scope="col">{% trans "Время, когда изменения были сделаны" %}</th>
 {#                                                        <th class="table-danger" scope="col">Қайтарилганлар сони</th>#}
 {#                                                        <th class="table-warning" scope="col">Жўнатилган муддати</th>#}
 {#                                                        <th scope="col">Кўриш</th>#}

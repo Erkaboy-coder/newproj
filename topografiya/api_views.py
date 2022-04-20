@@ -11,6 +11,11 @@ class BranchViewSet(viewsets.ModelViewSet):
     serializer_class = BranchSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all().order_by('id')
+    serializer_class = DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 class WorkerViewSet(viewsets.ModelViewSet):
     queryset = Worker.objects.all().order_by('id')
     serializer_class = WorkerSerializer

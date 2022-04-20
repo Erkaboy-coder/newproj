@@ -22,6 +22,7 @@
 
 </style>
                 {% load l10n %}
+    {% load i18n %}
     {% load humanize %}
 {% endblock stylecontent %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
@@ -32,66 +33,66 @@
           <div class="modal-content">
               <div class="modal-header bg-primary">
                   <h5 class="modal-title" id="exampleModalLabel">
-                      Информация о заказе</h5>
+                      {% trans "Информация о заказе" %}</h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                   <div class="row">
                 <div class="col-lg-6">
                           <div class="mb-2">
-                              <b>Номер договора<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Номер договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_number }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Дата договора</b>
+                              <b>{% trans "Дата договора" %}</b>
                               <p>{{ pdowork.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Наименование объекта<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Наименование объекта" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
-                              <b>Заказчик</b>
+                              <b>{% trans "Заказчик" %}</b>
                               <p>{{ pdowork.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Адрес объекта<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Адрес объекта" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_address }}</p>
                           </div>
                       </div>
 
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
-                              <b>Сроки выполнения<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_term }} kun</p>
+                              <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
+                              <p>{{ pdowork.pdowork.work_term }} {% trans "День" %}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Реквизиты заказчика<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Вид работы<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Вид работы" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Сумма договора<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Сумма договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Отдел ответственный за исполнительнение<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Отдел ответственный за исполнительнение" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.department }}</p>
                           </div>
                       </div>
                   </div>
                    <div class="row">
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление с письмом заказчика</h6></a>
+                          <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с письмом заказчика" %} </h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление с техническим заданием</h6></a>
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans " Ознакомление с техническим заданием" %}</h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Ознакомление со сметой</h6></a>
+                          <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление со сметой" %} </h6></a>
                       </div>
 
                   </div>
@@ -108,7 +109,7 @@
           <div class="modal-content">
               <div class="modal-header bg-danger">
                   <h5 class="modal-title text-white" id="exampleModalLabel1">
-                      Отказанные
+                       {% trans "Отказанные" %}
                   </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -117,14 +118,14 @@
                       <div class="col-md-12">
 
                           {% if rejects_programworks %}
-                                <b>Причины возврата из программ работ </b>
+                                <b> {% trans "Причины возврата из программ работ" %} </b>
                             <ol>
                                 {% for work in rejects_programworks %}
                                     <li>
                                         <ul>
-                                           <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
+                                           <li class="p-1"><b class="text-primary"> {% trans "Причина возврата" %}: </b> {{ work.reason }}</li>
                                              {% if work.rejected_file %}
-                                                    <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата <b>{{ work.version }}</b></a></li>
+                                                    <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> {% trans "Приложение причины возврата" %}  <b>{{ work.version }}</b></a></li>
                                                 {% endif %}
                                             <hr>
                                         </ul>
@@ -135,15 +136,15 @@
                       {% endif %}
 
                       {% if rejects_akt_polevoy_works %}
-                            <b>Причины возврата из полевой контроль</b>
+                            <b> {% trans "Причины возврата из полевой контроль" %}</b>
                                 <ol>
                                 {% for work in rejects_akt_polevoy_works %}
                                         <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
-                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> AKT полевого контроля <b>{{ work.version }}</b></a></li>
+                                               <li class="p-1"><b class="text-primary"> {% trans "Причина возврата" %}: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i>  {% trans "AKT полевого контроля" %} <b>{{ work.version }}</b></a></li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> {% trans "Приложение причины возврата" %} </a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -153,15 +154,15 @@
                       {% endif %}
 
                       {% if rejects_akt_komeral_works %}
-                            <b>Причины возврата из комерал  контроль </b>
+                            <b> {% trans "Причины возврата из комерал  контроль" %} </b>
                             <ol>
                                 {% for work in rejects_akt_komeral_works %}
                                         <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
-                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> AKT комерал контроля <b>{{ work.version }}</b></a></li>
+                                               <li class="p-1"><b class="text-primary"> {% trans "Причина возврата" %}: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> {% trans "AKT комерал контроля" %}  <b>{{ work.version }}</b></a></li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> {% trans "Приложение причины возврата" %} </a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -171,14 +172,14 @@
                       {% endif %}
 
                       {% if rejects_akt_komeral_leader_works %}
-                             <b>Бош геодезис назоратидан қайтиш сабаблари</b>
+                             <b> {% trans "Причины возврата из главного геодезического проверка" %}</b>
                           <ol>
                                 {% for work in rejects_akt_komeral_leader_works %}
                                         <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
+                                               <li class="p-1"><b class="text-primary"> {% trans "Причина возврата" %}: </b> {{ work.reason }}</li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i>  {% trans "Приложение причины возврата" %}</a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -189,14 +190,14 @@
                       {% endif %}
 
                        {% if rejects_reports %}
-                            <b>Причины возврата из главного геодезического проверка </b>
+                            <b> {% trans "Причины возврата с отчетной проверки" %} </b>
                             <ol>
                                 {% for work in rejects_reports %}
                                         <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
+                                               <li class="p-1"><b class="text-primary"> {% trans "Причина возврата" %}: </b> {{ work.reason }}</li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Приложение причины возврата <b class="text-danger">{{ work.version }}-V</b></a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i>  {% trans "Приложение причины возврата" %} <b class="text-danger">{{ work.version }}-V</b></a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -239,7 +240,7 @@
                                 <div class="col-lg-6 m-b-10">
                                     <div class="m-b-10">
                                         <div>Разрешение на залет от МО РУз</div>
-                                        <a href="/{{ siriefiles.file1_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                        <a href="/{{ siriefiles.file1_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                                     </div>
                                 </div>
                         {% endif %}
@@ -247,7 +248,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Схема планирования залета БПЛА<sup style="color: red;">*</sup></div>
-                            <a  href="/{{ siriefiles.file1_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a  href="/{{ siriefiles.file1_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -255,7 +256,7 @@
                     <div class="col-lg-6 m-b-10">
                           <div class="m-b-10">
                             <div>Схема выполненных залетов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -263,7 +264,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class='m-b-10'>
                             <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -271,7 +272,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Схема расположение опознаков и исходные пункты<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -279,7 +280,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Каталог координат исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -287,7 +288,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_7 }}"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -295,7 +296,7 @@
                     <div class="col-lg-6 m-b-10">
                          <div class="m-b-10">
                             <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -303,7 +304,7 @@
                     <div class="col-lg-6 m-b-10">
                          <div class="m-b-10">
                             <div>Отчёт обработки ортофотоплана<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -311,7 +312,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Измерения, скаченные с прибора(БПЛА)<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -319,7 +320,7 @@
                     <div class="col-lg-6 m-b-10">
                         <div class="m-b-10">
                             <div>Фото. опознаков<sup style="color: red;">*</sup></div>
-                            <a href="/{{ siriefiles.file1_11 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                            <a href="/{{ siriefiles.file1_11 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                         </div>
                     </div>
                             {% endif %}
@@ -330,7 +331,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог координат исходных пунктов</div>
-                                <a href="/{{ siriefiles.file2_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file2_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -338,7 +339,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог кооодинат долговременных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file2_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a  href="/{{ siriefiles.file2_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -346,7 +347,7 @@
                         <div class="col-lg-6 m-b-10">
                               <div class="m-b-10">
                                 <div>Ведомость обследование пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file2_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -354,7 +355,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class='m-b-10'>
                                 <div>Отчёт калибровки<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file2_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -362,7 +363,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Кроки  исходных пунктов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file2_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -370,7 +371,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Измерения, скаченные с прибора ( GNSS )<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file2_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -378,7 +379,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Схема калибровки с границами объекта<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file2_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file2_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                             {% endif %}
@@ -389,7 +390,7 @@
                          <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Ведомость обследования наличия и состояния пунктов геодезической сети на объекте</div>
-                                <a href="/{{ siriefiles.file3_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_1 }}" target="_blank"> <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -397,7 +398,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог исходных пунктов и ранее заложенных точек <sup style="color: red;">*</sup></div>
-                                <a  href="/{{ siriefiles.file3_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a  href="/{{ siriefiles.file3_2 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -405,7 +406,7 @@
                         <div class="col-lg-6 m-b-10">
                               <div class="m-b-10">
                                 <div>Схема съемочного обоснования<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_3 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -413,7 +414,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class='m-b-10'>
                                 <div>Хурналы нивелирования теодолитных ходов<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_4 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -421,7 +422,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Ведомость уравнивания теодолитных ходов и характеристики<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_5 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -429,7 +430,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Ведомость нивелирных ходов и характеристики<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_6 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -437,7 +438,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Схема уравнивания<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_7 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -445,7 +446,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Схема размещения объекта по планшетам<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_8 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -453,7 +454,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Каталог координат (пикеты)<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_9 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -461,7 +462,7 @@
                         <div class="col-lg-6 m-b-10">
                             <div class="m-b-10">
                                 <div>Измерения, скаченные с прибора (тахеометра)<sup style="color: red;">*</sup></div>
-                                <a href="/{{ siriefiles.file3_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Просмотр файла</a>
+                                <a href="/{{ siriefiles.file3_10 }}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> {% trans "Просмотр файла" %}</a>
                             </div>
                         </div>
                              {% endif %}
@@ -483,10 +484,10 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3>Печать топографических материалов</h3>
+                            <h3>{% trans "Печать топографических материалов" %} </h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'ogogd_printer_works' %}">Печать топографических материалов</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'ogogd_printer_works' %}">{% trans "Печать топографических материалов" %}</a></li>
                                 <li class="breadcrumb-item" ><a href="{% url 'open_to_print' id=workerobject.object.id %}">{{ workerobject.object.pdowork.object_name }}</a></li>
                             </ol>
 
@@ -495,7 +496,7 @@
                         <div class="col-sm-6 text-end">
                             {% if sum %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
-                                     Количество отказов
+                                     {% trans "Количество отказов" %}
                                      <span class="badge rounded-pill bg-white">
                                         <b class="text-danger">{{ sum }}</b>
                                      </span>
@@ -503,7 +504,7 @@
                                 </button>
                             {% endif %}
                             <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
-                                Информация о заказе
+                                {% trans "Информация о заказе" %}
                             </button>
                         </div>
 
@@ -519,7 +520,7 @@
                         <div class="file-content">
                             <div class="card">
                                 <div class="card-body file-manager ">
-                                    <h4 class="m-b-20 m-t-20">Печать топографических материалов</h4>
+                                    <h4 class="m-b-20 m-t-20">{% trans "Печать топографических материалов" %}</h4>
                                     <div class="row m-b-30">
                                         <div class="col-lg-12">
                                             <div id="map"></div>
@@ -532,7 +533,7 @@
                                             <div class="file-bottom">
                                                 <h6>1. Скрыть изм-ные данные</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="btn btn-primary w-100 m-t-10">Просмотр</button>
+                                                <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" class="btn btn-primary w-100 m-t-10">{% trans "Просмотр" %}</button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -540,7 +541,7 @@
                                             <div class="file-bottom">
                                                 <h6>2. Абрис</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" target="_blank" class="text-white">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.abris_file }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -548,7 +549,7 @@
                                             <div class="file-bottom">
                                                 <h6>3. Кроки</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" target="_blank" class="text-white">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.kroki_file }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box ">
@@ -556,7 +557,7 @@
                                             <div class="file-bottom">
                                                 <h6>4. Эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" target="_blank" class="text-white">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.jurnal_file }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -565,7 +566,7 @@
                                             <div class="file-bottom">
                                                 <h6>5. Ж эксплуатация колодцев</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" target="_blank" class="text-white">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.vidimes_file }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
                                         <li class="file-box m-t-5">
@@ -574,7 +575,7 @@
                                             <div class="file-bottom ">
                                                 <h6>6. Лист эксплуатирующими </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}" target="_blank" class="text-white">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.list_agreement_file }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
 
@@ -583,7 +584,7 @@
                                             <div class="file-bottom ">
                                                 <h6>7. Предписание </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="file text-white" data-id="{{ workerobject.object.id }}">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
 
@@ -594,7 +595,7 @@
                                                 <div class="file-bottom ">
                                                     <h6>8. Программа работ </h6>
                                                     <p>Ознакомиться с файлом отправки</p>
-                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> Просмотр</a></button>
+                                                    <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programworkform.id }}" class="text-white"> {% trans "Просмотр" %}</a></button>
                                                 </div>
                                             </li>
                                         {% endif %}
@@ -606,7 +607,7 @@
                                             <div class="file-bottom ">
                                                 <h6>8. Топографический план </h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
 
@@ -615,7 +616,7 @@
                                             <div class="file-bottom ">
                                                 <h6>9. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">{% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
 
@@ -627,7 +628,7 @@
                                             <div class="file-bottom ">
                                                 <h6>10. AKT полевого контроля</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">Просмотр</a></button>
+                                <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">{% trans "Просмотр" %}</a></button>
 
                                             </div>
                                         </li>
@@ -636,7 +637,7 @@
                                             <div class="file-bottom ">
                                                 <h6>11. AKT комерал контроля</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
-                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}" class="text-white"> Просмотр</a></button>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_akt_komeral_file" akt-object-id="{{ workerobject.object.id }}" class="text-white"> {% trans "Просмотр" %}</a></button>
                                             </div>
                                         </li>
 
@@ -648,7 +649,7 @@
                                                     <h6>12. Ознокомление с отчетом</h6>
                                                     <p>Ознакомиться с файлом отправки</p>
                                                     <button class="btn btn-primary w-100 m-t-10" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModalCenter1">Просмотр</button>
+                                                        data-bs-target="#exampleModalCenter1">{% trans "Просмотр" %}</button>
                                                 </div>
                                             </li>
 
@@ -659,16 +660,16 @@
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
-                                                            <h5 style="color: white;" class="modal-title"> Ознокомление с отчетом</h5>
+                                                            <h5 style="color: white;" class="modal-title"> {% trans "Ознокомление с отчетом" %}</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
                                                         </div>
                                                         <div class="modal-body">
                                                             <ol style="font-size: 18px">
-                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> Ознокомление с отчетом</a></li>
+                                                                    <li class="p-2"><a href="/{{ report.file }}" target="_blank"> <i class="fa fa-file-pdf-o"></i> {% trans "Ознокомление с отчетом" %}</a></li>
                                                                     {% if report.reason %}
-                                                                        <li class="p-2"><b>Пояснения:</b> {{ report.reason }}</li>
+                                                                        <li class="p-2"><b>{% trans "Пояснения" %}:</b> {{ report.reason }}</li>
                                                                     {% endif %}
                                                             </ol>
                                                         </div>
@@ -704,13 +705,14 @@
                                             {% if workerobject.status_repoert_printer == 1 %}
                                             <div class="col-md-12 card p-2 shadow-lg">
                                                 <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
-                                                   Печать топографических материалов
+                                                   {% trans "Печать топографических материалов" %}
                                                 </button>
                                             </div>
                                             {% else %}
                                                 <div class="col-md-12 card p-2 shadow-lg">
                                                 <button class="btn btn-warning btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ workerobject.object.id }}"  style="width: 100%"> <i class="fa fa-print"></i>
-                                                  Ожидайте подтверждения для печати топографических материалов
+
+                                                    {% trans "Ожидайте подтверждения для печати топографических материалов" %}
                                                 </button>
                                             </div>
                                             {% endif %}
@@ -718,7 +720,7 @@
 
                                             <div class="col-md-12 card p-2 shadow-lg">
                                                 <button class="btn btn-success btn-lg"  type="button" worker="{{ user.profile.pk }}" work-id="{{ workerobject.object.id }}"  id="confirm_print2"  style="width: 100%"> <i class="fa fa-print"></i>
-                                                   Печать топографических материалов
+                                                   {% trans "Печать топографических материалов" %}
                                                 </button>
                                             </div>
 
@@ -741,7 +743,7 @@
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger">
-                                                            <h5 style="color: white;" class="modal-title">Подтверждение сообщения об ошибке</h5>
+                                                            <h5 style="color: white;" class="modal-title">{% trans "Подтверждение сообщения об ошибке" %}</h5>
                                                             <div type="button" data-bs-dismiss="modal"
                                                                  aria-label="Close">x
                                                             </div>
@@ -749,7 +751,7 @@
                                                         <div class="modal-body">
                                                             <ul class="messages text text-center text-danger" id="error_show" style="display:none">
                                                                <div class="alert alert-danger">
-                                                                   <li style="font-size:14px" class="text text-white" ><b> Введите причину ошибки !</b></li>
+                                                                   <li style="font-size:14px" class="text text-white" ><b>{% trans "Подтверждение сообщения об ошибке" %} Введите причину ошибки !</b></li>
                                                                </div>
                                                            </ul>
                                                             <br>
@@ -948,7 +950,7 @@
     data.append('id',{{ pdowork.id }});
 
         $.ajax({
-            url: '/obj_data',
+            url: '{% url "obj_data" %}',
             data: data,
             cache: false,
             contentType: false,

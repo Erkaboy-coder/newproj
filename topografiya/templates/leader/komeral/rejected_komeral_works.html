@@ -1145,7 +1145,7 @@
     data.append('id',{{ pdowork.id }});
 
         $.ajax({
-            url: '/obj_data',
+            url: '{% url "obj_data" %}',
             data: data,
             cache: false,
             contentType: false,

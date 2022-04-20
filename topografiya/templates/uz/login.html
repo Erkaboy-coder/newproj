@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +35,8 @@
                 <div class="login-card">
                     <form class="theme-form login-form shadow-lg" autocomplete="off" action="{% url 'login' %}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <h4>Кириш</h4>
-                        <h6>Хуш келибсиз! Тизимга кириш.</h6>
+                        <h4>Кириш{% trans "" %}</h4>
+                        <h6>{% trans "" %}Хуш келибсиз! Тизимга кириш.</h6>
                         	{% if messages %}
                                 <ul class="text text-center" style="font-size:13px">
                                     {% for message in messages %}

@@ -1,11 +1,12 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Рўйхатдан ўтиш</title>
+    <title>{% trans "Регистрация" %}</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
@@ -44,10 +45,10 @@
           <div class="col-12 p-0">
             <div class="login-card">
               <form class="theme-form login-form shadow-lg bg-light text-primary" style="width: 35%">
-                <h4 class="text-center">Регистрация</h4>
-                <h6 class="text-center">Для регистрации введите свои личные данные</h6>
+                <h4 class="text-center">{% trans "Регистрация" %}</h4>
+                <h6 class="text-center">{% trans "Для регистрации введите свои личные данные" %}</h6>
                 <div class="form-group">
-                  <label>Пользователь</label>
+                  <label>{% trans "Пользователь" %}</label>
                   <div class="small-group">
                     <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
                       <input class="form-control" type="text" id="fio" name="fio" required="" placeholder="F.I.O">
@@ -55,7 +56,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>ТНомер телефона</label>
+                  <label>{% trans "Номер телефона" %}</label>
                   <div class="small-group">
                     <div class="input-group"><span class="input-group-text"><i class="fa fa-mobile"></i></span>
                       <input class="form-control" type="number" id="contact" name="contact" required="" placeholder="99 999 99 99">
@@ -64,14 +65,14 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Адресс электронной почты</label>
+                  <label>{% trans "Адресс электронной почты" %}</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
                     <input class="form-control" type="email" required="" id="email" name="email" placeholder="uzgashliti@gmail.com">
                   </div>
                 </div>
 
               <div class="form-group">
-                  <label>Должность</label>
+                  <label>{% trans "Должность" %}</label>
                   <div class="input-group"><span class="input-group-text"><i class="fa fa-user"></i></span>
                     <input class="form-control" type="text" required="" id="position" name="position" placeholder="Должность">
                   </div>
@@ -80,10 +81,10 @@
 
 
               <div class="form-group">
-                  <label>Отдел</label>
+                  <label>{% trans "Отдел" %}</label>
                   <div class="input-group"><span class="input-group-text"><i class="fa fa-group"></i></span>
                      <select required class="form-control" id="department" name="department">
-                         <option value="">--- Выбрать отдел ---</option>
+                         <option value="">--- {% trans "Выбрать отдел" %} ---</option>
                          {% for department in departments %}
                              <option value="{{ department.id }}"> {{ department.name }} </option>
                          {% endfor %}
@@ -92,10 +93,10 @@
                 </div>
 
               <div class="form-group">
-                  <label>Филиал</label>
+                  <label>{% trans "Филиал" %}</label>
                   <div class="input-group"><span class="input-group-text"><i class="fa fa-chain-broken"></i></span>
                      <select required class="form-control" id="branch" name="branch">
-                         <option value="">--- Выбрать филиал ---</option>
+                         <option value="">--- {% trans "Выбрать филиал" %} ---</option>
                          {% for branch in branches %}
                              <option value="{{ branch.id }}"> {{ branch.name }} </option>
                          {% endfor %}
@@ -107,7 +108,7 @@
 
 
                 <div class="form-group">
-                  <label>Парол</label>
+                  <label>{% trans "Пароль" %}</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
                     <input class="form-control" type="password" name="password" id="password" placeholder="*********">
                     <div class="show-hide"><span class="show"></span></div>
@@ -115,7 +116,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Подтвердить пароль</label>
+                  <label>{% trans "Подтвердить пароль" %}</label>
                   <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
                     <input class="form-control" type="password" name="re_password" id="re_password"  placeholder="*********">
                     <div class="show-hide"><span class="show"></span></div>
@@ -125,15 +126,15 @@
                 <div class="form-group">
                   <div class="checkbox">
                     <input id="checkbox1" type="checkbox">
-                    <label class="text-muted" for="checkbox1">Подтвердить согласие <span>Политика конфиденциальности</span></label>
+                    <label class="text-muted" for="checkbox1">{% trans "Регистрация" %} <span>{% trans "Политика конфиденциальности" %}</span></label>
                   </div>
                 </div>
 
                 <div class="form-group ">
-                  <button class="btn btn-primary w-100 btn-block" type="button" id="sign_up">Регистрация</button>
+                  <button class="btn btn-primary w-100 btn-block" type="button" id="sign_up">{% trans "Регистрация" %}</button>
                 </div>
 
-                <p>Вы зарегистрированы?<a class="ms-2" href="{% url 'login' %}">Вход в систему</a></p>
+                <p>{% trans "Вы зарегистрированы?" %}<a class="ms-2" href="{% url 'login' %}">{% trans "Вход в систему" %}</a></p>
               </form>
             </div>
           </div>
@@ -185,11 +186,11 @@
             });
             }
             else{
-                alert('Bведен неправильный пароль!');
+                alert('{% trans "Bведен неправильный пароль" %}!');
             }
         }
         else{
-            alert("Не выбран отдел!");
+            alert("{% trans "Не выбран отдел" %}!");
         }
 
 

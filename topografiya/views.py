@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render,redirect
 from .models import *
 
@@ -9,11 +10,14 @@ from django.contrib.auth.decorators import login_required
 from pyvirtualdisplay import Display
 import pdfkit
 from django.db.models import Q
+
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.serializers import serialize
-import json
-from django.core import serializers
 
+# from django.core import serializers
+
+import json
+import requests
 from django.contrib import messages
 from django.core.paginator import Paginator
 
@@ -92,9 +96,20 @@ def index(request):
                'new_ogogd_printer_works': new_ogogd_printer_works,'geodezis_report_checking': geodezis_report_checking,'rejected_ogogd_printer_works':rejected_ogogd_printer_works}
     return render(request, 'index.html', context)
 
+
 @login_required(login_url='/signin')
 def pdoworks(request):
-    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type='Topografik suratga olish').filter()
+    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37).filter()
+
+    # data = requests.get("http://test.cpduzgashkliti.uz/api/Branches")
+    # one_data = json.loads(data.content.decode('utf-8'))
+    # for i in one_data['Data']['branches']:
+    #     a = Branch(name=i['Title'], code=i['Code'])
+    #     a.save()
+
+
+        # print(i)
+
     context = {'pdoworks': pdoworks,'count': counter(),'count_works': new_work_counter(request)}
     return render(request, 'leader/pdo_works.html', context)
 
@@ -2341,9 +2356,10 @@ def obj_data(request):
     points = Points.objects.filter(object=id)
     polygons = Polygons.objects.filter(object=id)
 
-    test_data_p= serializers.serialize('geojson',points, geometry_field='points',fields=['points',])
-    test_data_l= serializers.serialize('geojson',lines, geometry_field='lines',fields=['lines',])
-    test_data_po= serializers.serialize('geojson',polygons, geometry_field='polygons',fields=['polygons',])
+    test_data_p= serialize('geojson',points, geometry_field='points',fields=['points',])
+    test_data_l= serialize('geojson',lines, geometry_field='lines',fields=['lines',])
+    test_data_po= serialize('geojson',polygons, geometry_field='polygons',fields=['polygons',])
+    print(test_data_p)
     return JsonResponse({'data1':test_data_p,'data2':test_data_l,'data3':test_data_po})
 
 @login_required(login_url='/signin')
@@ -6017,7 +6033,7 @@ def status_work(request, id):
 
 @login_required(login_url='/signin')
 def workers(request):
-    workers = Worker.objects.filter(status=0).filter(department=request.user.profile.department).all()
+    workers = Worker.objects.filter(status=0).filter(branch=request.user.profile.branch).all()
     objects = Object.objects.all()
     workerobjects = WorkerObject.objects.all()
     departments = Department.objects.all()

@@ -80,6 +80,7 @@
         <div class="main-header-right row m-0">
 
             <div class="main-header-left">
+
                 <div class="logo-wrapper"><a href="{% url 'index' %}"><img style="width: 6rem" class="img-fluid" src="{% static 'assets/images/logo/logo.png' %}" alt="#logo"></a></div>
                 <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid" src="{% static 'assets/images/logo/logo.png' %}" alt="#logo"></a></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-left" id="sidebar-toggle"></i></div>
@@ -110,6 +111,7 @@
                         {% get_current_language as LANGUAGE_CODE %}
                         <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
                             <input name="next" type="hidden" value="/">
+                            <input name="href" type="text" id="href" style="display: none">
                             <select name="language" onchange="this.form.submit()">
                                 {% get_available_languages as LANGUAGES %}
                                 {% get_language_info_list for LANGUAGES as languages %}
@@ -219,7 +221,6 @@
 {#                                    <span>Ишлар</span>#}
                                     <span>
                                         {% trans "Дела" %}
-
                                     </span>
                                 </a>
                                     <ul class="nav-submenu menu-content">
@@ -289,7 +290,7 @@
                                         </span>
                                     </a>
                                 </li>
-                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>Дела</span></a>
+                            <li class="dropdown"><a class="nav-link menu-title active" href="javascript:void(0)"><i data-feather="briefcase"></i><span>{% trans "Дела" %}</span></a>
                                 <ul class="nav-submenu menu-content">
                                     <li><a href="{% url 'allworks' %}">
                                          {% trans "Все работы" %}</a></li>
@@ -403,7 +404,7 @@
                             {% endif %}
                         {#                        bu oogd hisobot yozadigan#}
 
-                            <li class="dropdown">
+                            <li>
                                 <a class="nav-link menu-title link-nav" href="{% url 'new_messages' %}"><i data-feather="message-circle"></i>
 {#                                    <span>Хабарлар#}
                                     <span>{% trans "Сообщения" %}
@@ -415,8 +416,8 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'history' %}"><i data-feather="arrow-down-circle"></i><span>{% trans "Aрхив" %}</span></a></li>
-                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>{% trans "Настройки" %}</span></a></li>
+                            <li><a class="nav-link menu-title link-nav" href="{% url 'history' %}"><i data-feather="arrow-down-circle"></i><span>{% trans "Aрхив" %}</span></a></li>
+                            <li><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>{% trans "Настройки" %}</span></a></li>
 {#                            <li class="dropdown"><a class="nav-link menu-title link-nav" href="{% url 'settings' id=request.user.profile.pk %}"><i data-feather="settings"></i><span>Созламалар</span></a></li>#}
                             <li style="position: fixed;bottom: 10px;"><a  href="tel:+998711715658"><i data-feather="phone"></i> +998(71) 271 27 07</a></li>
                         </ul>
@@ -431,11 +432,13 @@
 
 
      {% endblock content %}
+{#     <marquee behavior="" direction="" class="text-danger" style="position: relative">Sayt test rejimida ishlamoqda!</marquee>#}
 
 
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
+
                     <div class="col-md-6 footer-copyright">
                         <p class="mb-0">{% trans "Авторское право 2021-22 © Uzgashkliti авторские права защищены." %}</p>
 {#                        <p class="mb-0">Муаллифлик ҳуқуқи 2021-22 © Ўзгашклити барча ҳуқуқлар ҳимояланган.</p>#}
@@ -455,10 +458,13 @@
 
 <script src="{% static 'maps/myleaflet/fullscreen.js' %}"></script>
 
-<!--     <link rel="stylesheet" href="static/maps/myleaflet/L.Control.Layers.Tree.css" crossorigin=""/>
-    <script src="static/maps/myleaflet/L.Control.Layers.Tree.js"></script>
+<script>
+        $(document).ready(function(){
+            var url = $(location).attr("href");
+            $('#href').val(url);
+        });
+    </script>
 
- -->
 <script type="text/javascript">
 
 var mapOptions = {

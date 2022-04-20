@@ -181,5 +181,499 @@ msgstr "Joylashgan joyi"
 msgid "Подробная информация"
 msgstr "Batafsil ma'lumot"
 
+msgid "Редактировать профиль"
+msgstr "Shaxsiy ma'lumotlarni o'zgartirish"
+
+msgid "Поздравления"
+msgstr "Tabriklaymiz"
+
+msgid "Изменить пароль"
+msgstr "Parolni o'zgratirish"
+
+msgid "Hовый пароль"
+msgstr "Yangi parol"
+
+msgid "Подтвердите пароль"
+msgstr "Parolni tasdiqlash"
+
+msgid "Фамилия Имя пользователя"
+msgstr "Foydalanuvchi F.I.SHi"
+
+msgid "Адрес электронной почты"
+msgstr "Elektron pochtasi"
+
+msgid "Телефонный номер"
+msgstr "Telefon raqami"
+
+msgid "Позиция"
+msgstr "Lavozimi"
+
+msgid "Обновить профиль"
+msgstr "Ma'lumotlarni o'zgartirish"
+
+msgid "Вы действительно хотите изменить данные пользователя?"
+msgstr "Siz rostdan ham ma'lumotlarni o'zgartirmoqchimisiz?"
+
+msgid "Отказ"
+msgstr "Rad etish"
+
+msgid "Сохранить изменения"
+msgstr "o'zgarishlarni saqlash"
+
+
+msgid "Сведения о поступивших в архив работах"
+msgstr "Arxivga kelib tushgan ishlar haqida ma'lumot"
+
+msgid "Испонитель"
+msgstr "Bajaruvchi"
+
+msgid "Наименование организации"
+msgstr "Buyurtmachi ma'lumotlari"
+
+msgid "Номер договора"
+msgstr "Shartnoma nomeri"
+
+msgid "Дата договора"
+msgstr "Shartnoma sanasi"
+
+msgid "Cрок"
+msgstr "Muddati"
+
+msgid "Смотреть"
+msgstr "Ko'rish"
+
+msgid "Адрес объекта"
+msgstr "Obekt manzili"
+
+msgid "Сроки выполнения"
+msgstr "Ishni bajarish muddati"
+
+msgid "Реквизиты заказчика"
+msgstr "Buyurtmachi rekvizitlari"
+
+msgid "Сумма договора"
+msgstr "Shartnoma summasi"
+
+msgid "Отдел ответственный за исполнительнение"
+msgstr "Ma'sul bajaruvchi bo'lim"
+
+msgid "Ознакомление с письмом заказчика"
+msgstr "Buyurtma xati bilan tanishish"
+
+msgid "Ознакомление с техническим заданием"
+msgstr "Taxnik topshiriq bilan tanishish"
+
+msgid "Ознакомление со сметой"
+msgstr "Smeta bilan tanishish"
+
+msgid "Информация об объекте"
+msgstr "Obekt haqida ma'lumot"
+
+msgid "Информация о заказе"
+msgstr "Buyurtma haqida ma'lumot"
+
+msgid "Тип выполнения работы"
+msgstr "Ishni bajarish turi"
+
+msgid "С использованием  системы"
+msgstr "Tizim yordamida"
+
+msgid "Традиционным способом"
+msgstr "Ananaviy usulda"
+
+msgid "Cформировать рабочую программу и отчет"
+msgstr "Ishchi dastur va xisobot shakllantiriladi"
+
+msgid "Да"
+msgstr "Xa"
+
+msgid "Нет"
+msgstr "Yo'q"
+
+msgid "Ответственное лицо за выполнение данной работы"
+msgstr "Mazkur ishni bajarish uchun ma'sul shaxs"
+
+msgid "Формирование инструкции по выполнению топографо-геодезических работ"
+msgstr "Topografik-geodezik ishlarni bajarish uchun ko'rsatma shakllantirish"
+
+msgid "Очистить поле"
+msgstr "Maydonlarni tozalash"
+
+msgid "Сохранить"
+msgstr "Saqlash"
+
+msgid "Начать работу"
+msgstr "Ishni boshlash"
+
+msgid "Работа выполняется традиционным способом, без необходимости проходить регистрацию"
+msgstr "Ish an'anaviy usulda tizim orqali qilinmasdan amalga oshiriladi!"
+
+msgid "ВХОД"
+msgstr "Kirish"
+
+msgid "Добро пожаловать в систему"
+msgstr "Tizimga xush kelibsiz"
+
+msgid "Логин пользователя"
+msgstr "Foydalanuvchi logini"
+
+msgid "Пароль"
+msgstr "Parol"
+
+msgid "Запомнить пароль"
+msgstr "Parolni eslab qoling"
+
+msgid "Забыли пароль?"
+msgstr "Parolni unitdingizmi?"
+
+msgid "Вход в систему"
+msgstr "Tizimga kirish"
+
+msgid "Аккаунт не найден?"
+msgstr "Akkaountingiz yo'qmi?"
+
+msgid "Создать аккаунт"
+msgstr "Akkaunt yaratish"
+
+msgid "Новые претенденты"
+msgstr "Yangi murojaatchilar"
+
+msgid "Подробная  информация"
+msgstr "Batafsil ma'lumot"
+
+msgid "Oценка"
+msgstr "Bahosi"
+
+msgid "В настоящее время ведутся работы"
+msgstr "Xozirda bajarilayotgan ishlari"
+
+msgid "Количество исследованных случаев"
+msgstr "Tadqiqot ishlar soni"
+
+msgid "Написать сообщение"
+msgstr "Xabar yozish"
+
+msgid "Входящие"
+msgstr "Qabul qilinganlar"
+
+msgid "Отправленные"
+msgstr "Yuborilganlar"
+
+msgid "Прочитанные"
+msgstr "O'qilganlar"
+
+msgid "Удаленные"
+msgstr "O'chirilganlar"
+
+msgid "Отправить"
+msgstr "Yuborish"
+
+
+msgid "Кому"
+msgstr "Kimga"
+
+msgid "Введите сообщение"
+msgstr "Xabarni kiriting"
+
+msgid "От кого"
+msgstr "Kimdan"
+
+msgid "Тема"
+msgstr "Mavzu"
+
+msgid "Содержание сообщения"
+msgstr "Xabar mazmuni"
+
+msgid "Время получения"
+msgstr "Qabul qilingan vaqti"
+
+msgid "Прочитанные сообщения"
+msgstr "O'qilgan xabarlar"
+
+msgid "Поиск сообщения"
+msgstr "Xabar qidirish"
+
+msgid "Отправленные сообщения"
+msgstr "Jo'natilgan xabarlar"
+
+msgid "Кому отправил"
+msgstr "Kimga yuborilgan"
+
+msgid "Регистрация"
+msgstr "Ro'yxatdan o'tish"
+
+msgid "Для регистрации введите свои личные данные"
+msgstr "Ro'yxatdan o'tish uchun shaxsiy ma'lumotlarni kiriting"
+
+msgid "Пользователь"
+msgstr "Foydalanuvchi"
+
+msgid "Номер телефона"
+msgstr "Telefon nomer"
+
+msgid "Адресс электронной почты"
+msgstr "Elektron pochta"
+
+msgid "Должность"
+msgstr "Lavozim"
+
+msgid "Отдел"
+msgstr "Bo'lim"
+
+msgid "Выбрать отдел"
+msgstr "Bo'limni tanlang"
+
+msgid "Выбрать филиал"
+msgstr "Filialni tanlang"
+
+msgid "Филиал"
+msgstr "Filial"
+
+msgid "Подтвердить пароль"
+msgstr "Parolni tasdiqlash"
+
+msgid "Подтвердить согласие"
+msgstr "Rozilikni tasdiqlang"
+
+msgid "Политика конфиденциальности"
+msgstr "Maxfiylik siyosati"
+
+msgid "Вы зарегистрированы?"
+msgstr "Roʻyxatdan oʻtganmisiz?"
+
+msgid "Не выбран отдел"
+msgstr "Bo'lim tanlanmagan"
+
+msgid "Bведен неправильный пароль"
+msgstr "Parol xato kiritildi"
+
+msgid "Состояния работа"
+msgstr "Ish xolati"
+
+msgid "Кто выполнил"
+msgstr "Kim bajardi"
+
+msgid "Время, когда изменения были сделаны"
+msgstr "O'zgartirishlar kiritilgan vaqt"
+
+msgid "Нет нового задания"
+msgstr "Yangi topshiriq yo'q"
+
+msgid "Есть"
+msgstr "Mavjud"
+
+msgid "Не требуется"
+msgstr "Talab qilinmaydi"
+
+msgid "Ознакомление с предписание"
+msgstr "Ko'rsatma bilan tanishish"
+
+msgid "Принять"
+msgstr "Qabul qilish"
+
+msgid "Текущая работа"
+msgstr "Joriy ishlar"
+
+msgid "Отправленные на полевой контроль"
+msgstr "Dala nazoratiga yuborilganlar"
+
+msgid "Возвращенные из полевого контроля"
+msgstr "Dala nazoratidan qaytarilganlar"
+
+msgid "Краткосрочная работа"
+msgstr "Muddati kam qolganlar"
+
+msgid "Завершенные"
+msgstr "Yakullaanganlar"
+
+msgid "Нет входящей работы"
+msgstr "Yangi kelgan ish yo'q"
+
+msgid "В процессе обсуждения"
+msgstr "Tekshiruv jarayonida"
+
+msgid "Возвращенные работы отсутствуют"
+msgstr "Tekshiruv jarayonidan qaytarilgan ish yo'q"
+
+msgid "Краткосрочная работа отсутствуют"
+msgstr "Muddati kam qolgan ish yo'q"
+
+msgid "Утвержденные работы отсутствуют"
+msgstr "Tasdiqlangan ish yo'q"
+
+msgid "Выполнить полевой контроль"
+msgstr "Dala nazoratini amalga oshirish"
+
+msgid "Ознакомление с программой топографической  работа"
+msgstr "Ishchi dasturi bilan tanishish"
+
+msgid "Готовится топографо-геодезическая работа"
+msgstr "Ishchi dastur tayyorlanmoqda"
+
+msgid "Отказанные"
+msgstr "Rad etilganlar"
+
+msgid "Причина возврата"
+msgstr "Qaytarish sababi"
+
+msgid "Акт полевого контроля"
+msgstr "Akt dala nazorati"
+
+msgid "Приложение причины возврата"
+msgstr "Qaytarish sababi ilovasi"
+
+msgid "Выполнение работ"
+msgstr "Ishni bajarish"
+
+msgid "Количество отказов"
+msgstr "Qaytarishlar soni"
+
+msgid "Загрузить файл"
+msgstr "Fayl yuklash"
+
+msgid "Укажите месторасположение объекта на карте"
+msgstr "Kartdan obektning joylashgan joyini belgilang"
+
+msgid "Перед отправкой для проверки нажмите кнопку <b>СОХРАНИТЬ</b>, чтобы сохранить изменения!"
+msgstr "Tekshiruvga yuborishdan oldin <b>SAQLASH</b> tugmasini bosishingizni so'rayman"
+
+msgid "Подготовка Программа работ!"
+msgstr "Ishchi dastur tayyrolanmoqda"
+
+msgid "Нет векторных данных"
+msgstr "Vektorli ma'lumot yo'q"
+
+msgid "Развернутая пояснительная записка по топографо-геодезическим работам не написана!"
+msgstr "Topografik geodezik ishlar bo'yicha tushuntirish xati tayyorlanmagan"
+
+msgid "Просим заполнить поля"
+msgstr "Maydonlarni to'ldirishingizni so'raymiz"
+
+msgid "Следующий"
+msgstr "Keyingisi"
+
+msgid "ПОЯСНИТЕЛЬНАЯ ЗАПИСКА"
+msgstr "ТУШУНТИРИШ ХАТИ"
+
+msgid "Главный геодезический контроль"
+msgstr "Bosh geodezis nazorati"
+
+msgid "Назад"
+msgstr "Orqaga"
+
+msgid "Комерал контроля"
+msgstr "Komeral nazorat"
+
+msgid "Работы переданные для комерал контроля"
+msgstr "Komeral nazoratga yuborilgan ishlar"
+
+msgid "Возвращенные из комерала  контроля"
+msgstr "Komeral nazoratdan qaytarilganlar"
+
+msgid "Нет работы для камерального контроля"
+msgstr "Komeral nazoratda ish yo'q"
+
+msgid "Hет возвращенные работы"
+msgstr "Qaytarilgan ish yo'q"
+
+msgid "Акт комерал контроль"
+msgstr "AKT komeral nazorati"
+
+msgid "Закончить"
+msgstr "Yakunlash"
+
+msgid "Формирование отчета"
+msgstr "Xisobot shakllantirish"
+
+msgid "Сформировать отчет по съемке инженерных сетей"
+msgstr "Muhandislik tarmoqlarini o'rganish bo'yicha hisobot tuzing"
+
+msgid "Ознокомление с отчетом"
+msgstr "Xisobot bilan tanishish"
+
+msgid "Загрузить отчет и отправить на проверку"
+msgstr "Xisobotni yuklash va tekshiruvga yuborish"
+
+msgid "Загрузите отчет"
+msgstr "Xisobot yuklash"
+
+msgid "Файл отчета"
+msgstr "Xisobot fayli"
+
+msgid "Дополнительная информация"
+msgstr "Qo'shimcha ma'lumot"
+
+msgid "Работы с которых надо выполнить отчету"
+msgstr "Hisobot bajarilishi kerak bo'lgan ishlar"
+
+msgid "Отчеты, отправленные на проверку"
+msgstr "Tekshiruvga yuborilgan hisobotlar"
+
+msgid "Отчеты, возвращенные после проверки"
+msgstr "Tekshiruvdan qaytarilgan xisobotlar"
+
+msgid "Нет новая работы"
+msgstr "Yangi ish yo'q"
+
+msgid "Нет отчета, отправленного на проверку"
+msgstr "Tekshiruvga yuborilgan ish hisobot yo'q"
+
+msgid "Нет возвращенного отчета"
+msgstr "Qaytarilgan hisobot yo'q"
+
+msgid "Пояснения"
+msgstr "Tavfsilot"
+
+msgid "Отправка подтверждения в печать"
+msgstr "Tasdiqlash. Chop etish uchun yuborish"
+
+msgid "Подтверждено отправлено на печать"
+msgstr "Tasdiqlangan. Chop etishga yuborilgan."
+
+msgid "Причины возврата из программ работ"
+msgstr "Ishchi dasturidan qaytarilish sabablari"
+
+msgid "Причины возврата из полевой контроль"
+msgstr "Dala nazoratidan qaytish sabablari"
+
+msgid "AKT полевого контроля"
+msgstr "AKT dala nazorati"
+
+msgid "Причины возврата из комерал  контроль"
+msgstr "Komeral nazoratdan qaytarish sabablari"
+
+msgid "AKT комерал контроля"
+msgstr "AKT komeral nazorati"
+
+msgid "Причины возврата из главного геодезического проверка"
+msgstr "Bosh geodezis nazoratidan qatish sabablari"
+
+msgid "Причины возврата с отчетной проверки"
+msgstr "Hisobot tekshiruvidan qaytarish sabablari"
+
+msgid "Печать топографических материалов"
+msgstr "Topografik materiallarni chop etish"
+
+msgid "Ожидайте подтверждения для печати топографических материалов"
+msgstr "Topografik materiallarni chop etish uchun tasdiqlashni kuting"
+
+msgid "Сведения о поступивших в архив делах"
+msgstr "Arxivga kelib tushgan ishlar xaqida ma'lumotlar"
+
+msgid " "
+msgstr " "
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -1016,7 +1016,7 @@
     data.append('id',{{ work.object.id }});
 
         $.ajax({
-            url: '/obj_data',
+            url: '{% url "obj_data" %}',
             data: data,
             cache: false,
             contentType: false,

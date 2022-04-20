@@ -34,6 +34,8 @@ class Branch(models.Model):
     class Meta:
         verbose_name_plural = "Branches"
 
+
+
     # def natural_key(self):
     #     return dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]])
 
@@ -63,7 +65,7 @@ class Worker(BaseModel):
     permission = models.BooleanField(default=False)
     email = models.EmailField(verbose_name='email', default='', max_length=250, blank=True)
     contact = models.CharField(verbose_name='contact', default='', max_length=250, blank=True)
-    department = models. ForeignKey(Department, blank=True, on_delete=models.CASCADE, related_name='departments')
+    department = models.ForeignKey(Department, blank=True, on_delete=models.CASCADE, related_name='departments')
     position = models.CharField(verbose_name='position', default='', max_length=250, blank=True)
     branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='workerbranch')
     status_worker = (
@@ -93,9 +95,9 @@ class PdoWork(models.Model):
     object_name = models.CharField(verbose_name='Object name', max_length=250, blank=True)
     object_number = models.CharField(verbose_name='Object number', max_length=250, blank=True)
     object_address = models.CharField(verbose_name='Object address', max_length=250, blank=True)
-    work_type = models.CharField(verbose_name='Work type', max_length=250, blank=True)
-    work_term = models.CharField(verbose_name='work term', max_length=250, blank=True)
-    department = models.CharField(verbose_name='Department', max_length=250, blank=True)
+    work_type = models.ForeignKey(WorkType, blank=True, on_delete=models.CASCADE, related_name='worktype')
+    work_term = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE, related_name='workperiod')
+    department = models.ForeignKey(Department, blank=True, on_delete=models.CASCADE, related_name='workdepartment')
     object_cost = models.CharField(verbose_name='Object costs', max_length=250, blank=True)
     customer = models.CharField(verbose_name='Customer', max_length=250, blank=True)
     customer_info = models.CharField(verbose_name='Customer info', max_length=250, blank=True)

@@ -1,5 +1,5 @@
 {% extends 'master.html' %}
-
+{% load i18n %}
 {% load static %}
 {% block title %} Ходимлар {% endblock %}
 
@@ -15,16 +15,16 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Ходимлар</h3>
+                            <h3>{% trans "Сотрудники" %}</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'workers' %}">Ходимлар</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'workers' %}">{% trans "Сотрудники" %}</a></li>
                             </ol>
                         </div>
 
                         <div class="col-sm-6 text-end">
                             <a href="#" class="btn btn-primary"><i class="fa fa-users"></i>
-                               Янги мурожатчилар
+                               {% trans "Новые претенденты" %}
                             </a>
                         </div>
 
@@ -55,7 +55,7 @@
 
                                     <div class="row details m-t-10">
 
-                                        <div class="col-8"><span>Татқиқот ишлар сони</span></div>
+                                        <div class="col-8"><span>{% trans "Количество исследованных случаев" %}</span></div>
                                              <div class="col-4 font-primary">5</div>
 {#                                        {% for workerobject in workerobjects %}#}
 {#                                            {% if workerobject.status == 5 %}#}
@@ -67,17 +67,17 @@
 {#                                            {% endif %}#}
 {#                                        {% endfor %}#}
 
-                                        <div class="col-8"> <span>Ҳозирда бажарилаётган ишлари</span></div>
+                                        <div class="col-8"> <span>{% trans "В настоящее время ведутся работы" %}</span></div>
                                         <div class="col-4 font-primary">2</div>
-                                        <div class="col-8"> <span>Баҳоси</span></div>
+                                        <div class="col-8"> <span>{% trans "Oценка" %}</span></div>
                                         <div class="col-4 font-primary">50 балл</div>
                                     </div>
                                 </div>
                                 <a href="#">
                                     {% if worker.live == '1' %}
-                                        <a href="{% url 'show_worker' id=worker.id %}" class="btn btn-outline-success m-t-15">Батавсил маълумот</a>
+                                        <a href="{% url 'show_worker' id=worker.id %}" class="btn btn-outline-success m-t-15">{% trans "Подробная  информация" %}</a>
                                         {% else %}
-                                        <a href="{% url 'show_worker' id=worker.id %}" class="btn btn-outline-danger m-t-15">Батавсил маълумот</a>
+                                        <a href="{% url 'show_worker' id=worker.id %}" class="btn btn-outline-danger m-t-15">{% trans "Подробная  информация" %}</a>
                                     {% endif %}
 
                                 </a>

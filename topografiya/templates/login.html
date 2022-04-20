@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +35,8 @@
                 <div class="login-card">
                     <form class="theme-form login-form shadow-lg" autocomplete="off" action="{% url 'login' %}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <h4 class="text-center">ВХОД</h4>
-                        <h6 class="text-center">Добро пожаловать в систему</h6>
+                        <h4 class="text-center">{% trans "ВХОД" %}</h4>
+                        <h6 class="text-center">{% trans "Добро пожаловать в систему" %}</h6>
                         	{% if messages %}
                                 <ul class="text text-center" style="font-size:13px">
                                     {% for message in messages %}
@@ -46,20 +47,20 @@
 
                                         {% else %}
                                             <div class="alert alert-success" style="background-color:#d4edda">
-                                                <b>Поздравления  !</b> <span class="text text-success">{{ message }}</span>
+                                                <b>{% trans "Поздравления" %}  !</b> <span class="text text-success">{{ message }}</span>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </ul>
                             {% endif %}
                         <div class="form-group">
-                            <b>Логин пользователя</b>
+                            <b>{% trans "Логин пользователя" %}</b>
                             <div class="input-group"><span style="background-color: #90b4cd40" class="input-group-text"><i style="color: #168eea" class="icon-user"></i></span>
-                                <input class="form-control" autocomplete="off" type="text" required name="login" placeholder="Логин пользователя">
+                                <input class="form-control" autocomplete="off" type="text" required name="login" placeholder="{% trans "Логин пользователя" %}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <b>Пароль</b>
+                            <b>{% trans "Пароль" %}</b>
                             <div class="input-group"><span class="input-group-text"><i style="color: #168eea" class="icon-lock"></i></span>
                                 <input class="form-control" autocomplete="off" id="password" type="password" name="password" required placeholder="*********">
 
@@ -73,13 +74,13 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <input id="checkbox1" type="checkbox">
-                                <label class="text-muted" for="checkbox1">Запомнить пароль</label>
-                            </div><a style="color: #168eea" class="link" href="">Забыли пароль?</a>
+                                <label class="text-muted" for="checkbox1">{% trans "Запомнить пароль" %}</label>
+                            </div><a style="color: #168eea" class="link" href="">{% trans "Забыли пароль?" %}</a>
                         </div>
                         <div class="form-group">
-                            <input type="submit" style="background-color: #168eea;color: white;width: 100%" class="btn btn-block" value="Вход в систему">
+                            <input type="submit" style="background-color: #168eea;color: white;width: 100%" class="btn btn-block" value="{% trans "Вход в систему" %}">
                         </div>
-                        <p>Аккаунт не найден?<a style="color: #168eea" class="ms-2" href="{% url 'register' %}">Создать аккаунт</a></p>
+                        <p>{% trans "Аккаунт не найден?" %}<a style="color: #168eea" class="ms-2" href="{% url 'register' %}">{% trans "Создать аккаунт" %}</a></p>
                     </form>
                 </div>
             </div>

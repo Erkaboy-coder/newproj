@@ -2,6 +2,8 @@
 {% extends 'master.html' %}
 
 {% load static %}
+{% load i18n %}
+
 {% block title %} Топографик-Геодезик Дастури {% endblock %}
 {% block content%}
 
@@ -136,10 +138,10 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3>Редактировать профиль</h3>
+                            <h3>{% trans "Редактировать профиль" %}</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'settings' id=request.user.profile.pk %}">Редактировать профиль</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'settings' id=request.user.profile.pk %}">{% trans "Редактировать профиль" %}</a></li>
                             </ol>
                         </div>
                     </div>
@@ -162,7 +164,7 @@
 
                                     {% else %}
                                         <div class="alert alert-success" style="background-color:#d4edda">
-                                            <b class="text-success">Поздравления  !</b> <span class="text text-success">{{ message }}</span>
+                                            <b class="text-success">{% trans "Поздравления" %} !</b> <span class="text text-success">{{ message }}</span>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -187,7 +189,7 @@
                         <div class="col-xl-4">
                             <div class="card">
                                 <div class="card-header pb-0">
-                                    <h4 class="card-title mb-0">Изменить пароль</h4>
+                                    <h4 class="card-title mb-0">{% trans "Изменить пароль" %}</h4>
                                     <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
                                 </div>
                                 <div class="card-body">
@@ -206,15 +208,15 @@
 {#                                            </div>#}
 {#                                        </div>#}
                                         <div class="mb-3">
-                                            <label class="form-label">Hовый пароль</label>
+                                            <label class="form-label">{% trans "Hовый пароль" %}</label>
                                             <input class="form-control" type="password" id="new_password" name="new_password" placeholder="новый пароль">
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Подтвердите пароль</label>
+                                            <label class="form-label">{% trans "Подтвердите пароль" %}</label>
                                             <input class="form-control" type="password" value="" id="confirm_password" name="confirm_password" placeholder="Повторно введите новый пароль ">
                                         </div>
                                         <div class="form-footer">
-                                            <button class="btn btn-success btn-block float-end" type="button" id="change_password" user-id="{{ request.user.profile.pk }}">  <i class="fa fa-refresh"></i> Изменить пароль </button>
+                                            <button class="btn btn-success btn-block float-end" type="button" id="change_password" user-id="{{ request.user.profile.pk }}">  <i class="fa fa-refresh"></i>{% trans "Изменить пароль" %}  </button>
                                         </div>
                                     </form>
                                 </div>
@@ -223,33 +225,33 @@
                         <div class="col-xl-8">
                             <form class="card">
                                 <div class="card-header pb-0">
-                                    <h4 class="card-title mb-0">Редактировать профиль</h4>
+                                    <h4 class="card-title mb-0">{% trans "Редактировать профиль" %}</h4>
                                     <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Фамилия Имя пользователя</label>
+                                                <label class="form-label">{% trans "Фамилия Имя пользователя" %}</label>
                                                 <input class="form-control" id="full_name" name="full_name" type="text" value="{{ worker.full_name }}">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Адрес электронной почты</label>
+                                                <label class="form-label">{% trans "Адрес электронной почты" %}</label>
                                                 <input class="form-control" type="email" name="email" id="email" value="{{ worker.email }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Телефонный номер</label>
+                                                <label class="form-label">{% trans "Телефонный номер" %}</label>
                                                 <input class="form-control" type="text" required id="contact" name="contact" value="{{ worker.contact }}">
                                             </div>
                                         </div>
                                          <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Позиция</label>
+                                                <label class="form-label">{% trans "Позиция" %}</label>
                                                 <input class="form-control" type="text" id="position" name="position" value="{{ worker.position }}">
                                             </div>
                                         </div>
@@ -258,7 +260,7 @@
                                 </div>
                                 <div class="card-footer text-end">
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                      <i class="fa fa-refresh"></i> Обновить профиль
+                                      <i class="fa fa-refresh"></i> {% trans "Обновить профиль" %}
                                     </button>
                                 </div>
 
@@ -266,15 +268,15 @@
                                   <div class="modal-dialog">
                                     <div class="modal-content">
                                       <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Обновить профиль</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">{% trans "Обновить профиль" %}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                       </div>
                                       <div class="modal-body">
-                                        <h5 class="text-warning">Вы действительно хотите изменить данные пользователя?</h5>
+                                        <h5 class="text-warning">{% trans "Вы действительно хотите изменить данные пользователя?" %}</h5>
                                       </div>
                                       <div class="modal-footer" >
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa fa-close"></i> Отказ</button>
-                                        <button type="button" class="btn btn-primary" id="edit_user_info" user-id="{{ worker.pk }}"><i class="fa fa-check"></i> Сохранить изменения </button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa fa-close"></i> {% trans "Отказ" %}</button>
+                                        <button type="button" class="btn btn-primary" id="edit_user_info" user-id="{{ worker.pk }}"><i class="fa fa-check"></i> {% trans "Сохранить изменения" %} </button>
                                       </div>
                                     </div>
                                   </div>

@@ -100,7 +100,7 @@
           </div>
       </div>
   </div>
-
+{% csrf_token %}
     <div class="modal fade modal-bookmark " id="exampleModal1"
        tabindex="-1" aria-labelledby="exampleModalLabel1"
        style="display: none;" aria-hidden="true">
@@ -701,7 +701,6 @@
             </div>
         </div>
 
-{% csrf_token %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -872,6 +871,7 @@
     var data = new FormData();
     data.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
     data.append('id',{{ workerobject.object.id }});
+    alert({{ workerobject.object.id }});
 
         $.ajax({
             url: '/obj_data',

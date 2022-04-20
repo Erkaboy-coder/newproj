@@ -1,8 +1,8 @@
 
 {% extends 'master.html' %}
-
+{% load i18n %}
 {% load static %}
-{% block title %} Иш холати {% endblock %}
+{% block title %} {% trans "Сообщения" %} {% endblock %}
 
 {% block content %}
 
@@ -12,11 +12,11 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Сообщения</h3>
+                            <h3>{% trans "Сообщения" %}</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i
                                         class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'new_messages' %}">Сообщения</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'new_messages' %}">{% trans "Сообщения" %}</a></li>
                             </ol>
                         </div>
                         <div class="col-sm-12">
@@ -30,7 +30,7 @@
 
                                     {% else %}
                                         <div class="alert alert-success" style="background-color:#d4edda;width: 50%">
-                                            <b class="text-success">Поздравления  !</b> <span class="text text-success">{{ message }}</span>
+                                            <b class="text-success">{% trans "Поздравления" %}  !</b> <span class="text text-success">{{ message }}</span>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -54,7 +54,7 @@
                                             <div class="email-app-sidebar left-bookmark">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <h6 class="f-w-600 txt-dark f-40">Сообщения</h6>
+                                                        <h6 class="f-w-600 txt-dark f-40">{% trans "Сообщения" %}</h6>
                                                     </div>
                                                 </div>
                                                 <ul class="nav main-menu" role="tablist">
@@ -62,7 +62,7 @@
                                                            data-bs-toggle="pill" href="#pills-notification" role="tab"
                                                            aria-controls="pills-notification" aria-selected="true"><span
                                                             class="title"><i class="fa fa-paper-plane"
-                                                                             aria-hidden="true"></i> Написать сообщение</span></a>
+                                                                             aria-hidden="true"></i>{% trans "Написать сообщение" %} </span></a>
                                                     </li>
                                                     <li>
                                                         <a class="d-flex align-items-center" id="pills-created-tab"
@@ -70,7 +70,7 @@
                                                            href="#pills-created" role="tab"
                                                            aria-controls="pills-created" aria-selected="false">
                                                         <span class="title" id="status_changer" user-id="{{ request.user.profile.pk }}">
-                                                            <i class="fa fa-download"></i> Входящие
+                                                            <i class="fa fa-download"></i> {% trans "Входящие" %}
                                                         </span>
                                                             {% if count_works.new_messages != 0 %}
                                                                 <span style="float: right" class="badge rounded-pill badge-danger text-white">
@@ -82,13 +82,13 @@
                                                      <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#pills-favourites" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-commenting-o"></i> Отправленные</span></a>
+                                                            class="title"><i class="fa fa-commenting-o"></i> {% trans "Отправленные" %}</span></a>
                                                     </li>
 
                                                     <li><a class="show" id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#old_ones" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-eye"></i>  Прочитанные</span></a>
+                                                            class="title"><i class="fa fa-eye"></i> {% trans "Прочитанные" %} </span></a>
                                                     </li>
 {#                                                    <li><a class="show" id="pills-shared-tab" data-bs-toggle="pill"#}
 {#                                                           href="#pills-shared" role="tab" aria-controls="pills-shared"#}
@@ -97,7 +97,7 @@
                                                     <li><a class="show" id="pills-bookmark-tab" data-bs-toggle="pill"
                                                            href="#pills-bookmark" role="tab"
                                                            aria-controls="pills-bookmark" aria-selected="false"><span
-                                                            class="title"><i class="fa fa-trash-o"></i> Удаленные</span></a>
+                                                            class="title"><i class="fa fa-trash-o"></i> {% trans "Удаленные" %} </span></a>
                                                     </li>
                                                     <li>
                                                         <hr>
@@ -120,10 +120,10 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">Отправить</h6>
+                                                        <h6 class="mb-0">{% trans "Отправить" %}</h6>
                                                     </div>
                                                     <div class="card-body">
-                                                        <label>Кому <sup class="txt-danger">*</sup></label>
+                                                        <label>{% trans "Кому" %} <sup class="txt-danger">*</sup></label>
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <div>
@@ -143,17 +143,17 @@
                                                             </div>
 
                                                         </div>
-                                                        <label class="m-t-5">Тема <sup
+                                                        <label class="m-t-5">{% trans "Тема" %} <sup
                                                                 class="txt-danger">*</sup></label>
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input class="form-control" placeholder="Тема..." id="title" name="title" type="text">
                                                             </div>
                                                         </div>
-                                                        <label class="m-t-5">Написать сообщение<sup
+                                                        <label class="m-t-5">{% trans "Написать сообщение" %}<sup
                                                                 class="txt-danger">*</sup></label>
-                                                        <textarea style="height: 150px;" class="form-control" id="comment" name="comment" placeholder="Введите сообщение..."></textarea>
-                                                        <button class="btn btn-primary m-t-25" id="send_message" user="{{ request.user.profile.pk }}">Отправить</button>
+                                                        <textarea style="height: 150px;" class="form-control" id="comment" name="comment" placeholder="{% trans "Введите сообщение" %}..."></textarea>
+                                                        <button class="btn btn-primary m-t-25" id="send_message" user="{{ request.user.profile.pk }}">{% trans "Отправить" %}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,10 +163,10 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex align-items-center"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">Входящие</h6>
+                                                        <h6 class="mb-0">{% trans "Входящие" %}</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Поиск сообщения">
+                                                            <input class="form-control" placeholder=".........">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -176,10 +176,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">От кого</th>
-                                                                        <th scope="col">Тема</th>
-                                                                        <th scope="col">Содержание сообщения</th>
-                                                                        <th scope="col">Время получения</th>
+                                                                        <th scope="col">{% trans "От кого" %}</th>
+                                                                        <th scope="col">{% trans "Тема" %}</th>
+                                                                        <th scope="col">{% trans "Содержание сообщения" %}</th>
+                                                                        <th scope="col">{% trans "Время получения" %}</th>
 {#                                                                        <th scope="col"></th>#}
                                                                     </tr>
                                                                     </thead>
@@ -216,10 +216,10 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex align-items-center"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">O'qilgan xabarlar</h6>
+                                                        <h6 class="mb-0">{% trans "Написать сообщение" %}</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Поиск сообщения.....">
+                                                            <input class="form-control" placeholder="{% trans "Поиск сообщения" %}.....">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -229,10 +229,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">От кого</th>
-                                                                        <th scope="col">Тема</th>
-                                                                        <th scope="col">Содержание сообщения</th>
-                                                                        <th scope="col">Время получения</th>
+                                                                        <th scope="col">{% trans "От кого" %}</th>
+                                                                        <th scope="col">{% trans "Тема" %}</th>
+                                                                        <th scope="col">{% trans "Содержание сообщения" %}</th>
+                                                                        <th scope="col">{% trans "Время получения" %}</th>
 {#                                                                        <th scope="col"></th>#}
                                                                     </tr>
                                                                     </thead>
@@ -269,10 +269,10 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">Жўнатилган хабарлар</h6>
+                                                        <h6 class="mb-0">{% trans "Отправленные сообщения" %}</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Поиск сообщения.....">
+                                                            <input class="form-control" placeholder="{% trans "Поиск сообщения" %}.....">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -282,10 +282,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">Кому отправил</th>
-                                                                        <th scope="col">Тема</th>
-                                                                        <th scope="col">Содержание сообщения</th>
-                                                                        <th scope="col">Время получения</th>
+                                                                        <th scope="col">{% trans "Кому отправил" %}</th>
+                                                                         <th scope="col">{% trans "Тема" %}</th>
+                                                                        <th scope="col">{% trans "Содержание сообщения" %}</th>
+                                                                        <th scope="col">{% trans "Время получения" %}</th>
                                                                         <th scope="col"></th>
                                                                     </tr>
                                                                     </thead>
@@ -324,16 +324,16 @@
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex"
                                                          style="border-left: 3px solid #168eea;">
-                                                        <h6 class="mb-0">черновике</h6>
+                                                        <h6 class="mb-0">{% trans "черновике" %}</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Поиск сообщения">
+                                                            <input class="form-control" placeholder="{% trans "Поиск сообщения" %}">
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
                                                         <div class="details-bookmark text-center">
                                                             <span><i
-                                                                    class="fa fa-exclamation-triangle f-20 txt-warning"></i> Нет сообщений в черновике</span>
+                                                                    class="fa fa-exclamation-triangle f-20 txt-warning"></i>{% trans "Написать сообщение" %} Нет сообщений в черновике</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -342,10 +342,10 @@
                                                  aria-labelledby="pills-bookmark-tab">
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex">
-                                                        <h6 class="mb-0">Удаленные</h6>
+                                                        <h6 class="mb-0">{% trans "Удаленные" %}</h6>
                                                         <div class="search-bg d-flex align-items-center">
                                                             <i class="fa fa-search m-r-10 f-18 txt-primary"></i>
-                                                            <input class="form-control" placeholder="Хабарни қидириш">
+                                                            <input class="form-control" placeholder="{% trans "Поиск сообщения" %}....">
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-0 m-t-25">
@@ -355,10 +355,10 @@
                                                                     <thead class="table-primary">
                                                                     <tr>
                                                                         <th scope="col">№</th>
-                                                                        <th scope="col">Кому отправил</th>
-                                                                       <th scope="col">Тема</th>
-                                                                        <th scope="col">Содержание сообщения</th>
-                                                                        <th scope="col">Время получения</th>
+                                                                        <th scope="col">{% trans "Кому отправил" %}</th>
+                                                                        <th scope="col">{% trans "Тема" %}</th>
+                                                                        <th scope="col">{% trans "Содержание сообщения" %}</th>
+                                                                        <th scope="col">{% trans "Время получения" %}</th>
 {#                                                                        <th scope="col"></th>#}
                                                                     </tr>
                                                                     </thead>
@@ -401,7 +401,7 @@
                                                  aria-labelledby="pills-newsletter-tab">
                                                 <div class="card mb-0">
                                                     <div class="card-header d-flex">
-                                                        <h6 class="mb-0">Newsletter</h6>
+                                                        <h6 class="mb-0">{% trans "Написать сообщение" %}Newsletter</h6>
                                                         <ul>
                                                             <li><a class="grid-bookmark-view" href="javascript:void(0)"><i
                                                                     data-feather="grid"></i></a></li>
@@ -410,7 +410,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div class="details-bookmark text-center"><span>No Bookmarks Found.</span>
+                                                        <div class="details-bookmark text-center"><span>{% trans "Написать сообщение" %}No Bookmarks Found.</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -420,7 +420,7 @@
                                                 <div class="modal-dialog modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-primary">
-                                                            <h5 class="modal-title">Ходим танлаш</h5>
+                                                            <h5 class="modal-title">{% trans "Написать сообщение" %}Ходим танлаш</h5>
                                                             <div data-bs-dismiss="modal" aria-label="Close"><a
                                                                     class="txt-light" href="">X</a></div>
                                                         </div>
@@ -432,10 +432,10 @@
                                                                             <thead class="table-primary">
                                                                             <tr>
                                                                                 <th class="text-center" scope="col">
-                                                                                    Танлаш
+                                                                                    {% trans "Написать сообщение" %}Танлаш
                                                                                 </th>
-                                                                                <th scope="col">Номи</th>
-                                                                                <th scope="col">Бўлим</th>
+                                                                                <th scope="col">{% trans "Написать сообщение" %}Номи</th>
+                                                                                <th scope="col">{% trans "Написать сообщение" %}Бўлим</th>
                                                                             </tr>
                                                                             </thead>
                                                                             <tbody>
