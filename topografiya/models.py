@@ -56,6 +56,14 @@ class WorkType(models.Model):
     class Meta:
         verbose_name_plural = "WorkTypes"
 
+class SubDivisions(models.Model):
+    name = models.CharField(max_length=250, blank=True)
+    department = models.ForeignKey(Department, blank=True, on_delete=models.CASCADE, related_name='department',null=True)
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name_plural = "SubDivisions"
+
 class Worker(BaseModel):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, related_name='profile', on_delete=models.PROTECT,
@@ -65,9 +73,9 @@ class Worker(BaseModel):
     permission = models.BooleanField(default=False)
     email = models.EmailField(verbose_name='email', default='', max_length=250, blank=True)
     contact = models.CharField(verbose_name='contact', default='', max_length=250, blank=True)
-    department = models.ForeignKey(Department, blank=True, on_delete=models.CASCADE, related_name='departments')
+    subdivision = models.ForeignKey(SubDivisions, blank=True, on_delete=models.CASCADE, related_name='workersubdivision')
     position = models.CharField(verbose_name='position', default='', max_length=250, blank=True)
-    branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='workerbranch')
+    branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='workerbranch',null=True)
     status_worker = (
         ('0', 'Ishchi'),
         ('1', 'Bo\'lim boshlig\'i'),
@@ -95,9 +103,10 @@ class PdoWork(models.Model):
     object_name = models.CharField(verbose_name='Object name', max_length=250, blank=True)
     object_number = models.CharField(verbose_name='Object number', max_length=250, blank=True)
     object_address = models.CharField(verbose_name='Object address', max_length=250, blank=True)
-    work_type = models.ForeignKey(WorkType, blank=True, on_delete=models.CASCADE, related_name='worktype')
-    work_term = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE, related_name='workperiod')
-    department = models.ForeignKey(Department, blank=True, on_delete=models.CASCADE, related_name='workdepartment')
+    work_type = models.ForeignKey(WorkType, blank=True, on_delete=models.CASCADE, related_name='worktype',null=True)
+    work_term = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE, related_name='workperiod',null=True)
+    subdivision = models.ForeignKey(SubDivisions, blank=True, on_delete=models.CASCADE, related_name='worksubdivision',null=True)
+    branch = models.ForeignKey(Branch, blank=True, on_delete=models.CASCADE, related_name='workbranch',null=True)
     object_cost = models.CharField(verbose_name='Object costs', max_length=250, blank=True)
     customer = models.CharField(verbose_name='Customer', max_length=250, blank=True)
     customer_info = models.CharField(verbose_name='Customer info', max_length=250, blank=True)

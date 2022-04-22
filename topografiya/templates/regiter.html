@@ -166,27 +166,33 @@
         var password = $('#password').val();
         var re_password = $('#re_password').val();
         var department = $('#department').val();
+        var branch = $('#branch').val();
         event.preventDefault();
         if(department){
-            if(password == re_password){
-               $.ajax({
-                type: 'POST',
-                url: '{% url 'sign_up' %}',
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (result){
-                  location.replace('/signin');
-                },
+            if(branch){
+                if(password == re_password){
+                   $.ajax({
+                    type: 'POST',
+                    url: '{% url 'sign_up' %}',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result){
+                      location.replace('/signin');
+                    },
 
-                error: function(){
-                  alert('Ajax da xatolik !! ');
+                    error: function(){
+                      alert('Ajax da xatolik !! ');
+                    }
+                });
                 }
-            });
+                else{
+                    alert('{% trans "Bведен неправильный пароль" %}!');
+                }
             }
             else{
-                alert('{% trans "Bведен неправильный пароль" %}!');
+                alert("{% trans "Не выбран филиал" %}!");
             }
         }
         else{

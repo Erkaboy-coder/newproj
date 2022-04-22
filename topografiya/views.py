@@ -55,8 +55,6 @@ def counter():
 
     count['new_ogogd_printer_works'] = WorkerObject.objects.filter(status_geodezis_komeral=4).all().count()
 
-
-
     return count
 
 
@@ -77,12 +75,23 @@ def new_work_counter(request):
 
     return count_works
 
+# import re
+
 @login_required(login_url='/signin')
 def index(request):
+    # import datetime
+    # text = "/Date(1478113200000)/"
+    # res = re.findall(r'\((.*?)\)', text)
+    # print(res[0])
+    # time = datetime.datetime.fromtimestamp(int(res[0])//1000)
+    # print(time.strftime('%d/%m/%Y'))
 
     worker = Worker.objects.all()
+    works = PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision__department=3).all()
+            # PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter().all() or \
+            # PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=3).all() or \
+            # PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=4).all()
 
-    works = PdoWork.objects.filter(status=0).all()
     work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.pk).all()
     geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).all()
     geodezis_new_works_program = ProgramWork.objects.filter(status=1).all()
@@ -99,14 +108,13 @@ def index(request):
 
 @login_required(login_url='/signin')
 def pdoworks(request):
-    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37).filter()
+    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37)
 
-    # data = requests.get("http://test.cpduzgashkliti.uz/api/Branches")
+    # data = requests.get("http://test.cpduzgashkliti.uz/api/SubDivisions")
     # one_data = json.loads(data.content.decode('utf-8'))
-    # for i in one_data['Data']['branches']:
-    #     a = Branch(name=i['Title'], code=i['Code'])
+    # for i in one_data['Data']['subDivisions']:
+    #     a = SubDivisions(name=i['Name'])
     #     a.save()
-
 
         # print(i)
 
@@ -6297,7 +6305,7 @@ def register(request):
     workers = Worker.objects.filter(status=0).all()
     objects = Object.objects.all()
     workerobjects = WorkerObject.objects.all()
-    departments = Department.objects.all()
+    departments = SubDivisions.objects.all()
     branches = Branch.objects.all()
 
     content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments,'branches': branches}
@@ -6315,18 +6323,19 @@ def sign_up(request):
         branch = request.POST.get('branch')
         branch_id = Branch.objects.filter(id=branch).first()
 
-        depart = Department.objects.filter(id=department).first()
+        depart = SubDivisions.objects.filter(id=department).first()
         if User.objects.filter(username=email).first():
             messages.error(request, "Bu foydalanuvchi avval ro'yhatdan o'tgan!")
-            return HttpResponseRedirect('/signin')
+            return HttpResponseRedirect('/register')
 
         else:
             user = User.objects.create_user(username=email, email=email, password=password)
-            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch_id,position=position,department=depart,email=email,branch_id=1)
+            worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch_id,position=position,subdivision=depart,email=email)
             worker.save()
             messages.success(request, "Siz ro'yhatdan o'tdingiz tasdiqlashini kuting!")
-            return HttpResponseRedirect('/signin')
-    return HttpResponseRedirect('/signin')
+            return HttpResponseRedirect('signin')
+    else:
+        return HttpResponseRedirect('signin')
 
 def logout(request):
     auth_logout(request)

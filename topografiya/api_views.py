@@ -4,7 +4,7 @@ from rest_framework import permissions
 from rest_framework import serializers
 from .serializers import *
 
-from .models import Worker, Branch
+from .models import *
 
 class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.all().order_by('id')

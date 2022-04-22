@@ -22,7 +22,7 @@ admin.site.register(Xabarlar)
 admin.site.register(Worker)
 admin.site.register(Object)
 admin.site.register(Branch)
-admin.site.register(Department)
+# admin.site.register(Department)
 admin.site.register(PdoWork)
 admin.site.register(ProgramWorkForm)
 admin.site.register(ProgramWork)
@@ -59,6 +59,8 @@ admin.site.register(PolevoyWorkReject)
 
 admin.site.register(Period)
 admin.site.register(WorkType)
+admin.site.register(SubDivisions)
+admin.site.register(Department)
 
 
 
