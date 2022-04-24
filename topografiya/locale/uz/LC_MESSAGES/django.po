@@ -660,8 +660,171 @@ msgstr "Topografik materiallarni chop etish uchun tasdiqlashni kuting"
 msgid "Сведения о поступивших в архив делах"
 msgstr "Arxivga kelib tushgan ishlar xaqida ma'lumotlar"
 
+msgid "Предписание"
+msgstr "Ko'rsatma"
+
+msgid "Ознакомление с файлом"
+msgstr "Fayl bilan tanishish"
+
+msgid "Введите причину ошибки"
+msgstr "Xatolik sababini kiriting"
+
+msgid "Причина ошибки"
+msgstr "Xatolik sababi"
+
+msgid "Подтверждение"
+msgstr "Tasdiqlash"
+
+msgid "Проверка Программа работ"
+msgstr "Ishchi dasturni tekshirish"
+
+msgid "Новые поступления работ"
+msgstr "Yangi tekshiruvga kelganlar"
+
+msgid "Возвращенные"
+msgstr "Qaytarilganlar"
+
+msgid "Утвержденные"
+msgstr "Tasdiqlanganlar"
+
+msgid "Проверка отчета"
+msgstr "Hisbotni tekshirish"
+
+msgid "Проверка отчета по съемке инженерных сетей"
+msgstr "Muxandislik tarmoqlari syomkasi bo'yicha hisobotni tekshirish"
+
+msgid "Возврат отчета"
+msgstr "hisobatni qaytarish"
+
+msgid "Файл приложения"
+msgstr "Ilova fayli"
+
+msgid "Отчеты поступившие на проверку"
+msgstr "Tekshiruvga kelgan hisobotlar"
+
+msgid "Нет отчеты поступившие на проверку"
+msgstr "Tekshiruvga kelgan hisobot yo'q"
+
+msgid "Контроль главного геодезиста"
+msgstr "Bosh geodezis nazorati"
+
+msgid "Главный геодезист по контролю съемки инженерных сетей"
+msgstr "Muxandislik tarmoqlari syomkasi bo'yicha bosh geodezis nazoratis"
+
+msgid "Возврат работa"
+msgstr "Ishni qaytarish"
+
+msgid "Отправка работы для написания отчета"
+msgstr "Ishni hisobot yozishga yuborish"
+
+msgid "Отправка работы на печать"
+msgstr "Hisobotni chop etishga yuborish"
+
+msgid "Заполните поля"
+msgstr "Maydonlarni to'ldiring"
+
+msgid "Подтверждение сообщений об ошибке"
+msgstr "Xato xabarlari tasdiqlash"
+
+msgid "Ошибка приложения"
+msgstr "Xatolik ilovasi"
+
+msgid "Проверка комерал  контроля"
+msgstr "Komeral nazorat tekshiruvi"
+
+msgid "Заполните поле оценки работы"
+msgstr "Ishni baxolash maydonini to'ldiring"
+
+msgid "Проверка полевой  контроля"
+msgstr "Dala nazorati tekshiruvi"
+
+msgid "Акт комерал контроля и приемки работ по прокладке инженерных сетей"
+msgstr "Muxandislik tarmoqlari syomkasi bo'yicha komeral nazorati va qabul qilish dalolatnomasi"
+
+msgid "Tayyor fayli yuklash"
+msgstr "Загрузка готового файла"
+
+msgid "Ввод через форму"
+msgstr "Forma orqali to'ldirish"
+
+msgid "Отправить на контроль главному геодезисту"
+msgstr "Bosh geodezis nazoratiga yuborish"
+
+msgid "На этом объекте ведутся программ работы! Ждите подтверждения пожалуйста"
+msgstr "Ushbu ob'ektda ish dasturi tayyorlanmoqda! Iltimos, tasdiqlashni kuting"
+
+msgid "Работы, представленные на контроль Главному геодезисту"
+msgstr "Bosh geodezis nazoratiga yuborilgan ishlar"
+
+msgid "Пополнение"
+msgstr "To'ldirish"
+
+msgid "Отправка на повторный геодезический проверку"
+msgstr "Qayta geodezis nazoratiga yuborish"
+
+msgid "Состояния комерал контроль"
+msgstr "Komeral nazorat holati"
+
+msgid "Акт положительный"
+msgstr "AKT ijobiy"
+
+msgid "Состояния полевой контроль"
+msgstr "Dala nazorat holati"
+
+msgid "Акт отрицательный"
+msgstr "Akt salbiy"
+
+msgid "Состояния программа работа"
+msgstr "Ishchi dasturi holati"
+
+msgid "Заполните поле оценки работы и нажмите кнопку Сохранить"
+msgstr "Ishni baxolash maydonini to'ldiring va saqlash tugmasini bosing"
+
+msgid "Работа, возвращенная из главного геодезического проверка"
+msgstr "Bosh geodezis nazoratidan qaytgan ishlar"
+
+msgid "Работы, поступившие на полевой контроль"
+msgstr "Dala nazoratiga kelgan ishlar"
+
+msgid "Нет работы для полевого контроля"
+msgstr "Dala nazoratiga kelgan ish yo'q"
+
+msgid "Акт полевого контроля и приемки работ по прокладке инженерных сетей"
+msgstr "Muxandislik tarmoqlari syomkasi bo'yicha dala nazorati va qabul qilish dalolatnomasi"
+
+msgid "Проверка  полевой контроля"
+msgstr "Dala nazorati tekshiruvi"
+
+msgid "Отправить на камеральную проверкa"
+msgstr "Komeral nazoratga yuborish"
+
+msgid "После заполнения поля обязательно нажмите кнопку Сохранить!"
+msgstr "Maydonlarni to'ldirib bo'lgandan keyin saqlash tugmasini bosing!"
+
+msgid "Что за период составили настоящий акт в том?"
+msgstr "AKT dalolatnomasi to'ldirilgan sana"
+
+msgid "В процессе проверки"
+msgstr "Tekshiruv jarayonida"
+
 msgid " "
 msgstr " "
+
+msgid " "
+msgstr " "
+
+msgid " "
+msgstr " "
+
+msgid " "
+msgstr " "
+
+msgid " "
+msgstr " "
+
+msgid " "
+msgstr " "
+
 
 
 

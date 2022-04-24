@@ -4,7 +4,7 @@
 {% load static %}
 {% block title %} Топографик-Геодезик Дастури {% endblock %}
 {% block content%}
-
+{% load i18n %}
 {% block stylecontent %}
 <style>
     .banner-image{
@@ -136,72 +136,70 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="exampleModalLabel">Информация о заказе</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% trans "Информация о заказе" %}</h5>
                 <div data-bs-dismiss="modal" aria-label="Close">X</div>
             </div>
 
-            <<div class="modal-body">
+             <div class="modal-body">
                   <div class="row">
-                      <div class="col-lg-6">
+                <div class="col-lg-6">
                           <div class="mb-2">
-                              <b>Номер договора<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Номер договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_number }}</p>
                           </div>
                           <div class="mb-2">
-                             <b>Дата договора</b>
+                              <b>{% trans "Дата договора" %}</b>
                               <p>{{ work.object.pdowork.agreement_date }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Наименование объекта<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Наименование объекта" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_name }} </p>
                           </div>
                           <div class="mb-2">
-                              <b>Заказчик</b>
+                              <b>{% trans "Заказчик" %}</b>
                               <p>{{ work.object.pdowork.customer }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Адрес объекта<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Адрес объекта" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_address }}</p>
                           </div>
                       </div>
 
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
-                              <b>Сроки выполнения<sup style="color: red;">*</sup></b>
-                              <p>{{ work.object.pdowork.work_term }} kun</p>
+                              <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
+                              <p>{{ work.object.pdowork.work_term }} {% trans "День" %}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Реквизиты заказчика<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.customer_info }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Вид работы<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Вид работы" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.work_type }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Сумма договора<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Сумма договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.object_cost|intcomma }}</p>
                           </div>
                           <div class="mb-2">
-                              <b>Отдел ответственный за исполнительнение<sup style="color: red;">*</sup></b>
+                              <b>{% trans "Отдел ответственный за исполнительнение" %}<sup style="color: red;">*</sup></b>
                               <p>{{ work.object.pdowork.department }}</p>
                           </div>
                       </div>
                   </div>
-                  <div class="row">
-
+                   <div class="row">
                       <div class="col-md-12">
-                          <a href="/{{ work.object.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Буюрта хати билан танишиш</h6></a>
+                          <a href="/{{ work.object.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с письмом заказчика" %} </h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Техник топшириқ файли билан танишиш</h6></a>
+                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans " Ознакомление с техническим заданием" %}</h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i> Смета файли билан танишиш</h6></a>
+                          <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление со сметой" %} </h6></a>
                       </div>
 
                   </div>
-
               </div>
 
         </div>
@@ -213,17 +211,17 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Oтчет</h3>
+                            <h3> {% trans "Oтчет" %}</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'allworks' %}">Все работы</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'history_report' id=work.object.id %}">Oтчет</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'allworks' %}">{% trans "Все работы" %}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'history_report' id=work.object.id %}">{% trans "Oтчет" %}</a></li>
                             </ol>
                         </div>
                         <div class="col-sm-6">
                             <div class="float-lg-end">
                                 <button  class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icofont icofont-maximize"></i>
-                                    Информация о заказе
+                                    {% trans "Информация о заказе" %}
                                 </button>
                             </div>
                         </div>
@@ -281,7 +279,7 @@
                                                         <ul>
                                                             <li><b class="text-primary"><i class="fa fa-user"></i> {{ history.user_id.full_name }}</b></li>
                                                             <li class="text text-success">
-                                                                <a href="#" class="text text-success"> Акт положительный</a>
+                                                                <a href="#" class="text text-success"> {% trans "Акт положительный" %}</a>
                                                             </li>
                                                         </ul>
                                                         <p class="mb-0 mt-1"><i class="fa fa-check"> &nbsp;</i> {{ history.comment }}</p>

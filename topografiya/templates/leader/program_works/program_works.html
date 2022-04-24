@@ -3,7 +3,7 @@
 {% load static %}
 {% block title %} Программа работ {% endblock %}
 {% block content%}
-
+{% load i18n %}
 {% block stylecontent %}
 
 {% endblock stylecontent %}
@@ -13,10 +13,10 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Программа работ</h3>
+                            <h3>{% trans "Программа работ" %}</h3>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-                                <li class="breadcrumb-item active">Программа работ</li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Главная" %}</a></li>
+                                <li class="breadcrumb-item active">{% trans "Программа работ" %}</li>
                             </ol>
                         </div>
                     </div>
@@ -26,11 +26,11 @@
                         <div class="card">
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#new-ones" role="tab" aria-selected="false">Новые поступления работ {% if new_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ new_ones.count }}</span>{% endif %}</a></li>
-                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> В процессе проверки {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
-                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true"> Возвращенные {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
-                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#less-time-ones" role="tab" aria-controls="camera-icon" aria-selected="true"> Краткосрочная работа {% if less_time_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ less_time_ones.count }}</span>{% endif %} </a></li>
-                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true"> Утвержденные {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#new-ones" role="tab" aria-selected="false">{% trans "Новые поступления работ" %} {% if new_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ new_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#checking-ones" role="tab" aria-controls="profile-icon" aria-selected="false"> {% trans "В процессе проверки" %} {% if checking_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ checking_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#rejected-ones" role="tab" aria-controls="contact-icon" aria-selected="true">{% trans "Возвращенные" %}  {% if rejected_ones.count > 0 %}<span class="badge badge-danger rounded-pill">{{ rejected_ones.count }}</span>{% endif %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#less-time-ones" role="tab" aria-controls="camera-icon" aria-selected="true">{% trans "Краткосрочная работа" %}  {% if less_time_ones.count > 0 %}<span class="badge badge-warning rounded-pill">{{ less_time_ones.count }}</span>{% endif %} </a></li>
+                                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#aggreed-ones" role="tab" aria-controls="grow-icon" aria-selected="true">{% trans "Утвержденные" %}  {% if aggreed_ones.count > 0 %}<span class="badge badge-success rounded-pill">{{ aggreed_ones.count }}</span>{% endif %}</a></li>
                                 </ul>
 
 
@@ -39,7 +39,7 @@
                                          <div class="tab-pane fade active show" id="new-ones" role="tabpanel">
                                             <div class="row">
                                                     {% if new_ones.count == 0 %}
-                                                        <p class="mb-0 m-t-30">Нет входящей работы</p>
+                                                        <p class="mb-0 m-t-30">{% trans "Нет входящей работы" %}</p>
                                                     {% endif %}
 
                                                      {% for object in new_ones %}
@@ -47,18 +47,18 @@
                                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
-                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                        <div class="blog-bottom-content">
-                                                                            <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
-                                                                            <div><b>Дата заключения договора:</b> {{ object.object.pdowork.agreement_date }}</div>
-                                                                            <div><b>Адрес объекта:</b> {{ object.object.pdowork.object_address }}</div>
+                                                                            <div><b>{% trans "Наименование заказчика" %}:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>{% trans "Местоположение" %}:</b> {{ object.object.pdowork.object_address }}</div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
                                                                             <a href="{% url 'program_work_form' id=object.object.id %}">
                                                                                 <button class="btn btn-square btn-outline-primary-2x">
-                                                                                    Подробная информация
+                                                                                      {% trans "Подробная информация" %}
                                                                                 </button>
                                                                             </a>
                                                                         </div>
@@ -83,7 +83,7 @@
                                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
-                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                         <div class="blog-bottom-content">
                                                                             <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
@@ -121,7 +121,7 @@
                                                     <div class="pricing-plan shadow border-0">
                                                             <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
 
-                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
                                                         <h5>{{ object.object.pdowork.object_name }}</h5>
                                                         <div class="blog-bottom-content">
                                                             <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
@@ -168,7 +168,7 @@
                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                     <div class="pricing-plan shadow border-0">
                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
-                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> День </div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %} </div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                        <div class="blog-bottom-content">
                                                                             <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>

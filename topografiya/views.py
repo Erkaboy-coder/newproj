@@ -87,12 +87,8 @@ def index(request):
     # print(time.strftime('%d/%m/%Y'))
 
     worker = Worker.objects.all()
-    works = PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision__department=3).all()
-            # PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter().all() or \
-            # PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=3).all() or \
-            # PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=4).all()
-
-    work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.pk).all()
+    works = PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=request.user.profile.subdivision).all()
+    work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.pk).filter(pdowork__branch=request.user.profile.branch).filter(pdowork__subdivision=request.user.profile.subdivision).all()
     geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).all()
     geodezis_new_works_program = ProgramWork.objects.filter(status=1).all()
     new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
@@ -5147,7 +5143,7 @@ def show_pdowork(request,id):
     object = Object.objects.filter(pdowork=pdowork).first()
     order = Order.objects.filter(object=object).first()
 
-    workers=Worker.objects.filter(status=0).filter(department=request.user.profile.department).filter(branch=request.user.profile.branch)
+    workers=Worker.objects.filter(status=0).filter(subdivision=request.user.profile.subdivision).filter(branch=request.user.profile.branch)
     context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost,'order':order,'object' :object,'count_works': new_work_counter(request)}
     return render(request, 'leader/show_pdowork.html', context)
 

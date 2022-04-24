@@ -81,7 +81,7 @@
                                                                                     <td>{{ work.customer_info}}</td>
                                                                                     <td>{{ work.object_name}}</td>
                                                                                     <td>{{ work.work_type}}</td>
-                                                                                    <td>{{ work.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
@@ -150,7 +150,7 @@
                                                                                     <td>{{ work.pdowork.customer_info}}</td>
                                                                                     <td>{{ work.pdowork.object_name}}</td>
                                                                                     <td>{{ work.pdowork.work_type}}</td>
-                                                                                    <td>{{ work.pdowork.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.pdowork.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
@@ -235,7 +235,7 @@
 
                                           {% for work in geodezis_new_works_program %}
                                 <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
-                                <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+                                <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term.amount }}</p>
 
 
                                 <div class="fc-day-event one" id="one">
@@ -276,7 +276,7 @@
                                                                                     <td>{{ work.object.pdowork.customer_info}}</td>
                                                                                     <td>{{ work.object.pdowork.object_name}}</td>
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
-                                                                                    <td>{{ work.object.pdowork.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
                                                                           </tr>
@@ -298,7 +298,7 @@
                                             {% for work in geodezis_report_checking %}
                                         {{ work.id }}
                                         <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
-                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term.amount }}</p>
 
 
                                 <div class="fc-day-event one" id="one">
@@ -338,7 +338,7 @@
                                                                                     <td>{{ work.object.pdowork.customer_info}}</td>
                                                                                     <td>{{ work.object.pdowork.object_name}}</td>
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
-                                                                                    <td>{{ work.object.pdowork.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
@@ -363,7 +363,7 @@
                                     {% for work in new_ogogd_printer_works %}
 
                                         <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
-                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term.amount }}</p>
 
 
                                 <div class="fc-day-event one" id="one">
@@ -403,7 +403,7 @@
                                                                                     <td>{{ work.object.pdowork.customer_info}}</td>
                                                                                     <td>{{ work.object.pdowork.object_name}}</td>
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
-                                                                                    <td>{{ work.object.pdowork.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
@@ -428,7 +428,7 @@
                                     {% for work in geodezis_report_checking %}
 
                                         <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
-                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term.amount }}</p>
 
 
                                 <div class="fc-day-event one" id="one">
@@ -468,7 +468,7 @@
                                                                                     <td>{{ work.object.pdowork.customer_info}}</td>
                                                                                     <td>{{ work.object.pdowork.object_name}}</td>
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
-                                                                                    <td>{{ work.object.pdowork.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>
@@ -491,7 +491,7 @@
                                     {% for work in rejected_ogogd_printer_works %}
 
                                         <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
-                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+                                        <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term.amount }}</p>
 
 
                                 <div class="fc-day-event one" id="one">
@@ -531,7 +531,7 @@
                                                                                     <td>{{ work.object.pdowork.customer_info}}</td>
                                                                                     <td>{{ work.object.pdowork.object_name}}</td>
                                                                                     <td>{{ work.object.pdowork.work_type}}</td>
-                                                                                    <td>{{ work.object.pdowork.work_term}} {% trans "День" %}</td>
+                                                                                    <td>{{ work.object.pdowork.work_term.amount}} {% trans "День" %}</td>
 {#                                                                                    <td><a href="#" class="btn btn-primary">Ko'rish</a></td>#}
 
                                                                                     <td class="text-center"><a href="{% url 'status_work' id=work.object.pdowork.id %}" class="btn btn-success">{% trans "Просмотр" %}</a></td>

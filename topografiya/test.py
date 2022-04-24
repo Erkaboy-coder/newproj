@@ -38,31 +38,36 @@ class contractAPI(APIView):
                 if not PdoWork.objects.filter(contract_id=request.data['contract_id']).first():
                     for i in json_data['Data']['contract']['ContractWorkPayments']:
                         work_type = worksType.objects.filter(id=int(i['WorkTypeId'])).first()
-                    if i['SubDivision']['Name'] != None:
-                        if not work_type:
-                            work = WorkType(name=i['WorkType']['Name'])
-                            work.save()
-                            print('You have to create it')
-                        subdevision = SubDivisions.objects.filter(id=int(i['SubDivision']['Id'])).first()
-                        branch = Branch.objects.filter(id=int(json_data['Data']['contract']['BranchId'])).first()
-                        work_term = Period.objects.filter(id=int(i['PeriodId'])).first()
-                        # timestamp = datetime.datetime.fromtimestamp(int(json_data['Data']['contract']['ContractDate']))
+                        if i['SubDivision']['Name'] != None:
+                            if not work_type:
+                                work = WorkType(name=i['WorkType']['Name'])
+                                work.save()
+                                print('You have to create it')
+                            subdevision = SubDivisions.objects.filter(id=int(i['SubDivision']['Id'])).first()
+                            if subdevision:
+                                branch = Branch.objects.filter(id=int(json_data['Data']['contract']['BranchId'])).first()
+                                work_term = Period.objects.filter(id=int(i['PeriodId'])).first()
+                                # timestamp = datetime.datetime.fromtimestamp(int(json_data['Data']['contract']['ContractDate']))
 
-                        if not branch:
-                            print('You have to create branch')
-                        if not work_term:
-                            print('You have to create term')
+                                if branch:
+                                    if work_term:
+                                        pdowork = PdoWork(agreement_date=date, object_name=json_data['Data']['contract']['ObjectName'],
+                                                          subdevision=subdevision, work_type=work_type, branch=branch,
+                                                          work_term=work_term, contract_id=request.data['contract_id'],
+                                                          object_number=json_data['Data']['contract']['ContractNumber'],
+                                                          object_cost=json_data['Data']['contract']['ContractAmount'],
+                                                          customer=json_data['Data']['contract']['Organization']['Name'], customer_info=str('Inn: ' + str(json_data['Data']['contract']['Organization']['Inn']) + ' ' + 'Hisob raqami: ' + str(json_data['Data']['contract']['Organization']['AccountNumber']) + ' ' + 'Tel: ' + str( json_data['Data']['contract']['Organization']['PhoneNumbers'])))
+                                        pdowork.save()
+                                        return Response({'status': 'Success', 'code': 1})
+                                    else:
+                                        return Response({'status': 'Error no work term', 'code': 4})
+                                else:
+                                    return Response({'status': 'Error no branch', 'code': 6})
 
-                        pdowork = PdoWork(agreement_date=date, object_name=json_data['Data']['contract']['ObjectName'],
-                                          subdevision=subdevision, work_type=work_type, branch=branch,
-                                          work_term=work_term.amount, contract_id=request.data['contract_id'],
-                                          object_number=json_data['Data']['contract']['ContractNumber'],
-                                          object_cost=json_data['Data']['contract']['ContractAmount'],
-                                          customer=json_data['Data']['contract']['Organization']['Name'], customer_info=str('Inn: ' + str(json_data['Data']['contract']['Organization']['Inn']) + ' ' + 'Hisob raqami: ' + str(json_data['Data']['contract']['Organization']['AccountNumber']) + ' ' + 'Tel: ' + str( json_data['Data']['contract']['Organization']['PhoneNumbers'])))
-                        pdowork.save()
-                        return Response({'status': 'Success', 'code': 1})
-                    else:
-                        return Response({'status': 'No Subdivision', 'code': 3})
+                            else:
+                                return Response({'status': 'Error no subdevison', 'code': 5})
+                        else:
+                            return Response({'status': 'No Subdivision', 'code': 3})
                 else:
                     return Response({'status': 'Data exist', 'code': 2})
             else:
