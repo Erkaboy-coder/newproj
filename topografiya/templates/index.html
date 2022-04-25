@@ -40,7 +40,7 @@
                             {% if user.profile.status == '1' %}
                                 {% for work in works %}
                                 <p class="time" id="time" style="display: none">{{ work.agreement_date }}</p>
-                                <p class="term" id="term"  style="display: none">{{ work.work_term }}</p>
+                                <p class="term" id="term"  style="display: none">{{ work.work_term.amount}}</p>
 
 
                                 <div class="fc-day-event one" id="one">
@@ -173,7 +173,7 @@
                                     {% if user.profile.status == '2' %}
                                 {% for work in geodezis_new_works_akt %}
                                 <p class="time" id="time" style="display: none">{{ work.object.pdowork.agreement_date }}</p>
-                                <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term }}</p>
+                                <p class="term" id="term"  style="display: none">{{ work.object.pdowork.work_term.amount }}</p>
 
 
                                 <div class="fc-day-event one" id="one">

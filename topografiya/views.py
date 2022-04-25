@@ -27,9 +27,9 @@ from .filters import ObjectsFilter
 from datetime import datetime
 # Create your views here.
 
-def counter():
+def counter(request):
     count = {}
-    count['new_workers_pdo'] = PdoWork.objects.filter(status_recive=0).all().count()
+    count['new_workers_pdo'] = PdoWork.objects.filter(status_recive=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=request.user.profile.subdivision).all().count()
     # count['new_works_worker'] = PdoWork.objects.filter(status_recive=1).all().count()
 
     count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
@@ -89,22 +89,22 @@ def index(request):
     worker = Worker.objects.all()
     works = PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=request.user.profile.subdivision).all()
     work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.pk).filter(pdowork__branch=request.user.profile.branch).filter(pdowork__subdivision=request.user.profile.subdivision).all()
-    geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).all()
-    geodezis_new_works_program = ProgramWork.objects.filter(status=1).all()
-    new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
-    rejected_ogogd_printer_works = Report.objects.filter(status=2).all()
+    geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
+    geodezis_new_works_program = ProgramWork.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
+    new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
+    rejected_ogogd_printer_works = Report.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
 
-    geodezis_report_checking = Report.objects.filter(status=1).all()
+    geodezis_report_checking = Report.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
 
-    context = {'count': counter(), 'count_works': new_work_counter(request), 'worker': worker, 'works': works, 'work_new_works' : work_new_works,
+    context = {'count': counter(request), 'count_works': new_work_counter(request), 'worker': worker, 'works': works, 'work_new_works' : work_new_works,
                'geodezis_new_works_akt': geodezis_new_works_akt, 'geodezis_new_works_program':geodezis_new_works_program,
-               'new_ogogd_printer_works': new_ogogd_printer_works,'geodezis_report_checking': geodezis_report_checking,'rejected_ogogd_printer_works':rejected_ogogd_printer_works}
+               'new_ogogd_printer_works': new_ogogd_printer_works, 'geodezis_report_checking': geodezis_report_checking, 'rejected_ogogd_printer_works':rejected_ogogd_printer_works}
     return render(request, 'index.html', context)
 
 
 @login_required(login_url='/signin')
 def pdoworks(request):
-    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37)
+    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
 
     # data = requests.get("http://test.cpduzgashkliti.uz/api/SubDivisions")
     # one_data = json.loads(data.content.decode('utf-8'))
@@ -114,7 +114,7 @@ def pdoworks(request):
 
         # print(i)
 
-    context = {'pdoworks': pdoworks,'count': counter(),'count_works': new_work_counter(request)}
+    context = {'pdoworks': pdoworks,'count': counter(request),'count_works': new_work_counter(request)}
     return render(request, 'leader/pdo_works.html', context)
 
 @login_required(login_url='/signin')
@@ -215,7 +215,7 @@ def allworks(request):
     reports = Report.objects.all()
     current_time = datetime.now().date()
 
-    context = {'works': works, 'count': counter(),'count_works': new_work_counter(request),'programworks': programworks, 'aktkomerals': aktkomerals,
+    context = {'works': works, 'count': counter(request),'count_works': new_work_counter(request),'programworks': programworks, 'aktkomerals': aktkomerals,
                'reports': reports, 'current_time':current_time, 'workerobjects':workerobjects,'programworks_new':programworks_new}
     return render(request, 'leader/all_works.html', context)
 
@@ -229,7 +229,7 @@ def program_works_leader(request):
     rejecteds = ProgramWorkReject.objects.all()
 
     context = {'new_ones': new_ones, 'checking_ones': checking_ones,
-               'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'rejecteds':rejecteds, 'count': counter(),'count_works': new_work_counter(request)}
+               'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'rejecteds':rejecteds, 'count': counter(request),'count_works': new_work_counter(request)}
     # print(objects)
     return render(request, 'leader/program_works/program_works.html', context)
 
@@ -245,7 +245,7 @@ def program_work_form(request,id):
     formtable2 = ProgramWorkFormTable2.objects.filter(programworkform=form)
     files = ProgramWorkFiles.objects.filter(programworkform=form).first()
 
-    context = {'object': object, 'order': order, 'workers': workers,'count': counter(),'form':form,'pdowork':pdowork, 'formtable1': formtable1, 'formtable2': formtable2,'files':files,'count_works': new_work_counter(request)}
+    context = {'object': object, 'order': order, 'workers': workers,'count': counter(request),'form':form,'pdowork':pdowork, 'formtable1': formtable1, 'formtable2': formtable2,'files':files,'count_works': new_work_counter(request)}
     return render(request, 'leader/program_works/program_work_form.html', context)
 
 @login_required(login_url='/signin')
@@ -263,7 +263,7 @@ def program_work_form_edit(request,id):
 
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
-               'formtable1':formtable1,'formtable2':formtable2,'count': counter(),'pdowork':pdowork,'count_works': new_work_counter(request)}
+               'formtable1':formtable1,'formtable2':formtable2,'count': counter(request),'pdowork':pdowork,'count_works': new_work_counter(request)}
     return render(request, 'leader/program_works/program_work_form_edit.html', context)
 
 @login_required(login_url='/signin')
@@ -282,7 +282,7 @@ def program_work_form_re_sent_to_check(request,id):
 
 
     context = {'object': object, 'order': order, 'workers': workers, 'form': form, 'rejects':rejects,'files': files,
-               'formtable1':formtable1,'formtable2':formtable2,'count': counter(),'object1': object1,'count_works': new_work_counter(request)}
+               'formtable1':formtable1,'formtable2':formtable2,'count': counter(request),'object1': object1,'count_works': new_work_counter(request)}
     return render(request, 'leader/program_works/program_work_form_re_sent_to_check.html', context)
 
 @login_required(login_url='/signin')
@@ -591,7 +591,7 @@ def history_program_work(request, id):
 
     histories = History.objects.filter(object=id).order_by('active_time').all()
 
-    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
+    context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/history/history_program_work.html', context)
 
@@ -601,7 +601,7 @@ def history_polevoy_checking(request, id):
     work = WorkerObject.objects.filter(object=id).first()
     histories = History.objects.filter(object=id).order_by('active_time').all()
 
-    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
+    context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/history/history_polevoy_checking.html', context)
 
@@ -611,7 +611,7 @@ def history_komeral_checking(request, id):
     work = WorkerObject.objects.filter(object=id).first()
     histories = History.objects.filter(object=id).order_by('active_time').all()
 
-    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
+    context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/history/history_komeral_checking.html', context)
 
@@ -620,7 +620,7 @@ def history_report(request, id):
     pdoworks = PdoWork.objects.filter(status=0)
     work = WorkerObject.objects.filter(object=id).first()
     histories = History.objects.filter(object=id).all()
-    context = {'pdoworks': pdoworks, 'count': counter(), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
+    context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
     return render(request, 'leader/history/history_report.html', context)
 
 @login_required(login_url='/signin')
@@ -633,7 +633,7 @@ def leader_polevoy_works(request):
     aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=4).all() # tasdiqlangan ishlar
     rejecteds = PolevoyWorkReject.objects.all()
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejecteds': rejecteds,'count_works': new_work_counter(request)}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),'rejecteds': rejecteds,'count_works': new_work_counter(request)}
     return render(request, 'leader/polevoy/polevoy_works.html', context)
 
 from datetime import datetime
@@ -669,7 +669,7 @@ def checking_polevoy_works(request,id):
 
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
     
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'programwork':programwork
                ,'cots': cost,'now':now, 'poyasitelniy':poyasitelniy,'programworkform':programworkform,'count_works': new_work_counter(request),'a':a}
@@ -1171,7 +1171,7 @@ def leader_komeral_works(request):
     rejecteds = KameralWorkReject.objects.all()
 
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'new_ones':new_ones,
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(request),'new_ones':new_ones,
                'rejecteds': rejecteds,'count_works': new_work_counter(request)}
     return render(request, 'leader/komeral/komeral_works.html', context)
 
@@ -1185,7 +1185,7 @@ def leader_komeral_checking(request):
     rejecteds = LeaderKomeralWorkReject.objects.all()
 
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'rejecteds': rejecteds,'count_works': new_work_counter(request)}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(request),'rejecteds': rejecteds,'count_works': new_work_counter(request)}
     return render(request, 'leader/head_komeral/komeral_works.html', context)
 
 @login_required(login_url='/signin')
@@ -1200,7 +1200,7 @@ def checking_komeral_works(request,id):
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
     poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=workerobject).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order,'programworkform':programworkform,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request), 'siriefiles': siriefiles, 'order':order,'programworkform':programworkform,
                'poyasitelniy':poyasitelniy,'work':work, 'rejects':rejects, 'programwork': programwork,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/komeral/checking_komeral_works.html', context)
@@ -1218,7 +1218,7 @@ def show_komeral_work(request,id):
 
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),
                'programworkform':programworkform, 'siriefiles': siriefiles, 'order':order, 'work':work, 'rejects':rejects,'programwork':programwork,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/komeral/show_komeral_work.html', context)
@@ -1235,7 +1235,7 @@ def rejected_komeral_works(request,id):
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
     programwork = ProgramWork.objects.filter(object=id).first()
     
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),
                'order':order,'work':work,'rejects':rejects,'programwork': programwork,'siriefiles':siriefiles,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/komeral/rejected_komeral_works.html', context)
@@ -1353,7 +1353,7 @@ def show_komeral_checking_leader(request,id):
 
     context = {'objects': objects, 'work': work, 'objects_pdo': objects_pdo,
                'sirie_type': sirie_type,
-               'file': sirie_files, 'count': counter(), 'rejects': rejects,'pdowork':pdowork,'programworkform':programworkform,'programwork':programwork,'count_works': new_work_counter(request)}
+               'file': sirie_files, 'count': counter(request), 'rejects': rejects,'pdowork':pdowork,'programworkform':programworkform,'programwork':programwork,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/head_komeral/show_komeral_work.html', context)
 
@@ -1368,7 +1368,7 @@ def leader_rejected_komeral_works(request,id):
     sirie_files = SirieFiles.objects.filter(workerobject=work).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=id)
     context = {'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,
-               'file': sirie_files,'count': counter(),'rejects':rejects,'pdowork':pdowork,'count_works': new_work_counter(request)}
+               'file': sirie_files,'count': counter(request),'rejects':rejects,'pdowork':pdowork,'count_works': new_work_counter(request)}
     return render(request, 'leader/head_komeral/rejected_komeral_works.html', context)
 
 @login_required(login_url='/signin')
@@ -1390,7 +1390,7 @@ def leader_akt_form_edit(request,id):
 
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects,'count_works': new_work_counter(request)
                }
@@ -1407,7 +1407,7 @@ def leader_akt_komeral_form_edit(request,id):
 
     work = AktKomeralForm.objects.filter(object=id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles, 'order':order, 'work':work,'count_works': new_work_counter(request)}
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request), 'siriefiles': siriefiles, 'order':order, 'work':work,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/head_komeral/akt_komeral.html', context)
 
@@ -1438,7 +1438,7 @@ def worker_new_works(request):
     # status_recive = 1 is started work but not recived by worker
     worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).all()
 
-    context = {'worker_new_works': worker_new_works, 'count': counter(),'count_works': new_work_counter(request)}
+    context = {'worker_new_works': worker_new_works, 'count': counter(request),'count_works': new_work_counter(request)}
     return render(request, 'worker/worker_new_works.html', context)
 
 @login_required(login_url='/signin')
@@ -1451,7 +1451,7 @@ def polevoy_works(request):
     aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=4).filter(object__worker_ispolnitel=request.user.profile.pk).all() # tasdiqlangan ishlar
     rejects = PolevoyWorkReject.objects.all()
     context = {'worker_new_works': worker_new_works,'new_ones': new_ones, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),'rejects': rejects,'count_works': new_work_counter(request)}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),'rejects': rejects,'count_works': new_work_counter(request)}
     return render(request, 'worker/polevoy_works.html', context)
 
 @login_required(login_url='/signin')
@@ -1464,7 +1464,7 @@ def worker_komeral_works(request):
     rejecteds = KameralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),'count_works': new_work_counter(request),'rejecteds': rejecteds}
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(request),'count_works': new_work_counter(request),'rejecteds': rejecteds}
     return render(request, 'worker/komeral/komeral_works.html', context)
 
 @login_required(login_url='/signin')
@@ -1483,7 +1483,7 @@ def show_rejected_komeral_works(request,id):
 
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'file': sirie_files,'aktkomeral':aktkomeral,'count_works': new_work_counter(request)}
 
     return render(request, 'worker/komeral/rejected_komeral_works.html', context)
@@ -1524,7 +1524,7 @@ def polevoy_work_doing(request, id):
     poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=work).first()
 
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,'aktfile':aktfile,
-               'file': sirie_files,'count': counter(),'rejects':rejects,'programwork': programwork,
+               'file': sirie_files,'count': counter(request),'rejects':rejects,'programwork': programwork,
                'programworkform':programworkform,'count_works': new_work_counter(request),'cost': cost,'poyasitelniy': poyasitelniy,'count_works': new_work_counter(request)}
     return render(request, 'worker/polevoy_work_doing.html', context)
 
@@ -2381,7 +2381,7 @@ def object_poyasitelniy_form(request,id):
     form3=PoyasitelniyFormTable3.objects.filter(poyasitelniyform=form).all()
     form4=PoyasitelniyFormTable4.objects.filter(poyasitelniyform=form).all()
     aktkomeral = AktKomeralForm.objects.filter(object=id).first()
-    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work, 'objects_pdo': objects_pdo,'sirie_type':sirie_type,'count': counter(),
+    context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work, 'objects_pdo': objects_pdo,'sirie_type':sirie_type,'count': counter(request),
                'form':form, 'form1':form1, 'form2':form2, 'form3':form3, 'form4':form4,'count_works': new_work_counter(request),'aktkomeral':aktkomeral
                }
     return render(request, 'worker/object_poyasitelniy_form.html', context)
@@ -2446,7 +2446,7 @@ def show_akt_polevoy_worker(request,id):
 
     rejects = PolevoyWorkReject.objects.filter(workerobject=workerobject).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(), 'siriefiles': siriefiles,'order':order,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request), 'siriefiles': siriefiles,'order':order,
                'work_table1':work_table1, 'work_table2':work_table2, 'work_table3':work_table3, 'work_table4':work_table4, 'work_table5':work_table5,
                 'work_table6':work_table6, 'work_table7':work_table7, 'work_table8':work_table8,'work':work,'rejects':rejects, 'count_works': new_work_counter(request)}
 
@@ -5144,7 +5144,7 @@ def show_pdowork(request,id):
     order = Order.objects.filter(object=object).first()
 
     workers=Worker.objects.filter(status=0).filter(subdivision=request.user.profile.subdivision).filter(branch=request.user.profile.branch)
-    context = {'pdowork': pdowork, 'workers': workers,'count': counter(),'cost':cost,'order':order,'object' :object,'count_works': new_work_counter(request)}
+    context = {'pdowork': pdowork, 'workers': workers,'count': counter(request),'cost':cost,'order':order,'object' :object,'count_works': new_work_counter(request)}
     return render(request, 'leader/show_pdowork.html', context)
 
 @login_required(login_url='/signin')
@@ -5155,7 +5155,7 @@ def edit_pdowork(request,id):
     workers=Worker.objects.filter(status=0)
     order = Order.objects.filter(object__pdowork=pdowork).first()
     object=Object.objects.filter(pdowork=pdowork).first()
-    context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter(),'cost':cost,'count_works': new_work_counter(request)}
+    context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter(request),'cost':cost,'count_works': new_work_counter(request)}
     return render(request, 'leader/edit_pdowork.html', context)
 
 @login_required(login_url='/signin')
@@ -5309,7 +5309,7 @@ def program_works_geodezis(request):
     less_time_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=3).all()
     aggreed_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=4).all()
 
-    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),
+    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),
                'rejecteds': rejecteds,'count_works': new_work_counter(request)}
     # print(objects)
     return render(request, 'geodezis/program_works_geodesiz.html', context)
@@ -5327,7 +5327,7 @@ def program_work_event(request, id):
 
     rejects = ProgramWorkReject.objects.filter(programowork=object.programwork).all()
 
-    context = {'form': object, 'order': order, 'workers': workers, 'formtable2':formtable2, 'formtable1': formtable1, 'count': counter(), 'rejects': rejects,
+    context = {'form': object, 'order': order, 'workers': workers, 'formtable2':formtable2, 'formtable1': formtable1, 'count': counter(request), 'rejects': rejects,
                'files': files,'count_works': new_work_counter(request)}
     return render(request, 'geodezis/program_work_event.html', context)
 
@@ -5556,7 +5556,7 @@ def geodesiz_komeral_works(request):
     rejecteds = LeaderKomeralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
-               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(),
+               'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'count': counter(request),
                'rejecteds': rejecteds,'count_works': new_work_counter(request)}
     return render(request, 'geodezis/head_komeral/komeral_works.html', context)
 
@@ -5576,7 +5576,7 @@ def show_geodesiz_kameral_work(request,id):
     programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral,'programwork':programwork,'programworkform':programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'geodezis/head_komeral/checking_komeral_works.html', context)
@@ -5623,7 +5623,7 @@ def geodezis_rejected_komeral_works(request,id):
     programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work, 'rejects': rejects, 'sirie_type': sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request), 'order': order, 'work': work, 'rejects': rejects, 'sirie_type': sirie_type,
                'siriefiles': sirie_files,'aktkomeral': aktkomeral, 'programwork': programwork,'programworkform':programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'geodezis/head_komeral/rejected_komeral_works.html', context)
@@ -5671,7 +5671,7 @@ def geodeziz_show_komeral_work(request,id):
 
     rejects = LeaderKomeralWorkReject.objects.filter(object=workerobject.object).all()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work':work, 'rejects':rejects,'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request), 'order': order, 'work':work, 'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork, 'programworkform': programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'geodezis/head_komeral/show_komeral_work.html', context)
@@ -5684,7 +5684,7 @@ def geodezis_reports(request):
     less_time_ones = Report.objects.filter(status=3).all()
     aggreed_ones = Report.objects.filter(status=4).all()
     rejecteds = ReportReject.objects.all()
-    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),
+    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),
                'rejecteds': rejecteds,'checking_ones': checking_ones,'count_works': new_work_counter(request)}
     # print(objects)
     return render(request, 'geodezis/report/reports.html', context)
@@ -5707,7 +5707,7 @@ def geodezis_report_checking(request,id):
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).last()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork,'programworkform': programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'geodezis/report/report_checking.html', context)
@@ -5730,7 +5730,7 @@ def show_report_geodezis(request,id):
     programwork = ProgramWork.objects.filter(object=id).first()
     programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral,'report':report,'programwork': programwork,'programworkform': programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'geodezis/report/show_report.html', context)
@@ -5792,7 +5792,7 @@ def oogd_reports(request):
     less_time_ones = Report.objects.filter(status=3).all()
     aggreed_ones = Report.objects.filter(status=4).all()
     rejecteds = ReportReject.objects.all()
-    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(),
+    context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),
                'rejecteds': rejecteds,'checking_ones': checking_ones,'count_works': new_work_counter(request)}
     # print(objects)
     return render(request, 'oogd_reporter/report/reports.html', context)
@@ -5815,7 +5815,7 @@ def report_doing(request,id):
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request),'order':order,'work':work,'rejects':rejects,'sirie_type':sirie_type,
                'siriefiles': sirie_files,'aktkomeral':aktkomeral, 'programwork': programwork,'report':report,'programworkform':programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'oogd_reporter/report/report_doing.html', context)
@@ -5866,7 +5866,7 @@ def show_report(request,id):
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work':work, 'rejects':rejects, 'sirie_type':sirie_type,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request), 'order':order, 'work':work, 'rejects':rejects, 'sirie_type':sirie_type,
                'siriefiles': sirie_files, 'aktkomeral':aktkomeral, 'report': report, 'programwork': programwork,'programworkform': programworkform,'count_works': new_work_counter(request)}
 
     return render(request, 'oogd_reporter/report/show_report.html', context)
@@ -5889,7 +5889,7 @@ def sent_to_print(request,id):
     rejects = ReportReject.objects.filter(object=workerobject.object).all()
     report = Report.objects.filter(object=id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request), 'order': order, 'work': work,
                'rejects': rejects, 'sirie_type': sirie_type,
                'siriefiles': sirie_files, 'aktkomeral': aktkomeral, 'report': report,'programwork':programwork,'programworkform':programworkform,'count_works': new_work_counter(request)}
 
@@ -5924,7 +5924,7 @@ def confirm_print(request):
 @login_required(login_url='/signin')
 def ogogd_printer_works(request):
     works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
-    context = {'count': counter(),'works': works,'count_works': new_work_counter(request)}
+    context = {'count': counter(request),'works': works,'count_works': new_work_counter(request)}
 
     return render(request, 'oogd_printer/works.html', context)
 
@@ -5956,7 +5956,7 @@ def open_to_print(request,id):
 
     report = Report.objects.filter(object=id).first()
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order': order, 'work': work,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request), 'order': order, 'work': work,
                'rejects_reports': rejects_reports,
                'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
                'rejects_akt_komeral_works': rejects_akt_komeral_works,
@@ -6019,7 +6019,7 @@ def history(request):
     works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
     workers = Worker.objects.filter(branch=request.user.profile.branch).filter(status=0).all()
 
-    content={'count': counter(),'works':works,'workers':workers,'count_works':new_work_counter(request)}
+    content={'count': counter(request),'works':works,'workers':workers,'count_works':new_work_counter(request)}
     return render(request,'history.html',content)
 
 
@@ -6031,7 +6031,7 @@ def status_work(request, id):
     pdowork = Object.objects.filter(pdowork=work).first()
     histories = History.objects.filter(object=pdowork).all()
     works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
-    content = {'count': counter(),'works':works,'pdowork': pdowork,'work':work,'histories': histories,'count_works': new_work_counter(request)}
+    content = {'count': counter(request),'works':works,'pdowork': pdowork,'work':work,'histories': histories,'count_works': new_work_counter(request)}
     return render(request,'history_work.html',content)
 
 
@@ -6041,7 +6041,7 @@ def workers(request):
     objects = Object.objects.all()
     workerobjects = WorkerObject.objects.all()
     departments = Department.objects.all()
-    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments': departments,'count_works': new_work_counter(request)}
+    content={'count': counter(request), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments': departments,'count_works': new_work_counter(request)}
 
     return render(request,'leader/workers.html', content)
 
@@ -6052,7 +6052,7 @@ def show_worker(request,id):
     workerobjects = WorkerObject.objects.all()
     departments = Department.objects.all()
 
-    content={'count': counter(), 'worker': worker, 'objects': objects, 'workerobjects':workerobjects,'departments': departments,'count_works': new_work_counter(request)}
+    content={'count': counter(request), 'worker': worker, 'objects': objects, 'workerobjects':workerobjects,'departments': departments,'count_works': new_work_counter(request)}
 
     return render(request,'leader/show_worker.html', content)
 
@@ -6111,7 +6111,7 @@ def show_all_works(request,id):
     report = Report.objects.filter(object=id).all()
 
 
-    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(), 'order':order, 'work': work, 'rejects_reports':rejects_reports,
+    context = {'workerobject': workerobject, 'pdowork': pdowork, 'count': counter(request), 'order':order, 'work': work, 'rejects_reports':rejects_reports,
                'rejects_programworks': rejects_programworks, 'rejects_akt_polevoy_works': rejects_akt_polevoy_works,
                'rejects_akt_komeral_works': rejects_akt_komeral_works,'rejects_akt_komeral_leader_works':rejects_akt_komeral_leader_works,
                'sirie_type': sirie_type, 'siriefiles': sirie_files, 'aktkomeral': aktkomeral,
@@ -6151,7 +6151,7 @@ def login(request):
 def settings(request,id):
     worker = Worker.objects.filter(id=id).first()
 
-    content={'count': counter(),'count_works':new_work_counter(request), 'worker': worker,'count_works': new_work_counter(request)}
+    content={'count': counter(request),'count_works':new_work_counter(request), 'worker': worker,'count_works': new_work_counter(request)}
 
     return render(request,'settings.html', content)
 
@@ -6237,7 +6237,7 @@ def new_messages(request):
     messages_read = Xabarlar.objects.filter(message_reciver=request.user.profile.pk).filter(status_deleted=0).filter(status_new=0).order_by('-id').all()
     messages_deleted = Xabarlar.objects.filter(message_sender=request.user.profile.pk).filter(status_deleted=1).order_by('-id').all()
 
-    context = {'count': counter(), 'count_works': new_work_counter(request), 'workers':workers,
+    context = {'count': counter(request), 'count_works': new_work_counter(request), 'workers':workers,
                 'messages_sended': messages_sended, 'messages_recived':messages_recived, 'messages_deleted': messages_deleted,
                'messages_read':messages_read,'messages_sended_page':messages_sended_page}
 
@@ -6304,7 +6304,7 @@ def register(request):
     departments = SubDivisions.objects.all()
     branches = Branch.objects.all()
 
-    content={'count': counter(), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments,'branches': branches}
+    content={'count': counter(request), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments,'branches': branches}
 
     return render(request,'regiter.html', content)
 

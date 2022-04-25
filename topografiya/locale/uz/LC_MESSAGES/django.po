@@ -140,7 +140,7 @@ msgstr "Joriy ishlar"
 
 #: topografiya/templates/master.html:347 topografiya/templates/master.html:391
 msgid "Отчет"
-msgstr "Xisobot"
+msgstr "Hisobot"
 
 #: topografiya/templates/master.html:370
 msgid "Новые задания"
@@ -589,16 +589,16 @@ msgid "Сформировать отчет по съемке инженерны�
 msgstr "Muhandislik tarmoqlarini o'rganish bo'yicha hisobot tuzing"
 
 msgid "Ознокомление с отчетом"
-msgstr "Xisobot bilan tanishish"
+msgstr "Hisobot bilan tanishish"
 
 msgid "Загрузить отчет и отправить на проверку"
-msgstr "Xisobotni yuklash va tekshiruvga yuborish"
+msgstr "Hisobotni yuklash va tekshiruvga yuborish"
 
 msgid "Загрузите отчет"
-msgstr "Xisobot yuklash"
+msgstr "Hisobot yuklash"
 
 msgid "Файл отчета"
-msgstr "Xisobot fayli"
+msgstr "Hisobot fayli"
 
 msgid "Дополнительная информация"
 msgstr "Qo'shimcha ma'lumot"
@@ -610,7 +610,7 @@ msgid "Отчеты, отправленные на проверку"
 msgstr "Tekshiruvga yuborilgan hisobotlar"
 
 msgid "Отчеты, возвращенные после проверки"
-msgstr "Tekshiruvdan qaytarilgan xisobotlar"
+msgstr "Tekshiruvdan qaytarilgan hisobotlar"
 
 msgid "Нет новая работы"
 msgstr "Yangi ish yo'q"
@@ -807,23 +807,69 @@ msgstr "AKT dalolatnomasi to'ldirilgan sana"
 msgid "В процессе проверки"
 msgstr "Tekshiruv jarayonida"
 
-msgid " "
-msgstr " "
+msgid "Отправка на проверку"
+msgstr "Tekshiruvga yuborish"
+
+msgid "АКТ программа работ"
+msgstr "AKT ishchi dasturi"
+
+msgid "Положительный"
+msgstr "Ijobiy"
+
+msgid "Отрицательный"
+msgstr "Salbiy"
+
+msgid "Ознакомление с программа работ"
+msgstr "Ishchi dasturi bilan tanishish"
+
+msgid "Повторно отправить на проверку"
+msgstr "Tekshiruvga qayta yuborish"
+
+msgid "Сотрудник"
+msgstr "Ishchi"
+
+msgid "Статус"
+msgstr "Xolati"
+
+msgid "Активный"
+msgstr "Faol"
+
+msgid "Неактивный"
+msgstr "Faol emas"
+
+msgid "Разрешить"
+msgstr "Ruhsat berish"
+
+msgid "ВСЕ РАБОТЫ"
+msgstr "BARCHA ISHLAR"
+
+msgid "СОСТОЯНИЕ ПРОГРАММ РАБОТ"
+msgstr "ISHCHI DASTUR HOLATI"
+
+msgid "СОСТОЯНИЕ КОМЕРАЛ КОНТРОЛЬ"
+msgstr "KOMERAL NAZORAT HOLATI"
+
+msgid "КРАТКОСРОЧНАЯ РАБОТА"
+msgstr "MUDDATI KAM QOLGANLAR"
+
+msgid "ИСТЕКШИЕ СРОКИ"
+msgstr "MUDDATI TUGAGANLAR"
+
+msgid "Поиск информацию"
+msgstr "Ma'lumot izlash"
+
+msgid "Статус программа работ"
+msgstr "Ishchi dastur holati"
+
+msgid "Статус полевого контроля"
+msgstr "Dala nazorati holati"
+
+msgid "Статус камерального контроля"
+msgstr "Komeral nazorati holati"
 
 msgid " "
 msgstr " "
 
-msgid " "
-msgstr " "
-
-msgid " "
-msgstr " "
-
-msgid " "
-msgstr " "
-
-msgid " "
-msgstr " "
 
 
 

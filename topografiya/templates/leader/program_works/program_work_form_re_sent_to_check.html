@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block title %} Топографик-Геодезик Дастури o'zgartirish {% endblock %}
-
+{% load i18n %}
 {% block content%}
 
 {% block stylecontent %}
@@ -21,7 +21,7 @@
           <div class="modal-content">
               <div class="modal-header bg-danger">
                   <h5 class="modal-title text-white" id="exampleModalLabel1">
-                      Отказанные
+                      {% trans "Отказанные" %}
                   </h5>
                   <button class="btn-close text-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -33,10 +33,10 @@
                                     {% for work in rejects %}
                                             <li>
                                             <ul>
-                                               <li class="p-1"><b class="text-primary">Причина возврата: </b> {{ work.reason }}</li>
-                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Ishchi dasturi <b>{{ work.version }}</b></a></li>
+                                               <li class="p-1"><b class="text-primary">{% trans "Причина возврата" %}: </b> {{ work.reason }}</li>
+                                                <li class="p-1"><a href="/{{ work.rejected_file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> {% trans "АКТ программа работ" %} <b>{{ work.version }}</b></a></li>
                                                 {% if work.file %}
-                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> Қайтариш сабаби иловаси</a></li>
+                                                    <li class="p-1"><a href="/{{ work.file }}" target="_blank"><i class="fa fa-file-pdf-o"></i> {% trans "Приложение причины возврата" %}</a></li>
                                                 {% endif %}
                                             </ul>
                                             <hr>
@@ -59,14 +59,14 @@
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Топографо-геодезическая программа</h3>
+                            <h3>{% trans "Программа работ" %}</h3>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Главная" %}</a></li>
                                 {% if user.profile.status == '1' %}
-                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">Топографо-геодезическая программа</a> </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_leader' %}">{% trans "Программа работ" %}</a> </li>
                                 {% endif %}
                                 {% if user.profile.status == '2' %}
-                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">Топографо-геодезическая программа</a> </li>
+                                    <li class="breadcrumb-item"><a href="{% url 'program_works_geodezis' %}">{% trans "Программа работ" %}</a> </li>
                                 {% endif %}
 
                                 <li class="breadcrumb-item">{{ object.pdowork.object_name }}</li>
@@ -77,7 +77,7 @@
                      <div class="col-sm-6 text-end">
                             {% if rejects %}
                                 <button  class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa fa-refresh"></i>
-                                    Количество отказов
+                                    {% trans "Количество отказов" %}
 
                                     {% if rejects.count > 0 %}
                                          &nbsp;
@@ -101,18 +101,18 @@
                         <div class="card">
                             <div class="card-header pb-0">
                                 {% if form.programwork.status == 4 %}
-                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> Утвержденная работа</b></div>
+                                    <div class="ribbon ribbon-right ribbon-success"><b><i class="fa fa-check"></i> {% trans "Положительный" %}</b></div>
                                 {% endif %}
                                 {% if form.programwork.status == 2 %}
-                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> Отклоненная работа</b></div>
+                                    <div class="ribbon ribbon-right ribbon-danger"><b><i class="fa fa-close"></i> {% trans "Отрицательный" %}</b></div>
                                 {% endif %}
                             </div>
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="icon-tab" role="tablist">
-                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">Загрузите готовый файл</a></li>
-                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">Войти через форму </a></li>
-                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">Предписание</a></li>
-                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">Информация о заказе</a></li>
+                                    <li class="nav-item "><a class="nav-link" id="icon-home-tab" data-bs-toggle="tab" href="#icon-home" role="tab" aria-controls="icon-home" aria-selected="true">{% trans "Загрузка готового файла" %}</a></li>
+                                    <li class="nav-item"><a class="nav-link active" id="profile-icon-tab" data-bs-toggle="tab" href="#profile-icon" role="tab" aria-controls="profile-icon" aria-selected="false">{% trans "Ввод через форму" %} </a></li>
+                                    <li class="nav-item"><a class="nav-link" id="ilova-icon-tab" data-bs-toggle="tab" href="#ilova-icon" role="tab" aria-selected="false">{% trans "Предписание" %}</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="contact-icon-tab" data-bs-toggle="tab" href="#contact-icon" role="tab" aria-controls="contact-icon" aria-selected="false">{% trans "Информация о заказе" %}</a></li>
                                 </ul>
 
                                 <div class="tab-content" id="icon-tabContent">
@@ -469,7 +469,7 @@
 
                                                {% if form.programwork.status == 2 %}
                                                     <input type="text" value="{{ object.id }}" name="object_id" style="display:none;">
-                                                    <button type="button" id="program_work_form_re_sent" class="float-end btn btn-primary">Повторно отправить на проверку</button>
+                                                    <button type="button" id="program_work_form_re_sent" class="float-end btn btn-primary">{% trans "Повторно отправить на проверку" %}</button>
                                               {% endif %}
 
                                           </form>
@@ -483,60 +483,52 @@
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary">
                                                 <h5 class="modal-title" id="exampleModalLabel">
-                                                   Информация о заказе</h5>
+                                                 {% trans "Информация о заказе" %}</h5>
                                             </div>
 
                                                   <div class="modal-body">
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="mb-2">
-                                                                                    <b>Номер договора<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Номер договора" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_number }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Дата договора</b>
+                                                                                    <b>{% trans "Дата договора" %}</b>
                                                                                     <p>{{ object.pdowork.agreement_date }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Наименование объекта<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Наименование объекта" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_name }} </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Заказчик</b>
+                                                                                     <b>{% trans "Заказчик" %}</b>
                                                                                     <p>{{ object.pdowork.customer }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Адрес объекта<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Адрес объекта" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_address }}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 text-end">
                                                                                 <div class="mb-2">
-                                                                                    <b>Сроки выполнения<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.work_term }} kun</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Реквизиты заказчика<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                     <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.customer_info }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Вид работы<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Вид работы" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.work_type }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Сумма договора<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Сумма договора" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.object_cost}}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Отдел ответственный за исполнительнение<sup
-                                                                                            style="color: red;">*</sup></b>
+                                                                                    <b>{% trans "Отдел ответственный за исполнительнение" %}<sup style="color: red;">*</sup></b>
                                                                                     <p>{{ object.pdowork.department }}</p>
                                                                                 </div>
                                                                             </div>
@@ -544,20 +536,20 @@
                                                                         <ul class="folder">
                                                                             <li class="folder-box">
                                                                                 <a href="/{{ object.pdowork.latter }}" target="_blank">
-                                                                                    <i class="fa fa-file-pdf-o f-20 txt-dark"></i>  Ознакомление с письмом заказчика
+                                                                                    <i class="fa fa-file-pdf-o f-20 txt-dark"></i>  {% trans "Ознакомление с письмом заказчика" %}
                                                                                 </a>
                                                                             </li>
                                                                             <li class="folder-box m-b-5 m-t-5">
                                                                                 <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
                                                                                 <a href="/{{ object.pdowork.tz }}" target="_blank">
-                                                                                        Ознакомление с техническим заданием
+                                                                                        {% trans "Ознакомление с техническим заданием" %}
                                                                                 </a>
 
                                                                             </li>
 
                                                                             <li class="folder-box">
                                                                                 <i class="fa fa-file-pdf-o f-20 txt-dark"></i>
-                                                                                <a href="/{{ object.pdowork.smeta }}" target="_blank">Ознакомление со сметой</a>
+                                                                                <a href="/{{ object.pdowork.smeta }}" target="_blank">{% trans "Ознакомление со сметой" %}</a>
                                                                             </li>
 
                                                                         </ul>
@@ -574,18 +566,18 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6">
-                                                                            <h5>Cформировать рабочую программу и отчет<sup
+                                                                            <h5>{% trans "Cформировать рабочую программу и отчет" %}<sup
                                                                                         style="color: red">*</sup></h5>
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
-                                                                                    <label for="radio1"><span class="digits">Да</span></label>
+                                                                                    <label for="radio1"><span class="digits">{% trans "Да" %}</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
-                                                                                    <label for="radio4">Нет</label>
+                                                                                    <label for="radio4">{% trans "Нет" %}</label>
                                                                                 </div>
 
                                                                             </div>
@@ -595,7 +587,7 @@
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="mb-4">
-                                                                                <h5>Ответственное лицо за выполнение данной работы<sup
+                                                                                <h5>{% trans "Ответственное лицо за выполнение данной работы" %}<sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
 {#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
@@ -611,7 +603,7 @@
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
-                                                                                 Cформировать рабочую программу и отчет</h5>
+                                                                                 {% trans "Формирование инструкции по выполнению топографо-геодезических работ" %}</h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-3 col-form-label">
                                                                                     Должность, Ф.И.О. исполнителя
@@ -750,19 +742,22 @@
                                                                                 </div>
 
                                                                             </div>
-                                                                            <div class="floder_input">
+                                                                             <div class="floder_input">
+                                                                                <label><b>17. </b>Приложение:</label>
                                                                                 <div class="row">
-                                                                                    <a download="" href="#">
-                                                                                        <div class="f-14 f-w-600">
-                                                                                            <span><i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Копия технического задания
+
+                                                                                     <a href="/{{ pdowork.pdowork.tz }}" target="_blank">
+                                                                                        <div class="f-14 f-w-600 m-l-25">
+                                                                                            <span>  <label><b style="color: black">1. </b></label> <i style="color: #168eea;font-size: 20px;" class="fa fa-files-o"></i></span> Tехническоe заданиe
                                                                                         </div>
                                                                                     </a>
-                                                                                    <a href="#" download="">
-                                                                                        <div class="f-14 f-w-600"><span>
-                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>
-                                                                                            Графическое приложение
-                                                                                        </div>
-                                                                                    </a>
+{#                                                                                    <a href="/{{ pdowork.smeta }}" target="_blank">#}
+{#                                                                                        <div class="f-14 f-w-600 m-l-25"><span>#}
+{#                                                                                            <label><b style="color: black">2. </b></label>#}
+{#                                                                                            <i style="color: #168eea;font-size: 20px;" class="fa fa-line-chart"></i></span>#}
+{#                                                                                            Графическое приложение#}
+{#                                                                                        </div>#}
+{#                                                                                    </a>#}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">

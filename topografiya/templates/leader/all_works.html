@@ -3,7 +3,8 @@
 {% load static %}
 {% block title %} Barcha ishlar {% endblock %}
 {% block content%}
-
+{% load i18n %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 {% block stylecontent %}
     {% load mathfilters %}
 <style>
@@ -42,9 +43,6 @@
 
 </style>
 {% endblock stylecontent %}
-
-
-
         <div class="page-body">
             <div class="container-fluid">
                 <div class="row">
@@ -56,23 +54,23 @@
                                         <li class="nav-item"><a class="nav-link active" id="pills-warninghome-tab"
                                                                 data-bs-toggle="pill" href="#pills-warninghome"
                                                                 role="tab" aria-controls="pills-warninghome"
-                                                                aria-selected="true"><b>ВСЕ РАБОТЫ</b></a></li>
-                                        <li class="nav-item"><a class="nav-link" id="pills-warningprofile-tab"
-                                                                data-bs-toggle="pill" href="#pills-warningprofile"
-                                                                role="tab" aria-controls="pills-warningprofile"
-                                                                aria-selected="false"><b>СОСТОЯНИЕ ПРОГРАММ РАБОТ</b></a></li>
-                                        <li class="nav-item"><a class="nav-link" id="pills-warningcontact-tab"
-                                                                data-bs-toggle="pill" href="#pills-warningcontact"
-                                                                role="tab" aria-controls="pills-warningcontact"
-                                                                aria-selected="false"><b>СОСТОЯНИЕ КОМЕРАЛ КОНТРОЛЬ </b></a></li>
-                                        <li class="nav-item"><a class="nav-link" id="pills-warningtime-tab"
-                                                                data-bs-toggle="pill" href="#pills-warningtime"
-                                                                role="tab" aria-controls="pills-warningtime"
-                                                                aria-selected="false"><b>КРАТКОСРОЧНАЯ РАБОТА</b></a></li>
-                                        <li class="nav-item"><a class="nav-link" id="pills-warningend-tab"
-                                                                data-bs-toggle="pill" href="#pills-warningend"
-                                                                role="tab" aria-controls="pills-warningend"
-                                                                aria-selected="false"><b>ИСТЕКШИЕ СРОКИ</b></a></li>
+                                                                aria-selected="true"><b> {% trans "ВСЕ РАБОТЫ" %}</b></a></li>
+{#                                        <li class="nav-item"><a class="nav-link" id="pills-warningprofile-tab"#}
+{#                                                                data-bs-toggle="pill" href="#pills-warningprofile"#}
+{#                                                                role="tab" aria-controls="pills-warningprofile"#}
+{#                                                                aria-selected="false"><b> {% trans "СОСТОЯНИЕ ПРОГРАММ РАБОТ" %}</b></a></li>#}
+{#                                        <li class="nav-item"><a class="nav-link" id="pills-warningcontact-tab"#}
+{#                                                                data-bs-toggle="pill" href="#pills-warningcontact"#}
+{#                                                                role="tab" aria-controls="pills-warningcontact"#}
+{#                                                                aria-selected="false"><b> {% trans "СОСТОЯНИЕ КОМЕРАЛ КОНТРОЛЬ" %} </b></a></li>#}
+{#                                        <li class="nav-item"><a class="nav-link" id="pills-warningtime-tab"#}
+{#                                                                data-bs-toggle="pill" href="#pills-warningtime"#}
+{#                                                                role="tab" aria-controls="pills-warningtime"#}
+{#                                                                aria-selected="false"><b> {% trans "КРАТКОСРОЧНАЯ РАБОТА" %}</b></a></li>#}
+{#                                        <li class="nav-item"><a class="nav-link" id="pills-warningend-tab"#}
+{#                                                                data-bs-toggle="pill" href="#pills-warningend"#}
+{#                                                                role="tab" aria-controls="pills-warningend"#}
+{#                                                                aria-selected="false"><b> {% trans "ИСТЕКШИЕ СРОКИ" %}</b></a></li>#}
                                     </ul>
                                 </nav>
                             <div class="tab-content" id="pills-warningtabContent">
@@ -88,18 +86,18 @@
 {#                                                                class="icofont icofont-search"></i> Бу йердан қидиринг#}
 {#                                                        </button>#}
 {#                                                    </div>#}
-                                                    <div class="row">
-
-                                                        <div class="col-md-12">
-                                                             <div class="input-group">
-                                                                <span class="input-group-text"><i class="fa fa-search"></i> </span>
-                                                                <input id="search" type="text" class="form-control" placeholder="Поиск информацию..">
-                                                              </div>
-                                                        </div>
-                                                        <br>
-                                                        <br>
-
-                                                    </div>
+{#                                                    <div class="row">#}
+{##}
+{#                                                        <div class="col-md-12">#}
+{#                                                             <div class="input-group">#}
+{#                                                                <span class="input-group-text"><i class="fa fa-search"></i> </span>#}
+{#                                                                <input id="search" type="text" class="form-control" placeholder="{% trans "Поиск информацию" %}..">#}
+{#                                                              </div>#}
+{#                                                        </div>#}
+{#                                                        <br>#}
+{#                                                        <br>#}
+{##}
+{#                                                    </div>#}
 
 
                                                     <div class="collapse" id="collapseicon" aria-labelledby="collapseicon" data-bs-parent="#accordionoc" style="">
@@ -190,21 +188,21 @@
                                                             <div class="col-sm-12">
                                                                 <div class="card border-0">
                                                                     <div class="table-responsive">
-                                                                        <table class="table m-t-15">
-                                                                            <thead class="bg-primary">
+
+                                                                        <table id="examples" class="table table-bordered" style="width:100%">
+                                                                            <thead class="bg-primary table-primary">
                                                                             <tr>
                                                                                 <th scope="col">№</th>
-                                                                                <th scope="col">Наименование объекта</th>
-                                                                                <th scope="col">Испонитель</th>
-                                                                                <th scope="col">Статус программа работ </th>
-                                                                                <th scope="col">Статус полевого контроля</th>
-                                                                                <th scope="col">Статус камерального контроля</th>
-                                                                                <th scope="col">Oтчет</th>
-                                                                                <th scope="col">Смотреть</th>
-
+                                                                                <th scope="col">{% trans "Наименование объекта" %}</th>
+                                                                                <th scope="col">{% trans "Испонитель" %}</th>
+                                                                                <th scope="col">{% trans "Статус программа работ" %} </th>
+                                                                                <th scope="col">{% trans "Статус полевого контроля" %}</th>
+                                                                                <th scope="col">{% trans "Статус камерального контроля" %}</th>
+                                                                                <th scope="col">{% trans "Oтчет" %}</th>
+                                                                                <th scope="col">{% trans "Смотреть" %}</th>
                                                                             </tr>
                                                                             </thead>
-                                                                            <tbody>
+                                                                            <tbody id="search_item" >
                                                                              {% for work in workerobjects %}
                                                                             <tr {% if work.status == 5 %} style="background-color: #d5f8da;text-align: center" {% else %} style="background-color: rgba(255, 224, 179, 0.8);text-align: center" {% endif %}>
                                                                 <td scope="row">#</td>
@@ -305,7 +303,7 @@
                                                                 {% if work.status == 5 %}
                                                                     <td>
                                                                         <a href="{% url 'show_all_works' id=work.object.id %}">
-                                                                            <button style="white-space: nowrap;" class="btn btn-primary">Просмотр</button>
+                                                                            <button style="white-space: nowrap;" class="btn btn-primary">{% trans "Просмотр" %}</button>
                                                                         </a>
                                                                     </td>
                                                                 {% else %}
@@ -363,15 +361,13 @@
                                                                             <thead class="bg-primary">
                                                                             <tr>
                                                                                 <th scope="col">№</th>
-                                                                                <th scope="col">Обект номи</th>
-                                                                                <th scope="col">Маъсул шахс</th>
-                                                                                <th scope="col">Ишчи дастур ҳолати</th>
-                                                                                <th scope="col">Дала назорати ҳолати
-                                                                                </th>
-                                                                                <th scope="col">Камерал нозорат ҳолати
-                                                                                </th>
-                                                                                <th scope="col">Хисобот</th>
-                                                                                <th scope="col">Кўриш</th>
+                                                                                <th scope="col">{% trans "Наименование объекта" %}</th>
+                                                                                <th scope="col">{% trans "Испонитель" %}</th>
+                                                                                <th scope="col">{% trans "Статус программа работ" %} </th>
+                                                                                <th scope="col">{% trans "Статус полевого контроля" %}</th>
+                                                                                <th scope="col">{% trans "Статус камерального контроля" %}</th>
+                                                                                <th scope="col">{% trans "Oтчет" %}</th>
+                                                                                <th scope="col">{% trans "Смотреть" %}</th>
 
                                                                             </tr>
                                                                             </thead>
@@ -523,16 +519,14 @@
                                                                         <table class="table m-t-15">
                                                                             <thead class="bg-primary">
                                                                             <tr>
-                                                                                <th scope="col">#</th>
-                                                                                <th scope="col">Обект номи</th>
-                                                                                <th scope="col">Маъсул шахс</th>
-                                                                                <th scope="col">Ишчи дастур ҳолати</th>
-                                                                                <th scope="col">Дала назорати ҳолати
-                                                                                </th>
-                                                                                <th scope="col">Камерал нозорат ҳолати
-                                                                                </th>
-                                                                                <th scope="col">Хисобот</th>
-                                                                                <th scope="col">Кўриш</th>
+                                                                                <th scope="col">№</th>
+                                                                                <th scope="col">{% trans "Наименование объекта" %}</th>
+                                                                                <th scope="col">{% trans "Испонитель" %}</th>
+                                                                                <th scope="col">{% trans "Статус программа работ" %} </th>
+                                                                                <th scope="col">{% trans "Статус полевого контроля" %}</th>
+                                                                                <th scope="col">{% trans "Статус камерального контроля" %}</th>
+                                                                                <th scope="col">{% trans "Oтчет" %}</th>
+                                                                                <th scope="col">{% trans "Смотреть" %}</th>
 
                                                                             </tr>
                                                                             </thead>
@@ -6809,18 +6803,17 @@
                                         <div class="col-sm-12">
                                             <div class="card border-0">
                                                 <div class="table-responsive">
-                                                    <table class="table table-hover">
+                                                     <table id="example" class="table table-bordered" style="width:100%">
                                                         <thead>
                                                         <tr style="text-align: center">
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Наименование объекта</th>
-                                                            <th scope="col">Исполнитель</th>
-                                                            <th scope="col">Программа работ </th>
-                                                            <th scope="col">Полевого контроля</th>
-                                                            <th scope="col">Kомерал контроля</th>
-                                                            <th scope="col">Отчет</th>
-                                                            <th scope="col">Просмотр</th>
-
+                                                            <th scope="col">№</th>
+                                                            <th scope="col">{% trans "Наименование объекта" %}</th>
+                                                            <th scope="col">{% trans "Испонитель" %}</th>
+                                                            <th scope="col">{% trans "Статус программа работ" %} </th>
+                                                            <th scope="col">{% trans "Статус полевого контроля" %}</th>
+                                                            <th scope="col">{% trans "Статус камерального контроля" %}</th>
+                                                            <th scope="col">{% trans "Отчет" %}</th>
+                                                            <th scope="col">{% trans "Смотреть" %}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody id="all_works">
@@ -10403,47 +10396,17 @@
             </div>
         </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<script>
-$(document).ready(function(){
-  $("#search").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#all_works tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
-    <script>
-    $(document).ready(function(){
-        var work_agreement = $('work').attr('work_agreement');
-        var work_term = $('work').attr('work_term');
-        var current_date = $('work').attr('current_date');
-
-        console.log(work_agreement);
-        console.log(work_term);
-        console.log(current_date);
-
-    });
-    </script>
-
-    <script>
-        let elements = document.getElementsByClassName("time");
-        let terms = document.getElementsByClassName("term");
-        const dates = [];
-        for(let i=0; i < elements.length; i++){
-            dates.push(elements[i].innerHTML);
-            var a = dates[i].split('/').reverse();
-            var b = a[0].toString()+'-'+a[1].toString()+'-'+a[2].toString();
-            const d = new Date(b);
-            d.setDate(d.getDate() + parseInt(terms[i].innerHTML));
-            t=d.toISOString().substring(0, 10);
-
-            document.getElementsByClassName("one")[i].setAttribute("data-time", t);
-            document.getElementsByClassName("count")[i].innerHTML=1;
-        }
-    </script>
 
 
 {% endblock %}
+   {% block scriptcontent %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+    </script>
+
+    {% endblock scriptcontent %}
+

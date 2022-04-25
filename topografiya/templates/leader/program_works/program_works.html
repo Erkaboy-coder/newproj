@@ -75,7 +75,7 @@
                                     <div class="tab-pane fade" id="checking-ones" role="tabpanel" aria-labelledby="profile-icon-tab">
                                         <div class="row">
                                             {% if checking_ones.count == 0 %}
-                                             <p class="mb-0 m-t-30">В процессе обсуждения</p>
+                                             <p class="mb-0 m-t-30">{% trans "В процессе обсуждения" %}</p>
                                             {% endif %}
 
                                              {% for object in checking_ones %}
@@ -86,15 +86,15 @@
                                                                          <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                         <div class="blog-bottom-content">
-                                                                            <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
-                                                                            <div><b>Дата заключения договора:</b> {{ object.object.pdowork.agreement_date }}</div>
-                                                                            <div><b>Адрес объекта:</b> {{ object.object.pdowork.object_address }}</div>
+                                                                            <div><b>{% trans "Наименование заказчика" %}:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>{% trans "Местоположение" %}:</b> {{ object.object.pdowork.object_address }}</div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
                                                                             <a href="{% url 'program_work_form_edit' id=object.object.id %}">
                                                                                 <button class="btn btn-square btn-outline-primary-2x">
-                                                                                    Подробная информация
+                                                                                    {% trans "Подробная информация" %}
                                                                                 </button>
                                                                             </a>
                                                                         </div>
@@ -111,7 +111,7 @@
                                     <div class="tab-pane fade" id="rejected-ones" role="tabpanel" aria-labelledby="contact-icon-tab">
                                         <div class="row">
                                         {% if rejected_ones.count == 0 %}
-                                             <p class="mb-0 m-t-30">Возвращенные работы отсутствуют</p>
+                                             <p class="mb-0 m-t-30">{% trans "Hет возвращенные работы" %}</p>
                                         {% endif %}
 
                                         {% for object in rejected_ones %}
@@ -124,10 +124,10 @@
                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
                                                         <h5>{{ object.object.pdowork.object_name }}</h5>
                                                         <div class="blog-bottom-content">
-                                                            <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
-                                                            <div><b>Дата заключения договора:</b> {{ object.object.pdowork.agreement_date }}</div>
-                                                            <div><b>Адрес объекта:</b> {{ object.object.pdowork.object_address }}</div>
-                                                            <div class="text-end text-danger"><b>Количество отказов:</b><span style="color: #168eea;font-size:30px;">
+                                                            <div><b>{% trans "Наименование заказчика" %}:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>{% trans "Местоположение" %}:</b> {{ object.object.pdowork.object_address }}</div>
+                                                            <div class="text-end text-danger"><b>{% trans "Количество отказов" %}:</b><span style="color: #168eea;font-size:30px;">
 
                                             <b  class="count" data-all="{% for work in rejecteds %}{% if work.programowork.object.id == object.object.id %} {{ work.programowork.object.id }},{% endif %}{% endfor %}"></b>
 
@@ -138,7 +138,7 @@
                                                          <div class="detail-footer">
                                                              <a href="{% url 'program_work_form_re_sent_to_check' id=object.object.id %}">
                                                                  <button class="btn btn-square btn-primary w-100">
-                                                                     Подробная информация
+                                                                     {% trans "Подробная информация" %}
                                                                  </button>
                                                              </a>
                                                          </div>
@@ -159,7 +159,7 @@
                                         <div class="row">
 
                                          {% if less_time_ones.count == 0 %}
-                                             <p class="mb-0 m-t-30">Краткосрочная работа отсутствуют</p>
+                                             <p class="mb-0 m-t-30">{% trans "Краткосрочная работа отсутствуют" %}</p>
                                         {% endif %}
 
                                         {% for object in less_time_ones %}
@@ -171,15 +171,15 @@
                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %} </div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                        <div class="blog-bottom-content">
-                                                                            <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
-                                                                            <div><b>Дата заключения договора:</b> {{ object.object.pdowork.agreement_date }}</div>
-                                                                            <div><b>Адрес объекта:</b> {{ object.object.pdowork.object_address }}</div>
+                                                                            <div><b>{% trans "Наименование заказчика" %}:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>{% trans "Местоположение" %}:</b> {{ object.object.pdowork.object_address }}</div>
                                                                         </div>
                                                         <hr>
                                                         <div class="detail-footer">
                                                             <a href="#">
                                                                 <button class="btn btn-square btn-outline-primary-2x">
-                                                                   Подробная информация
+                                                                   {% trans "Подробная информация" %}
                                                                 </button>
                                                             </a>
                                                         </div>
@@ -198,7 +198,7 @@
                                         <div class="row">
 
                                             {% if aggreed_ones.count == 0 %}
-                                                 <p class="mb-0 m-t-30">Утвержденные работы отсутствуют</p>
+                                                 <p class="mb-0 m-t-30">{% trans "Утвержденные работы отсутствуют" %}</p>
                                             {% endif %}
 
                                             {% for object in aggreed_ones %}
@@ -209,15 +209,15 @@
                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> День</div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                         <div class="blog-bottom-content">
-                                                                            <div><b>Заказчик:</b> {{ object.object.pdowork.customer }}</div>
-                                                                            <div><b>Дата заключения договора:</b> {{ object.object.pdowork.agreement_date }}</div>
-                                                                            <div><b>Адрес объекта:</b> {{ object.object.pdowork.object_address }}</div>
+                                                                            <div><b>{% trans "Наименование заказчика" %}:</b> {{ object.object.pdowork.customer }}</div>
+                                                                            <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
+                                                                            <div><b>{% trans "Местоположение" %}:</b> {{ object.object.pdowork.object_address }}</div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="detail-footer">
                                                                             <a href="{% url 'program_work_form_edit' id=object.object.id %}">
                                                                                 <button class="btn btn-square btn-outline-primary-2x">
-                                                                                    Подробная информация
+                                                                                    {% trans "Подробная информация" %}
                                                                                 </button>
                                                                             </a>
                                                                         </div>
