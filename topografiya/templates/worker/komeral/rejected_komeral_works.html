@@ -2,7 +2,8 @@
 {% load i18n %}
 {% load static %}
 {% block title %} Dala nazoratini bajarish {% endblock %}
-
+{% load l10n %}
+        {% load humanize %}
 {% block content%}
 
 {% block stylecontent %}
@@ -136,7 +137,7 @@
                             <h3>{% trans "Выполнение работ" %}</h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fa fa-home f-20"></i></a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">{% trans "Камеральный Контроль" %}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'worker_komeral_works' %}">{% trans "Камеральный контроль" %}</a></li>
                                 <li class="breadcrumb-item">{{ work.object.pdowork.object_name }}</li>
 {#                                <li class="breadcrumb-item">Выполнение работ</li>#}
                             </ol>
@@ -723,7 +724,7 @@
                             <div class="card-body">
                                 <div class="ribbon ribbon-clip ribbon-primary">1</div>
                                 <h5>Скрыть изм-ные данные</h5>
-                                <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">Загрузка файлов</button>
+                                <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">{% trans "Загрузить файл" %}</button>
                              </div>
                         </div>
                     </div>
@@ -941,10 +942,10 @@
                 {% if aktkomeral.status == 2 %}
                 <div class="row p-2 mb-2">
                     <div class="col-md-6 card p-2 shadow-lg">
-                        <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> Сохранить</button>
+                        <button type="button" class="btn btn-warning btn-lg" id="save_files" worker="{{ user.profile.pk }}" work-id="{{ work.id }}" style="width: 100%"> <i class="fa fa-check"></i> {% trans "Сохранить" %}</button>
                     </div>
                     <div class="col-md-6 card p-2 shadow-lg">
-                         <button type="button" worker="{{ user.profile.pk }}" work-id="{{ work.object.id }}"  id="send_to_check_komeral" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> Повторная отправка в комерал кантрол</button>
+                         <button type="button" worker="{{ user.profile.pk }}" work-id="{{ work.object.id }}"  id="send_to_check_komeral" class="btn btn-primary btn-lg" style="width: 100%"> <i class="fa fa-send"></i> {% trans "Повторная отправка в комерал контроль" %}</button>
                     </div>
                 </div>
                 {% endif %}
@@ -1092,7 +1093,7 @@
     data.append('id',{{ pdowork.id }});
 
         $.ajax({
-            url: '/obj_data',
+            url: '{% url "obj_data" %}',
             data: data,
             cache: false,
             contentType: false,
@@ -1239,7 +1240,8 @@
         });
         }
         else{
-            alert('{% trans "Просим заполнить поля" %}');}
+            alert("{% trans 'Просим заполнить поля' %}");
+            }
     });
 </script>
     {% endblock %}

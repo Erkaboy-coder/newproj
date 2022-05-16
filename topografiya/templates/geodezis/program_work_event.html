@@ -552,7 +552,7 @@
                                                                                 <div class="mb-2">
                                                                                     <b>{% trans "Сроки выполнения" %}<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ object.programwork.object.pdowork.work_term }} {% trans "День" %}</p>
+                                                                                    <p>{{ object.programwork.object.pdowork.work_term.amount }} {% trans "День" %}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
                                                                                     <b>{% trans "Реквизиты заказчика" %}<sup
@@ -696,7 +696,7 @@
                                                                                     <input class="form-control digits"
                                                                                            id="example-datetime-local-input"
                                                                                            type="text"
-                                                                                           value="{{ object.programwork.object.pdowork.work_term }} kun">
+                                                                                           value="{{ object.programwork.object.pdowork.work_term.amount }} kun">
                                                                                 </div>
                                                                             </div>
 

@@ -40,18 +40,18 @@
                                 <div class="ribbon ribbon-right ribbon-color_one"><i class="fa fa-check" title="Ishchi qabul qilmagan ish"></i></div>
                                 <div class="blog-box blog-grid">
                                     <div class="blog-details-second">
-                                        <div class="blog-post-date"><span class="blg-month">{% trans "день" %}</span><span
-                                                class="blg-date">{{ work.object.pdowork.work_term }}</span></div>
+                                        <div class="blog-post-date"><span class="blg-month">{% trans "День" %}</span><span
+                                                class="blg-date">{{ work.object.pdowork.work_term.amount }}</span></div>
                                             <h6 class="blog-bottom-details">{{ work.object.pdowork.object_name }}</h6>
-                                        <div><b>{% trans "Заказчик" %}:</b> {{ object.object.pdowork.customer }}</div>
-                                        <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
-                                        <div><b>{% trans "Адрес объекта" %}:</b> {{ object.object.pdowork.object_address }}</div>
+                                        <div><b>{% trans "Заказчик" %}:</b> {{ work.object.pdowork.customer }}</div>
+                                        <div><b>{% trans "Дата заключения договора" %}:</b> {{ work.object.pdowork.agreement_date }}</div>
+                                        <div><b>{% trans "Адрес объекта" %}:</b> {{ work.object.pdowork.object_address }}</div>
                                         <div class="text-center p-2">
                                         </div>
                                         <div class="detail-footer">
                                             <a href="{% url 'open_to_print' id=work.object.id %}">
                                                 <button class="btn btn-square btn-primary w-100">
-                                                    {% trans "Просмотр Работы" %}
+                                                    {% trans "Ознакомление" %}
                                                 </button>
                                             </a>
                                         </div>

@@ -80,8 +80,8 @@ class Worker(BaseModel):
         ('0', 'Ishchi'),
         ('1', 'Bo\'lim boshlig\'i'),
         ('2', 'Geodezis'),
-        ('3', 'Ogogd'),
-        ('4', 'Ogogd 2'),
+        ('3', 'Printer'),
+        ('4', 'Reporter'),
     )
     status = models.CharField(verbose_name='Ishchi', default='0', max_length=10, choices=status_worker)
 

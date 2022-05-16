@@ -5,7 +5,7 @@
 {% block content%}
 
 {% block stylecontent %}
-
+{% load i18n %}
 {% endblock stylecontent %}
 {% load l10n %}
     {% load humanize %}
@@ -15,56 +15,56 @@
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="exampleModalLabel">
-                                                                            Информация о заказе</h5>
+                                                                           {% trans "Информация о заказе" %}</h5>
                                                                         <button class="btn-close" type="button"
                                                                                 data-bs-dismiss="modal"
                                                                                 aria-label="Close"></button>
                                                                     </div>
-                                                                    <div class="modal-body">
+                                                                  <div class="modal-body">
                                                                         <div class="row">
                                                                             <div class="col-lg-6">
                                                                                 <div class="mb-2">
-                                                                                    <b>Номер договора<sup
+                                                                                    <b>{% trans "Номер договора" %}<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_number }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Дата договора</b>
+                                                                                    <b>{% trans "Дата договора" %}</b>
                                                                                     <p>{{ pdowork.agreement_date }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Наименование объекта<sup
+                                                                                    <b>{% trans "Наименование объекта" %}<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_name }} </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Заказчик</b>
+                                                                                    <b>{% trans "Заказчик" %}</b>
                                                                                     <p>{{ pdowork.customer }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Адрес объекта<sup
+                                                                                    <b>{% trans "Адрес объекта" %}<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.object_address }}</p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6 text-end">
                                                                                 <div class="mb-2">
-                                                                                    <b>Сроки выполнения<sup
+                                                                                    <b>{% trans "Сроки выполнения" %}<sup
                                                                                             style="color: red;">*</sup></b>
-                                                                                    <p>{{ pdowork.work_term }} kun</p>
+                                                                                    <p>{{ pdowork.work_term.amount }} {% trans "День" %}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Реквизиты заказчика<sup
+                                                                                    <b>{% trans "Реквизиты заказчика" %}<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.customer_info }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Вид работы<sup
+                                                                                    <b>{% trans "Вид работы" %}<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.work_type }}</p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Сумма договора<sup
+                                                                                    <b>{% trans "Сумма договора" %}<sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>
 
@@ -73,7 +73,7 @@
                                                                                     </p>
                                                                                 </div>
                                                                                 <div class="mb-2">
-                                                                                    <b>Отдел ответственный за исполнительнение <sup
+                                                                                    <b>{% trans "Отдел ответственный за исполнительнение" %} <sup
                                                                                             style="color: red;">*</sup></b>
                                                                                     <p>{{ pdowork.department }}</p>
                                                                                 </div>
@@ -86,7 +86,7 @@
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
                                                                                             <a href="/{{ pdowork.latter }}" target="_blank">
-                                                                                                Ознакомление с письмом заказчика
+                                                                                                {% trans "Ознакомление с письмом заказчика" %}
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -97,7 +97,7 @@
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
                                                                                             <a href="/{{ pdowork.tz }}" target="_blank">
-                                                                                                 Ознакомление с техническим заданием
+                                                                                                 {% trans "Ознакомление с техническим заданием" %}
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -108,7 +108,7 @@
                                                                                     <div class="media-body ">
                                                                                         <h6 class="">
                                                                                             <a href="/{{ pdowork.smeta }}" target="_blank">
-                                                                                                Ознакомление со сметой
+                                                                                               {% trans "Ознакомление со сметой" %}
                                                                                             </a></h6>
                                                                                     </div>
                                                                                 </div>
@@ -125,10 +125,10 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3>Информация о заказе</h3>
+                            <h3>{% trans "Информация о заказе" %}</h3>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'pdoworks' %}">Новые договора</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">{% trans "Главная" %}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'pdoworks' %}">{% trans "Новые договора" %}</a></li>
                                 <li class="breadcrumb-item active"><a href="{% url 'edit_pdowork' id=pdowork.id %}">{{ pdowork.object_name }}</a></li>
                             </ol>
                         </div>
@@ -137,7 +137,7 @@
                             <button class="btn btn-primary"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                     class="icofont icofont-maximize"></i>
-                                Информация о заказе
+                                {% trans "Информация о заказе" %}
                             </button>
                         </div>
 
@@ -168,22 +168,22 @@
 
                         <div class="col-xl-3 xl-30">
                             <div class="email-sidebar"><a class="btn btn-primary email-aside-toggle"
-                                                          href="javascript:void(0)">Тип выполнения работы</a>
+                                                          href="javascript:void(0)">{% trans "Тип выполнения работы" %}</a>
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="email-app-sidebar left-bookmark">
                                                 <ul class="nav main-menu" role="tablist">
                                                     <li class="nav-item" ><span
-                                                            class="main-title txt-dark">Тип выполнения работы</span></li>
+                                                            class="main-title txt-dark">{% trans "Тип выполнения работы" %}</span></li>
                                                     <li><a class="active" id="pills-created-tab"
                                                            data-bs-toggle="pill" href="#pills-created" role="tab"
                                                            aria-controls="pills-created" aria-selected="true"><span
-                                                            class="title">С использованием  системы</span></a></li>
+                                                            class="title">{% trans "С использованием  системы" %}</span></a></li>
                                                     <li><a id="pills-favourites-tab" data-bs-toggle="pill"
                                                            href="#pills-favourites" role="tab"
                                                            aria-controls="pills-favourites" aria-selected="false"><span
-                                                            class="title active show">Традиционным способом</span></a></li>
+                                                            class="title active show">{% trans "Традиционным способом" %}</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -203,9 +203,8 @@
                                                 <div class="ribbon-wrapper card  mb-0">
                                                     <div class="card-body p-0">
                                                         <div class="ribbon ribbon-bookmark ribbon-primary"
-                                                             style="font-size: 20px;font-weight: 500;">С использованием  системы
+                                                             style="font-size: 20px;font-weight: 500;">{% trans "С использованием  системы" %}
                                                         </div>
-
                                                         <form action="{% url 'edit_pdowork_changes' %}" method="post" enctype="multipart/form-data">
                                                             {% csrf_token %}
                                                             <div class="details-bookmark">
@@ -213,18 +212,18 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-lg-6">
-                                                                            <h5>Cформировать рабочую программу и отчет<sup
+                                                                            <h5>{% trans "Cформировать рабочую программу и отчет" %}<sup
                                                                                         style="color: red">*</sup></h5>
                                                                             <div class="form-group m-t-15 custom-radio-ml">
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio1" type="radio" name="isset_programwork" value="True" {% if object.isset_programwork == True %}checked{% endif %}>
-                                                                                    <label for="radio1"><span class="digits">Да</span></label>
+                                                                                    <label for="radio1"><span class="digits">{% trans "Да" %}</span></label>
                                                                                 </div>
 
                                                                                 <div class="radio radio-primary">
                                                                                     <input id="radio4" type="radio" name="isset_programwork" value="False" {% if object.isset_programwork == False %}checked{% endif %}>
-                                                                                    <label for="radio4">Нет</label>
+                                                                                    <label for="radio4">{% trans "Нет" %}</label>
                                                                                 </div>
 
                                                                             </div>
@@ -234,7 +233,7 @@
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="mb-4">
-                                                                                <h5>Ответственное лицо за выполнение данной работы <sup
+                                                                                <h5>{% trans "Ответственное лицо за выполнение данной работы" %} <sup
                                                                                             style="color: red">*</sup>
                                                                                 </h5>
 {#                                                                                Bajaruvchi: {{ object.worker_ispolnitel }}#}
@@ -250,7 +249,8 @@
                                                                     <div class="row">
                                                                         <div class="col">
                                                                             <h5 class="mb-4 text-center fontbold-700">
-                                                                                Формирование инструкции по выполнению топографо-геодезических работ</h5>
+                                                                            {% trans "Формирование инструкции по выполнению топографо-геодезических работ" %}
+                                                                            </h5>
                                                                             <div class="mb-3 row">
                                                                                 <label class="col-sm-4 col-form-label">
                                                                                     <b>1. </b>Должность, Ф.И.О. исполнителя
@@ -302,7 +302,7 @@
                                                                                     <input class="form-control digits"
                                                                                            id="example-datetime-local-input"
                                                                                            type="text"
-                                                                                           value="{{ pdowork.work_term }} kun">
+                                                                                           value="{{ pdowork.work_term.amount }}">
                                                                                 </div>
                                                                             </div>
 
@@ -470,26 +470,24 @@
                                                 <div class="ribbon-wrapper card  mb-0">
                                                     <div class="card-body">
                                                         <div class="ribbon ribbon-bookmark ribbon-primary"
-                                                             style="font-size: 20px;font-weight: 500;">Традиционный способ
+                                                             style="font-size: 20px;font-weight: 500;">{% trans "Традиционным способом" %}
                                                         </div>
                                                         <div class="job-sidebar"><a class="btn btn-primary job-toggle"
                                                                                     href="javascript:void(0)"></a>
                                                             <div class="job-left-aside custom-scrollbar">
                                                                 <div class="file-sidebar row ">
                                                                     <div class="pricing-plan col-lg-6 shadow-lg">
-                                                                        <h5>Традиционный способ</h5>
-                                                                        <p>Работа выполняется традиционным способом, без необходимости проходить регистрацию</p>
+                                                                        <h5>{% trans "Традиционным способом" %}</h5>
+                                                                        <p>{% trans "Работа выполняется традиционным способом, без необходимости проходить регистрацию" %}</p>
                                                                         <div class="btn-showcase">
                                                                             <button class="btn btn-primary sweet-1"
                                                                                     type="button"
                                                                                     onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-1']);"
-                                                                                    data-bs-original-title="" title="">
-                                                                               Начать работу
+                                                                                    data-bs-original-title="" >
+                                                                               {% trans "Начать работу" %}
                                                                             </button>
                                                                         </div>
-                                                                        <img class="bg-img"
-                                                                             src="{% static 'assets/images/dashboard/folder1.png' %}"
-                                                                             alt="">
+                                                                        <img class="bg-img" src="{% static 'assets/images/dashboard/folder1.png' %}" alt="">
                                                                     </div>
                                                                 </div>
                                                             </div>

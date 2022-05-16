@@ -5,6 +5,8 @@
 
 {% block content%}
 {% load i18n %}
+        {% load l10n %}
+    {% load humanize %}
 {% block stylecontent %}
         <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dropzone.css' %}">
 <style>
@@ -390,7 +392,7 @@
 {#                                                       <div class="col-lg-12 mt-3" style="font-size: 18px">1. <a href="/{{ form.programwork.object.pdowork.tz }}"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>#}
                                                         <div class="col-lg-9 mt-3" style="font-size: 18px">1. <a href="#"><i class="fa fa-file-pdf-o"></i>Копии задания на производство изысканий <sup class="text-danger">*</sup></a></div>
 
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ form.programwork.object.pdowork.tz }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файлаиш</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ form.programwork.object.pdowork.tz }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
 
 
 
@@ -398,7 +400,7 @@
 
                                                        {% if files.file2 %}
                                                            <div class="col-lg-3 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
-                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
+                                                           <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file2 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
                                                            {% else %}
                                                              <div class="col-lg-6 mt-3"><input class="form-control" name="file2" id="file2" type="file"></div>
                                                            {% endif %}
@@ -408,7 +410,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">3. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема проектируемой опорной геодезической сети</a></div>
                                                         {% if files.file3 %}
                                                         <div class="col-lg-3 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file3 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
                                                            {% else %}
                                                              <div class="col-lg-6 mt-3"><input class="form-control" name="file3" id="file3" type="file"></div>
                                                            {% endif %}
@@ -417,7 +419,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">4. <a href="#"><i class="fa fa-file-pdf-o"></i> Картограмма расположения участков топографической съемки</a></div>
                                                         {% if files.file4 %}
                                                         <div class="col-lg-3 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file4 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
                                                            {% else %}
                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file4" id="file4" type="file"></div>
                                                            {% endif %}
@@ -427,7 +429,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">5. <a href="#"><i class="fa fa-file-pdf-o"></i> Чертежи специальных геодезических центров, если намечена их закладка</a></div>
                                                        {% if files.file5 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file5 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
                                                            {% else %}
                                                             <div class="col-lg-6 mt-3"><input class="form-control" name="file5" id="file5" type="file"></div>
                                                            {% endif %}
@@ -437,7 +439,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">6. <a href="#"><i class="fa fa-file-pdf-o"></i> Топографические карты (планы) с указанием проектных вариантов трасс</a></div>
                                                         {% if files.file6 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file6 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
                                                            {% else %}
                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file6" id="file6" type="file"></div>
                                                            {% endif %}
@@ -447,7 +449,7 @@
                                                        <div class="col-lg-6 mt-3" style="font-size: 18px">7. <a href="#"><i class="fa fa-file-pdf-o"></i> Схема линейных сооружений</a></div>
                                                         {% if files.file7 %}
                                                        <div class="col-lg-3 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
-                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> Просмотр файла</a></div>
+                                                       <div class="col-lg-3 mt-3 text-center"><a href="/{{ files.file7 }}" target="_blank" class="btn btn-success"> <i class="fa fa-check text-white"></i> {% trans "Ознакомление с файлом" %}</a></div>
                                                            {% else %}
                                                            <div class="col-lg-6 mt-3"><input class="form-control" name="file7" id="file7" type="file"></div>
                                                            {% endif %}
@@ -509,7 +511,7 @@
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_term }} {% trans "День" %}</p>
+                              <p>{{ pdowork.pdowork.work_term.amount }} {% trans "День" %}</p>
                           </div>
                           <div class="mb-2">
                               <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
@@ -523,10 +525,7 @@
                               <b>{% trans "Сумма договора" %}<sup style="color: red;">*</sup></b>
                               <p>{{ pdowork.pdowork.object_cost|intcomma }}</p>
                           </div>
-                          <div class="mb-2">
-                              <b>{% trans "Отдел ответственный за исполнительнение" %}<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.department }}</p>
-                          </div>
+
                       </div>
                   </div>
                    <div class="row">
@@ -643,7 +642,7 @@
                                                                                     <input class="form-control digits"
                                                                                            id="example-datetime-local-input"
                                                                                            type="text"
-                                                                                           value="{{ object.pdowork.work_term }} kun">
+                                                                                           value="{{ object.pdowork.work_term.amount }} {% trans "день" %}">
                                                                                 </div>
                                                                             </div>
 

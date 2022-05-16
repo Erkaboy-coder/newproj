@@ -1,5 +1,7 @@
 import requests
 from django.shortcuts import render,redirect
+
+from newproj.settings import LANGUAGE_CODE
 from .models import *
 
 from django.contrib.auth import authenticate, login as dj_login, logout as auth_logout
@@ -29,47 +31,47 @@ from datetime import datetime
 
 def counter(request):
     count = {}
-    count['new_workers_pdo'] = PdoWork.objects.filter(status_recive=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=request.user.profile.subdivision).all().count()
+    count['new_workers_pdo'] = PdoWork.objects.filter(status_recive=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision__department=3).all().count()
     # count['new_works_worker'] = PdoWork.objects.filter(status_recive=1).all().count()
 
-    count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).all().count()
+    count['new_works_geodezis'] = ProgramWork.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
-    count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).all().count()
-    count['rejected_program_works_leader'] = ProgramWork.objects.filter(status=2).all().count()
+    count['new_program_works_leader'] = ProgramWork.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
+    count['rejected_program_works_leader'] = ProgramWork.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
     count['all_works_to_check_leader'] = count['new_program_works_leader'] + count['rejected_program_works_leader']
 
-    count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).all().count()
+    count['new_polevoy_works_leader'] = WorkerObject.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
-    count['new_komeral_works_leader'] = AktKomeralForm.objects.filter(status=0).all().count()
+    count['new_komeral_works_leader'] = AktKomeralForm.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
-    count['geodezis_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=1).all().count()
-    count['leader_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=2).all().count()
+    count['geodezis_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
+    count['leader_komeral_works_to_check'] = WorkerObject.objects.filter(status_geodezis_komeral=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
-    count['reports_oogd'] = Report.objects.filter(status=0).all().count()
-    count['reports_rejected_oogd'] = Report.objects.filter(status=2).all().count()
-    count['reports_confirmed_oogd'] = Report.objects.filter(status=4).all().count()
+    count['reports_oogd'] = Report.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
+    count['reports_rejected_oogd'] = Report.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
+    count['reports_confirmed_oogd'] = Report.objects.filter(status=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
     count['reports_all_oogd'] = count['reports_oogd']+count['reports_rejected_oogd']+count['reports_confirmed_oogd']
 
-    count['new_geodezis_reports'] = Report.objects.filter(status=1).all().count()
+    count['new_geodezis_reports'] = Report.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
-    count['new_ogogd_printer_works'] = WorkerObject.objects.filter(status_geodezis_komeral=4).all().count()
+    count['new_ogogd_printer_works'] = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all().count()
 
     return count
 
 
 def new_work_counter(request):
     count_works = {}
-    count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).all().count()
+    count_works['new_works_worker'] = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).filter(pdowork__branch=request.user.profile.branch).filter(pdowork__subdivision=request.user.profile.subdivision).all().count()
 
     count_works['new_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_ispolnitel=request.user.profile.pk).filter(status=0).all().count()
-    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).all().count()
+    count_works['rejected_field_works'] = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all().count()
     count_works['all_works_worker'] = count_works['new_field_works']+count_works['rejected_field_works']
 
-    count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.pk).all().count()
+    count_works['rejected_polevoy_works_worker'] = PolevoyWorkReject.objects.filter(workerobject__object__worker_ispolnitel=request.user.profile.pk).filter(workerobject__object__pdowork__branch=request.user.profile.branch).filter(workerobject__object__pdowork__subdivision=request.user.profile.subdivision).all().all().count()
 
 
-    count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).all().count()
+    count_works['worker_komeral_works'] = AktKomeralForm.objects.filter(status=2).filter(object__worker_ispolnitel=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all().count()
 
     count_works['new_messages'] = Xabarlar.objects.filter(status_new=1).filter(message_reciver=request.user.profile.pk).all().count()
 
@@ -87,24 +89,27 @@ def index(request):
     # print(time.strftime('%d/%m/%Y'))
 
     worker = Worker.objects.all()
-    works = PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision=request.user.profile.subdivision).all()
+    works = PdoWork.objects.filter(status=0).filter(branch=request.user.profile.branch).filter(work_type=37).filter(subdivision__department=3).all()
     work_new_works = Object.objects.filter(pdowork__status=0).filter(worker_ispolnitel=request.user.profile.pk).filter(pdowork__branch=request.user.profile.branch).filter(pdowork__subdivision=request.user.profile.subdivision).all()
-    geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
-    geodezis_new_works_program = ProgramWork.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
-    new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
-    rejected_ogogd_printer_works = Report.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
 
-    geodezis_report_checking = Report.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
+    geodezis_new_works_akt = WorkerObject.objects.filter(status_geodezis_komeral=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    geodezis_new_works_program = ProgramWork.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+
+    new_ogogd_printer_works = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    rejected_ogogd_printer_works = Report.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    report_doing = Report.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+
+    geodezis_report_checking = Report.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
 
     context = {'count': counter(request), 'count_works': new_work_counter(request), 'worker': worker, 'works': works, 'work_new_works' : work_new_works,
-               'geodezis_new_works_akt': geodezis_new_works_akt, 'geodezis_new_works_program':geodezis_new_works_program,
+               'geodezis_new_works_akt': geodezis_new_works_akt, 'geodezis_new_works_program':geodezis_new_works_program,'report_doing':report_doing,
                'new_ogogd_printer_works': new_ogogd_printer_works, 'geodezis_report_checking': geodezis_report_checking, 'rejected_ogogd_printer_works':rejected_ogogd_printer_works}
     return render(request, 'index.html', context)
 
 
 @login_required(login_url='/signin')
 def pdoworks(request):
-    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()
+    pdoworks = PdoWork.objects.filter(status=0).filter(~Q(status_recive=2)).filter(work_type=37).filter(branch=request.user.profile.branch).filter(subdivision__department=3).all()
 
     # data = requests.get("http://test.cpduzgashkliti.uz/api/SubDivisions")
     # one_data = json.loads(data.content.decode('utf-8'))
@@ -194,25 +199,27 @@ def save_order(request):
             if program_work:
                 program_work.delete()
 
-
-
-        history = History(object=object, status=29, comment="Файл инструкции сохранен",
-                          user_id=user_worker_leader)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=29, comment="Ko'rsatma saqlandi",user_id=user_worker_leader)
+        else:
+            history = History(object=object, status=29, comment="Предписания сохранил",user_id=user_worker_leader)
         # status=26 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
         return HttpResponse(1)
     else:
         return HttpResponse(0)
+
 import datetime
 @login_required(login_url='/signin')
 def allworks(request):
+    
     works = Object.objects.order_by('-id').all()
-    workerobjects = WorkerObject.objects.order_by('-id').all()
-    programworks = ProgramWork.objects.all()
-    programworks_new = ProgramWork.objects.filter(status=0).all()
-    aktkomerals = AktKomeralForm.objects.all()
-    reports = Report.objects.all()
+    workerobjects = WorkerObject.objects.order_by('-id').filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    programworks = ProgramWork.objects.filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    programworks_new = ProgramWork.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    aktkomerals = AktKomeralForm.objects.filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    reports = Report.objects.filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     current_time = datetime.now().date()
 
     context = {'works': works, 'count': counter(request),'count_works': new_work_counter(request),'programworks': programworks, 'aktkomerals': aktkomerals,
@@ -221,20 +228,20 @@ def allworks(request):
 
 @login_required(login_url='/signin')
 def program_works_leader(request):
-    new_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=0).all()
-    checking_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=1).all()
-    rejected_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=2).all()
-    less_time_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=3).all()
-    aggreed_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=4).all()
+    new_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).filter(status=0).all()
+    checking_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).filter(status=1).all()
+    rejected_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).filter(status=2).all()
+    less_time_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).filter(status=3).all()
+    aggreed_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).filter(status=4).all()
     rejecteds = ProgramWorkReject.objects.all()
 
     context = {'new_ones': new_ones, 'checking_ones': checking_ones,
-               'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'rejecteds':rejecteds, 'count': counter(request),'count_works': new_work_counter(request)}
+               'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones, 'rejecteds':rejecteds, 'count': counter(request),'count_works': new_work_counter(request)}
     # print(objects)
     return render(request, 'leader/program_works/program_works.html', context)
 
 @login_required(login_url='/signin')
-def program_work_form(request,id):
+def program_work_form(request, id):
 
     object = ProgramWork.objects.filter(object=id).first()
     order = Order.objects.filter(object=object.object.id).first()
@@ -249,7 +256,7 @@ def program_work_form(request,id):
     return render(request, 'leader/program_works/program_work_form.html', context)
 
 @login_required(login_url='/signin')
-def program_work_form_edit(request,id):
+def program_work_form_edit(request, id):
 
     object = Object.objects.filter(id=id).first()
     form = ProgramWorkForm.objects.filter(programwork__object=id).first()
@@ -267,7 +274,7 @@ def program_work_form_edit(request,id):
     return render(request, 'leader/program_works/program_work_form_edit.html', context)
 
 @login_required(login_url='/signin')
-def program_work_form_re_sent_to_check(request,id):
+def program_work_form_re_sent_to_check(request, id):
 
     object = Object.objects.filter(id=id).first()
     object1 = ProgramWork.objects.filter(object=id).first()
@@ -432,7 +439,12 @@ def program_work_save_edits(request):
         files.save()
 
         user = Worker.objects.filter(id=program_work_creator).first()
-        history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=26, comment="Ishchi dastur o'zgarishlari saqlandi", user_id=user)
+        else:
+            history = History(object=object, status=26, comment="Изменения программа работ сохранены", user_id=user)
+
         # status=26 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
@@ -568,7 +580,12 @@ def sent_to_check_programwork(request):
 
         # status  = 1 bu tekshiruvga yuborilgan
 
-        history = History(object=object, status=27, comment="Программа работа  отправил проверку", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=27, comment="Ishchi dastur tekshiruvga yuborildi", user_id=user)
+        else:
+            history = History(object=object, status=27, comment="Программа работа  отправил проверку", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -589,7 +606,7 @@ def history_program_work(request, id):
     # status = 26 Ishchi dastur o'zgartirildi
     # status = 27 Ishchi dasturi teskhiruvga yuborilgan
 
-    histories = History.objects.filter(object=id).order_by('active_time').all()
+    histories = History.objects.filter(object=id).order_by('active_time').filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
 
     context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
 
@@ -599,7 +616,7 @@ def history_program_work(request, id):
 def history_polevoy_checking(request, id):
     pdoworks = PdoWork.objects.filter(status=0)
     work = WorkerObject.objects.filter(object=id).first()
-    histories = History.objects.filter(object=id).order_by('active_time').all()
+    histories = History.objects.filter(object=id).order_by('active_time').filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
 
     context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
 
@@ -609,7 +626,7 @@ def history_polevoy_checking(request, id):
 def history_komeral_checking(request, id):
     pdoworks = PdoWork.objects.filter(status=0)
     work = WorkerObject.objects.filter(object=id).first()
-    histories = History.objects.filter(object=id).order_by('active_time').all()
+    histories = History.objects.filter(object=id).order_by('active_time').filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
 
     context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
 
@@ -619,18 +636,18 @@ def history_komeral_checking(request, id):
 def history_report(request, id):
     pdoworks = PdoWork.objects.filter(status=0)
     work = WorkerObject.objects.filter(object=id).first()
-    histories = History.objects.filter(object=id).all()
+    histories = History.objects.filter(object=id).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     context = {'pdoworks': pdoworks, 'count': counter(request), 'histories': histories, 'work': work,'count_works': new_work_counter(request)}
     return render(request, 'leader/history/history_report.html', context)
-
+# filter(object__pdowork__subdivision=request.user.profile.subdivision)
 @login_required(login_url='/signin')
 def leader_polevoy_works(request):
     # status_recive = 1 is started work but not recived by worker
     # new_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=0).all() # yangi kelgan
-    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).filter(object__worker_leader=request.user.profile.pk).all() # dala nazorati muhokama jarayonida
-    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=2).all() # qaytarilgan ishlar
-    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=3).all() # muddati kam qolgan ishlar
-    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=4).all() # tasdiqlangan ishlar
+    checking_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(status=1).filter(object__worker_leader=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all() # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all() # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all() # muddati kam qolgan ishlar
+    aggreed_ones = WorkerObject.objects.filter(object__pdowork__status_recive=2).filter(object__worker_leader=request.user.profile.pk).filter(status=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all() # tasdiqlangan ishlar
     rejecteds = PolevoyWorkReject.objects.all()
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
                'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),'rejecteds': rejecteds,'count_works': new_work_counter(request)}
@@ -865,8 +882,11 @@ def save_akt_polevoy(request):
 
                     obj.save()
 
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=11, comment="Dala nazorati AKT si yaratildi",user_id=user)
+        else:
+            history = History(object=object, status=11, comment="Создан акт полевого контроля",user_id=user)
 
-        history = History(object=object, status=11, comment="Создан акт полевого контроля",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1063,8 +1083,11 @@ def edit_akt_polevoy(request):
 
                     obj.save()
 
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=12, comment="Dala nazorati AKT siga o'zgartirishlar kiritildi",user_id=user)
+        else:
+            history = History(object=object, status=12, comment="Внесены изменения в акт полевого контроля",user_id=user)
 
-        history = History(object=object, status=12, comment="Внесены изменения в акт полевого контроля",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1078,7 +1101,7 @@ def send_to_kameral(request):
         worker = data.get('worker')
         user = Worker.objects.filter(id=worker).first()
         akt_file =request.FILES.get('akt_file')
-        print(akt_file)
+
         workerobject = WorkerObject.objects.filter(object=work_id).first()
         object = Object.objects.filter(id=work_id).first()
 
@@ -1095,9 +1118,6 @@ def send_to_kameral(request):
             workerobject.status = 4
             workerobject.save()
 
-            history = History(object=workerobject.object, status=13, comment="Полевой контроль утвержден",
-                              user_id=worker)
-            history.save()
         else:
             workerobject = WorkerObject.objects.filter(object=work_id).first()
             workerobject.status = 4
@@ -1105,8 +1125,12 @@ def send_to_kameral(request):
 
             kameral = AktKomeralForm(object=workerobject.object)
             kameral.save()
-            history = History(object=workerobject.object, status=13, comment="Полевой контроль утвержден",user_id=user)
-            history.save()
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=workerobject.object, status=13, comment="Dala nazorati tasdiqlandi", user_id=worker)
+        else:
+            history = History(object=workerobject.object, status=13, comment="Полевой контроль утвержден", user_id=worker)
+        history.save()
+
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -1153,7 +1177,12 @@ def deny_polevoy(request):
         reject = PolevoyWorkReject(workerobject=workerobject, file=reason_file, reason=reason,version = work.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=15, comment="Возвращаясь из полевого контроля", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=15, comment="Obekt dala nazoratidan qaytarildi", user_id=user)
+        else:
+            history = History(object=object_id, status=15, comment="Объект возвращен из полевого контроля", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -1163,11 +1192,11 @@ def deny_polevoy(request):
 @login_required(login_url='/signin')
 def leader_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
-    new_ones = AktKomeralForm.objects.filter(status=0).filter(object__worker_leader=request.user.profile.pk).all()  # komeral nazoratiga kelgan ishlar
-    checking_ones = AktKomeralForm.objects.filter(status=1).filter(object__worker_leader=request.user.profile.pk).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = AktKomeralForm.objects.filter(status=2).filter(object__worker_leader=request.user.profile.pk).all()  # qaytarilgan ishlar
-    less_time_ones = AktKomeralForm.objects.filter(status=3).filter(object__worker_leader=request.user.profile.pk).all()  # muddati kam qolgan ishlar
-    aggreed_ones =AktKomeralForm.objects.filter(status=4).filter(object__worker_leader=request.user.profile.pk).all()  # tasdiqlangan ishlar
+    new_ones = AktKomeralForm.objects.filter(status=0).filter(object__worker_leader=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # komeral nazoratiga kelgan ishlar
+    checking_ones = AktKomeralForm.objects.filter(status=1).filter(object__worker_leader=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).filter(object__worker_leader=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).filter(object__worker_leader=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).filter(object__worker_leader=request.user.profile.pk).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # tasdiqlangan ishlar
     rejecteds = KameralWorkReject.objects.all()
 
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
@@ -1178,10 +1207,10 @@ def leader_komeral_works(request):
 @login_required(login_url='/signin')
 def leader_komeral_checking(request):
     # status_recive = 1 is started work but not recived by worker
-    checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = WorkerObject.objects.filter(status_geodezis_komeral=2).all()  # qaytarilgan ishlar
-    less_time_ones = WorkerObject.objects.filter(status_geodezis_komeral=3).all()  # muddati kam qolgan ishlar
-    aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).all()  # tasdiqlangan ishlar
+    checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(status_geodezis_komeral=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(status_geodezis_komeral=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # tasdiqlangan ishlar
     rejecteds = LeaderKomeralWorkReject.objects.all()
 
     context = {'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
@@ -1234,8 +1263,9 @@ def rejected_komeral_works(request,id):
     siriefiles = SirieFiles.objects.filter(workerobject=workerobject).first()
     rejects = KameralWorkReject.objects.filter(workerobject=workerobject.object).all()
     programwork = ProgramWork.objects.filter(object=id).first()
-    
-    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),
+    programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
+
+    context = {'workerobject': workerobject, 'pdowork': pdowork,'count': counter(request),'programworkform':programworkform,
                'order':order,'work':work,'rejects':rejects,'programwork': programwork,'siriefiles':siriefiles,'count_works': new_work_counter(request)}
 
     return render(request, 'leader/komeral/rejected_komeral_works.html', context)
@@ -1267,7 +1297,12 @@ def save_akt_komeral(request):
 
         # history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=worker)
         # history.save()
-        history = History(object=object, status=28, comment="Акт камерального контроля Сохранен", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=28, comment="Komeral nazorati AKT si saqlandi", user_id=user)
+        else:
+            history = History(object=object, status=28, comment="Акт камерального контроля Сохранен", user_id=user)
+
         history.save()
         return HttpResponse(1)
     else:
@@ -1304,7 +1339,12 @@ def sent_to_check_akt(request):
         work.save()
 
 
-        history = History(object=object, status=17, comment="Камеральный контроль утвержден",user_id=user)
+        
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=17, comment="Komeral nazorat tasdiqlandi",user_id=user)
+        else:
+            history = History(object=object, status=17, comment="Камеральный контроль утвержден",user_id=user)
+            
         history.save()
 
         return HttpResponse(1)
@@ -1326,14 +1366,18 @@ def deny_komeral(request):
         workerobject.version = workerobject.version+1
         workerobject.save()
 
-        object_id = Object.objects.filter(id=work_id).first()
-        path = 'topografiya/static/files/akt-komeral/akt_komeral_'+str(object_id.id)+'_'+str(workerobject.version)+'v.pdf'
+        path = 'topografiya/static/files/akt-komeral/akt_komeral_'+str(object.id)+'_'+str(workerobject.version)+'v.pdf'
 
         reject = KameralWorkReject(workerobject=object, file=reason_file, reason=reason, version = workerobject.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=15, comment="Отменено", user_id=user)
-        history.save()
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=15, comment="Komeral nazaratidan qaytarildi", user_id=user)
+            history.save()
+        else:
+            history = History(object=object, status=15, comment="Возвращено из комерал контроля", user_id=user)
+            history.save()
 
         return HttpResponse(1)
     else:
@@ -1423,7 +1467,12 @@ def re_send_to_check_komeral(request):
         workerobject.status_geodezis_komeral = 1
         workerobject.save()
 
-        history = History(object=workerobject.object, status=19, comment="Работа была повторно отправлена на камеральное наблюдение геодезиста",user_id=user)
+        
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=workerobject.object, status=19, comment="Ish qaytadan geodezis kameral nazoratiga yuborildi",user_id=user)
+        else:
+            history = History(object=workerobject.object, status=19, comment="Работа была повторно отправлена на камеральное наблюдение геодезиста",user_id=user)
+            
         history.save()
         return HttpResponse(1)
     else:
@@ -1436,7 +1485,7 @@ def re_send_to_check_komeral(request):
 @login_required(login_url='/signin')
 def worker_new_works(request):
     # status_recive = 1 is started work but not recived by worker
-    worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).all()
+    worker_new_works = Object.objects.filter(pdowork__status_recive=1).filter(worker_ispolnitel=request.user.profile.pk).filter(pdowork__branch=request.user.profile.branch).filter(pdowork__subdivision=request.user.profile.subdivision).all()
 
     context = {'worker_new_works': worker_new_works, 'count': counter(request),'count_works': new_work_counter(request)}
     return render(request, 'worker/worker_new_works.html', context)
@@ -1457,10 +1506,10 @@ def polevoy_works(request):
 @login_required(login_url='/signin')
 def worker_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
-    checking_ones = AktKomeralForm.objects.filter(status=0).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = AktKomeralForm.objects.filter(status=2).all()  # qaytarilgan ishlar
-    less_time_ones = AktKomeralForm.objects.filter(status=3).all()  # muddati kam qolgan ishlar
-    aggreed_ones =AktKomeralForm.objects.filter(status=4).all()  # tasdiqlangan ishlar
+    checking_ones = AktKomeralForm.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = AktKomeralForm.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()  # qaytarilgan ishlar
+    less_time_ones = AktKomeralForm.objects.filter(status=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()  # muddati kam qolgan ishlar
+    aggreed_ones =AktKomeralForm.objects.filter(status=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision=request.user.profile.subdivision).all()  # tasdiqlangan ishlar
     rejecteds = KameralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
@@ -1497,12 +1546,15 @@ def send_to_check_komeral(request):
         user = Worker.objects.filter(id=worker).first()
 
         workerobject = AktKomeralForm.objects.filter(object=work_id).first()
-        print(workerobject)
+        # print(workerobject)
         workerobject.status=0
         workerobject.save()
 
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=workerobject.object, status=16, comment="Ish kameral nazorat tekshiruviga qayta yuborildi",user_id=user)
+        else:
+            history = History(object=workerobject.object, status=16, comment="Работа повторно направлено на камеральную контрольную проверку",user_id=user)
 
-        history = History(object=workerobject.object, status=16, comment="Работа повторно направлено на камеральную контрольную проверку",user_id=user)
         history.save()
         return HttpResponse(1)
     else:
@@ -1522,7 +1574,6 @@ def polevoy_work_doing(request, id):
     programwork = ProgramWork.objects.filter(object=id).first()
     programworkform = ProgramWorkForm.objects.filter(programwork=programwork).first()
     poyasitelniy = PoyasitelniyForm.objects.filter(workerobject=work).first()
-
     context = {'worker_new_works': worker_new_works, 'objects': objects, 'work':work,'objects_pdo': objects_pdo, 'sirie_type':sirie_type,'aktfile':aktfile,
                'file': sirie_files,'count': counter(request),'rejects':rejects,'programwork': programwork,
                'programworkform':programworkform,'count_works': new_work_counter(request),'cost': cost,'poyasitelniy': poyasitelniy,'count_works': new_work_counter(request)}
@@ -1543,7 +1594,11 @@ def send_to_check_polevoy(request):
         workerobject.save()
 
 
-        history = History(object=workerobject.object, status=10, comment="Работа отправлена на полевой контроль",user_id=user)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=workerobject.object, status=10, comment="Ish dala nazoratiga yuborildi",user_id=user)
+        else:
+            history = History(object=workerobject.object, status=10, comment="Работа отправлена на полевой контроль",user_id=user)
+            
         history.save()
         return HttpResponse(1)
     else:
@@ -1598,7 +1653,12 @@ def save_sirie_files(request):
         object_id = Object.objects.filter(id=object.object.id).first()
         aktkomeral = AktKomeralForm.objects.filter(object=object_id).first()
 
-        history = History(object=object_id, status=7, comment="Данные Sirie загружены в полевой контроль", user_id=user)
+        
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=7, comment="Dala nazoratiga Sirie fayl yuklandi", user_id=user)
+        else:
+            history = History(object=object_id, status=7, comment="Данные Sirie загружены в полевой контроль", user_id=user)
+            
         history.save()
 
         if object.status_geodezis_komeral == 2:
@@ -1823,7 +1883,12 @@ def edit_sirie_files(request,id):
         object_id = Object.objects.filter(id=object.object.id).first()
         aktkomeral = AktKomeralForm.objects.filter(object=object_id).first()
 
-        history = History(object=object_id, status=7, comment="Данные Siri загружены в полевой контроль", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=7, comment="Dala nazoratiga Sirie fayl yuklandi", user_id=user)
+        else:
+            history = History(object=object_id, status=7, comment="Данные Siri загружены в полевой контроль", user_id=user)
+
         history.save()
         
         if object.status_geodezis_komeral == 2:
@@ -2006,8 +2071,12 @@ def store(request):
 
         object_id = Object.objects.filter(id=workerobject.object.id).first()
 
-        history = History(object=object_id, status=9, comment="Информация загружена в поясительный бланк для полевого контроля",
-                          user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=9, comment="Dala nazorati uchun nazorat o'lchovlarining qaydnomasiga ma'lumot yuklandi",user_id=user)
+        else:
+            history = History(object=object_id, status=9, comment="Информация загружена в пояснительный бланк для полевого контроля",user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -2243,8 +2312,11 @@ def edit_poyasitelniy(request):
 
         object_id = Object.objects.filter(id=workerobject.object.id).first()
 
-        history = History(object=object_id, status=9, comment="Информация загружена в поясительный бланк для полевого контроля",
-                          user_id=user)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=9,comment="Dala nazorati uchun nazorat o'lchovlarining qaydnomasiga ma'lumot yuklandi",user_id=user)
+        else:
+            history = History(object=object_id, status=9,comment="Информация загружена в пояснительный бланк для полевого контроля", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -2345,7 +2417,11 @@ def save_files(request):
 
         object_id = Object.objects.filter(id=object.object.id).first()
 
-        history = History(object=object_id, status=8, comment="Файл загружен в полевой контроль", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=8, comment="Dala nazoratiga fayl yuklandi", user_id=user)
+        else:
+            history = History(object=object_id, status=8, comment="Файл загружен в полевой контроль", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -2490,8 +2566,8 @@ def order_to_pdf(request):
         context += '<li>Наименование объекта ' + object.pdowork.object_name + '</li>';
         context += '<li>Местоположение объекта ' + object.pdowork.object_address + '</li>';
         context += '<li>Заказчик ' + object.pdowork.customer + '</li>';
-        context += '<li>Виды работ ' + object.pdowork.work_type + '</li>';
-        context += '<li>Сроки выполнения работ ' + object.pdowork.work_term + ' день</li>';
+        context += '<li>Виды работ ' + object.pdowork.work_type.name + '</li>';
+        context += '<li>Сроки выполнения работ ' + str(object.pdowork.work_term.amount) + ' день</li>';
         context += '<li>Oбъемы работ ' + order.size + '</li>';
         context += '<li>Исходные данные, система координат и высот, использование материалов работ прошлых лет ' + order.info + '</li>';
         context += '<li>Методы создания геодезического и (или) съемочного обоснования, закрепление пунктов, точек ' + order.method_creation + '</li>';
@@ -5143,7 +5219,7 @@ def show_pdowork(request,id):
     object = Object.objects.filter(pdowork=pdowork).first()
     order = Order.objects.filter(object=object).first()
 
-    workers=Worker.objects.filter(status=0).filter(subdivision=request.user.profile.subdivision).filter(branch=request.user.profile.branch)
+    workers=Worker.objects.filter(status=0).filter(subdivision__department=3).filter(branch=request.user.profile.branch).all()
     context = {'pdowork': pdowork, 'workers': workers,'count': counter(request),'cost':cost,'order':order,'object' :object,'count_works': new_work_counter(request)}
     return render(request, 'leader/show_pdowork.html', context)
 
@@ -5152,7 +5228,7 @@ def edit_pdowork(request,id):
 
     pdowork = PdoWork.objects.filter(id=id).filter(status_recive=1).first()
     cost = float(pdowork.object_cost)
-    workers=Worker.objects.filter(status=0)
+    workers=Worker.objects.filter(status=0).filter(subdivision__department=3).filter(branch=request.user.profile.branch).all()
     order = Order.objects.filter(object__pdowork=pdowork).first()
     object=Object.objects.filter(pdowork=pdowork).first()
     context = {'pdowork': pdowork, 'workers': workers, 'order': order,'object':object,'count': counter(request),'cost':cost,'count_works': new_work_counter(request)}
@@ -5224,8 +5300,10 @@ def start(request):
         pdowork.save()
 
         object = Object.objects.filter(pdowork=pdowork).first()
-
-        history = History(user_id=object.worker_leader, status=1, object=object, comment="Новый объект отправлен в рабочий процесс")
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(user_id=object.worker_leader, status=1, object=object, comment="Ish jarayoniga yangi ob'ekt yuborildi")
+        else:
+            history = History(user_id=object.worker_leader, status=1, object=object, comment="Новый объект отправлен в рабочий процесс")
         # status=1 work started by leader
         history.save()
         # messages.error(request, "Ish boshlandi ichi qabul qilishini kuting !")
@@ -5288,26 +5366,36 @@ def edit_pdowork_changes(request):
             if program_work:
                 program_work.delete()
 
-        print(user_worker_leader)
-        history = History(user_id=user_worker_leader, status=7, object=object,comment="Файл инструкции изменен",)
+
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(user_id=user_worker_leader, status=7, object=object, comment="Ko'rsatma o'zgartirildi")
+        else:
+            history = History(user_id=user_worker_leader, status=7, object=object, comment="Файл инструкции изменен")
+
         # status=7 work updated
         history.save()
         # messages.error(request, "Ish boshlandi ichi qabul qilishini kuting !")
         return HttpResponseRedirect('/pdoworks/')
 
     else:
-        messages.error(request, "Пользователя с таким именем не существует !")
+
+        if request.LANGUAGE_CODE == 'uz':
+            messages.success(request, "Bunday nomli foydalanuvchi mavjud emas!")
+        else:
+            messages.error(request, "Пользователя с таким именем не существует !")
+
         return HttpResponseRedirect('/')
 
 # geodezis
 @login_required(login_url='/signin')
 def program_works_geodezis(request):
-    new_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=1).all()
+    new_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
 
-    rejected_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=2).all()
+    rejected_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     rejecteds = ProgramWorkReject.objects.all()
-    less_time_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=3).all()
-    aggreed_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=4).all()
+    less_time_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    aggreed_ones = ProgramWork.objects.filter(object__isset_programwork=True).filter(status=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
 
     context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),
                'rejecteds': rejecteds,'count_works': new_work_counter(request)}
@@ -5317,6 +5405,7 @@ def program_works_geodezis(request):
 @login_required(login_url='/signin')
 def program_work_event(request, id):
     object = ProgramWorkForm.objects.filter(programwork__object=id).first()
+
     order = Order.objects.filter(object=object.programwork.object.id).first()
     workers = Worker.objects.all()
 
@@ -5349,7 +5438,10 @@ def confirm_program_work(request):
         worker1.worker_geodezis = user
         worker1.save()
 
-        history = History(object=object_id, status=4, comment="Рабочая программа утверждена", user_id=user)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=4, comment="Ish dasturi tasdiqlandi", user_id=user)
+        else:
+            history = History(object=object_id, status=4, comment="Программа работ утверждена", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -5376,8 +5468,13 @@ def reject_program_work(request):
         reject = ProgramWorkReject(programowork=object, file=reject_file, reason=reason, version = object.version, rejected_file=path)
         reject.save()
 
-        history = History(object=object_id, status=5, comment="Программ работ вернули для доработки  ", user_id=user)
-        history.save()
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object_id, status=5, comment="Ish dasturi qayta ko'rib chiqish uchun qaytarildi", user_id=user)
+            history.save()
+        else:
+            history = History(object=object_id, status=5, comment="Программ работ вернулся для доработки", user_id=user)
+            history.save()
 
         return HttpResponse(1)
     else:
@@ -5535,8 +5632,11 @@ def program_work_form_re_sent(request):
         programwork1.status = 1
         programwork1.save()
 
-        history = History(object=object, status=6, comment="Программ работ отправлена на повторную проверку",
-                          user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=6, comment="Ish dasturi qayta tekshiruvga yuborildi",user_id=user)
+        else:
+            history = History(object=object, status=6, comment="Программ работ отправлена на повторную проверку", user_id=user)
         # status=6 ishchi dastur o'zgarishlari saqlandi
         history.save()
 
@@ -5549,10 +5649,10 @@ def program_work_form_re_sent(request):
 @login_required(login_url='/signin')
 def geodesiz_komeral_works(request):
     # status_recive = 1 is started work but not recived by worker
-    checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).all()  # dala nazorati muhokama jarayonida
-    rejected_ones = WorkerObject.objects.filter(status_geodezis_komeral=2).all()  # qaytarilgan ishlar
-    less_time_ones = WorkerObject.objects.filter(status_geodezis_komeral=3).all()  # muddati kam qolgan ishlar
-    aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).all()  # tasdiqlangan ishlar
+    checking_ones = WorkerObject.objects.filter(status_geodezis_komeral=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # dala nazorati muhokama jarayonida
+    rejected_ones = WorkerObject.objects.filter(status_geodezis_komeral=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # qaytarilgan ishlar
+    less_time_ones = WorkerObject.objects.filter(status_geodezis_komeral=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # muddati kam qolgan ishlar
+    aggreed_ones =WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()  # tasdiqlangan ishlar
     rejecteds = LeaderKomeralWorkReject.objects.all()
 
     context = {'worker_new_works': worker_new_works, 'checking_ones': checking_ones, 'rejected_ones': rejected_ones,
@@ -5599,7 +5699,13 @@ def geodezis_deny_komeral(request):
         reject = LeaderKomeralWorkReject(object=workerobject.object, file=reason_file, reason=reason)
         reject.save()
 
-        history = History(object=workerobject.object, status=18, comment="Главный геодезист отклонил  камеральный контроль", user_id=user)
+
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=workerobject.object, status=18, comment="Bosh geodezik kameral nazoratni rad etdi", user_id=user)
+        else:
+            history = History(object=workerobject.object, status=18, comment="Главный геодезист отклонил  камеральный контроль", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -5648,7 +5754,12 @@ def sent_to_oggd(request):
             report = Report(object=object)
             report.save()
 
-        history = History(object=object, status=20, comment="Главный геодезист Принял камеральный контроль", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=object, status=20, comment="Bosh geodezik komeral nazoratni tasdiqladi", user_id=user)
+        else:
+            history = History(object=object, status=20, comment="Главный геодезист Принял камеральный контроль", user_id=user)
+
         history.save()
         return HttpResponse(1)
     else:
@@ -5678,11 +5789,11 @@ def geodeziz_show_komeral_work(request,id):
 
 @login_required(login_url='/signin')
 def geodezis_reports(request):
-    new_ones = Report.objects.filter(status=0).all()
-    checking_ones = Report.objects.filter(status=1).all()
-    rejected_ones = Report.objects.filter(status=2).all()
-    less_time_ones = Report.objects.filter(status=3).all()
-    aggreed_ones = Report.objects.filter(status=4).all()
+    new_ones = Report.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    checking_ones = Report.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    rejected_ones = Report.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    less_time_ones = Report.objects.filter(status=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    aggreed_ones = Report.objects.filter(status=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     rejecteds = ReportReject.objects.all()
     context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),
                'rejecteds': rejecteds,'checking_ones': checking_ones,'count_works': new_work_counter(request)}
@@ -5753,7 +5864,11 @@ def reject_report(request):
         work = ReportReject(object=report.object, file=reason_file, reason=reason, version=report.version)
         work.save()
 
-        history = History(object=report.object, status=22, comment="Геодезист отклонил очет!", user_id=user)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=report.object, status=22, comment="Bosh geodezist hisobatni rad etdi !", user_id=user)
+        else:
+            history = History(object=report.object, status=22, comment="Геодезист отклонил отчет !", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -5774,7 +5889,11 @@ def confirm_report(request):
         report.version = report.version + 1
         report.save()
 
-        history = History(object=report.object, status=23, comment="Геодезист принял отчет!", user_id=user)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=report.object, status=23, comment="Bosh geodezist hisobotni tasdiqladi !", user_id=user)
+        else:
+            history = History(object=report.object, status=23, comment="Геодезист принял отчет!", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -5786,11 +5905,11 @@ def confirm_report(request):
 # oogd_reports
 @login_required(login_url='/signin')
 def oogd_reports(request):
-    new_ones = Report.objects.filter(status=0).all()
-    checking_ones = Report.objects.filter(status=1).all()
-    rejected_ones = Report.objects.filter(status=2).all()
-    less_time_ones = Report.objects.filter(status=3).all()
-    aggreed_ones = Report.objects.filter(status=4).all()
+    new_ones = Report.objects.filter(status=0).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    checking_ones = Report.objects.filter(status=1).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    rejected_ones = Report.objects.filter(status=2).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    less_time_ones = Report.objects.filter(status=3).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
+    aggreed_ones = Report.objects.filter(status=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     rejecteds = ReportReject.objects.all()
     context = {'new_ones': new_ones,'rejected_ones': rejected_ones, 'less_time_ones': less_time_ones, 'aggreed_ones': aggreed_ones,'count': counter(request),
                'rejecteds': rejecteds,'checking_ones': checking_ones,'count_works': new_work_counter(request)}
@@ -5840,7 +5959,12 @@ def report_send(request):
         object.worker_ogogd = worker
         object.save()
 
-        history = History(object=report.object, status=21, comment="Специалист ОГОГД направил отчет на проверку", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=report.object, status=21, comment="OGOGD mutahasi hisobotni tekshiruvga yubordi", user_id=user)
+        else:
+            history = History(object=report.object, status=21, comment="Специалист ОГОГД направил отчет на проверку", user_id=user)
+
         history.save()
 
         return HttpResponse(1)
@@ -5911,7 +6035,11 @@ def confirm_print(request):
         workerobject.status_repoert_printer = 1
         workerobject.save()
 
-        history = History(object=report.object, status=24, comment="Объект отправлен на печать", user_id=user)
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=report.object, status=24, comment="Obekt chop etishga yuborildi", user_id=user)
+        else:
+            history = History(object=report.object, status=24, comment="Объект отправлен на печать", user_id=user)
+            
         history.save()
 
         return HttpResponse(1)
@@ -5923,7 +6051,7 @@ def confirm_print(request):
 # ogogd_printer
 @login_required(login_url='/signin')
 def ogogd_printer_works(request):
-    works = WorkerObject.objects.filter(status_geodezis_komeral=4).all()
+    works = WorkerObject.objects.filter(status_geodezis_komeral=4).filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     context = {'count': counter(request),'works': works,'count_works': new_work_counter(request)}
 
     return render(request, 'oogd_printer/works.html', context)
@@ -6006,7 +6134,11 @@ def confirm_print2(request):
         object.worker_ogogd = user
         object.save()
 
-        history = History(object=workerobject.object, status=25, comment="Объект отправлен на печать без отчета", user_id=user)
+
+        if request.LANGUAGE_CODE == 'uz':
+            history = History(object=workerobject.object, status=25, comment="Obekt hisobotsiz chop etishga yuborildi", user_id=user)
+        else:
+            history = History(object=workerobject.object, status=25, comment="Объект отправлен на печать без отчета", user_id=user)
         history.save()
 
         return HttpResponse(1)
@@ -6016,7 +6148,7 @@ def confirm_print2(request):
 # ogogd_printer
 @login_required(login_url='/signin')
 def history(request):
-    works = WorkerObject.objects.filter(status = 5).order_by('-id').all()
+    works = WorkerObject.objects.filter(status = 5).order_by('-id').filter(object__pdowork__branch=request.user.profile.branch).filter(object__pdowork__subdivision__department=3).all()
     workers = Worker.objects.filter(branch=request.user.profile.branch).filter(status=0).all()
 
     content={'count': counter(request),'works':works,'workers':workers,'count_works':new_work_counter(request)}
@@ -6137,14 +6269,27 @@ def login(request):
                 dj_login(request,user)
                 return HttpResponseRedirect('/')
             else:
-                messages.error(request, "Вам не разрешено ! Просим вас подождать ! Обратитесь к администратору !")
+
+                if request.LANGUAGE_CODE == 'uz':
+                    messages.error(request, "Sizga ruxsat berilmagan! Iltimos kuting! Administratorga murojaat qiling!")
+                else:
+                    messages.error(request, "Вам не разрешено ! Просим вас подождать ! Обратитесь к администратору !")
+
                 return HttpResponseRedirect('/')
 
         else:
-            messages.error(request, " Пользователя с таким именем не существует !")
+
+            if request.LANGUAGE_CODE == 'uz':
+                messages.error(request, "Bunday nomli foydalanuvchi mavjud emas!")
+            else:
+                messages.error(request, "Пользователя с таким именем не существует !")
             return HttpResponseRedirect('/')
     else:
-        messages.error(request, " Пользователя с таким именем не существует !")
+
+        if request.LANGUAGE_CODE == 'uz':
+            messages.error(request, "Bunday nomli foydalanuvchi mavjud emas!")
+        else:
+            messages.error(request, "Пользователя с таким именем не существует !")
         return HttpResponseRedirect('/')
 
 @login_required(login_url='/signin')
@@ -6171,7 +6316,12 @@ def edit_user_info(request):
         user.position = position
         user.email = email
         user.save()
-        messages.success(request, "Данные изменены.")
+
+        if request.LANGUAGE_CODE == 'uz':
+            messages.success(request, "Ma'lumtlar o'zgartirildi!")
+        else:
+            messages.success(request, "Данные изменены.")
+
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -6185,7 +6335,11 @@ def change_password(request):
         user.set_password(new_password)
         user.save()
 
-        messages.success(request, "Данные изменены.")
+        if request.LANGUAGE_CODE == 'uz':
+            messages.success(request, "Ma'lumtlar o'zgartirildi!")
+        else:
+            messages.success(request, "Данные изменены.")
+
         return HttpResponse(1)
     else:
         return HttpResponse(0)
@@ -6258,7 +6412,12 @@ def send_message(request):
         text = Xabarlar(title=title, comment=comment, message_reciver=message_reciver, message_sender=message_sender, status_new=1,status_sended=1)
         text.save()
 
-        messages.success(request, "Cообщение отправлено")
+
+        if request.LANGUAGE_CODE == 'uz':
+            messages.success(request, "Xabar yuborildi")
+        else:
+            messages.success(request, "Cообщение отправлено")
+
         return HttpResponse(1)
 
     else:
@@ -6275,7 +6434,12 @@ def delete_message(request):
         message.save()
 
 
-        messages.success(request, "Сообщение удалил")
+
+        if request.LANGUAGE_CODE == 'uz':
+            messages.success(request, "Xabar o'chirildi")
+        else:
+            messages.success(request, "Сообщение удалил")
+
         return HttpResponse(1)
 
     else:
@@ -6304,7 +6468,7 @@ def register(request):
     departments = SubDivisions.objects.all()
     branches = Branch.objects.all()
 
-    content={'count': counter(request), 'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments,'branches': branches}
+    content={'workers': workers, 'objects': objects, 'workerobjects':workerobjects,'departments':departments,'branches': branches}
 
     return render(request,'regiter.html', content)
 
@@ -6321,14 +6485,22 @@ def sign_up(request):
 
         depart = SubDivisions.objects.filter(id=department).first()
         if User.objects.filter(username=email).first():
-            messages.error(request, "Bu foydalanuvchi avval ro'yhatdan o'tgan!")
+
+            if request.LANGUAGE_CODE == 'uz':
+                messages.error(request, "Bu foydalanuvchi avval ro'yhatdan o'tgan!")
+            else:
+                messages.error(request, "Этот пользователь был зарегистрирован ранее!")
             return HttpResponseRedirect('/register')
 
         else:
             user = User.objects.create_user(username=email, email=email, password=password)
             worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch_id,position=position,subdivision=depart,email=email)
             worker.save()
-            messages.success(request, "Siz ro'yhatdan o'tdingiz tasdiqlashini kuting!")
+            if request.LANGUAGE_CODE == 'uz':
+                messages.success(request, "Siz ro'yhatdan o'tdingiz tasdiqlashini kuting!")
+            else:
+                messages.success(request, "Вы зарегистрированы ждите подтверждения!")
+
             return HttpResponseRedirect('signin')
     else:
         return HttpResponseRedirect('signin')

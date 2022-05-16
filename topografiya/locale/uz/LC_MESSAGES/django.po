@@ -142,6 +142,9 @@ msgstr "Joriy ishlar"
 msgid "Отчет"
 msgstr "Hisobot"
 
+msgid "Отчеты"
+msgstr "Hisobotlar"
+
 #: topografiya/templates/master.html:370
 msgid "Новые задания"
 msgstr "Yangi shartnomalar"
@@ -646,7 +649,7 @@ msgid "AKT комерал контроля"
 msgstr "AKT komeral nazorati"
 
 msgid "Причины возврата из главного геодезического проверка"
-msgstr "Bosh geodezis nazoratidan qatish sabablari"
+msgstr "Bosh geodezis nazoratidan qaytish sabablari"
 
 msgid "Причины возврата с отчетной проверки"
 msgstr "Hisobot tekshiruvidan qaytarish sabablari"
@@ -709,7 +712,7 @@ msgid "Контроль главного геодезиста"
 msgstr "Bosh geodezis nazorati"
 
 msgid "Главный геодезист по контролю съемки инженерных сетей"
-msgstr "Muxandislik tarmoqlari syomkasi bo'yicha bosh geodezis nazoratis"
+msgstr "Muxandislik tarmoqlari syomkasi bo'yicha bosh geodezis nazorati"
 
 msgid "Возврат работa"
 msgstr "Ishni qaytarish"
@@ -741,8 +744,8 @@ msgstr "Dala nazorati tekshiruvi"
 msgid "Акт комерал контроля и приемки работ по прокладке инженерных сетей"
 msgstr "Muxandislik tarmoqlari syomkasi bo'yicha komeral nazorati va qabul qilish dalolatnomasi"
 
-msgid "Tayyor fayli yuklash"
-msgstr "Загрузка готового файла"
+msgid "Загрузка готового файла"
+msgstr "Tayyor faylni yuklash"
 
 msgid "Ввод через форму"
 msgstr "Forma orqali to'ldirish"
@@ -867,10 +870,14 @@ msgstr "Dala nazorati holati"
 msgid "Статус камерального контроля"
 msgstr "Komeral nazorati holati"
 
+msgid "Просмотр файла"
+msgstr "Faylni ko'rish"
+
+msgid "Повторная отправка в комерал контроль"
+msgstr "Komeral kontrolga qayta jo'natish"
+
 msgid " "
 msgstr " "
-
-
 
 
 

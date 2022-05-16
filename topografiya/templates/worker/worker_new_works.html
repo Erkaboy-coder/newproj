@@ -62,7 +62,7 @@
                                     <div class="blog-details-second pricing-plan">
 
                                                                                <div class="blog-post-date"><span class="blg-month">{% trans "День" %}</span><span
-                                                class="blg-date">{{ work.pdowork.work_term }}</span></div>
+                                                class="blg-date">{{ work.pdowork.work_term.amount }}</span></div>
 {#                                        <a href="">#}
                                             <h6 class="blog-bottom-details">{{ work.pdowork.object_name }}</h6>
                                         <div><b>{% trans "Заказчик" %}:</b> {{ work.pdowork.customer }}</div>
@@ -148,7 +148,7 @@ $(document).ready(function(){
                     <div class="col-lg-6 text-end">
                         <div class="mb-2">
                             <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
-                            <p>`+result['pdowork'][0].work_term+` kun</p>
+                            <p>`+result['pdowork'][0].work_term+` {% trans "День" %}</p>
                         </div>
                         <div class="mb-2">
                             <b>{% trans "Реквизиты заказчика" %}<sup
@@ -163,10 +163,7 @@ $(document).ready(function(){
                             <b>{% trans "Сумма договора" %}<sup style="color: red;">*</sup></b>
                             <p>`+result['pdowork'][0].object_cost+`</p>
                         </div>
-                        <div class="mb-2">
-                            <b>{% trans "Отдел ответственный за исполнительнение" %}<sup style="color: red;">*</sup></b>
-                            <p>`+result['pdowork'][0].department+`</p>
-                        </div>
+
                     </div>
                 </div>
                 <div class="row">
@@ -185,6 +182,7 @@ $(document).ready(function(){
                             <button class="btn btn-primary text-center w-100 recive_work" data-id1=`+result['work'][0].id+` worker-id="{{ user.profile.pk }}" >{% trans "Принять" %}</button>
                         </div>
                     </div>
+
             `;
         $('.modal-body').html(text);
             },

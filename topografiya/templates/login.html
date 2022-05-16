@@ -30,11 +30,22 @@
 <section class="bg-image">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-7"><img class="bg-img-cover bg-center" src="{% static 'assets/images/fon_sayt.jpg' %}" alt="looginpage"></div>
+            <div class="col-xl-7 text-center">
+            {% get_current_language as LANGUAGE_CODE %}
+                {% if LANGUAGE_CODE == 'uz' %}
+                    <img class="bg-center" style="width: 85%" src="{% static 'vr_uz.jpg' %}" alt="looginpage">
+                    {% endif %}
+            {% if LANGUAGE_CODE == 'ru' %}
+                    <img class="bg-center" style="width: 85%;" src="{% static 'vr_ru.jpg' %}" alt="looginpage">
+                {% endif %}
+{#                <img class="bg-img-cover bg-center" src="{% static 'assets/images/fon_sayt.jpg' %}" alt="looginpage">#}
+
+            </div>
             <div class="col-xl-5 p-0">
                 <div class="login-card">
                     <form class="theme-form login-form shadow-lg" autocomplete="off" action="{% url 'login' %}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
+
                         <h4 class="text-center">{% trans "ВХОД" %}</h4>
                         <h6 class="text-center">{% trans "Добро пожаловать в систему" %}</h6>
                         	{% if messages %}

@@ -4,8 +4,8 @@
 {% block title %} Майдон назоратини текшириш {% endblock %}
 {% load i18n %}
 {% block content%}
-    {% load l10n %}
-    {% load humanize %}
+        {% load l10n %}
+        {% load humanize %}
 {% block stylecontent %}
 <style>
     p {
@@ -63,7 +63,7 @@
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
-                              <p>{{ pdowork.pdowork.work_term }} {% trans "День" %}</p>
+                              <p>{{ pdowork.pdowork.work_term.amount }} {% trans "День" %}</p>
                           </div>
                           <div class="mb-2">
                               <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
@@ -88,7 +88,7 @@
                           <a href="/{{ pdowork.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с письмом заказчика" %} </h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans " Ознакомление с техническим заданием" %}</h6></a>
+                          <a href="/{{ pdowork.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с техническим заданием" %}</h6></a>
                       </div>
                       <div class="col-md-12">
                           <a href="/{{ pdowork.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление со сметой" %} </h6></a>
@@ -515,12 +515,23 @@
                                             </div>
                                         </li>
 
+                                            <li class="file-box m-t-5">
+                                            <div class="file-top"><i class="fa fa-file-pdf-o f-36 txt-primary"></i>
+                                            </div>
+                                            <div class="file-bottom ">
+                                                <h6>8. Топографический план </h6>
+                                                <p>Ознакомиться с файлом отправки</p>
+                                                <button class="btn btn-primary w-100 m-t-10"><a href="/{{ workerobject.topo_plan }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
+                                            </div>
+                                        </li>
+
+
                                         {% if programwork %}
                                             {% if programwork.status == 4 %}
                                             <li class="file-box m-t-5">
                                                 <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                                 <div class="file-bottom ">
-                                                    <h6>8. Программа работа </h6>
+                                                    <h6>9. Программа работа </h6>
                                                     <p>Ознакомиться с файлом отправки</p>
                                                     <button class="btn btn-primary w-100 m-t-10"><a href="#" id="doing_program_work_file" programwork-id="{{ programwork.id }}" class="text-white"> {% trans "Просмотр" %}</a></button>
                                                 </div>
@@ -532,7 +543,7 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>9. Пояснительная записка</h6>
+                                                <h6>10. Пояснительная записка</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_poyasitelniy_file" object-id="{{ workerobject.object.id }}">{% trans "Просмотр" %}</a></button>
                                             </div>
@@ -541,7 +552,7 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>10.АКТ полевой контроль</h6>
+                                                <h6>11.АКТ полевой контроль</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                 <button class="btn btn-primary w-100 m-t-10"><a href="#" target="_blank" class="text-white" id="doing_akt_polevoy_file" akt-object-id="{{ workerobject.object.id }}">{% trans "Просмотр" %}</a></button>
                                             </div>
@@ -551,7 +562,7 @@
                                         <li class="file-box m-t-5">
                                             <div class="file-top"><i class="fa fa-file-pdf-o txt-primary"></i></div>
                                             <div class="file-bottom ">
-                                                <h6>11.АКТ комерал контроль</h6>
+                                                <h6>12.АКТ комерал контроль</h6>
                                                 <p>Ознакомиться с файлом отправки</p>
                                                 <button class="btn btn-primary w-100 m-t-10"><a href="/{{ work.file }}" target="_blank" class="text-white">{% trans "Просмотр" %}</a></button>
                                             </div>

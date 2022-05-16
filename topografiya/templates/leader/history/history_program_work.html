@@ -168,7 +168,7 @@
                       <div class="col-lg-6 text-end">
                           <div class="mb-2">
                               <b>{% trans "Сроки выполнения" %}<sup style="color: red;">*</sup></b>
-                              <p>{{ work.object.pdowork.work_term }} {% trans "День" %}</p>
+                              <p>{{ work.object.pdowork.work_term.amount }} {% trans "День" %}</p>
                           </div>
                           <div class="mb-2">
                               <b>{% trans "Реквизиты заказчика" %}<sup style="color: red;">*</sup></b>
@@ -193,7 +193,7 @@
                           <a href="/{{ work.object.pdowork.latter }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с письмом заказчика" %} </h6></a>
                       </div>
                       <div class="col-md-12">
-                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans " Ознакомление с техническим заданием" %}</h6></a>
+                          <a href="/{{ work.object.pdowork.tz }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление с техническим заданием" %}</h6></a>
                       </div>
                       <div class="col-md-12">
                           <a href="/{{ work.object.pdowork.smeta }}" target="_blank"><h6 class=""> <i class="fa fa-file-word-o"></i>{% trans "Ознакомление со сметой" %} </h6></a>

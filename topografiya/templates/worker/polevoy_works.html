@@ -49,7 +49,7 @@
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
 
-                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
+                                                                         <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term.amount }}</span> {% trans "день" %}</div>
 
                                                                         <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
                                                                         <div><b>{% trans "Заказчик" %} :</b> {{ object.object.pdowork.customer }}</div>
@@ -85,7 +85,7 @@
                                                               <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
-                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "день" %}</div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term.amount }}</span> {% trans "день" %}</div>
                                                                         <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
                                                                         <div><b>{% trans "Заказчик" %}:</b> {{ object.object.pdowork.customer }}</div>
                                                                             <div><b>{% trans "Дата заключения договора" %}:</b> {{ object.object.pdowork.agreement_date }}</div>
@@ -120,7 +120,7 @@
                                                     <div class="pricing-plan shadow border-0">
                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
                                                     <div class="blog-post-date"><span class="blg-month"> {% trans "день" %}</span><span
-                                                class="blg-date">{{ object.object.pdowork.work_term }}</span></div>
+                                                class="blg-date">{{ object.object.pdowork.work_term.amount }}</span></div>
 {#                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> Kun</div>#}
                                                         <h5 class="blog-bottom-details">{{ object.object.pdowork.object_name}}</h5>
                                                        <div><b>{% trans "Заказчик" %}:</b> {{ object.object.pdowork.customer }}</div>
@@ -165,7 +165,7 @@
                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                     <div class="pricing-plan shadow border-0">
                                                         <div class="ribbon ribbon-primary ribbon-vertical-right">1</div>
-                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "Ознакомление" %}день </div>
+                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term.amount }}</span> {% trans "Ознакомление" %}день </div>
                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                         <div class="blog-bottom-content">
                                                                             <div><b>{% trans "Заказчик" %}:</b> {{ object.object.pdowork.customer }}</div>
@@ -203,7 +203,7 @@
                                                                 <div class="file-sidebar ribbon-vertical-right-wrapper">
                                                                     <div class="pricing-plan shadow border-0">
                                                                         <div class="ribbon ribbon-right ribbon-primary">ID : {{ object.object.id }}</div>
-                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term }}</span> {% trans "Ознакомление" %}День</div>
+                                                                        <div class="blog-date"><span style="color: #168eea;font-size: 40px;">{{ object.object.pdowork.work_term.amount }}</span> {% trans "Ознакомление" %}День</div>
                                                                         <h5>{{ object.object.pdowork.object_name}}</h5>
                                                                         <div class="blog-bottom-content">
                                                                             <div><b>{% trans "Заказчик" %}:</b> {{ object.object.pdowork.customer }}</div>
