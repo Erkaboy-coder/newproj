@@ -6493,7 +6493,7 @@ def sign_up(request):
             return HttpResponseRedirect('/register')
 
         else:
-            user = User.objects.create_user(username=email, email=email, password=password)
+            user = User.objects.create_user(username=email, password=password)
             worker = Worker(user_id=user.id, full_name=fio, contact=contact, permission=False,branch=branch_id,position=position,subdivision=depart,email=email)
             worker.save()
             if request.LANGUAGE_CODE == 'uz':

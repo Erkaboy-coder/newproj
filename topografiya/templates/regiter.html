@@ -41,103 +41,151 @@
 {% csrf_token %}
     <section >
       <div class="container-fluid p-0" >
-        <div class="row m-0" >
+        <div class="row" >
+
           <div class="col-12 p-0">
             <div class="login-card">
-              <form class="theme-form login-form shadow-lg bg-light text-primary" style="width: 35%">
-                <h4 class="text-center">{% trans "Регистрация" %}</h4>
+
+                <form class="theme-form login-form shadow-lg bg-light text-primary" id="basic-form" style="width: 60%">
+                <h3 class="text-center">{% trans "Регистрация" %}</h3>
                 <h6 class="text-center">{% trans "Для регистрации введите свои личные данные" %}</h6>
-                <div class="form-group">
-                  <label>{% trans "Пользователь" %}</label>
-                  <div class="small-group">
-                    <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
-                      <input class="form-control" type="text" id="fio" name="fio" required="" placeholder="F.I.O">
+                    <h5 class="text-center"><span class="text-danger">*</span> <i class="text text-warning">{% trans "Maydonlarni lotin harflarida kiritishingizni so'raymiz!" %}</i></h5>
+                <hr>
+
+
+              <div class="row">
+
+                  <div class="col-md-6">
+
+                      <div class="form-group">
+                          <label>{% trans "Имя пользователя" %}</label>
+                          <div class="small-group">
+                            <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
+                              <input class="form-control" type="text" id="fio" name="fio" required="" placeholder="{% trans "Имя пользователя" %}">
+                            </div>
+                          </div>
+                          <small id="fio_check" style="color: red;" > **Foydaluvchi ismini kiritilmagan </small>
+                      </div>
+
+                       <div class="form-group">
+                          <label>{% trans "Фамилия пользователя" %}</label>
+                          <div class="small-group">
+                            <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
+                              <input class="form-control" type="text" id="lastname" name="lastname" required="" placeholder="{% trans "Фамилия пользователя" %}">
+                            </div>
+                          </div>
+                           <small id="lastname_check" style="color: red;" >**Foydalanuvchi familiyasi kiritilmagan</small>
+                      </div>
+
+
+                      <div class="form-group">
+                          <label>{% trans "Номер телефона" %}</label>
+                          <div class="small-group">
+                            <div class="input-group"><span class="input-group-text"><i class="fa fa-mobile"></i></span>
+                              <input class="form-control" type="number" id="contact" name="contact" required="" placeholder="99 999 99 99">
+                            </div>
+                          </div>
+                          <small id="contact_check" style="color: red;" >**Telefon raqam kiritilmagan</small>
+                      </div>
+
+                      <div class="form-group">
+                          <label>{% trans "Должность" %}</label>
+                          <div class="small-group">
+                              <div class="input-group"><span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input class="form-control" type="text" required="" id="position" name="position" placeholder="Должность">
+                              </div>
+                          </div>
+                           <small id="position_check" style="color: red;" >**Lavozim kiritilmagan</small>
+                      </div>
+                  </div>
+
+                   <div class="col-md-6">
+                       <div class="form-group">
+                           <label>{% trans "Адрес электронной почты" %}</label>
+                           <div class="small-group">
+                               <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
+                                    <input class="form-control" type="email" required="" id="email" name="email" placeholder="example@gmail.com">
+                                </div>
+                           </div>
+                           <small id="emailvalid" class="form-text text-muted invalid-feedback">Elektron pochta  haqiqiy bo'lishi kerak</small>
+                       </div>
+
+                       <div class="form-group">
+                           <label>{% trans "Филиал" %}</label>
+                           <div class="small-group">
+                               <div class="input-group"><span class="input-group-text"><i class="fa fa-chain-broken"></i></span>
+                                   <select required class="form-control" id="branch" name="branch">
+                                       <option value="">--- {% trans "Выбрать филиал" %} ---</option>
+                                            {% for branch in branches %}
+                                                 <option value="{{ branch.id }}"> {{ branch.name }} </option>
+                                            {% endfor %}
+                                     </select>
+                               </div>
+                           </div>
+                           <small id="branch_check" style="color: red;" >**Filial tanlanmagan</small>
+                       </div>
+
+
+                       <div class="form-group" id="department_content" style="display: none">
+                           <label>{% trans "Отдел" %}</label>
+                           <div class="small-group">
+                               <div class="input-group"><span class="input-group-text"><i class="fa fa-group"></i></span>
+                                   <select required class="form-control" id="department" name="department">
+                                       <option value="">--- {% trans "Выбрать отдел" %} ---</option>
+                                       {% for department in departments %}
+                                           <option value="{{ department.id }}"> {{ department.name }} </option>
+                                       {% endfor %}
+                                   </select>
+                                </div>
+                           </div>
+                           <small id="department_check" style="color: red;" >**Bo'lim tanlanmagan</small>
+                       </div>
+
+                       <div class="form-group">
+                           <label>{% trans "Пароль" %}</label>
+                           <div class="small-group">
+                               <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
+                                   <input class="form-control" type="password" name="password" id="password" placeholder="*********">
+                                   <div class="show-hide"><span class="show"></span></div>
+                               </div>
+                           </div>
+                           <small id="password_check" style="color: red;" >**Parolni kiriting</small>
+                       </div>
+
+                       <div class="form-group">
+                           <label>{% trans "Подтвердить пароль" %}</label>
+                           <div class="small-group">
+                               <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
+                                   <input class="form-control" type="password" name="re_password" id="re_password"  placeholder="*********">
+                                   <div class="show-hide"><span class="show"></span></div>
+                               </div>
+                           </div>
+                           <small id="re_password_check" style="color: red;" >**Parol mos kelmadi</small>
+                       </div>
+
+{#                       <div class="form-group">#}
+{#                           <div class="checkbox">#}
+{#                               <input id="checkbox1" type="checkbox">#}
+{#                               <label class="text-muted" for="checkbox1">{% trans "Регистрация" %} <span>{% trans "Политика конфиденциальности" %}</span></label>#}
+{#                           </div>#}
+{#                       </div>#}
+
+                       <div class="form-group ">
+                           <button class="btn btn-primary w-100 btn-block" type="button" id="sign_up">{% trans "Регистрация" %}</button>
+                       </div>
+
+                       <p>{% trans "Вы зарегистрированы?" %}<a class="ms-2" href="{% url 'login' %}">{% trans "Вход в систему" %}</a></p>
+
                     </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>{% trans "Номер телефона" %}</label>
-                  <div class="small-group">
-                    <div class="input-group"><span class="input-group-text"><i class="fa fa-mobile"></i></span>
-                      <input class="form-control" type="number" id="contact" name="contact" required="" placeholder="99 999 99 99">
-                    </div>
-                  </div>
-                </div>
 
-                <div class="form-group">
-                  <label>{% trans "Адресс электронной почты" %}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-                    <input class="form-control" type="email" required="" id="email" name="email" placeholder="uzgashliti@gmail.com">
-                  </div>
-                </div>
+              </div>
 
-              <div class="form-group">
-                  <label>{% trans "Должность" %}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="fa fa-user"></i></span>
-                    <input class="form-control" type="text" required="" id="position" name="position" placeholder="Должность">
-                  </div>
-                </div>
-
-
-
-              <div class="form-group">
-                  <label>{% trans "Отдел" %}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="fa fa-group"></i></span>
-                     <select required class="form-control" id="department" name="department">
-                         <option value="">--- {% trans "Выбрать отдел" %} ---</option>
-                         {% for department in departments %}
-                             <option value="{{ department.id }}"> {{ department.name }} </option>
-                         {% endfor %}
-                     </select>
-                  </div>
-                </div>
-
-              <div class="form-group">
-                  <label>{% trans "Филиал" %}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="fa fa-chain-broken"></i></span>
-                     <select required class="form-control" id="branch" name="branch">
-                         <option value="">--- {% trans "Выбрать филиал" %} ---</option>
-                         {% for branch in branches %}
-                             <option value="{{ branch.id }}"> {{ branch.name }} </option>
-                         {% endfor %}
-                     </select>
-                  </div>
-                </div>
-
-
-
-
-                <div class="form-group">
-                  <label>{% trans "Пароль" %}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-                    <input class="form-control" type="password" name="password" id="password" placeholder="*********">
-                    <div class="show-hide"><span class="show"></span></div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>{% trans "Подтвердить пароль" %}</label>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-                    <input class="form-control" type="password" name="re_password" id="re_password"  placeholder="*********">
-                    <div class="show-hide"><span class="show"></span></div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="checkbox">
-                    <input id="checkbox1" type="checkbox">
-                    <label class="text-muted" for="checkbox1">{% trans "Регистрация" %} <span>{% trans "Политика конфиденциальности" %}</span></label>
-                  </div>
-                </div>
-
-                <div class="form-group ">
-                  <button class="btn btn-primary w-100 btn-block" type="button" id="sign_up">{% trans "Регистрация" %}</button>
-                </div>
-
-                <p>{% trans "Вы зарегистрированы?" %}<a class="ms-2" href="{% url 'login' %}">{% trans "Вход в систему" %}</a></p>
               </form>
             </div>
+
           </div>
+
+
         </div>
       </div>
     </section>
@@ -149,6 +197,218 @@
 
 
 </script>
+   <script>
+$(document).ready(function () {
+
+    // Validate Username
+        $('#fio_check').hide();
+        let usernameError = true;
+        $('#fio').keyup(function() {
+            validateUsername();
+        });
+
+        function validateUsername() {
+            let usernameValue = $('#fio').val();
+            if (usernameValue.length == '') {
+            $('#fio_check').show();
+                usernameError = false;
+                return false;
+            }
+            else if((usernameValue.length < 3)||
+                    (usernameValue.length > 10)) {
+                $('#fio_check').show();
+                $('#fio_check').html("** 3 dan kam 10 dan kop bo'lishi kerak");
+                usernameError = false;
+                return false;
+            }
+            else {
+                $('#fio_check').hide();
+            }
+        }
+
+        // Validate LastName
+        $('#lastname_check').hide();
+        let lastnameError = true;
+        $('#lastname').keyup(function() {
+            validateLastname();
+        });
+
+        function validateLastname() {
+            let lastname = $('#lastname').val();
+            if (lastname.length == '') {
+            $('#lastname_check').show();
+                lastnameError = false;
+                return false;
+            }
+            else if((lastname.length < 3)||
+                    (lastname.length > 10)) {
+                $('#lastname_check').show();
+                $('#lastname_check').html("** 3 dan kam 10 dan kop bo'lishi kerak");
+                lastnameError = false;
+                return false;
+            }
+            else {
+                $('#lastname_check').hide();
+            }
+        }
+
+        // Validate Contact
+        $('#contact_check').hide();
+        let cantactError = true;
+        $('#contact').keyup(function() {
+            validateCantact();
+        });
+
+        function validateCantact() {
+            let contact = $('#contact').val();
+            if (contact.length == '') {
+            $('#contact_check').show();
+                contactError = false;
+                return false;
+            }
+            else if(contact.length < 9){
+                $('#contact_check').show();
+                $('#contact_check').html("** 9 ta dan kam bo'lmasligi kerak");
+                contactError = false;
+                return false;
+            }
+            else {
+                $('#contact_check').hide();
+            }
+        }
+
+        // Validate Contact
+        $('#position_check').hide();
+        let cantactError = true;
+        $('#contact').keyup(function() {
+            validateCantact();
+        });
+
+        function validateCantact() {
+            let contact = $('#contact').val();
+            if (contact.length == '') {
+            $('#contact_check').show();
+                contactError = false;
+                return false;
+            }
+            else if(contact.length < 9){
+                $('#contact_check').show();
+                $('#contact_check').html("** 9 ta dan kam bo'lmasligi kerak");
+                contactError = false;
+                return false;
+            }
+            else {
+                $('#contact_check').hide();
+            }
+        }
+
+
+    // Validate Email
+        const email =
+            document.getElementById('email');
+        email.addEventListener('blur', ()=>{
+        let regex =
+    /^([_\-\.0-9a-zA-Z]+)@([_\-\.0-9a-zA-Z]+)\.([a-zA-Z]){2,7}$/;
+        let s = email.value;
+        if(regex.test(s)){
+            email.classList.remove(
+                    'is-invalid');
+            emailError = true;
+            }
+            else{
+                email.classList.add(
+                    'is-invalid');
+                emailError = false;
+            }
+        })
+
+    // Validate Password
+        $('#passcheck').hide();
+        let passwordError = true;
+        $('#password').keyup(function () {
+            validatePassword();
+        });
+        function validatePassword() {
+            let passwordValue =
+                $('#password').val();
+            if (passwordValue.length == '') {
+                $('#passcheck').show();
+                passwordError = false;
+                return false;
+            }
+            if ((passwordValue.length < 3)||
+                (passwordValue.length > 10)) {
+                $('#passcheck').show();
+                $('#passcheck').html
+    ("**length of your password must be between 3 and 10");
+                $('#passcheck').css("color", "red");
+                passwordError = false;
+                return false;
+            } else {
+                $('#passcheck').hide();
+            }
+        }
+
+    // Validate Confirm Password
+        $('#conpasscheck').hide();
+        let confirmPasswordError = true;
+        $('#conpassword').keyup(function () {
+            validateConfirmPassword();
+        });
+        function validateConfirmPassword() {
+            let confirmPasswordValue =
+                $('#conpassword').val();
+            let passwordValue =
+                $('#password').val();
+            if (passwordValue != confirmPasswordValue) {
+                $('#conpasscheck').show();
+                $('#conpasscheck').html(
+                    "**Password didn't Match");
+                $('#conpasscheck').css(
+                    "color", "red");
+                confirmPasswordError = false;
+                return false;
+            } else {
+                $('#conpasscheck').hide();
+            }
+        }
+
+    // Submit button
+        $('#submitbtn').click(function () {
+            validateUsername();
+            validatePassword();
+            validateConfirmPassword();
+            validateEmail();
+            if ((usernameError == true) &&
+                (passwordError == true) &&
+                (confirmPasswordError == true) &&
+                (emailError == true)) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    });
+
+
+    $(document).ready(function(){
+        if($('#branch').val() == '1'){
+            $('#department_content').css('display','inline-block');
+        }
+        else{
+            $('#department_content').css('display','none');
+        }
+
+        $('#branch').change(function() {
+            if($('#branch').val() == '1'){
+                $('#department_content').css('display','inline-block');
+            }
+            else{
+                $('#department_content').css('display','none');
+            }
+          });
+    });
+    </script>
 
     <script>
         $(document).on('click',"#sign_up",function(){
@@ -168,7 +428,6 @@
         var department = $('#department').val();
         var branch = $('#branch').val();
         event.preventDefault();
-        if(department){
             if(branch){
                 if(password == re_password){
                    $.ajax({
@@ -194,10 +453,8 @@
             else{
                 alert("{% trans "Не выбран филиал" %}!");
             }
-        }
-        else{
-            alert("{% trans "Не выбран отдел" %}!");
-        }
+
+
 
 
         });

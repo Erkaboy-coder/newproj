@@ -203,7 +203,7 @@ msgid "Фамилия Имя пользователя"
 msgstr "Foydalanuvchi F.I.SHi"
 
 msgid "Адрес электронной почты"
-msgstr "Elektron pochtasi"
+msgstr "E-mail manzili"
 
 msgid "Телефонный номер"
 msgstr "Telefon raqami"
@@ -876,9 +876,17 @@ msgstr "Faylni ko'rish"
 msgid "Повторная отправка в комерал контроль"
 msgstr "Komeral kontrolga qayta jo'natish"
 
+msgid "Пожалуйста, вводите поля латинскими буквами"
+msgstr "Maydonlarni lotin harflarida kiritishingizni so'raymiz"
+
+msgid "Имя пользователя"
+msgstr "Foydalanuvchi ismi"
+
+msgid "Фамилия пользователя"
+msgstr "Foydalanuvchi familiyasi"
+
 msgid " "
 msgstr " "
-
 
 
 

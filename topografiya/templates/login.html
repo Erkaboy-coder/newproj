@@ -28,8 +28,28 @@
     </div>
 </div>
 <section class="bg-image">
+
     <div class="container-fluid">
+<div class="col-xl-12">
+                {% get_current_language_bidi as LANGUAGE_BIDI %}
+                {% get_current_language as LANGUAGE_CODE %}
+                <form action="{% url 'set_language' %}" style="float: right;padding-top: 20px" method="post">{% csrf_token %}
+                    <input name="next" type="hidden" value="/">
+                    <input name="href" type="text" id="href" style="display: none">
+                    <select name="language" onchange="this.form.submit()">
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}" {%if language.code == LANGUAGE_CODE%}selected{%endif%}>
+                                 {{ language.name_local }} ({{ language.code }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
         <div class="row">
+
             <div class="col-xl-7 text-center">
             {% get_current_language as LANGUAGE_CODE %}
                 {% if LANGUAGE_CODE == 'uz' %}
@@ -42,10 +62,12 @@
 
             </div>
             <div class="col-xl-5 p-0">
+
+
                 <div class="login-card">
+
                     <form class="theme-form login-form shadow-lg" autocomplete="off" action="{% url 'login' %}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-
                         <h4 class="text-center">{% trans "ВХОД" %}</h4>
                         <h6 class="text-center">{% trans "Добро пожаловать в систему" %}</h6>
                         	{% if messages %}
@@ -64,10 +86,11 @@
                                     {% endfor %}
                                 </ul>
                             {% endif %}
+
                         <div class="form-group">
-                            <b>{% trans "Логин пользователя" %}</b>
-                            <div class="input-group"><span style="background-color: #90b4cd40" class="input-group-text"><i style="color: #168eea" class="icon-user"></i></span>
-                                <input class="form-control" autocomplete="off" type="text" required name="login" placeholder="{% trans "Логин пользователя" %}">
+                            <b>{% trans "Адрес электронной почты" %}</b>
+                            <div class="input-group"><span style="background-color: #90b4cd40" class="input-group-text"><i style="color: #168eea" class="icon-email"></i></span>
+                                <input class="form-control" autocomplete="off" type="email" required name="login" placeholder="example@gmail.com">
                             </div>
                         </div>
                         <div class="form-group">
@@ -91,7 +114,7 @@
                         <div class="form-group">
                             <input type="submit" style="background-color: #168eea;color: white;width: 100%" class="btn btn-block" value="{% trans "Вход в систему" %}">
                         </div>
-                        <p>{% trans "Аккаунт не найден?" %}<a style="color: #168eea" class="ms-2" href="{% url 'register' %}">{% trans "Создать аккаунт" %}</a></p>
+                        <p>{% trans "Аккаунт не найден?" %}<a style="color: #168eea" class="ms-2" href="{% url 'register' %}">{% trans "Регистрация" %}</a></p>
                     </form>
                 </div>
             </div>
